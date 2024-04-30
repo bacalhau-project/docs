@@ -2,8 +2,8 @@
 sidebar_label: StyleGAN3
 sidebar_position: 7
 ---
-# Generate Realistic Images using StyleGAN3 and Bacalhau
 
+# Generate Realistic Images using StyleGAN3 and Bacalhau
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
@@ -13,18 +13,13 @@ In this example tutorial, we will show you how to generate realistic images with
 
 Generative images with Bacalhau
 
-
-
 ## Prerequisite
 
-
 To get started, you need to install the Bacalhau client, see more information [here](https://docs.bacalhau.org/getting-started/installation)
-
 
 ## Running StyleGAN3 locally
 
 To run StyleGAN3 locally, you'll need to clone the repo, install dependencies and download the model weights.
-
 
 ```bash
 %%bash
@@ -37,13 +32,9 @@ wget https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan3/versions/1/f
 
 Generate an image using a pre-trained `AFHQv2` model
 
-
-
-
 Viewing the output image
 
 ![](https://i.imgur.com/A3UExJr.png)
-
 
 ## Containerize Script with Docker
 
@@ -57,11 +48,7 @@ WORKDIR /scratch
 ENV HOME /scratch
 ```
 
-
-:::info
-See more information on how to containerize your script/app[here](https://docs.docker.com/get-started/02_our_app/)
-:::
-
+:::info See more information on how to containerize your script/app[here](https://docs.docker.com/get-started/02\_our\_app/) :::
 
 ### Build the container
 
@@ -73,11 +60,9 @@ docker build -t <hub-user>/<repo-name>:<tag> .
 
 Before running the command replace;
 
-- **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
-
-- **repo-name** with the name of the container, you can name it anything you want
-
-- **tag** this is not required but you can use the latest tag
+* **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
+* **repo-name** with the name of the container, you can name it anything you want
+* **tag** this is not required but you can use the latest tag
 
 In our case
 
@@ -99,12 +84,9 @@ In our case
 docker push jsacex/stylegan3
 ```
 
-
 ## Running a Bacalhau Job
 
 To submit a job, run the following Bacalhau command:
-
-
 
 ```bash
 %%bash --out job_id
@@ -123,22 +105,15 @@ jsacex/stylegan3 \
 Let's look closely at the command above:
 
 * `bacalhau docker run`: call to bacalhau
-
 * `--gpu 1`: No of GPUs
-
 * `jsacex/stylegan3`: the name and the tag of the docker image we are using
-
 * `../outputs`: path to the output
-
 * `python gen_images.py`: execute the script
-
-* `--trunc=1 --seeds=2 --network=stylegan3-r-afhqv2-512x512.pkl`: The animation length is either determined based on the --seeds value or explicitly specified using the --num-keyframes option. When num keyframes are specified with --num-keyframes, the output video length will be 'num_keyframes*w_frames' frames.
-
+* `--trunc=1 --seeds=2 --network=stylegan3-r-afhqv2-512x512.pkl`: The animation length is either determined based on the --seeds value or explicitly specified using the --num-keyframes option. When num keyframes are specified with --num-keyframes, the output video length will be 'num\_keyframes\*w\_frames' frames.
 
 ### Render a latent vector interpolation video
 
 You can also run variations of this command to generate videos and other things. In the following command below, we will render a latent vector interpolation video. This will render a 4x2 grid of interpolations for seeds 0 through 31.
-
 
 ```bash
 %%bash --out job_id
@@ -155,19 +130,13 @@ jsacex/stylegan3 \
 Let's look closely at the command above:
 
 * `bacalhau docker run`: call to bacalhau
-
 * `--gpu 1`: No of GPUs
-
 * `jsacex/stylegan3`: the name and the tag of the docker image we are using
-
 * `../outputs`: path to the output
-
 * `python gen_images.py`: execute the script
-
-* `--trunc=1 --seeds=2 --network=stylegan3-r-afhqv2-512x512.pkl`: The animation length is either determined based on the _--seeds_ value or explicitly specified using the _--num-keyframes_ option. When num keyframes is specified with _--num-keyframes_, the output video length will be 'num_keyframes*w_frames' frames. If _--num-keyframes_ is not specified, the number of seeds given with  _--seeds_ must be divisible by grid size W*H (--grid).  In this case, the output video length will be '# seeds/(w*h)*w_frames' frames.
+* `--trunc=1 --seeds=2 --network=stylegan3-r-afhqv2-512x512.pkl`: The animation length is either determined based on the _--seeds_ value or explicitly specified using the _--num-keyframes_ option. When num keyframes is specified with _--num-keyframes_, the output video length will be 'num\_keyframes_w\_frames' frames. If --num-keyframes is not specified, the number of seeds given with --seeds must be divisible by grid size W_H (--grid). In this case, the output video length will be '# seeds/(w\*h)\*w\_frames' frames.
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
-
 
 ```python
 %env JOB_ID={job_id}
@@ -175,8 +144,7 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 
 ## Checking the State of your Jobs
 
-- **Job status**: You can check the status of the job using `bacalhau list`.
-
+* **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
 %%bash
@@ -185,16 +153,14 @@ bacalhau list --id-filter ${JOB_ID} --wide
 
 When it says `Completed`, that means the job is done, and we can get the results.
 
-- **Job information**: You can find out more information about your job by using `bacalhau describe`.
-
+* **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
-- **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
-
+* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 %%bash
@@ -208,12 +174,10 @@ After the download has finished you should see the following contents in the res
 
 To view the file, run the following command:
 
-
 ```bash
 %%bash
 ls results/outputs
 ```
-
 
 ```python
 import IPython.display as display
