@@ -1,6 +1,16 @@
 # Table of contents
-Setting Up
-* [About Bacalhau](README.md)
+* [About Bacalhau](Intro.md)
+
+## Getting Started
+* [Getting Started](getting-started/README.md)
+  * [How Bacalhau Works](getting-started/architecture.md)
+  * [docker-workload-onboarding](getting-started/docker-workload-onboarding.md)
+  * [index](getting-started/index.md)
+  * [installation](getting-started/installation.md)
+  * [Hardware Setup](getting-started/resources.md)
+  * [WebAssembly (WASM) Workloads](getting-started/wasm-workload-onboarding.md)
+
+## Setting Up
 * [Setting Up](setting-up/README.md)
   * [GPU Workloads Setup](setting-up/gpu.md)
   * [Join as Compute Provider](setting-up/join-compute.md)
@@ -96,6 +106,8 @@ Setting Up
       * [Local Source Specification](setting-up/other-specifications/sources/local.md)
       * [S3 Source Specification](setting-up/other-specifications/sources/s3.md)
       * [URL Source Specification](setting-up/other-specifications/sources/url.md)
+
+## References
 * [References](dev/README.md)
   * [Authentication & authorization](dev/auth\_flow.md)
   * [Database Integration](dev/databases.md)
@@ -159,6 +171,8 @@ Setting Up
   * [debugging](dev/debugging/README.md)
     * [Fundamentals - Debugging Failed Jobs](dev/debugging/debugging-general.md)
     * [Debugging Locally](dev/debugging/debugging\_locally.md)
+
+## Examples
 * [Examples](examples/README.md)
   * [case-studies](examples/case-studies/README.md)
     * [index](examples/case-studies/index.md)
@@ -216,21 +230,16 @@ Setting Up
       * [Gromacs](examples/molecular-dynamics/gromacs/index.md)
     * [openmm](examples/molecular-dynamics/openmm/README.md)
       * [Molecular Simulation with OpenMM and Bacalhau](examples/molecular-dynamics/openmm/index.md)
-* [Getting Started](getting-started/README.md)
-  * [How Bacalhau Works](getting-started/architecture.md)
-  * [docker-workload-onboarding](getting-started/docker-workload-onboarding.md)
-  * [index](getting-started/index.md)
-  * [installation](getting-started/installation.md)
-  * [Hardware Setup](getting-started/resources.md)
-  * [WebAssembly (WASM) Workloads](getting-started/wasm-workload-onboarding.md)
+
+## Integrations
 * [Integrations](integration/README.md)
   * [Bacalhau Amplify](integration/amplify.md)
   * [Apache Airflow Provider for Bacalhau](integration/apache-airflow.md)
   * [lilypad](integration/lilypad.md)
   * [Bacalhau Python SDK](integration/python-sdk.md)
   * [Observability for WebAssembly Workloads in Bacalhau](integration/wasm-observe.md)
-* [troubleshooting](troubleshooting/README.md)
-  * [index](troubleshooting/index.md)
+
+## Community
 * [community](community/README.md)
   * [Compute Over Data - Landscape Analysis](community/compute-landscape.md)
   * [Social Media](community/social-media.md)
