@@ -11,7 +11,7 @@ In this tutorial we will go over the components and the architecture of Bacalhau
 
 Bacalhau is a peer-to-peer network of nodes that enables decentralized communication between computers. The network consists of two types of nodes, which can communicate with each other.
 
-![image](../../static/img/architecture/architecture-overview.webp)
+![image](../static/img/architecture/architecture-overview.webp)
 
 The requester and compute nodes together form a p2p network and use gossiping to discover each other, share information about node capabilities, available resources and health status. Bacalhau is a peer-to-peer network of nodes that enables decentralized communication between computers. :::info **Requester Node:** responsible for handling user requests, discovering and ranking compute nodes, forwarding jobs to compute nodes, and monitoring the job lifecycle.
 
@@ -116,21 +116,19 @@ import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
 
 \<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
 
-````
-```shell
+```sh
 bacalhau create [flags]
 ```
-````
 
-You can use the command with [appropriate flags](broken-reference) to create a job in Bacalhau using JSON and YAML formats.
+You can use the command with [appropriate flags](broken-reference/) to create a job in Bacalhau using JSON and YAML formats.
 
 \`\`\` Endpoint: \`PUT /api/v1/orchestrator/jobs\` \`\`\`
 
-```
+```bash
 You can use [Create Job API Documentation](../dev/api/jobs.md#create-job) to submit a new job for execution.
 ```
 
-You can use the `bacalhau docker run` [command](broken-reference) to start a job in a Docker container. Below, you can see an excerpt of the commands:
+You can use the `bacalhau docker run` [command](broken-reference/) to start a job in a Docker container. Below, you can see an excerpt of the commands:
 
 <details>
 
@@ -188,7 +186,7 @@ You can use the `bacalhau docker run` [command](broken-reference) to start a job
 
 </details>
 
-You can also use the `bacalhau wasm run` [command](broken-reference) to run a job compiled into the (WASM) format. Below, you can find an excerpt of the commands in the Bacalhau CLI:
+You can also use the `bacalhau wasm run` [command](broken-reference/) to run a job compiled into the (WASM) format. Below, you can find an excerpt of the commands in the Bacalhau CLI:
 
 <details>
 
@@ -254,15 +252,15 @@ When a job is submitted to a requester node, it selects compute nodes that are c
 
 ### Job execution
 
-The selected compute node receives the job and starts its execution inside a container. The container can use different executors to work with the data and perform the necessary actions. A job can use the docker executor, WASM executor or a library storage volumes. Use [Docker Engine Specification](../setting-up/other-specifications/engines/docker.md) to view the parameters to configure the Docker Engine. If you want tasks to be executed in a WebAssembly environment, pay attention to [WebAssembly Engine Specification](../setting-up/other-specifications/engines/wasm.md).
+The selected compute node receives the job and starts its execution inside a container. The container can use different executors to work with the data and perform the necessary actions. A job can use the docker executor, WASM executor or a library storage volumes. Use [Docker Engine Specification](../references/other-specifications/engines/docker.md) to view the parameters to configure the Docker Engine. If you want tasks to be executed in a WebAssembly environment, pay attention to [WebAssembly Engine Specification](../references/other-specifications/engines/wasm.md).
 
 ### Results publishing
 
 When the Compute node completes the job, it publishes the results to **S3's remote storage**, **IPFS**.
 
-Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure. View [IPFS Publisher Specification](../setting-up/other-specifications/publishers/ipfs.md) to get the detailed information.
+Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure. View [IPFS Publisher Specification](../references/other-specifications/publishers/ipfs.md) to get the detailed information.
 
-Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. View [S3Publisher Specification](../setting-up/other-specifications/publishers/s3.md) to get the detailed information.
+Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. View [S3Publisher Specification](../references/other-specifications/publishers/s3.md) to get the detailed information.
 
 ## Chapter 3 - Returning Information
 
@@ -292,13 +290,12 @@ Flags:
 
 \<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
 
-````
-```shell
+```bash
+
 bacalhau describe [id] [flags]
-```
 
 You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md#describe) to get a full description of a job in yaml format.
-````
+```
 
 ```
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID`
@@ -388,6 +385,6 @@ You can use [Job History API Documentation](../dev/api/jobs.md#job-history) to r
 bacalhau logs [flags] [id]
 ```
 
-You can use this [command](broken-reference) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
+You can use this [command](broken-reference/) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
 
-:::info To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](broken-reference) :::
+:::info To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](broken-reference/) :::

@@ -4,9 +4,7 @@ sidebar_position: 3
 description: How to use docker containers with Bacalhau
 ---
 
-# docker-workload-onboarding
-
-import ReactPlayer from 'react-player'
+# Docker Workload Onboarding
 
 ## Docker Workloads
 
@@ -72,7 +70,7 @@ We make the assumption that you are reading from a directory called `/inputs`, w
 
 :::info
 
-You can specify which directory the data is written to with the [`--input`](broken-reference) CLI flag.
+You can specify which directory the data is written to with the [`--input`](broken-reference/) CLI flag.
 
 :::
 
@@ -84,7 +82,7 @@ We make the assumption that you are writing to a directory called `/outputs`, wh
 
 :::info
 
-You can specify which directory the data is written to with the [`--output-volumes`](broken-reference) CLI flag.
+You can specify which directory the data is written to with the [`--output-volumes`](broken-reference/) CLI flag.
 
 :::
 

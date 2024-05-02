@@ -3,9 +3,7 @@ sidebar_label: Installation
 sidebar_position: 0
 ---
 
-# installation
-
-import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
+# Installation
 
 ## Installation
 
