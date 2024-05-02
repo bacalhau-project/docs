@@ -1,5 +1,5 @@
 # Table of contents
-
+Setting Up
 * [About Bacalhau](README.md)
 * [Setting Up](setting-up/README.md)
   * [GPU Workloads Setup](setting-up/gpu.md)
