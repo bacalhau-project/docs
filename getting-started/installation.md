@@ -105,7 +105,7 @@ Checking job status...
 
 The `job_id` above is shown in its full form. For convenience, you can use the shortened version, in this case: `9d20bbad`.
 
-:::info While this command is designed to resemble Docker's run command which you may be familiar with, Bacalhau introduces a whole new set of [flags](broken-reference) to support its computing model. :::
+:::info While this command is designed to resemble Docker's run command which you may be familiar with, Bacalhau introduces a whole new set of [flags](broken-reference/) to support its computing model. :::
 
 \`\`\`shell docker run -t ghcr.io/bacalhau-project/bacalhau:latest \ docker run \ --id-only \ --wait \ ubuntu:latest -- \ sh -c 'uname -a && echo "Hello from Docker Bacalhau!"' \`\`\`
 
@@ -141,7 +141,7 @@ CREATED   ID          JOB                                       STATE      PUBLI
 
 When it says `Completed`, that means the job is done, and we can get the results.
 
-:::info For a comprehensive list of flags you can pass to the list command check out [the related CLI Reference page](broken-reference). :::
+:::info For a comprehensive list of flags you can pass to the list command check out [the related CLI Reference page](broken-reference/). :::
 
 #### Step 3.2 - Job information:
 
@@ -225,7 +225,7 @@ With that, you have just successfully run a job on Bacalhau! :fish:
 
 Here are few resources that provide a deeper dive into running jobs with Bacalhau:
 
-[How Bacalhau works](architecture.md) [Setting up Bacalhau](../setting-up/) [Examples & Use Cases](../examples/)
+[How Bacalhau works](architecture.md) [Setting up Bacalhau](broken-reference) [Examples & Use Cases](broken-reference)
 
 ### Support
 

@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'Hardware/GPU setup'
+sidebar_label: Hardware/GPU setup
 sidebar_position: 4
 ---
 
@@ -7,26 +7,21 @@ sidebar_position: 4
 
 Different jobs may require different amounts of resources to execute. Some jobs may have specific hardware requirements, such as GPU. This page describes how to specify hardware requirements for your job.
 
-:::info
-Please bear in mind that each executor is implemented independently and these docs might be slightly out of date. Double check the man page for the executor you are using with `bacalhau [executor] --help`.
-:::
+:::info Please bear in mind that each executor is implemented independently and these docs might be slightly out of date. Double check the man page for the executor you are using with `bacalhau [executor] --help`. :::
 
 ## Docker Executor
 
 The following table describes how to specify hardware requirements for the Docker executor.
 
-
-Flag | Default | Description
----------|----------|---------
- `--cpu` | 0.1 ([source](/)) | Job CPU cores (e.g. 500m, 2, 8)
- `--memory` | 100MB ([source](/)) | Job Memory requirement (e.g. 500Mb, 2Gb, 8Gb).
- `--gpu` | 0 ([source](/)) | Job GPU requirement (e.g. 1).
-
+| Flag       | Default                            | Description                                    |
+| ---------- | ---------------------------------- | ---------------------------------------------- |
+| `--cpu`    | 0.1 ([source](broken-reference))   | Job CPU cores (e.g. 500m, 2, 8)                |
+| `--memory` | 100MB ([source](broken-reference)) | Job Memory requirement (e.g. 500Mb, 2Gb, 8Gb). |
+| `--gpu`    | 0 ([source](broken-reference))     | Job GPU requirement (e.g. 1).                  |
 
 ### How it Works
 
 When you specify hardware requirements, the job will be offered out to the network to see if there are any nodes that can satisfy the requirements. If there are, the job will be scheduled on the node and the executor will be started.
-
 
 ## GPU Setup
 
@@ -63,5 +58,5 @@ The following limitations currently exist within Bacalhau.
 
 * Maximum CPU and memory limits depend on the participants in the network
 * For GPU:
-    * NVIDIA, Intel or AMD GPUs only
-    * Only the Docker Executor supports GPUs
+  * NVIDIA, Intel or AMD GPUs only
+  * Only the Docker Executor supports GPUs

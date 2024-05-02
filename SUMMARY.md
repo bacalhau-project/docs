@@ -1,7 +1,9 @@
 # Table of contents
-* [About Bacalhau](Intro.md)
+
+* [Welcome to Bacalhau Docs](README.md)
 
 ## Getting Started
+
 * [How Bacalhau Works](getting-started/architecture.md)
 * [docker-workload-onboarding](getting-started/docker-workload-onboarding.md)
 * [index](getting-started/index.md)
@@ -10,6 +12,7 @@
 * [WebAssembly (WASM) Workloads](getting-started/wasm-workload-onboarding.md)
 
 ## Setting Up
+
 * [GPU Workloads Setup](setting-up/gpu.md)
 * [Join as Compute Provider](setting-up/join-compute.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
@@ -106,6 +109,7 @@
     * [URL Source Specification](setting-up/other-specifications/sources/url.md)
 
 ## Examples
+
 * [Case Studies](examples/case-studies/README.md)
   * [duckdb-log-processing](examples/case-studies/duckdb-log-processing/index.md)
 * [Data Engineering](examples/data-engineering/README.md)
@@ -131,7 +135,7 @@
   * [S3-Model-Inference](examples/model-inference/s3-model-inference/README.md)
     * [Running Inference on a Model stored on S3](examples/model-inference/s3-model-inference/index.md)
   * [Stable-Diffusion-CKPT-Inference](examples/model-inference/stable-diffusion-ckpt-inference/README.md)
-    * [Stable Diffusion Checkpoint Inference](examples/model-inference/stable-diffusion-ckpt-inference/index.md)
+    * [Stable Diffusion Checkpoint Inference](examples/model-inference/stable-diffusion-ckpt-inference/stable-diffusion-checkpoint-inference.md)
   * [StyleGAN3](examples/model-inference/stylegan3/README.md)
     * [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/stylegan3/index.md)
   * [object-detection-yolo5](examples/model-inference/object-detection-yolo5/README.md)
@@ -143,7 +147,7 @@
 * [Model Training](examples/model-training/README.md)
   * [Model Training](examples/model-training/index.md)
   * [Stable-Diffusion-Dreambooth](examples/model-training/stable-diffusion-dreambooth/README.md)
-    * [Stable Diffusion Dreambooth (Finetuning)](examples/model-training/stable-diffusion-dreambooth/index.md)
+    * [Stable Diffusion Dreambooth (Finetuning)](examples/model-training/stable-diffusion-dreambooth/stable-diffusion-dreambooth-finetuning.md)
   * [Training-Pytorch-Model](examples/model-training/training-pytorch-model/README.md)
     * [Training Pytorch Model with Bacalhau](examples/model-training/training-pytorch-model/index.md)
   * [Training-Tensorflow-Model](examples/model-training/training-tensorflow-model/README.md)
@@ -162,6 +166,7 @@
     * [Molecular Simulation with OpenMM and Bacalhau](examples/molecular-dynamics/openmm/index.md)
 
 ## References
+
 * [Authentication & authorization](dev/auth\_flow.md)
 * [Database Integration](dev/databases.md)
 * [Node Management](dev/node\_management.md)
@@ -226,6 +231,7 @@
   * [Debugging Locally](dev/debugging/debugging\_locally.md)
 
 ## Integrations
+
 * [Bacalhau Amplify](integration/amplify.md)
 * [Apache Airflow Provider for Bacalhau](integration/apache-airflow.md)
 * [lilypad](integration/lilypad.md)
@@ -233,6 +239,7 @@
 * [Observability for WebAssembly Workloads in Bacalhau](integration/wasm-observe.md)
 
 ## Community
+
 * [Compute Over Data - Landscape Analysis](community/compute-landscape.md)
 * [Social Media](community/social-media.md)
 * [Style Guide](community/style-guide.md)
