@@ -1,2 +1,0 @@
-# Training-Tensorflow-Model
-

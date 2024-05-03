@@ -1,2 +1,0 @@
-# Training-Pytorch-Model
-

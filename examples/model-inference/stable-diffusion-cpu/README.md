@@ -1,2 +1,0 @@
-# stable-diffusion-cpu
-

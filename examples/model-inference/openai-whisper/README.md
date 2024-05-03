@@ -1,2 +1,0 @@
-# Openai-Whisper
-

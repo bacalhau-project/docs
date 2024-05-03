@@ -1,2 +1,0 @@
-# object-detection-yolo5
-
