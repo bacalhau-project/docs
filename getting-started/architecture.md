@@ -279,7 +279,7 @@ The Bacalhau client receives updates on the task execution status and results. A
 
 To Get the results of a job you can run the following command.
 
-```
+```bash
 bacalhau get [id] [flags]
 ```
 
@@ -351,7 +351,7 @@ To list executions follow the following commands.
 
 {% tabs %}
 {% tab title="CLI" %}
-```
+```bash
 bacalhau job executions [id] [flags]
 ```
 
