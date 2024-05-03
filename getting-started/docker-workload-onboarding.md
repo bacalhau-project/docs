@@ -12,11 +12,9 @@ Bacalhau executes jobs by running them within containers. Bacalhau employs a syn
 
 This section describes how to migrate a workload based on a Docker container into a format that will work with the Bacalhau client.
 
-:::info
-
+{% hint style="info" %}
 You can check out this example tutorial on [how to work with custom containers in Bacalhau](../setting-up/workload-onboarding/custom-containers/index.md) to see how we used all these steps together.
-
-:::
+{% endhint %}
 
 ### Requirements
 
@@ -26,13 +24,11 @@ Here are few things to note before getting started:
 2. **Architecture Compatibility**: Bacalhau supports only images that match the host node's architecture. Typically, most nodes run on `linux/amd64`, so containers in `arm64` format are not able to run.
 3. **Input Flags**: The `--input ipfs://...` flag supports only **directories** and does not support CID subpaths. The `--input https://...` flag supports only **single files** and does not support URL directories. The `--input s3://...` flag supports S3 keys and prefixes. For example, `s3://bucket/logs-2023-04*` includes all logs for April 2023.
 
-:::info
-
+{% hint style="info" %}
 You can check to see a [list of example public containers](https://github.com/orgs/bacalhau-project/packages?repo\_name=examples) used by the Bacalhau team
 
-**Note**: Only about a third of examples have their containers here. The rest are under random docker hub registries (mostly Vedants).
-
-:::
+**Note**: Only about a third of examples have their containers here. If you can't find one, feel free to contact the team.
+{% endhint %}
 
 ### Runtime Restrictions
 
@@ -68,11 +64,9 @@ If you need to pass data into your container you will do this through a Docker v
 
 We make the assumption that you are reading from a directory called `/inputs`, which is set as the default.
 
-:::info
-
+{% hint style="info" %}
 You can specify which directory the data is written to with the [`--input`](broken-reference/) CLI flag.
-
-:::
+{% endhint %}
 
 #### Step 2 - Write Data to the Your Directory
 
@@ -80,28 +74,24 @@ If you need to return data from your container you will do this through a Docker
 
 We make the assumption that you are writing to a directory called `/outputs`, which is set as the default.
 
-:::info
-
+{% hint style="info" %}
 You can specify which directory the data is written to with the [`--output-volumes`](broken-reference/) CLI flag.
-
-:::
+{% endhint %}
 
 #### Step 3 - Build and Push Your Image To a Registry
 
 At this step, you create (or update) a Docker image that Bacalhau will use to perform your task. You [build your image](https://docs.docker.com/engine/reference/commandline/build/) from your code and dependencies, then [push it](https://docs.docker.com/engine/reference/commandline/push/) to a public registry so that Bacalhau can access it. This is necessary for other Bacalhau nodes to run your container and execute the task.
 
-:::caution
-
+{% hint style="warning" %}
 Most Bacalhau nodes are of an `x86_64` architecture, therefore containers should be built for [`x86_64` systems](docker-workload-onboarding.md#what-containers-to-use).
-
-:::
+{% endhint %}
 
 For example:
 
 ```shell
-$ export IMAGE=myuser/myimage:latest
-$ docker build -t ${IMAGE} .
-$ docker image push ${IMAGE}
+export IMAGE=myuser/myimage:latest
+docker build -t ${IMAGE} .
+docker image push ${IMAGE}
 ```
 
 #### Step 4 - Test Your Container
@@ -109,10 +99,10 @@ $ docker image push ${IMAGE}
 To test your docker image locally, you'll need to execute the following command, changing the environment variables as necessary:
 
 ```shell
-$ export LOCAL_INPUT_DIR=$PWD
-$ export LOCAL_OUTPUT_DIR=$PWD
-$ export CMD=(sh -c 'ls /inputs; echo do something useful > /outputs/stdout')
-$ docker run --rm \
+export LOCAL_INPUT_DIR=$PWD
+export LOCAL_OUTPUT_DIR=$PWD
+export CMD=(sh -c 'ls /inputs; echo do something useful > /outputs/stdout')
+docker run --rm \
   -v ${LOCAL_INPUT_DIR}:/inputs  \
   -v ${LOCAL_OUTPUT_DIR}:/outputs \
   ${IMAGE} \
@@ -122,43 +112,51 @@ $ docker run --rm \
 Let's see what each command will be used for:
 
 ```shell
-$ export LOCAL_INPUT_DIR=$PWD
-Exports the current working directory of the host system to the LOCAL_INPUT_DIR variable. This variable will be used for binding a volume and transferring data into the container.
-
-$ export LOCAL_OUTPUT_DIR=$PWD
-Exports the current working directory of the host system to the LOCAL_OUTPUT_DIR variable. Similarly, this variable will be used for binding a volume and transferring data from the container.
-
-$ export CMD=(sh -c 'ls /inputs; echo do something useful > /outputs/stdout')
-Creates an array of commands CMD that will be executed inside the container. In this case, it is a simple command executing 'ls' in the /inputs directory and writing text to the /outputs/stdout file.
-
-$ docker run ... ${IMAGE} ${CMD}
-Launches a Docker container using the specified variables and commands. It binds volumes to facilitate data exchange between the host and the container.
+export LOCAL_INPUT_DIR=$PWD
 ```
 
-:::info
+Exports the current working directory of the host system to the `LOCAL_INPUT_DIR` variable. This variable will be used for binding a volume and transferring data into the container.
 
+```bash
+export LOCAL_OUTPUT_DIR=$PWD
+```
+
+Exports the current working directory of the host system to the LOCAL\_OUTPUT\_DIR variable. Similarly, this variable will be used for binding a volume and transferring data from the container.
+
+```bash
+export CMD=(sh -c 'ls /inputs; echo do something useful > /outputs/stdout')
+```
+
+Creates an array of commands CMD that will be executed inside the container. In this case, it is a simple command executing 'ls' in the /inputs directory and writing text to the /outputs/stdout file.
+
+```bash
+docker run ... ${IMAGE} ${CMD}
+```
+
+Launches a Docker container using the specified variables and commands. It binds volumes to facilitate data exchange between the host and the container.
+
+{% hint style="info" %}
 Bacalhau will use the [default ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) if your image contains one. If you need to specify another entrypoint, use the `--entrypoint` flag to `bacalhau docker run`.
-
-:::
+{% endhint %}
 
 For example:
 
 ```shell
-$ export LOCAL_INPUT_DIR=$PWD
-$ export LOCAL_OUTPUT_DIR=$PWD
-$ export CMD=(sh -c 'ls /inputs; echo "do something useful" > /outputs/stdout')
-$ export IMAGE=ubuntu
-$ docker run --rm \
+export LOCAL_INPUT_DIR=$PWD
+export LOCAL_OUTPUT_DIR=$PWD
+export CMD=(sh -c 'ls /inputs; echo "do something useful" > /outputs/stdout')
+export IMAGE=ubuntu
+docker run --rm \
   -v ${LOCAL_INPUT_DIR}:/inputs  \
   -v ${LOCAL_OUTPUT_DIR}:/outputs \
   ${IMAGE} \
   ${CMD}
-$ cat stdout
+cat stdout
 ```
 
 The result of the commands' execution is shown below:
 
-```shell
+```
 do something useful
 ```
 
@@ -166,37 +164,43 @@ do something useful
 
 Data is identified by its content identifier (CID) and can be accessed by anyone who knows the CID. You can use either of these methods to upload your data:
 
-[Copy data from a URL to public storage](../setting-up/data-ingestion/from-url.md) [Pin Data to public storage](../setting-up/data-ingestion/pin.md) [Copy Data from S3 Bucket to public storage](../setting-up/data-ingestion/s3.md)
+You can choose to
 
-:::info You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data :::
+* [Copy data from a URL to public storage](../setting-up/data-ingestion/from-url.md)
+* [Pin Data to public storage](../setting-up/data-ingestion/pin.md)
+* [Copy Data from S3 Bucket to public storage](../setting-up/workload-onboarding/Reading-From-Multiple-S3-Buckets/index.md).
+
+{% hint style="info" %}
+You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
+{% endhint %}
 
 #### Step 6 - Run the Workload on Bacalhau
 
-To launch your workload in a Docker container, using the specified image and working with `input` data specified via IPFS CID, run the following command:
+To launch your workload in a Docker container, using the specified image and working with `input` data specified via IPFS CID, run the following command.
 
 ```shell
-$ bacalhau docker run --input ipfs://${CID} ${IMAGE} ${CMD}
+bacalhau docker run --input ipfs://${CID} ${IMAGE} ${CMD}
 ```
 
-To check the status of your job, run the following command:
+To check the status of your job, run the following command.
 
 ```shell
-$ bacalhau list --id-filter JOB_ID
+bacalhau list --id-filter JOB_ID
 ```
 
-To get more information on your job,run:
+To get more information on your job, you can run the following command.
 
 ```shell
-$ bacalhau describe JOB_ID
+bacalhau describe JOB_ID
 ```
 
-To download your job, run:
+To download your job, run.
 
 ```shell
-$ bacalhau get JOB_ID
+bacalhau get JOB_ID
 ```
 
-For example, running:
+To put this all together into one would look like the following.
 
 ```shell
 JOB_ID=$(bacalhau docker run ubuntu echo hello | grep 'Job ID:' | sed 's/.*Job ID: \([^ ]*\).*/\1/')
@@ -208,7 +212,7 @@ bacalhau get $JOB_ID
 ls shards
 ```
 
-outputs:
+This outputs the following.
 
 ```shell
 CREATED   ID        JOB                      STATE      VERIFIED  PUBLISHED
@@ -221,20 +225,24 @@ CREATED   ID        JOB                      STATE      VERIFIED  PUBLISHED
 job-24440f0d-3c06-46af-9adf-cb524aa43961-shard-0-host-QmYgxZiySj3MRkwLSL4X2MF5F9f2PMhAE3LV49XkfNL1o3
 ```
 
-:::caution The `--input` flag does not support CID subpaths for `ipfs://` content. :::
+{% hint style="warning" %}
+The `--input` flag does not support CID subpaths for `ipfs://` content.
+{% endhint %}
 
 Alternatively, you can run your workload with a publicly accessible http(s) URL, which will download the data temporarily into your public storage:
 
 ```shell
-$ export URL=https://download.geofabrik.de/antarctica-latest.osm.pbf
-$ bacalhau docker run --input ${URL} ${IMAGE} ${CMD}
+export URL=https://download.geofabrik.de/antarctica-latest.osm.pbf
+bacalhau docker run --input ${URL} ${IMAGE} ${CMD}
 
-$ bacalhau list
+bacalhau list
 
-$ bacalhau get JOB_ID
+bacalhau get JOB_ID
 ```
 
-:::caution The `--input` flag does not support URL directories. :::
+{% hint style="warning" %}
+The `--input` flag does not support URL directories.
+{% endhint %}
 
 ### Troubleshooting
 
