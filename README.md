@@ -42,7 +42,9 @@ Bacalhau concists of a peer-to-peer network of nodes that enables decentralized 
 
 **Compute Node:** responsible for executing jobs and producing results. Different compute nodes can be used for different types of jobs, depending on their capabilities and resources.
 
-:::info For a more detailed tutorial, check out our [Getting Started Tutorial](https://docs.bacalhau.org/getting-started/installation). :::
+{% hint style="info" %}
+For a more detailed tutorial, check out our [Getting Started Tutorial](https://docs.bacalhau.org/getting-started/installation).
+{% endhint %}
 
 The goal of the Bacalhau project is to make it easy to perform distributed computation next to where the data resides. In order to do this, first you need to ingest some data.
 
@@ -54,7 +56,9 @@ Data is identified by its content identifier (CID) and can be accessed by anyone
 * [Pin Data to public storage](https://docs.bacalhau.org/data-ingestion/pin)
 * [Copy Data from S3 Bucket to public storage](https://docs.bacalhau.org/data-ingestion/s3)
 
-:::info The options are not limited to the above mentioned. You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data :::
+{% hint style="info" %}
+The options are not limited to the above mentioned. You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
+{% endhint %}
 
 #### Security in Bacalhau
 
@@ -82,7 +86,9 @@ Here are some example tutorials on how you can process your data with Bacalhau:
 * [Running Genomics on Bacalhau](https://docs.bacalhau.org/examples/miscellaneous/Genomics/)
 * [Training Pytorch Model with Bacalhau](https://docs.bacalhau.org/examples/model-training/Training-Pytorch-Model/)
 
-:::info For more tutorials, visit our [example page](https://docs.bacalhau.org/examples/) :::
+{% hint style="info" %}
+For more tutorials, visit our [example page](https://docs.bacalhau.org/examples/)
+{% endhint %}
 
 ### Community
 

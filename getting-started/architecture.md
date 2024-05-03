@@ -13,9 +13,13 @@ Bacalhau is a peer-to-peer network of nodes that enables decentralized communica
 
 ![image](../static/img/architecture/architecture-overview.webp)
 
-The requester and compute nodes together form a p2p network and use gossiping to discover each other, share information about node capabilities, available resources and health status. Bacalhau is a peer-to-peer network of nodes that enables decentralized communication between computers. :::info **Requester Node:** responsible for handling user requests, discovering and ranking compute nodes, forwarding jobs to compute nodes, and monitoring the job lifecycle.
+The requester and compute nodes together form a p2p network and use gossiping to discover each other, share information about node capabilities, available resources and health status. Bacalhau is a peer-to-peer network of nodes that enables decentralized communication between computers.
 
-**Compute Node:** responsible for executing jobs and producing results. Different compute nodes can be used for different types of jobs, depending on their capabilities and resources. :::
+{% hint style="info" %}
+**Requester Node:** responsible for handling user requests, discovering and ranking compute nodes, forwarding jobs to compute nodes, and monitoring the job lifecycle.
+
+**Compute Node:** responsible for executing jobs and producing results. Different compute nodes can be used for different types of jobs, depending on their capabilities and resources.
+{% endhint %}
 
 To interact with the Bacalhau network, users can use the Bacalhau CLI (command-line interface) to send requests to a requester node in the network. These requests are sent using the JSON format over HTTP, a widely-used protocol for transmitting data over the internet. Bacalhau's architecture involves two main sections which are the **core components** and **interfaces**.
 
@@ -23,7 +27,7 @@ To interact with the Bacalhau network, users can use the Bacalhau CLI (command-l
 
 <summary>Components overview</summary>
 
-!\[image]\(../../static/img/architecture/System-Components.png 'System-Components')
+<img src="../.gitbook/assets/System-Components-3071e4cf5e37f7a0cdc70ce60b60678c.png" alt="" data-size="original">
 
 </details>
 
@@ -55,7 +59,7 @@ The interfaces handle the distribution, execution, storage and publishing of job
 
 <summary>Transport</summary>
 
-The transport interface is responsible for sending messages about jobs that are created, accepted, and executed to other compute nodes. It also manages the identity of individual Bacalhau nodes to ensure that messages are only delivered to authorized nodes, which improves network security. To achieve this, the transport interface uses a protocol called \`bprotocol\`, which is a point-to-point scheduling protocol that runs over \[\`libp2p\`]\(https://libp2p.io/) and is used to distribute job messages efficiently to other nodes on the network. This is our upgrade to the \[\`GossipSub\`]\(https://docs.libp2p.io/concepts/publish-subscribe/) handler as it ensures that messages are delivered to the right nodes without causing network congestion, thereby making communication between nodes more scalable and efficient.
+The transport interface is responsible for sending messages about jobs that are created, accepted, and executed to other compute nodes. It also manages the identity of individual Bacalhau nodes to ensure that messages are only delivered to authorized nodes, which improves network security. To achieve this, the transport interface uses a protocol, which is a point-to-point scheduling protocol that runs securely and is used to distribute job messages efficiently to other nodes on the network. This is our upgrade to previous handlers as it ensures that messages are delivered to the right nodes without causing network congestion, thereby making communication between nodes more scalable and efficient.
 
 </details>
 
@@ -93,16 +97,13 @@ You can create jobs in the Bacalhau network using various [job types](../setting
 
 <summary>Advanced job preparation</summary>
 
-Prepare data with Bacalhau by \[copying from URLs]\(../setting-up/data-ingestion/from-url.md), \[pinning to public storage]\(../setting-up/data-ingestion/pin.md), or \[copying from an S3 bucket]\(../setting-up/data-ingestion/s3.md). Mount data anywhere for Bacalhau to run against. Refer to \[IPFS]\(../setting-up/other-specifications/sources/ipfs.md), \[Local]\(../setting-up/other-specifications/sources/local.md), \[S3]\(../setting-up/other-specifications/sources/s3.md), and \[URL]\(../setting-up/other-specifications/sources/url.md) Source Specifications for data source usage.
+Prepare data with Bacalhau by [copying from URLs](../setting-up/data-ingestion/from-url.md), [pinning to public storage](../setting-up/data-ingestion/pin.md) or [copying from an S3 bucket](../setting-up/data-ingestion/s3.md). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](../references/other-specifications/sources/ipfs.md), [Local](../references/other-specifications/publishers/local.md), [S3](../references/other-specifications/publishers/s3.md) and [URL](../references/other-specifications/sources/url.md) Source Specifications for data source usage.
 
-```
-    Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](../getting-started/docker-workload-onboarding.md) and [WebAssembly](../getting-started/wasm-workload-onboarding.md) workloads.
+Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](docker-workload-onboarding.md) and [WebAssembly](wasm-workload-onboarding.md) workloads.
 
-    Explore GPU workload support with Bacalhau. Learn how to run GPU workloads using the Bacalhau client in the [GPU Workloads](../getting-started/resources.md#gpu-setup) section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](../integration/python-sdk.md).
+Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](../setting-up/gpu.md) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](../integration/python-sdk.md).
 
-    For node operation, refer to the [Running a Node](../setting-up/running-node/quick-start.md) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](../setting-up/networking-instructions/private-cluster.md) for performing tasks without connecting to the main Bacalhau network.
-</div>
-```
+For node operation, refer to the [Running a Node](../setting-up/running-node/) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](../setting-up/networking-instructions/private-cluster.md) for performing tasks without connecting to the main Bacalhau network.
 
 </details>
 
@@ -112,21 +113,25 @@ You should use the Bacalhau client to send a task to the network. The client tra
 
 Bacalhau provides an interface to interact with the server via a REST API. Bacalhau uses 127.0.0.1 as the localhost and 1234 as the port by default.
 
-import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
 
-\<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
 
+{% tabs %}
+{% tab title="CLI" %}
 ```sh
 bacalhau create [flags]
 ```
 
 You can use the command with [appropriate flags](broken-reference/) to create a job in Bacalhau using JSON and YAML formats.
+{% endtab %}
 
-\`\`\` Endpoint: \`PUT /api/v1/orchestrator/jobs\` \`\`\`
-
-```bash
-You can use [Create Job API Documentation](../dev/api/jobs.md#create-job) to submit a new job for execution.
+{% tab title="API" %}
 ```
+Endpoint: `PUT /api/v1/orchestrator/jobs` 
+```
+
+You can use \[Create Job API Documentation] (../dev/api/jobs.md#create-job) to submit a new job for execution.
+{% endtab %}
+{% endtabs %}
 
 You can use the `bacalhau docker run` [command](broken-reference/) to start a job in a Docker container. Below, you can see an excerpt of the commands:
 
@@ -134,7 +139,9 @@ You can use the `bacalhau docker run` [command](broken-reference/) to start a jo
 
 <summary>Bacalhau Docker CLI commands</summary>
 
-\`\`\`shell Usage: bacalhau docker run \[flags] IMAGE\[:TAG|@DIGEST] \[COMMAND] \[ARG...]
+```
+bacalhau docker run [flags] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
+```
 
 ````
         Flags:
@@ -192,7 +199,9 @@ You can also use the `bacalhau wasm run` [command](broken-reference/) to run a j
 
 <summary>Bacalhau WASM CLI commands</summary>
 
-\`\`\`shell Usage: bacalhau wasm run {cid-of-wasm | } \[--entry-point ] \[wasm-args ...] \[flags]
+```
+bacalhau wasm run {cid-of-wasm | } [--entry-point ] [wasm-args ...] [flags]
+```
 
 ````
         Flags:
@@ -268,7 +277,13 @@ The Bacalhau client receives updates on the task execution status and results. A
 
 ### Get Job Results
 
-To Get the results of a job you can run `bacalhau get [id] [flags]`
+To Get the results of a job you can run the following command.
+
+```
+bacalhau get [id] [flags]
+```
+
+One can choose from a wide range of flags, from which a few are shown below.
 
 ```shell
 Usage:
@@ -288,56 +303,69 @@ Flags:
 
 ### Describe a Job
 
-\<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
+To describe a specific job, inserting the ID to the CLI or API gives back an overview of the job.
 
+{% tabs %}
+{% tab title="CLI" %}
 ```bash
-
 bacalhau describe [id] [flags]
-
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md#describe) to get a full description of a job in yaml format.
 ```
 
+You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md) to get a full description of a job in yaml format.
+{% endtab %}
+
+{% tab title="API" %}
 ```
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID`
-
-You can use [Describe Job API Documentation](../dev/api/jobs.md#describe-job) to retrieve the specification and current status of a particular job.
 ```
+
+You can use [describe Job API Documentation](../dev/api/) to retrieve the specification and current status of a particular job.
+{% endtab %}
+{% endtabs %}
 
 ### List of Jobs
 
-\<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
+If you run more then one job or you want to find a specific job ID
 
-````
-```shell
+{% tabs %}
+{% tab title="CLI" %}
+```bash
 bacalhau list [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md#list-2) to list jobs on the network in yaml format.
-````
+You can use the command with [appropriate flags](../dev/cli-reference/) to list jobs on the network in yaml format.
+{% endtab %}
 
+{% tab title="API" %}
 ```
 Endpoint: `GET /api/v1/orchestrator/jobs`
+```
 
 You can use [List Jobs API Documentation](../dev/api/jobs.md#list-jobs) to retrieve a list of jobs.
-```
+{% endtab %}
+{% endtabs %}
 
 ### Job Executions
 
-\<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
+To list executions follow the following commands.
 
-````
-```shell
+{% tabs %}
+{% tab title="CLI" %}
+```
 bacalhau job executions [id] [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md#executions) to list all executions associated with a job, identified by its ID, in yaml format.
-````
+You can use the command with [appropriate flags](../dev/cli-reference/cli/job/executions/) to list all executions associated with a job, identified by its ID, in yaml format.
+{% endtab %}
 
+{% tab title="API" %}
 ```
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID/executions`
+```
 
 You can use [Job Executions API Documentation](../dev/api/jobs.md#job-executions) to retrieve all executions for a particular job.
-```
+{% endtab %}
+{% endtabs %}
 
 ## Chapter 4 - Monitoring and Management
 
@@ -345,39 +373,43 @@ The Bacalhau client provides the user with tools to monitor and manage the execu
 
 ### Stop a Job
 
-\<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
-
-````
-```shell
+{% tabs %}
+{% tab title="CLI" %}
+```bash
 bacalhau cancel [id] [flags]
 ```
 
 You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md#cancel) to cancel a job that was previously submitted and stop it running if it has not yet completed.
-````
+{% endtab %}
 
+{% tab title="API" %}
 ```
 Endpoint: `DELETE /api/v1/orchestrator/jobs/:jobID`
+```
 
 You can use [Stop Job API Documentation](../dev/api/jobs.md#stop-job) to terminate a specific job asynchronously.
-```
+{% endtab %}
+{% endtabs %}
 
 ### Job History
 
-\<Tabs defaultValue="CLI" values={\[ {label: 'CLI', value: 'CLI'}, {label: 'API', value: 'API'}, ]}>
-
-````
- ```shell
+{% tabs %}
+{% tab title="CLI" %}
+```bash
 bacalhau job history [id] [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md#history) to enumerate the historical events related to a job, identified by its ID.
-````
+You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md) to enumerate the historical events related to a job, identified by its ID.
+{% endtab %}
 
+{% tab title="API" %}
 ```
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID/history`
+```
 
 You can use [Job History API Documentation](../dev/api/jobs.md#job-history) to retrieve historical events for a specific job.
-```
+{% endtab %}
+{% endtabs %}
 
 ### Job Logs
 
@@ -387,4 +419,6 @@ bacalhau logs [flags] [id]
 
 You can use this [command](broken-reference/) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
 
-:::info To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](broken-reference/) :::
+{% hint style="info" %}
+To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](broken-reference/)
+{% endhint %}
