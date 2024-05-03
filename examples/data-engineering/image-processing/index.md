@@ -1,6 +1,4 @@
 ---
-sidebar_label: Simple Image Processing
-sidebar_position: 4
 description: How to process images stored in IPFS with Bacalhau
 ---
 
@@ -108,23 +106,23 @@ for imageName in glob.glob('results/outputs/*.jpg'):
     display(Image(filename=imageName))
 ```
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_0.jpg)
+![jpeg](index\_files/index\_21\_0.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_1.jpg)
+![jpeg](index\_files/index\_21\_1.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_2.jpg)
+![jpeg](index\_files/index\_21\_2.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_3.jpg)
+![jpeg](index\_files/index\_21\_3.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_4.jpg)
+![jpeg](index\_files/index\_21\_4.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_5.jpg)
+![jpeg](index\_files/index\_21\_5.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_6.jpg)
+![jpeg](index\_files/index\_21\_6.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_7.jpg)
+![jpeg](index\_files/index\_21\_7.jpg)
 
-![jpeg](../../../examples/data-engineering/image-processing/index\_files/index\_21\_8.jpg)
+![jpeg](index\_files/index\_21\_8.jpg)
 
 ## Need Support?
 

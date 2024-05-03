@@ -1,8 +1,3 @@
----
-sidebar_label: Stable Diffusion - CPU
-sidebar_position: 5
----
-
 # Stable Diffusion on a CPU
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
@@ -83,7 +78,7 @@ import IPython.display as display
 display.Image("stable_diffusion.openvino/hello.png")
 ```
 
-![png](../../../examples/model-inference/stable-diffusion-cpu/index\_files/index\_8\_0.png)
+![png](index\_files/index\_8\_0.png)
 
 ```python
 !cd stable_diffusion.openvino && \
@@ -95,7 +90,7 @@ import IPython.display as display
 display.Image("stable_diffusion.openvino/cat.png")
 ```
 
-![png](../../../examples/model-inference/stable-diffusion-cpu/index\_files/index\_10\_0.png)
+![png](index\_files/index\_10\_0.png)
 
 ## 2. Running Stable Diffusion (CPU) on Bacalhau
 
@@ -211,4 +206,4 @@ import IPython.display as display
 display.Image("results/outputs/mars.png")
 ```
 
-![png](../../../examples/model-inference/stable-diffusion-cpu/index\_files/index\_24\_0.png)
+![png](index\_files/index\_24\_0.png)

@@ -1,9 +1,4 @@
----
-sidebar_label: Ethereum Blockchain Analysis
-sidebar_position: 1
----
 # Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau
-
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
@@ -14,12 +9,12 @@ For this example, we ran an Ethereum node for a week and allowed it to synchroni
 But there's still a lot of data and these types of analyses typically need repeating or refining. So it makes absolute sense to use a decentralized network like Bacalhau to process the data in a scalable way.
 
 ## TD;LR
+
 Running Ethereum-etl tool on Bacalhau to extract Ethereum node.
 
 ### Prerequisite
 
 To get started, you need to install the Bacalhau client, see more information [here](https://docs.bacalhau.org/getting-started/installation)
-
 
 ```python
 !command -v bacalhau >/dev/null 2>&1 || (export BACALHAU_INSTALL_DIR=.; curl -sL https://get.bacalhau.org/install.sh | bash)
@@ -31,19 +26,16 @@ path=!echo $PATH
 
 First let's download one of the IPFS files and inspect it locally. You can see the full list of IPFS CIDs in the appendix.
 
-
 ```bash
 %%bash
 wget -q -O file.tar.gz https://w3s.link/ipfs/bafybeifgqjvmzbtz427bne7af5tbndmvniabaex77us6l637gqtb2iwlwq
 tar -xvf file.tar.gz
 ```
 
-
 ```bash
 %%bash
 pip install pandas
 ```
-
 
 ```python
 # Use pandas to read in transaction data and clean up the columns
@@ -66,19 +58,17 @@ The following code inspects the daily trading volume of Ethereum for a single ch
 
 This is all good, but we can do better. We can use the Bacalhau client to download the data from IPFS and then run the analysis on the data in the cloud. This means that we can analyze the entire Ethereum blockchain without having to download it locally.
 
-
 ```python
 # Total volume per day
 df[['block_datetime', 'value']].groupby(pd.Grouper(key='block_datetime', freq='1D')).sum().plot()
 
 ```
 
-##  Analysing Ethereum Data With Bacalhau
+## Analysing Ethereum Data With Bacalhau
 
 To run jobs on the Bacalhau network you need to package your code. In this example, I will package the code as a Docker image.
 
 But before we do that, we need to develop the code that will perform the analysis. The code below is a simple script to parse the incoming data and produce a CSV file with the daily trading volume of Ethereum.
-
 
 ```python
 %%writefile main.py
@@ -126,14 +116,12 @@ if __name__ == "__main__":
 
 Next, let's make sure the file works as expected...
 
-
 ```bash
 %%bash
 python main.py . outputs/
 ```
 
 And finally, package the code inside a Docker image to make the process reproducible. Here I'm passing the Bacalhau default `/inputs` and `/outputs` directories. The `/inputs` directory is where the data will be read from and the `/outputs` directory is where the results will be saved to.
-
 
 ```python
 %%writefile Dockerfile
@@ -154,7 +142,6 @@ docker buildx build --platform linux/amd64 --push -t ghcr.io/bacalhau-project/ex
 
 To run our analysis on the Ethereum blockchain, we will use the `bacalhau docker run` command.
 
-
 ```bash
 %%bash --out job_id
 bacalhau docker run \
@@ -165,19 +152,17 @@ bacalhau docker run \
 
 The job has been submitted and Bacalhau has printed out the related job id. We store that in an environment variable so that we can reuse it later on.
 
-
 ```python
 %env JOB_ID={job_id}
 ```
 
-The `bacalhau docker run` command allows to pass input data volume with a `-i ipfs://CID:path` argument just like Docker, except the left-hand side of the argument is a [content identifier (CID)](https://github.com/multiformats/cid). This results in Bacalhau mounting a *data volume* inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
+The `bacalhau docker run` command allows to pass input data volume with a `-i ipfs://CID:path` argument just like Docker, except the left-hand side of the argument is a [content identifier (CID)](https://github.com/multiformats/cid). This results in Bacalhau mounting a _data volume_ inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
 
 Bacalhau also mounts a data volume to store output data. The `bacalhau docker run` command creates an output data volume mounted at `/outputs`. This is a convenient location to store the results of your job.
 
 ## Checking the State of your Jobs
 
-- **Job status**: You can check the status of the job using `bacalhau list`.
-
+* **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
 %%bash
@@ -186,16 +171,14 @@ bacalhau list --id-filter ${JOB_ID}
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-- **Job information**: You can find out more information about your job by using `bacalhau describe`.
-
+* **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
-- **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
-
+* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 %%bash
@@ -209,7 +192,6 @@ After the download has finished you should see the following contents in the res
 
 To view the file, run the following command:
 
-
 ```bash
 %%bash
 ls -lah results/outputs
@@ -218,7 +200,6 @@ ls -lah results/outputs
 ### Display the image
 
 To view the images, we will use **glob** to return all file paths that match a specific pattern.
-
 
 ```python
 import glob
@@ -236,7 +217,6 @@ Ok, so that works. Let's scale this up! We can run the same analysis on the enti
 
 See the appendix for the `hashes.txt` file.
 
-
 ```bash
 %%bash
 printf "" > job_ids.txt
@@ -251,7 +231,6 @@ done
 
 Now take a look at the job id's. You can use these to check the status of the jobs and download the results. You might want to double-check that the jobs ran ok by doing a `bacalhau list`.
 
-
 ```bash
 %%bash
 cat job_ids.txt
@@ -259,14 +238,12 @@ cat job_ids.txt
 
 Wait until all of these jobs have been completed:
 
-
 ```bash
 %%bash
 bacalhau list -n 50
 ```
 
 And then download all the results and merge them into a single directory. This might take a while, so this is a good time to treat yourself to a nice Dark Mild. There's also been some issues in the past communicating with IPFS, so if you get an error, try again.
-
 
 ```bash
 %%bash
@@ -280,7 +257,6 @@ wait
 ### Display the image
 
 To view the images, we will use **glob** to return all file paths that match a specific pattern.
-
 
 ```python
 import os, glob
@@ -305,7 +281,6 @@ df.plot(figsize=(16,9))
 
 That's it! There are several years of Ethereum transaction volume data.
 
-
 ```bash
 %%bash
 rm -rf results_* output_* outputs results temp # Remove temporary results
@@ -314,7 +289,6 @@ rm -rf results_* output_* outputs results temp # Remove temporary results
 ## Appendix 1: List Ethereum Data CIDs
 
 The following list is a list of IPFS CID's for the Ethereum data that we used in this tutorial. You can use these CID's to download the rest of the chain if you so desire. The CIDs are ordered by block number and they increase 50,000 blocks at a time. Here's a list of ordered CIDs:
-
 
 ```python
 %%writefile hashes.txt
@@ -469,7 +443,7 @@ journalctl -u prysm -f
 
 Prysm will need to finish synchronizing before geth will start synchronizing.
 
-In Prysm you will see lots of log messages saying: `Synced new block`, and in Geth you will see: `Syncing beacon headers    downloaded=11,920,384 left=4,054,753  eta=2m25.903s`. This tells you how long it will take to sync the beacons. Once that's done, get will start synchronizing the blocks.
+In Prysm you will see lots of log messages saying: `Synced new block`, and in Geth you will see: `Syncing beacon headers downloaded=11,920,384 left=4,054,753 eta=2m25.903s`. This tells you how long it will take to sync the beacons. Once that's done, get will start synchronizing the blocks.
 
 Bring up the Ethereum javascript console with:
 

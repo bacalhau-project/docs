@@ -1,8 +1,3 @@
----
-sidebar_label: StyleGAN3
-sidebar_position: 7
----
-
 # Generate Realistic Images using StyleGAN3 and Bacalhau
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
@@ -134,7 +129,7 @@ Let's look closely at the command above:
 * `jsacex/stylegan3`: the name and the tag of the docker image we are using
 * `../outputs`: path to the output
 * `python gen_images.py`: execute the script
-* `--trunc=1 --seeds=2 --network=stylegan3-r-afhqv2-512x512.pkl`: The animation length is either determined based on the _--seeds_ value or explicitly specified using the _--num-keyframes_ option. When num keyframes is specified with _--num-keyframes_, the output video length will be 'num\_keyframes_w\_frames' frames. If --num-keyframes is not specified, the number of seeds given with --seeds must be divisible by grid size W_H (--grid). In this case, the output video length will be '# seeds/(w\*h)\*w\_frames' frames.
+* `--trunc=1 --seeds=2 --network=stylegan3-r-afhqv2-512x512.pkl`: The animation length is either determined based on the _--seeds_ value or explicitly specified using the _--num-keyframes_ option. When num keyframes is specified with _--num-keyframes_, the output video length will be 'num\_keyframes\_w\_frames' frames. If --num-keyframes is not specified, the number of seeds given with --seeds must be divisible by grid size W\_H (--grid). In this case, the output video length will be '# seeds/(w\*h)\*w\_frames' frames.
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 

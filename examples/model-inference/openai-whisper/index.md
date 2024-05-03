@@ -1,9 +1,4 @@
----
-sidebar_label: Speech Recognition using Whisper
-sidebar_position: 9
----
 # Speech Recognition using Whisper
-
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
@@ -12,19 +7,19 @@ Whisper is an automatic speech recognition (ASR) system trained on 680,000 hours
 The advantage of using Bacalhau over managed Automatic Speech Recognition services is that you can run your own containers which can scale to do batch process petabytes of videos or audio for automatic speech recognition
 
 ## TD:LR
+
 Using OpenAI whisper with Bacalhau to process audio files
 
 ## Prerequisite
 
 To get started, you need to install:
-- Bacalhau client, see more information [here](https://docs.bacalhau.org/getting-started/installation)
-- Whisper,
-- pytorch
-- pandas
 
+* Bacalhau client, see more information [here](https://docs.bacalhau.org/getting-started/installation)
+* Whisper,
+* pytorch
+* pandas
 
 ## Running whisper locally
-
 
 ```bash
 %%bash
@@ -36,7 +31,6 @@ sudo apt update && sudo apt install ffmpeg
 
 Before we create and run the script we need a sample audio file to test the code for that we download a sample audio clip.
 
-
 ```bash
 %%bash
 wget https://github.com/js-ts/hello/raw/main/hello.mp3
@@ -44,16 +38,14 @@ wget https://github.com/js-ts/hello/raw/main/hello.mp3
 
 ## Create the script
 
-
 We will create a script that accepts parameters (input file path, output file path, temperature, etc.) and set the default parameters. Also:
+
 * If the input file is in mp4 format, then the script converts it to wav format.
 * Save the transcript in various formats,
 * We load the large model
-* Then pass it the required parameters.
-  This model is not only limited to English and transcription, it supports other languages and also does translation, into the following languages:
+* Then pass it the required parameters. This model is not only limited to English and transcription, it supports other languages and also does translation, into the following languages:
 
 Next, let's create a openai-whisper script:
-
 
 ```python
 %%writefile openai-whisper.py
@@ -198,11 +190,7 @@ else:
         writing_lut[output_type](video_transcription["segments"], file=f)
 ```
 
-
 Let's run the script with the default parameters:
-
-
-
 
 ```bash
 %%bash
@@ -210,8 +198,6 @@ python openai-whisper.py
 ```
 
 Viewing the outputs
-
-
 
 ```bash
 %%bash
@@ -221,9 +207,6 @@ cat hello.srt
 ## Containerize Script using Docker
 
 To build your own docker container, create a `Dockerfile`, which contains instructions on how the image will be built, and what extra requirements will be included.
-
-
-
 
 ```
 FROM  pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
@@ -247,15 +230,11 @@ ADD openai-whisper.py openai-whisper.py
 RUN python openai-whisper.py
 ```
 
-
 We choose `pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime` as our base image
 
 And then install all the dependencies, after that we will add the test audio file and our openai-whisper script to the container, we will also run a test command to check whether our script works inside the container and if the container builds successfully
 
-:::info
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
-:::
-
+:::info See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/) :::
 
 ### Build the container
 
@@ -267,11 +246,9 @@ docker build -t <hub-user>/<repo-name>:<tag> .
 
 Before running the command replace;
 
-- **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create a Docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
-
-- **repo-name** with the name of the container, you can name it anything you want
-
-- **tag** this is not required but you can use the latest tag
+* **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create a Docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
+* **repo-name** with the name of the container, you can name it anything you want
+* **tag** this is not required but you can use the latest tag
 
 In our case
 
@@ -293,21 +270,17 @@ In our case
 docker push jsacex/whisper
 ```
 
-
 ## Running a Bacalhau Job
 
-We will transcribe the moon landing video, which can be found here: https://www.nasa.gov/multimedia/hd/apollo11_hdpage.html
+We will transcribe the moon landing video, which can be found here: https://www.nasa.gov/multimedia/hd/apollo11\_hdpage.html
 
-Since the downloaded video is in mov format we convert the video to mp4 format and then upload it to our public storage in this case IPFS.
-We will be using [NFT.Storage](https://nft.storage/) (Recommended Option). To upload your dataset using [NFTup](https://nft.storage/docs/how-to/nftup/)  just drag and drop your directory it will upload it to IPFS
-
+Since the downloaded video is in mov format we convert the video to mp4 format and then upload it to our public storage in this case IPFS. We will be using [NFT.Storage](https://nft.storage/) (Recommended Option). To upload your dataset using [NFTup](https://nft.storage/docs/how-to/nftup/) just drag and drop your directory it will upload it to IPFS
 
 After the dataset has been uploaded, copy the CID:
 
 `bafybeielf6z4cd2nuey5arckect5bjmelhouvn5rhbjlvpvhp7erkrc4nu`
 
 To submit a job, run the following Bacalhau command:
-
 
 ```bash
 %%bash --out job_id
@@ -321,7 +294,6 @@ bacalhau docker run \
     -- python openai-whisper.py -p inputs/Apollo_11_moonwalk_montage_720p.mp4 -o outputs
 ```
 
-
 ```python
 %env JOB_ID={job_id}
 ```
@@ -331,15 +303,14 @@ bacalhau docker run \
 Let's look closely at the command above:
 
 * `-i ipfs://bafybeielf6z4cd2nuey5arckect5bjmelhouvn5r`: flag to mount the CID which contains our file to the container at the path `/inputs`
-* `-p inputs/Apollo_11_moonwalk_montage_720p.mp4 `: the input path of our file
+* `-p inputs/Apollo_11_moonwalk_montage_720p.mp4` : the input path of our file
 * `-o outputs`: the path where to store the outputs
 * `--gpu` : here we request 1 GPU
 * `jsacex/whisper`: the name and the tag of the docker image we are using
 
 ## Checking the State of your Jobs
 
-- **Job status**: You can check the status of the job using `bacalhau list`.
-
+* **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
 %%bash
@@ -348,16 +319,14 @@ bacalhau list --id-filter ${JOB_ID} --wide
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-- **Job information**: You can find out more information about your job by using `bacalhau describe`.
-
+* **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
-- **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
-
+* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 %%bash
@@ -368,7 +337,6 @@ bacalhau get $JOB_ID --output-dir results
 ## Viewing your Job Output
 
 To view the file, run the following command:
-
 
 ```bash
 %%bash

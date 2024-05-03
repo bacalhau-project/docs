@@ -1,19 +1,17 @@
 ---
-sidebar_label: "Oceanography - Data Conversion"
-sidebar_position: 5
-description: "Oceanography data conversion with Bacalhau"
-# cspell:ignore fco2, pco2, uatm, unwtd, xlon, ylat, tmnth, bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y, sortby, dtype, ufunc
+description: Oceanography data conversion with Bacalhau
 ---
-# Oceanography - Data Conversion
 
+# Oceanography - Data Conversion
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
-The Surface Ocean CO₂ Atlas (SOCAT) contains measurements of the [fugacity](https://en.wikipedia.org/wiki/Fugacity) of CO2 in seawater around the globe. But to calculate how much carbon the ocean is taking up from the atmosphere, these measurements need to be converted to the partial pressure of CO2. We will convert the units by combining measurements of the surface temperature and fugacity.  Python libraries (xarray, pandas, numpy) and the pyseaflux package facilitate this process.
+The Surface Ocean CO₂ Atlas (SOCAT) contains measurements of the [fugacity](https://en.wikipedia.org/wiki/Fugacity) of CO2 in seawater around the globe. But to calculate how much carbon the ocean is taking up from the atmosphere, these measurements need to be converted to the partial pressure of CO2. We will convert the units by combining measurements of the surface temperature and fugacity. Python libraries (xarray, pandas, numpy) and the pyseaflux package facilitate this process.
 
 In this example tutorial, we will investigate the data and convert the workload so that it can be executed on the Bacalhau network, to take advantage of the distributed storage and compute resources.
 
 ## TD;LR
+
 Running oceanography dataset with Bacalhau
 
 ## Prerequisites
@@ -24,7 +22,6 @@ To get started, you need to install the Bacalhau client, see more information [h
 
 The raw data is available on the [SOCAT website](https://www.socat.info/). We will use the [SOCATv2021](https://www.socat.info/index.php/version-2021/) dataset in the "Gridded" format to perform this calculation. First, let's take a quick look at some data:
 
-
 ```bash
 %%bash
 mkdir -p inputs
@@ -33,7 +30,6 @@ curl --output ./inputs/sst.mnmean.nc https://downloads.psl.noaa.gov/Datasets/noa
 ```
 
 Next let's write the `requirements.txt` and install the dependencies. This file will also be used by the Dockerfile to install the dependencies.
-
 
 ```python
 %%writefile requirements.txt
@@ -52,14 +48,12 @@ zarr>=2.0.0
 
 Installing dependencies
 
-
 ```bash
 %%bash
 pip install -r requirements.txt > /dev/null
 ```
 
 ### Writing the Script
-
 
 ```python
 import fsspec # for reading remote files
@@ -69,7 +63,6 @@ with fsspec.open("./inputs/SOCATv2022_tracks_gridded_monthly.nc.zip", compressio
 ds.info()
 ```
 
-<!--- cslint:disable -->
 ```python
 time_slice = slice("2010", "2020") # select a decade
 <!--- cslint:enable -->
@@ -77,25 +70,25 @@ res = ds['sst_ave_unwtd'].sel(tmnth=time_slice).mean(dim='tmnth') # average over
 res.plot() # plot the result
 
 ```
-<!--- cslint:enable -->
 
 We can see that the dataset contains lat-long coordinates, the date, and a series of seawater measurements. Above you can see a plot of the average surface sea temperature (sst) between 2010-2020, where recording buoys and boats have traveled.
 
 ### Data Conversion
 
-To convert the data from fugacity of CO2 (fCO2) to partial pressure of CO2 (pCO2) we will combine the measurements of the surface temperature and fugacity. The conversion is performed by the [pyseaflux](https://seaflux.readthedocs.io/en/latest/api.html?highlight=fCO2_to_pCO2#pyseaflux.fco2_pco2_conversion.fCO2_to_pCO2) package.
+To convert the data from fugacity of CO2 (fCO2) to partial pressure of CO2 (pCO2) we will combine the measurements of the surface temperature and fugacity. The conversion is performed by the [pyseaflux](https://seaflux.readthedocs.io/en/latest/api.html?highlight=fCO2\_to\_pCO2#pyseaflux.fco2\_pco2\_conversion.fCO2\_to\_pCO2) package.
 
 To execute this workload on the Bacalhau network we need to perform three steps:
 
-- Upload the data to IPFS
-- Create a docker image with the code and dependencies
-- Run a Bacalhau job with the docker image using the IPFS data
+* Upload the data to IPFS
+* Create a docker image with the code and dependencies
+* Run a Bacalhau job with the docker image using the IPFS data
 
 ## Upload the Data to IPFS
 
 The first step is to upload the data to IPFS. The simplest way to do this is to use a third-party service to "pin" data to the IPFS network, to ensure that the data exists and is available. To do this you need an account with a pinning service like [web3.storage](https://web3.storage/) or [Pinata](https://pinata.cloud/). Once registered you can use their UI or API or SDKs to upload files.
 
 For the purposes of this example:
+
 1. Downloaded the latest monthly data from the [SOCAT website](https://www.socat.info/)
 2. Downloaded the latest long-term global sea surface temperature data from [NOAA](https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc) - information about that dataset can be found [here](https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.highres.html).
 3. Pinned the data to IPFS
@@ -185,12 +178,10 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-<!--- cslint:enable -->
 
 ## Setting up Docker Container
 
-We will create a  `Dockerfile` and add the desired configuration to the file. These commands specify how the image will be built, and what extra requirements will be included.
-
+We will create a `Dockerfile` and add the desired configuration to the file. These commands specify how the image will be built, and what extra requirements will be included.
 
 ```python
 %%writefile Dockerfile
@@ -222,12 +213,9 @@ docker build -t <hub-user>/<repo-name>:<tag> .
 
 Before running the command replace;
 
-- **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create a Docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
-
-- **repo-name** with the name of the container, you can name it anything you want
-
-- **tag** this is not required but you can use the latest tag
-
+* **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create a Docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
+* **repo-name** with the name of the container, you can name it anything you want
+* **tag** this is not required but you can use the latest tag
 
 Now you can push this repository to the registry designated by its name or tag.
 
@@ -235,14 +223,11 @@ Now you can push this repository to the registry designated by its name or tag.
 docker push <hub-user>/<repo-name>:<tag>
 ```
 
-:::tip
-For more information about working with custom containers, see the [custom containers example](../../../setting-up/workload-onboarding/custom-containers/).
-:::
+:::tip For more information about working with custom containers, see the [custom containers example](../../../setting-up/workload-onboarding/custom-containers/). :::
 
 ## Running a Bacalhau Job
 
 Now that we have the data in IPFS and the Docker image pushed, next is to run a job using the `bacalhau docker run` command
-
 
 ```bash
 %%bash  --out job_id
@@ -255,35 +240,29 @@ bacalhau docker run \
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-
 ```python
 %env JOB_ID={job_id}
 ```
 
 ## Checking the State of your Jobs
 
-- **Job status**: You can check the status of the job using `bacalhau list`.
-
+* **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
 %%bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
-
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-- **Job information**: You can find out more information about your job by using `bacalhau describe`.
-
+* **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
-
-- **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
-
+* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 %%bash
@@ -295,7 +274,6 @@ bacalhau get --output-dir ./results ${JOB_ID} # Download the results
 ## Viewing your Job Output
 
 To view the file, run the following command:
-
 
 ```bash
 %%bash
