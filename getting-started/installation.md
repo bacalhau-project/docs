@@ -5,7 +5,7 @@ sidebar_position: 0
 
 # Installation
 
-## Installation
+## Install the Bacalhau CLI
 
 In this tutorial, you'll learn how to install and run a job with the Bacalhau client using the Bacalhau CLI or Docker.
 
