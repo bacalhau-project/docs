@@ -24,13 +24,13 @@ Bacalhau seeks to transform data processing for large-scale datasets to improve 
 
 🚨 Bacalhau provides a **complete and permanent audit log** of exactly what happened, so you can be confident that your jobs are being executed securely.
 
-🔐 You can run [private workloads](https://docs.bacalhau.org/next-steps/private-cluster) to **reduce the chance of leaking private information** or inadvertently sharing your data outside of your organization.
+🔐 You can run [private workloads](setting-up/networking-instructions/private-cluster.md) to **reduce the chance of leaking private information** or inadvertently sharing your data outside of your organization.
 
 💸 Bacalhau **reduces ingress/egress costs** since jobs are processed closer to the source.
 
-🤓 You can [mount your data anywhere](https://docs.bacalhau.org/#how-it-works) on your machine, and Bacalhau will be able to run against that data.
+🤓 You can [mount your data anywhere](./#data-ingestion) on your machine, and Bacalhau will be able to run against that data.
 
-💥 You can integrate with services running on nodes to run a jobs, such as on [DuckDB](https://docs.bacalhau.org/examples/data-engineering/DuckDB/).
+💥 You can integrate with services running on nodes to run a jobs, such as on [DuckDB](examples/data-engineering/index.md).
 
 📚 Bacalhau operates at scale over parallel jobs. You can batch process petabytes (quadrillion bytes) of data.
 
@@ -43,7 +43,7 @@ Bacalhau concists of a peer-to-peer network of nodes that enables decentralized 
 **Compute Node:** responsible for executing jobs and producing results. Different compute nodes can be used for different types of jobs, depending on their capabilities and resources.
 
 {% hint style="info" %}
-For a more detailed tutorial, check out our [Getting Started Tutorial](https://docs.bacalhau.org/getting-started/installation).
+For a more detailed tutorial, check out our [Getting Started Tutorial](broken-reference).
 {% endhint %}
 
 The goal of the Bacalhau project is to make it easy to perform distributed computation next to where the data resides. In order to do this, first you need to ingest some data.
