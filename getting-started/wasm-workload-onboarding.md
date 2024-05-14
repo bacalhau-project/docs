@@ -33,7 +33,7 @@ You can specify additional or different output mounts using the `-o` flag.
 
 You will need to compile your program to WebAssembly that expects WASI. Check the instructions for your compiler to see how to do this.
 
-For example, Rust users can specify the `wasm32-wasi` target to `rustup` and `cargo` to get programs compiled for WASI WebAssembly. See [the Rust example](../setting-up/workload-onboarding/rust-wasm/index.md) for more information on this.
+For example, Rust users can specify the `wasm32-wasi` target to `rustup` and `cargo` to get programs compiled for WASI WebAssembly. See [the Rust example](../setting-up/workload-onboarding/index-3.md) for more information on this.
 
 ### Step 3: Upload the input data
 
@@ -41,7 +41,7 @@ Data is identified by its content identifier (CID) and can be accessed by anyone
 
 * [Copy data from a URL to public storage](../setting-up/data-ingestion/from-url.md)
 * [Pin Data to public storage](../setting-up/data-ingestion/pin.md)
-* [Copy Data from S3 Bucket to public storage](../setting-up/workload-onboarding/Reading-From-Multiple-S3-Buckets/index.md).
+* [Copy Data from S3 Bucket to public storage](../setting-up/workload-onboarding/index-2.md).
 
 {% hint style="info" %}
 You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
@@ -121,7 +121,7 @@ $ bacalhau wasm run prog.wasm -e HELLO=world
 
 ## Examples
 
-See [the Rust example](../setting-up/workload-onboarding/rust-wasm/index.md) for a workload that leverages WebAssembly support.
+See [the Rust example](../setting-up/workload-onboarding/index-3.md) for a workload that leverages WebAssembly support.
 
 ## Support
 

@@ -91,7 +91,7 @@ The publisher is responsible for uploading the final results of a job to a remot
 
 ### Job preparation
 
-You can create jobs in the Bacalhau network using various [job types](../setting-up/jobs/job-types.md) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](../setting-up/jobs/job-specification/index.md).
+You can create jobs in the Bacalhau network using various [job types](../setting-up/jobs/job-types.md) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](broken-reference).
 
 <details>
 

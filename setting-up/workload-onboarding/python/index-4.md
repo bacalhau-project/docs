@@ -8,7 +8,6 @@ This example demonstrates a simple Python script that is able to orchestrate the
 
 To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
 
-
 ## Executing Bacalhau Jobs with Python Scripts
 
 To demonstrate this example, I will use the data generated from an Ethereum example. This produced a list of hashes that I will iterate over and execute a job for each one.
@@ -157,12 +156,12 @@ if __name__ == "__main__":
 ```
 
 This code has a few interesting features:
+
 1. Change the value in the `main` call (`main("hashes.txt", 10)`) to change the number of jobs to execute.
 2. Because all jobs are complete at different times, there's a loop to check that all jobs have been completed before downloading the results. If you don't do this, you'll likely see an error when trying to download the results. The `while True` loop is used to monitor the status of jobs and wait for them to complete.
 3. When downloading the results, the IPFS get often times out, so I wrapped that in a loop. The `for i in range(0, 5)` loop in the `getResultsFromJob` function involves retrying the `bacalhau get` operation if it fails to complete successfully.
 
 Let's run it!
-
 
 ```bash
 %%bash
@@ -170,7 +169,6 @@ python bacalhau.py
 ```
 
 Hopefully, the `results` directory contains all the combined results from the jobs we just executed. Here's we're expecting to see CSV files:
-
 
 ```bash
 %%bash
@@ -189,8 +187,8 @@ Success! We've now executed a bunch of jobs in parallel using Python. This is a 
 
 You might also be interested in the following examples:
 
-[Analysing Data with Python Pandas](../python-pandas/index.md)
-
+[Analysing Data with Python Pandas](index-1.md)
 
 ## Support
+
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

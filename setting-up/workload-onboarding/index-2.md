@@ -1,13 +1,11 @@
 ---
-sidebar_label: "Reading-From-Multiple-S3-Buckets"
+sidebar_label: Reading-From-Multiple-S3-Buckets
 sidebar_position: 2
 ---
+
 # Reading Data from Multiple S3 Buckets using Bacalhau
 
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bacalhau-project/examples/blob/main/workload-onboarding/Reading-from-Multiple-S3-buckets/index.ipynb)
-[![Open In Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/bacalhau-project/examples/HEAD?labpath=workload-onboarding/Reading-from-Multiple-S3-buckets/index.ipynb)
-[![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bacalhau-project/examples/blob/main/workload-onboarding/Reading-from-Multiple-S3-buckets/index.ipynb) [![Open In Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/bacalhau-project/examples/HEAD?labpath=workload-onboarding/Reading-from-Multiple-S3-buckets/index.ipynb) [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
 ## Introduction
 
@@ -21,7 +19,6 @@ There are several advantages to converting images from TIFF to JPEG format:
 2. **Efficient Processing**: With smaller file sizes, image processing tasks tend to be more efficient and require less computational resources when working with JPEG images compared to TIFF images.
 3. **Training Machine Learning Models**: Smaller file sizes and reduced computational requirements make JPEG images more suitable for training machine learning models, particularly when dealing with large datasets, as they can help speed up the training process and reduce the need for extensive computational resources.
 
-
 ## Running the job on Bacalhau
 
 We will use the S3 mount feature to mount bucket objects from s3 buckets. Let’s have a look at the example below:
@@ -30,9 +27,9 @@ We will use the S3 mount feature to mount bucket objects from s3 buckets. Let’
 
 `sentinel-s1-rtc-indigo`: bucket’s name
 
-`tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/Gamma0_VH.tif`: represents the key of the object in that bucket. The object to be processed is called `Gamma0_VH.tif` and is located in the subdirectory with the specified path.
+`tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/Gamma0_VH.tif`: represents the key of the object in that bucket. The object to be processed is called `Gamma0_VH.tif` and is located in the subdirectory with the specified path.
 
-But if you want to specify the entire objects located in the path, you can simply add `*` to the end of the path (`tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/*`)
+But if you want to specify the entire objects located in the path, you can simply add `*` to the end of the path (`tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/*`)
 
 `dst=/sentinel-s1-rtc-indigo`: the destination to which to mount the s3 bucket object
 
@@ -40,8 +37,7 @@ But if you want to specify the entire objects located in the path, you can simpl
 
 ### Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
-
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
 ### TBD 1. Running the job on multiple buckets with multiple objects
 
@@ -69,7 +65,6 @@ The job has been submitted and Bacalhau has printed out the related `job_id`. We
 
 **Job status**: You can check the status of the job using `bacalhau list`.
 
-
 ```bash
 %%bash
 bacalhau list --id-filter=${JOB_ID} --no-style
@@ -79,7 +74,6 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
-
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
@@ -87,20 +81,17 @@ bacalhau describe ${JOB_ID}
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
-
 ```bash
 %%bash
 rm -rf results && mkdir results # Temporary directory to store the results
 bacalhau get ${JOB_ID} --output-dir results # Download the results
 ```
 
-
 ## 3. Viewing your Job Output
 
 ### Display the image
 
 To view the images, we will use **glob** to return all file paths that match a specific pattern.
-
 
 ```python
 import glob
@@ -132,24 +123,21 @@ for imageName in glob.glob('results/outputs/*.jpg'):
         display(img)
 
 ```
+
 The code processes and displays all images in the specified directory by applying cropping and resizing with a specified reduction factor.
 
-    results/outputs/S2-16D_V1_075086_20180218_B04_TCI.jpg
+```
+results/outputs/S2-16D_V1_075086_20180218_B04_TCI.jpg
+```
 
+![png](Reading-From-Multiple-S3-Buckets/index\_files/index\_19\_1.png)
 
+```
+results/outputs/B04_TCI.jpg
+```
 
-
-![png](index_files/index_19_1.png)
-
-
-
-    results/outputs/B04_TCI.jpg
-
-
-
-
-![png](index_files/index_19_3.png)
-
+![png](Reading-From-Multiple-S3-Buckets/index\_files/index\_19\_3.png)
 
 ## Support
+
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

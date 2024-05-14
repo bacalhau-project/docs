@@ -1,2 +1,0 @@
-# bacalhau-docker-image
-

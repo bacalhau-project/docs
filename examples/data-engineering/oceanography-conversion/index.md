@@ -223,7 +223,7 @@ Now you can push this repository to the registry designated by its name or tag.
 docker push <hub-user>/<repo-name>:<tag>
 ```
 
-:::tip For more information about working with custom containers, see the [custom containers example](../../../setting-up/workload-onboarding/custom-containers/). :::
+:::tip For more information about working with custom containers, see the [custom containers example](broken-reference). :::
 
 ## Running a Bacalhau Job
 

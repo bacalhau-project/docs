@@ -1,9 +1,9 @@
 ---
-sidebar_label: "R Custom Container"
+sidebar_label: R Custom Container
 sidebar_position: 8
 ---
-# Building and Running your Custom R Containers on Bacalhau
 
+# Building and Running your Custom R Containers on Bacalhau
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
@@ -11,8 +11,7 @@ sidebar_position: 8
 
 This example will walk you through building Time Series Forecasting using [Prophet](https://github.com/facebook/prophet). Prophet is a forecasting procedure implemented in R and Python. It is fast and provides completely automated forecasts that can be tuned by hand by data scientists and analysts.
 
-:::info
-Quick script to run custom R container on Bacalhau:
+:::info Quick script to run custom R container on Bacalhau:
 
 ```bash
 bacalhau docker run \
@@ -20,6 +19,7 @@ bacalhau docker run \
     ghcr.io/bacalhau-project/examples/r-prophet:0.0.2 \
     -- Rscript Saturating-Forecasts.R "/example_wp_log_R.csv" "/outputs/output0.pdf" "/outputs/output1.pdf"
 ```
+
 :::
 
 ## Prerequisites
@@ -30,15 +30,12 @@ To get started, you need to install the Bacalhau client, see more information [h
 
 Open R studio or R-supported IDE. If you want to run this on a notebook server, then make sure you use an R kernel. Prophet is a CRAN package, so you can use install.packages to install the prophet package:
 
-
 ```bash
 %%bash
 R -e "install.packages('prophet',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 ```
 
-
 After installation is finished, you can download the example data that is stored in IPFS:
-
 
 ```bash
 %%bash
@@ -46,7 +43,6 @@ wget https://w3s.link/ipfs/QmZiwZz7fXAvQANKYnt7ya838VPpj4agJt5EDvRYp3Deeo/exampl
 ```
 
 The code below instantiates the library and fits a model to the data.
-
 
 ```bash
 %%bash
@@ -107,14 +103,16 @@ pdf(O1)
 plot(m, fcst)
 dev.off()
 ```
+
 This script performs time series forecasting using the Prophet library in R, taking input data from a CSV file, applying the forecasting model, and generating plots for analysis.
 
-
 Let's have a look at the command below:
+
 ```bash
 %%bash
 Rscript Saturating-Forecasts.R "example_wp_log_R.csv" "outputs/output0.pdf" "outputs/output1.pdf"
 ```
+
 This command uses Rscript to execute the script that was created and written to the `Saturating-Forecasts.R` file.
 
 The input parameters provided in this case are the names of input and output files:
@@ -125,11 +123,9 @@ The input parameters provided in this case are the names of input and output fil
 
 `outputs/output1.pdf` - the name of the file to save the second forecast plot.
 
-
-
 ## 2. Running R Prophet on Bacalhau
 
-To use Bacalhau, you need to package your code in an appropriate format. The developers have already pushed a container for you to use, but if you want to build your own, you can follow the steps below. You can view a [dedicated container example](../custom-containers/index.md) in the documentation.
+To use Bacalhau, you need to package your code in an appropriate format. The developers have already pushed a container for you to use, but if you want to build your own, you can follow the steps below. You can view a [dedicated container example](../index-5.md) in the documentation.
 
 ## 3. Containerize Script with Docker
 
@@ -146,7 +142,6 @@ WORKDIR /R
 ```
 
 These commands specify how the image will be built, and what extra requirements will be included. We use `r-base` as the base image and then install the `prophet` package. We then copy the `Saturating-Forecasts.R` script into the container and set the working directory to the `R` folder.
-
 
 ### Build the container
 
@@ -188,7 +183,6 @@ docker push ghcr.io/bacalhau-project/examples/r-prophet:0.0.1
 
 The following command passes a prompt to the model and generates the results in the outputs directory. It takes approximately 2 minutes to run.
 
-
 ```bash
 %%bash --out job_id
 bacalhau docker run \
@@ -207,7 +201,7 @@ bacalhau docker run \
 
 `ghcr.io/bacalhau-project/examples/r-prophet:0.0.2`: the name and the tag of the docker image we are using
 
-`/example_wp_log_R.csv `: path to the input dataset
+`/example_wp_log_R.csv` : path to the input dataset
 
 `/outputs/output0.pdf`, `/outputs/output1.pdf`: paths to the output
 
@@ -223,7 +217,6 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 
 **Job status**: You can check the status of the job using `bacalhau list`.
 
-
 ```bash
 %%bash
 bacalhau list --id-filter ${JOB_ID}
@@ -233,14 +226,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
-
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
-
 
 ```bash
 %%bash
@@ -251,7 +242,6 @@ bacalhau get ${JOB_ID} --output-dir results
 ## 6. Viewing your Job Output
 
 To view the file, run the following command:
-
 
 ```bash
 %%bash
@@ -264,11 +254,10 @@ You can't natively display PDFs in notebooks, so here are some static images of 
 
 ![](output0.png)
 
-
 **output1.pdf**
 
 ![](output1.png)
 
-
 ## Support
+
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

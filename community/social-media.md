@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
-sidebar_label: "Social Media"
-description: "Find Bacalhau on your favorite social media platform"
+sidebar_label: Social Media
+description: Find Bacalhau on your favorite social media platform
 ---
 
 # Social Media
@@ -28,4 +28,4 @@ If have questions or need support or guidance, please reach out to the [Bacalhau
 
 ## Contributing
 
-If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](/docs/community/ways-to-contribute.md).
+If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](ways-to-contribute.md).

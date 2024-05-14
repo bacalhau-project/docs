@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'Quick Start'
+sidebar_label: Quick Start
 sidebar_position: 100
 toc_max_heading_level: 4
 ---
@@ -10,26 +10,22 @@ Bacalhau is a peer-to-peer network of computing providers that will run jobs sub
 
 This section will show you how to configure and run a Bacalhau node and start accepting and running jobs.
 
-To bootstrap your node and join the network as a CP you can leap right into the [Ubuntu 22.04 quick start](#quick-start-ubuntu-2204) below, or find more setup details in these guides:
+To bootstrap your node and join the network as a CP you can leap right into the [Ubuntu 22.04 quick start](quick-start.md#quick-start-ubuntu-2204) below, or find more setup details in these guides:
 
-* [Networking](https://docs.bacalhau.org/running-node/networking)
-* [Storage Providers](https://docs.bacalhau.org/running-node/storage-providers)
-* [Job Selection Policy](https://docs.bacalhau.org/running-node/job-selection)
-* [Resource Limits](https://docs.bacalhau.org/running-node/resource-limits)
-* [GPU Support](https://docs.bacalhau.org/running-node/gpu)
-* [Windows Support](https://docs.bacalhau.org/running-node/windows-support) (with limitations)
+* [Networking](../networking-instructions/)
+* [Storage Providers](storage-providers.md)
+* [Job Selection Policy](job-selection.md)
+* [Resource Limits](resource-limits.md)
+* [GPU Support](gpu.md)
+* [Windows Support (with limitations)](windows-support.md)
 
-:::info
-
-If you run on a different system than Ubuntu, drop us a message on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY)!
-We'll add instructions for your favorite OS.
-
-:::
+{% hint style="info" %}
+If you run on a different system than Ubuntu, drop us a message on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY)! We'll add instructions for your favorite OS.
+{% endhint %}
 
 ## Quick start (Ubuntu 22.04)
 
-Estimated time for completion: 10 min.
-Tested on: Ubuntu 22.04 LTS (x86/64) running on a GCP e2-standard-4 (4 vCPU, 16 GB memory) instance with 40 GB disk size.
+Estimated time for completion: 10 min. Tested on: Ubuntu 22.04 LTS (x86/64) running on a GCP e2-standard-4 (4 vCPU, 16 GB memory) instance with 40 GB disk size.
 
 ### Prerequisites
 
@@ -71,7 +67,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
-Now make [Docker manageable by a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#:~:text=The%20Docker%20daemon%20always%20runs,members%20of%20the%20docker%20group):
+Now make [Docker manageable by a non-root user](https://docs.docker.com/engine/install/linux-postinstall/):
 
 ```bash
 sudo groupadd docker
@@ -90,11 +86,11 @@ In both cases - we should have a [multiaddress](https://richardschneider.github.
 export IPFS_CONNECT=/ip4/10.1.10.10/tcp/80/p2p/QmVcSqVEsvm5RR9mBLjwpb2XjFVn5bPdPL69mL8PH45pPC
 ```
 
-:::caution
 
+
+{% hint style="warning" %}
 The multiaddress above is just an example - you need to get the multiaddress of the server you want to connect to.
-
-:::
+{% endhint %}
 
 To install a single IPFS node locally on Ubuntu you can follow the [official instructions](https://docs.ipfs.tech/install/ipfs-desktop/#ubuntu), or follow the steps below. We advise running the same IPFS version as the Bacalhau main network.
 
@@ -129,11 +125,9 @@ Now launch the IPFS daemon **in a separate terminal** (make sure to export the `
 ipfs daemon
 ```
 
-:::info
-
-If you want to run the IPFS daemon as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote_files/configs/ipfs.service).
-
-:::
+{% hint style="info" %}
+If you want to run the IPFS daemon as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote\_files/configs/ipfs.service).
+{% endhint %}
 
 Don't forget we need to fetch an [IPFS multiaddress](https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html) pointing to our local node.
 
@@ -181,13 +175,11 @@ Firewall configuration is very specific to your network and we can't provide gen
 
 ### Install the Bacalhau Binary
 
-[Install the bacalhau binary](/getting-started/installation.md#install-the-bacalhau-cli) to run `bacalhau serve`.
+[Install the bacalhau binary](../../getting-started/installation.md#install-the-bacalhau-cli) to run `bacalhau serve`.
 
-:::info
-
-If you want to run Bacalhau as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote_files/configs/bacalhau.service).
-
-:::
+{% hint style="info" %}
+If you want to run Bacalhau as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote\_files/configs/bacalhau.service).
+{% endhint %}
 
 ### Run bacalhau
 
@@ -231,5 +223,4 @@ If you see logs of your compute node bidding for the job above it means you've s
 
 ### What's next?
 
-At this point, you probably have a number of questions for us. What incentive should you expect for running a public Bacalhau node?
-Please contact us on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY) to further discuss this topic and for sharing your valuable feedback.
+At this point, you probably have a number of questions for us. What incentive should you expect for running a public Bacalhau node? Please contact us on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY) to further discuss this topic and for sharing your valuable feedback.

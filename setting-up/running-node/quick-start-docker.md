@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'Quick Start Using Docker'
+sidebar_label: Quick Start Using Docker
 sidebar_position: 101
 ---
 
@@ -9,9 +9,9 @@ Good news everyone! You can now run your Bacalhau-IPFS stack in Docker.
 
 This page describes several ways in which to operate Bacalhau. You can choose the method that best suits your needs. The methods are:
 
-* [Connect to and Contribute Resources to the Public Bacalhau Network](#connect-to-the-public-bacalhau-network-using-docker)
-* [Run a Private Insecure Local Network for Testing And Development](#run-a-private-bacalhau-network-using-docker-insecure)
-* [Run a Private Secure Cluster](#run-a-private-bacalhau-network-using-docker-secure)
+* [Connect to and Contribute Resources to the Public Bacalhau Network](quick-start-docker.md#connect-to-the-public-bacalhau-network-using-docker)
+* [Run a Private Insecure Local Network for Testing And Development](quick-start-docker.md#run-a-private-bacalhau-network-using-docker-insecure)
+* [Run a Private Secure Cluster](quick-start-docker.md#run-a-private-bacalhau-network-using-docker-secure)
 
 ### Pre-Prerequisites
 
@@ -31,7 +31,7 @@ This is not appropriate for:
 
 ### Prerequisites
 
-* [Create a new Docker network](#create-a-new-docker-network)
+* [Create a new Docker network](quick-start-docker.md#create-a-new-docker-network)
 
 ### (Optional) Start a Public IPFS Node
 
@@ -57,7 +57,7 @@ docker run \
     ipfs/kubo:latest
 ```
 
-You can now [test that the IPFS node is working](#test-that-the-ipfs-node-is-working).
+You can now [test that the IPFS node is working](quick-start-docker.md#test-that-the-ipfs-node-is-working).
 
 ### Start a Public Bacalhau Node
 
@@ -138,15 +138,13 @@ bacalhau docker run --input=http://example.org/index.html --selector owner=docs-
 
 If instead, your job fails with the following error, it means that the compute node is not connected to the network:
 
-```text
+```
 Error: failed to submit job: publicapi: after posting request: error starting job: not enough nodes to run job. requested: 1, available: 0
 ```
 
 ## Run a Private Bacalhau Network Using Docker (Insecure)
 
-:::warning
-This method is insecure. It does not lock down the IPFS node. Anyone connected to your network can access the IPFS node and read/write data. This is not recommended for production use.
-:::
+:::warning This method is insecure. It does not lock down the IPFS node. Anyone connected to your network can access the IPFS node and read/write data. This is not recommended for production use. :::
 
 This method is appropriate for:
 
@@ -162,7 +160,7 @@ This method is not appropriate for:
 
 ### Prerequisites
 
-* [Create a new Docker network](#create-a-new-docker-network)
+* [Create a new Docker network](quick-start-docker.md#create-a-new-docker-network)
 
 ### Start a Local IPFS Node (Insecure)
 
@@ -190,7 +188,7 @@ docker run \
     ipfs/kubo:latest
 ```
 
-You can now [test that the IPFS node is working](#test-that-the-ipfs-node-is-working).
+You can now [test that the IPFS node is working](quick-start-docker.md#test-that-the-ipfs-node-is-working).
 
 ### Start a Private Bacalhau Node
 
@@ -221,7 +219,7 @@ docker run \
         --node-type requester,compute
 ```
 
-You can now [test that Bacalhau is working](#test-that-the-bacalhau-node-is-working).
+You can now [test that Bacalhau is working](quick-start-docker.md#test-that-the-bacalhau-node-is-working).
 
 ### Run a Job on the Private Network
 
@@ -275,13 +273,13 @@ You need two things. A private IPFS node to store data and a Bacalhau node to ex
 
 ### Prerequisites
 
-* [Create a new Docker network](#create-a-new-docker-network)
+* [Create a new Docker network](quick-start-docker.md#create-a-new-docker-network)
 
 ### Start a Private IPFS Node (Secure)
 
-:::warning
+{% hint style="danger" %}
 Private IPFS nodes are experimental. [See the IPFS documentation](https://github.com/ipfs/kubo/blob/master/docs/experimental-features.md#private-networks) for more information.
-:::
+{% endhint %}
 
 First, you need to bootstrap a new IPFS cluster for your own private use. This consists of a process of generating a swarm key, removing any bootstrap nodes, and then starting the IPFS node.
 
@@ -313,16 +311,15 @@ docker run \
 
 ### Start a Private Bacalhau Node (Secure)
 
-The instructions to run a secure private Bacalhau network are the same as the insecure version, [please follow those instructions](#start-a-private-bacalhau-node-secure).
+The instructions to run a secure private Bacalhau network are the same as the insecure version, [please follow those instructions](quick-start-docker.md#start-a-private-bacalhau-node-secure).
 
 ### Run a Job on the Private Network (Secure)
 
-The instructions to run a job are the same as the insecure version, [please follow those instructions](#run-a-job-on-the-private-network).
+The instructions to run a job are the same as the insecure version, [please follow those instructions](quick-start-docker.md#run-a-job-on-the-private-network).
 
 ### Retrieve the Results on the Private Network (Secure)
 
-The same process as above can be used to retrieve results from the IPFS node as long as the Bacalhau `get` command
-has access to the IPFS swarm key.
+The same process as above can be used to retrieve results from the IPFS node as long as the Bacalhau `get` command has access to the IPFS swarm key.
 
 Running the Bacalhau binary from outside of Docker:
 
@@ -351,8 +348,7 @@ Without this, inter-container DNS will not work, and internet access may not wor
 docker network create --driver bridge bacalhau-network
 ```
 
-:::tip
-
+{% hint style="info" %}
 Double check that this network can access the internet (so Bacalhau can call external URLs).
 
 ```bash
@@ -360,8 +356,7 @@ docker run --rm --network bacalhau-network alpine ping -c 2 bacalhau.org
 ```
 
 This should be successful. If it is not, then please troubleshoot your docker networking. For example, on my Mac, I had to totally uninstall Docker, restart the computer, and then reinstall Docker. Then it worked. Also check https://docs.docker.com/desktop/troubleshoot/known-issues/. Apparently "ping from inside a container to the Internet does not work as expected.". No idea what that means. How do you break ping?
-
-:::
+{% endhint %}
 
 ### Test that the IPFS Node is Working
 
@@ -369,9 +364,9 @@ You can now browse the IPFS web UI at http://127.0.0.1:5001/webui.
 
 Read more about the IPFS docker image [here](https://docs.ipfs.tech/install/run-ipfs-inside-docker/#set-up).
 
-:::warning
+{% hint style="danger" %}
 As described in [their documentation](https://docs.ipfs.tech/reference/kubo/rpc/#getting-started), never expose the RPC API port (port 5001) to the public internet.
-:::
+{% endhint %}
 
 ### Test that the Bacalhau Node is Working
 
@@ -399,17 +394,13 @@ It should return empty.
 
 ### Authenticate with docker hub
 
-If you are retrieving and running images from [docker hub](https://hub.docker.com/) you
-may encounter issues with rate-limiting. Docker provides higher limits when authenticated, the size of the limit is based on the type of your account.
+If you are retrieving and running images from [docker hub](https://hub.docker.com/) you may encounter issues with rate-limiting. Docker provides higher limits when authenticated, the size of the limit is based on the type of your account.
 
-Should you wish to authenticate with Docker Hub when pulling images, you can do so
-by specifying credentials as environment variables wherever your compute node is running.
+Should you wish to authenticate with Docker Hub when pulling images, you can do so by specifying credentials as environment variables wherever your compute node is running.
 
-|Environment variable|Description|
-|---|---|
-|DOCKER_USERNAME|The username with which you are registered at [https://hub.docker.com/](https://hub.docker.com/)|
-|DOCKER_PASSWORD|A read-only access token, generated from the page at [https://hub.docker.com/settings/security](https://hub.docker.com/settings/security)> |
+| Environment variable | Description                                                                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| DOCKER\_USERNAME     | The username with which you are registered at [https://hub.docker.com/](https://hub.docker.com/)                                           |
+| DOCKER\_PASSWORD     | A read-only access token, generated from the page at [https://hub.docker.com/settings/security](https://hub.docker.com/settings/security)> |
 
-:::info
-Currently, this authentication is only available (and required) by the [Docker Hub](https://hub.docker.com/)
-:::
+:::info Currently, this authentication is only available (and required) by the [Docker Hub](https://hub.docker.com/) :::

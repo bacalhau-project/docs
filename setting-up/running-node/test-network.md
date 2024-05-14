@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'Test Network Locally'
+sidebar_label: Test Network Locally
 sidebar_position: 155
 ---
 
@@ -14,11 +14,9 @@ export PREDICTABLE_API_PORT=1
 bacalhau devstack
 ```
 
-:::tip
-
+{% hint style="info" %}
 By settings `PREDICTABLE_API_PORT=1` , the first node of our 3 node cluster will always listen on port **20000**
-
-:::
+{% endhint %}
 
 In another window, export the following environment variables so that the Bacalhau client binary connects to our local development cluster:
 
