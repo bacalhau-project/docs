@@ -1,7 +1,9 @@
 ---
-sidebar_label: 'Style Guide'
+sidebar_label: Style Guide
 sidebar_position: 1
-description: 'This guide explains things to keep in mind when writing for Bacalhau’s documentation.'
+description: >-
+  This guide explains things to keep in mind when writing for Bacalhau’s
+  documentation.
 ---
 
 # Style Guide
@@ -18,12 +20,12 @@ Our goal is to use conversational tone that is natural, and friendly towards the
 
 As we write for a large global audience, we aim for a universally accessible voice.
 
-- Maintain a friendly, informal tone, but focus on being clear and concise in a knowledgeable manner.
-- Avoid the use of slangs and colloquial language.
-- Avoid offensive language in all forms, and toward all identities and cultures.
-- Write in the second person (e.g. **You can…**), present tense to guide the reader to their intended outcome.
-- When writing consider that many users are not native English speakers.
-- Use languages that encourages readers and walk them through the steps to achieve the outcome they’re looking for.
+* Maintain a friendly, informal tone, but focus on being clear and concise in a knowledgeable manner.
+* Avoid the use of slangs and colloquial language.
+* Avoid offensive language in all forms, and toward all identities and cultures.
+* Write in the second person (e.g. **You can…**), present tense to guide the reader to their intended outcome.
+* When writing consider that many users are not native English speakers.
+* Use languages that encourages readers and walk them through the steps to achieve the outcome they’re looking for.
 
 The goal is for readers to leave with a feeling of accomplishment and satisfaction while gaining information efficiently and solving their problems in a way that helps them thrive with Bacalhau.
 
@@ -31,12 +33,12 @@ The goal is for readers to leave with a feeling of accomplishment and satisfacti
 
 Our documentation should reflect our purpose, giving the appropriate amount of technical detail and clarity needed in a way that is palatable to all audiences. As best as we can, our documentation should reflect industry-standard practices and inspire trust in our voice and project. To do this,
 
-- Ensure that your word choice does not reflect an assumption of the reader’s knowledge level (e.g, using _easy_, _simple_, _quick_, etc) or exclude the detailed explanations or background needed to be successful.
-- Provide the commands needed to be successful with explanations of the ‘why’ behind the command is preferred when appropriate, with the goal of the reader both gaining their expected outcome and learning in the process.
-- To ensure clarity, start by briefly specifying the context of the current topic.
-- Share abbreviations and acronyms with at least one reference to its full name or title on the page to inspire deeper learning into Compute.
-- In non CLI-based references, capitalize **Bacalhau**, **Docker**, **Compute** and other program/project names.
-- Test each code snippet and example, walking through each step to ensure accuracy as it's written.
+* Ensure that your word choice does not reflect an assumption of the reader’s knowledge level (e.g, using _easy_, _simple_, _quick_, etc) or exclude the detailed explanations or background needed to be successful.
+* Provide the commands needed to be successful with explanations of the ‘why’ behind the command is preferred when appropriate, with the goal of the reader both gaining their expected outcome and learning in the process.
+* To ensure clarity, start by briefly specifying the context of the current topic.
+* Share abbreviations and acronyms with at least one reference to its full name or title on the page to inspire deeper learning into Compute.
+* In non CLI-based references, capitalize **Bacalhau**, **Docker**, **Compute** and other program/project names.
+* Test each code snippet and example, walking through each step to ensure accuracy as it's written.
 
 With these guidelines, we can provide a comprehensive set of documentation that is clear, actionable, and helpful.
 
@@ -80,8 +82,7 @@ In this way, readers can learn and hop to pertinent information as they need eff
 
 ## Formatting
 
-Our documentation is written in [Markdown markup language](https://www.markdownguide.org/basic-syntax/).The following rules explain how we organize and structure our writing.
-.
+Our documentation is written in [Markdown markup language](https://www.markdownguide.org/basic-syntax/).The following rules explain how we organize and structure our writing. .
 
 ### Titles
 
@@ -110,7 +111,7 @@ Contributing (H2)
 
 ### Meta Description
 
-All pages in the document should have a **front-matter**  description which briefly summarizes the contents of a webpage.
+All pages in the document should have a **front-matter** description which briefly summarizes the contents of a webpage.
 
 ```markdown
 ---
@@ -120,12 +121,12 @@ description: This shows up in the search results, underneath the title tag.
 
 ### Code Blocks
 
-Use a triple backtick (```) at the start and end of a code block. It should be used for:
+Use a triple backtick (\`\`\`) at the start and end of a code block. It should be used for:
 
-- Commands the reader needs to execute to complete the tutorial
-- Files and scripts
-- Terminal output
-- Interactive dialogues that are in text
+* Commands the reader needs to execute to complete the tutorial
+* Files and scripts
+* Terminal output
+* Interactive dialogues that are in text
 
 ```bash
 bacalhau docker run ubuntu echo Hello World
@@ -135,45 +136,44 @@ Do not include the command prompt ($ or #) in the code block
 
 ### Inline Code Blocks
 
-Use a single backtick (`) at the start and end of a code block. It should be used for:
+Use a single backtick (\`) at the start and end of a code block. It should be used for:
 
-- Command names, like `bacalhau docker run`
-- File names and paths, like `/inputs `
-- Example URLs, like `http://your_domain`
-- Command flag like `--gpu`
+* Command names, like `bacalhau docker run`
+* File names and paths, like `/inputs`
+* Example URLs, like `http://your_domain`
+* Command flag like `--gpu`
 
 ### Callout Blocks
 
 The callout blocks include:
 
-- **info**: Use to add some supplementary information to a section or point that could benefit from some highlighting to draw the reader’s attention.
-
-- **tip**: Use to add some guidance on how to carry out a step.
-
-- **caution**: Use to make the reader aware they need to be careful when acting on some advice.
-
-- **warning**: Use to indicate that there are dangers or consequences associated with some information or steps.
+* **info**: Use to add some supplementary information to a section or point that could benefit from some highlighting to draw the reader’s attention.
+* **success**: Use to add some guidance on how to carry out a step and show achievements.
+* **warning**: Use to make the reader aware they need to be careful when acting on some advice.
+* **danger**: Use to indicate that there are dangers or consequences associated with some information or steps.
 
 Here’s a Markdown example of a **tip** callout block.
 
 ```markdown
-:::tip
-Here is an example
-:::
+{% raw %}
+{% hint style="info" %}
+**Info hints** are great for showing general information, or providing tips and tricks.
+{% endhint %}
+{% endraw %}
 ```
 
 It will render as
 
-:::tip
-Here is an example
-:::
+{% hint style="info" %}
+**Info hints** are great for showing general information, or providing tips and tricks.
+{% endhint %}
 
 ### Bold and Italics
 
 Bold text should be used for:
 
-- list item
-- Emphasis on words, project names etc
+* list item
+* Emphasis on words, project names etc
 
 Italics should be used in inline list. For example (e.g, _easy_, _simple_, _quick_, etc)
 
@@ -183,4 +183,4 @@ If have questions or need support or guidance, please reach out to the [Bacalhau
 
 ## Contributing
 
-If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](/docs/community/ways-to-contribute.md).
+If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](../docs/community/ways-to-contribute.md).
