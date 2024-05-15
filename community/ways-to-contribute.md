@@ -1,16 +1,16 @@
 ---
-sidebar_label: 'Ways to Contribute'
+sidebar_label: Ways to Contribute
 sidebar_position: 2
-description: 'How to contribute to Bacalhau'
+description: How to contribute to Bacalhau
 ---
 
 # Ways to Contribute
 
 If you want to contribute to Bacalhau and the Compute ecosystem, we have provided a quick listing of things we need help with and how you can get started.
 
-:::info
-We welcome your contributions ❤️. If what you want to do is not listed here or you need more guidance, do reach out to us on [Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)
-:::
+{% hint style="info" %}
+We welcome your contributions ❤️. If what you want to do is not listed here or you need more guidance, do reach out to us on [Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)&#x20;
+{% endhint %}
 
 ## Code
 
@@ -25,7 +25,6 @@ Before contributing to the Bacalhau docs, please read through our Style guide an
 ## Community
 
 For questions, give feedback or answer questions that will help other user product please use [GitHub Discussions](https://github.com/bacalhau-project/bacalhau/discussions).
-
 
 ### Build with Bacalhau
 
