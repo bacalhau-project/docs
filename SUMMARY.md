@@ -81,7 +81,7 @@
 ## Examples
 
 * [Case Studies](examples/case-studies/README.md)
-  * [duckdb-log-processing](examples/case-studies/duckdb-log-processing/index.md)
+  * [DuckDB for Log Processing](examples/case-studies/duckdb-log-processing/index.md)
 * [Data Engineering](examples/data-engineering/README.md)
   * [Using Bacalhau with DuckDB](examples/data-engineering/index.md)
   * [Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau](examples/data-engineering/blockchain-etl/index.md)
