@@ -13,7 +13,7 @@ Bacalhau executes jobs by running them within containers. Bacalhau employs a syn
 This section describes how to migrate a workload based on a Docker container into a format that will work with the Bacalhau client.
 
 {% hint style="info" %}
-You can check out this example tutorial on [how to work with custom containers in Bacalhau](../setting-up/workload-onboarding/index-5.md) to see how we used all these steps together.
+You can check out this example tutorial on [how to work with custom containers in Bacalhau](../setting-up/workload-onboarding/container/index-1.md) to see how we used all these steps together.
 {% endhint %}
 
 ### Requirements

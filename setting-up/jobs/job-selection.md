@@ -1,21 +1,19 @@
 ---
-sidebar_label: 'Job Selection Policy'
+sidebar_label: Job Selection Policy
 sidebar_position: 2
 ---
 
 # Job selection policy
 
-When running a node, you can choose which jobs you want to run by using
-configuration options, environment variables or flags to specify a job selection
-policy.
+When running a node, you can choose which jobs you want to run by using configuration options, environment variables or flags to specify a job selection policy.
 
-| Config property | `serve` flag | Default value | Meaning |
-|---|---|---|---|
-| Node.Compute.JobSelection.Locality | `--job-selection-data-locality` | Anywhere | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere"). |
-| Node.Compute.JobSelection.ProbeExec | `--job-selection-probe-exec` | unused | Use the result of an external program to decide if we should take on the job. |
-| Node.Compute.JobSelection.ProbeHttp | `--job-selection-probe-http` | unused | Use the result of a HTTP POST to decide if we should take on the job. |
-| Node.Compute.JobSelection.RejectStatelessJobs | `--job-selection-reject-stateless` | False | Reject jobs that don't specify any [input data](../data-ingestion/index.md). |
-| Node.Compute.JobSelection.AcceptNetworkedJobs | `--job-selection-accept-networked` | False | Accept jobs that require [network connections](../networking-instructions/networking.md). |
+| Config property                               | `serve` flag                       | Default value | Meaning                                                                                   |
+| --------------------------------------------- | ---------------------------------- | ------------- | ----------------------------------------------------------------------------------------- |
+| Node.Compute.JobSelection.Locality            | `--job-selection-data-locality`    | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").  |
+| Node.Compute.JobSelection.ProbeExec           | `--job-selection-probe-exec`       | unused        | Use the result of an external program to decide if we should take on the job.             |
+| Node.Compute.JobSelection.ProbeHttp           | `--job-selection-probe-http`       | unused        | Use the result of a HTTP POST to decide if we should take on the job.                     |
+| Node.Compute.JobSelection.RejectStatelessJobs | `--job-selection-reject-stateless` | False         | Reject jobs that [don't specify any input data](../data-ingestion/).                      |
+| Node.Compute.JobSelection.AcceptNetworkedJobs | `--job-selection-accept-networked` | False         | Accept jobs that require [network connections](../networking-instructions/networking.md). |
 
 setting-up/networking-instructions/networking.md
 
@@ -47,12 +45,9 @@ These are external programs that are passed the following data structure so that
 
 The `exec` probe is a script to run that will be given the job data on `stdin`, and must exit with status code 0 if the job should be run.
 
-The `http` probe is a URL to POST the job data to. The job will be rejected if
-the HTTP request returns a non-positive status code (e.g. >= 400).
+The `http` probe is a URL to POST the job data to. The job will be rejected if the HTTP request returns a non-positive status code (e.g. >= 400).
 
-If the HTTP response is a JSON blob, it should match the [following
-schema](https://github.com/bacalhau-project/bacalhau/blob/885d53e93b01fb343294d7ddbdbffe89918db800/pkg/bidstrategy/type.go#L18-L22)
-and will be used to respond to the bid directly:
+If the HTTP response is a JSON blob, it should match the [following schema](https://github.com/bacalhau-project/bacalhau/blob/885d53e93b01fb343294d7ddbdbffe89918db800/pkg/bidstrategy/type.go#L18-L22) and will be used to respond to the bid directly:
 
 ```json
 {

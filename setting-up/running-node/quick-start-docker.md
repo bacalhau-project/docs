@@ -144,7 +144,9 @@ Error: failed to submit job: publicapi: after posting request: error starting jo
 
 ## Run a Private Bacalhau Network Using Docker (Insecure)
 
-:::warning This method is insecure. It does not lock down the IPFS node. Anyone connected to your network can access the IPFS node and read/write data. This is not recommended for production use. :::
+{% hint style="danger" %}
+This method is insecure. It does not lock down the IPFS node. Anyone connected to your network can access the IPFS node and read/write data. This is not recommended for production use.
+{% endhint %}
 
 This method is appropriate for:
 
@@ -403,4 +405,6 @@ Should you wish to authenticate with Docker Hub when pulling images, you can do 
 | DOCKER\_USERNAME     | The username with which you are registered at [https://hub.docker.com/](https://hub.docker.com/)                                           |
 | DOCKER\_PASSWORD     | A read-only access token, generated from the page at [https://hub.docker.com/settings/security](https://hub.docker.com/settings/security)> |
 
-:::info Currently, this authentication is only available (and required) by the [Docker Hub](https://hub.docker.com/) :::
+{% hint style="info" %}
+&#x20;Currently, this authentication is only available (and required) by the [Docker Hub](https://hub.docker.com/)&#x20;
+{% endhint %}
