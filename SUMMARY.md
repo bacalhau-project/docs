@@ -84,7 +84,7 @@
   * [DuckDB for Log Processing](examples/case-studies/duckdb-log-processing/index.md)
 * [Data Engineering](examples/data-engineering/README.md)
   * [Using Bacalhau with DuckDB](examples/data-engineering/index.md)
-  * [Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau](examples/data-engineering/blockchain-etl/index.md)
+  * [Blockchain Analysis](examples/data-engineering/blockchain-etl/index.md)
   * [Convert CSV To Parquet Or Avro](examples/data-engineering/csv-to-avro-or-parquet/index.md)
   * [Simple Image Processing](examples/data-engineering/image-processing/index.md)
   * [Oceanography - Data Conversion](examples/data-engineering/oceanography-conversion/index.md)

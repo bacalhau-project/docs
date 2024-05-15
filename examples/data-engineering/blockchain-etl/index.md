@@ -1,4 +1,8 @@
-# Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau
+---
+description: Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau
+---
+
+# Blockchain Analysis
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
