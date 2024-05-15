@@ -108,7 +108,7 @@
   * [Running BIDS Apps on Bacalhau](examples/molecular-dynamics/index-1.md)
   * [Coresets On Bacalhau](examples/molecular-dynamics/index-2.md)
   * [Genomics](examples/molecular-dynamics/index-3.md)
-  * [Gromacs](examples/molecular-dynamics/index-4.md)
+  * [Gromacs for Analysis](examples/molecular-dynamics/index-4.md)
   * [Molecular Simulation with OpenMM and Bacalhau](examples/molecular-dynamics/index-5.md)
 
 ## References
