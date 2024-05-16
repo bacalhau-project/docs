@@ -20,7 +20,7 @@ jobs:
           curl -sL https://get.bacalhau.org/install.sh | bash
 
       - name: Run script to test docs
-        run: bash test/test-docs.sh
+        run: bash test/docs_test.sh
 
       - name: Commit and push changes
         run: |
