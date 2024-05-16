@@ -1,10 +1,10 @@
-name: Update MD Files
+name: Run Documentation tests
 
 on:
-  push:
-    branches:
-      - main
-      - docs-test
+  release:
+    types: [created]
+  repository_dispatch:
+    types: [new-version-release]
 
 jobs:
   update-md-files:
