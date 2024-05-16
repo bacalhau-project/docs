@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCS_PATH="../setting-up/workload-onboarding"
+DOCS_PATH="setting-up/workload-onboarding"
 YAML_FILES=($(find "$DOCS_PATH" -name "*.yaml"))
 
 # Prepare commands.txt with the needed commands
