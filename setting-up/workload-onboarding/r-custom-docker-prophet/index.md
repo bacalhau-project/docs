@@ -262,4 +262,4 @@ You can't natively display PDFs in notebooks, so here are some static images of 
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
 
-![Static Badge](https://img.shields.io/badge/Test-Fail-red)
+![Static Badge](https://img.shields.io/badge/Test-Pass-green)
