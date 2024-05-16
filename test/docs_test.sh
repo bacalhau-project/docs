@@ -42,16 +42,17 @@ while IFS= read -r line; do
 done <<< "$output"
 
 json_output+="]"  # End the JSON array
-
-results="$json_output"
-
 echo "$json_output"
+results="$json_output"
 
 # Loop through each job in the JSON output
 echo "$results" | jq -c '.[]' | while IFS= read -r item; do
     job_status=$(echo "$item" | jq -r '.status')
     exit_code=$(echo "$item" | jq -r '.exit_code')
     md_path=$(echo "$item" | jq -r '.md_path')
+
+    echo "Processing $md_path"  # Debug: show which file is being processed
+
     # Determine badge color and label based on status
     if [[ "$job_status" == "Completed" ]] && [[ "$exit_code" == "0" ]]; then
         badge_color="green"
@@ -66,9 +67,10 @@ echo "$results" | jq -c '.[]' | while IFS= read -r item; do
 
     # Check if the markdown file exists
     if [ -f "$md_path" ]; then
+        echo "Found $md_path"  # Debug: confirm the file exists
+
         # Use sed to replace the existing badge URL
-        # This regex matches the part of the URL up to the "Test-" label, followed by any text up to the last hyphen, which is presumed to be the color
-        sed -i '' -E "s|(https://img.shields.io/badge/Test-[^-]+-[^-]+)([^)]*\))|$badge_url\2|" "$md_path"
+        sed -i -E "s|(https://img.shields.io/badge/Test-[^-]+-[^-]+)([^)]*\))|$badge_url\2|" "$md_path"
     else
         echo "Markdown file does not exist: $md_path"
     fi
