@@ -45,6 +45,7 @@ json_output+="]"  # End the JSON array
 
 results="$json_output"
 
+echo "$json_output"
 
 # Loop through each job in the JSON output
 echo "$results" | jq -c '.[]' | while IFS= read -r item; do
