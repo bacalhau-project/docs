@@ -14,7 +14,7 @@ In this tutorial, you'll learn how to install and run a job with the Bacalhau cl
 The Bacalhau client is a command-line interface (CLI) that allows you to submit jobs to the Bacalhau. The client is available for Linux, macOS, and Windows. You can also run the Bacalhau client in a Docker container.
 
 {% hint style="info" %}
-By default, you will submit to the Bacalhau public network, but the same CLI can be configured to submit to a private Bacalhau network. For more information, please read Running [Bacalhau on a Private Network](../setting-up/networking-instructions/private-cluster/).
+By default, you will submit to the Bacalhau public network, but the same CLI can be configured to submit to a private Bacalhau network. For more information, please read Running [Bacalhau on a Private Network](../setting-up/running-node/).
 {% endhint %}
 
 #### Step 1.1 - Install the Bacalhau CLI
@@ -38,7 +38,7 @@ docker image rm -f ghcr.io/bacalhau-project/bacalhau:latest # Remove old image i
 docker pull ghcr.io/bacalhau-project/bacalhau:latest
 ```
 
-To run a specific version of Bacalhau using Docker, use the command docker run -it ghcr.io/bacalhau-project/bacalhau:v1.0.3, where "v1.0.3" is the version you want to run; note that the "latest" tag will not re-download the image if you have an older version. For more information on running the Docker image, check out the Bacalhau docker image example.
+To run a specific version of Bacalhau using Docker, use the command `docker run -it ghcr.io/bacalhau-project/bacalhau:v1.0.3`, where `v1.0.3` is the version you want to run; note that the `latest` tag will not re-download the image if you have an older version. For more information on running the Docker image, check out the Bacalhau docker image example.
 {% endtab %}
 {% endtabs %}
 
@@ -60,7 +60,7 @@ docker run -it ghcr.io/bacalhau-project/bacalhau:latest version
 {% endtab %}
 {% endtabs %}
 
-If you're wondering which server is being used, the Bacalhau Project has a [public Bacalhau server network](../setting-up/running-node/quick-start.md#ensure-your-storage-server-is-running) that's shared with the community. This server allows you to launch your jobs from your computer without maintaining a compute cluster on your own.
+If you're wondering which server is being used, the Bacalhau Project has a demo network that's shared with the community. This network allows you to familiarize with Bacalhau's capabilities and launch jobs from your computer without maintaining a compute cluster on your own.
 
 ### Step 2 - Submit a Hello World job
 
@@ -105,7 +105,7 @@ Checking job status...
 The `job_id` above is shown in its full form. For convenience, you can use the shortened version, in this case: `9d20bbad`.
 
 {% hint style="info" %}
-While this command is designed to resemble Docker's run command which you may be familiar with, Bacalhau introduces a whole new set of [flags](broken-reference/) to support its computing model.
+While this command is designed to resemble Docker's run command which you may be familiar with, Bacalhau introduces a whole new set of [flags](../dev/cli-reference/all-flags.md#docker-run) to support its computing model.
 {% endhint %}
 {% endtab %}
 
@@ -154,7 +154,7 @@ CREATED   ID          JOB                                       STATE      PUBLI
 When it says `Completed`, that means the job is done, and we can get the results.
 
 {% hint style="info" %}
-For a comprehensive list of flags you can pass to the list command check out [the related CLI Reference page](broken-reference/)
+For a comprehensive list of flags you can pass to the list command check out [the related CLI Reference page](../dev/cli-reference/all-flags.md)
 {% endhint %}
 
 #### Step 3.2 - Job information:
@@ -168,19 +168,17 @@ bacalhau describe 9d20bbad
 Let's take a look at the results of the command execution in the terminal:
 
 ```shell
-
-    Job:
-        APIVersion: V1beta2
-        Metadata:
-            ClientID: 0ff57b2521334a92e9ddab4b2f8202c887b1eaa35d2aa945ab0e247d3bc0aa88
-            CreatedAt: "2023-12-21T15:24:31.750306239Z"
-            ID: 0ed7617d-d5ff-40f7-8411-89830b3f3058
-            Requester:
-            RequesterNodeID: QmbxGSsM6saCTyKkiWSxhJCt6Fgj7M9cns1vzYtfDbB5Ws
-            RequesterPublicKey: CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDEHTUAD1JzO0130W9vsaDGhU0PVgpcNjG3fYlE0sJ1BiBWENFuP4jx3Q9alcjNGhdRFdju0Mb/fidTOtJcPhxTdb+H6JxFP6HsADGes9jU4ylBU2SL2vfdb0KXzKdXjNHGGf4BuCGTcH07Oqxp209diK/cT7takL2fLjcgs1tM+6PzlfGzFqCPxvh9Sa0ek34mdmHjcp1XH8yjF1OKOuHvD+pYphqvOBL/2LEN+EBC4fz/QUnhUajCmKYO83MJcNUXSGxb4AN6K3DpVV+cJph7fj9ADdP7i996o2S4Gkz8W4Wpt/jICaPpkUjmyU3Jgcw7MHkZaYEzWxnnO2J936+pAgMBAAE=
-        Spec:
-        ...
-
+Job:
+    APIVersion: V1beta2
+    Metadata:
+        ClientID: 0ff57b2521334a92e9ddab4b2f8202c887b1eaa35d2aa945ab0e247d3bc0aa88
+        CreatedAt: "2023-12-21T15:24:31.750306239Z"
+        ID: 0ed7617d-d5ff-40f7-8411-89830b3f3058
+        Requester:
+        RequesterNodeID: QmbxGSsM6saCTyKkiWSxhJCt6Fgj7M9cns1vzYtfDbB5Ws
+        RequesterPublicKey: CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDEHTUAD1JzO0130W9vsaDGhU0PVgpcNjG3fYlE0sJ1BiBWENFuP4jx3Q9alcjNGhdRFdju0Mb/fidTOtJcPhxTdb+H6JxFP6HsADGes9jU4ylBU2SL2vfdb0KXzKdXjNHGGf4BuCGTcH07Oqxp209diK/cT7takL2fLjcgs1tM+6PzlfGzFqCPxvh9Sa0ek34mdmHjcp1XH8yjF1OKOuHvD+pYphqvOBL/2LEN+EBC4fz/QUnhUajCmKYO83MJcNUXSGxb4AN6K3DpVV+cJph7fj9ADdP7i996o2S4Gkz8W4Wpt/jICaPpkUjmyU3Jgcw7MHkZaYEzWxnnO2J936+pAgMBAAE=
+    Spec:
+    ...
 ```
 
 This outputs all information about the job, including stdout, stderr, where the job was scheduled, and so on.
@@ -241,7 +239,7 @@ With that, you have just successfully run a job on Bacalhau! :fish:
 
 Here are few resources that provide a deeper dive into running jobs with Bacalhau:
 
-[How Bacalhau works](architecture.md) [Setting up Bacalhau](broken-reference) [Examples & Use Cases](broken-reference)
+[How Bacalhau works](architecture.md), [Setting up Bacalhau](broken-reference), [Examples & Use Cases](broken-reference)
 
 ### Support
 
