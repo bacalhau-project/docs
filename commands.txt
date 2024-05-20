@@ -1,0 +1,6 @@
+bacalhau job run --id-only setting-up/workload-onboarding/CUDA/CUDA.yaml
+bacalhau job run --id-only setting-up/workload-onboarding/r-custom-docker-prophet/r-custom-docker-prophet.yaml
+bacalhau job run --id-only setting-up/workload-onboarding/python/Python-Custom-Container/custom-containers.yaml
+bacalhau job run --id-only setting-up/workload-onboarding/python/trivial-python/trivial-python.yaml
+bacalhau job run --id-only setting-up/workload-onboarding/python/python-pandas/python-pandas.yaml
+bacalhau job run --id-only setting-up/workload-onboarding/r-hello-world/r-hello-world.yaml

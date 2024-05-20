@@ -1,1 +1,36 @@
+name: Run Documentation tests
 
+on:
+  release:
+    types: [created]
+  repository_dispatch:
+    types: [new-version-release]
+
+jobs:
+  update-md-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y parallel jq
+          curl -sL https://get.bacalhau.org/install.sh | bash
+
+      - name: Run script to test docs
+        run: bash test/docs_test.sh
+
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git config --global user.name 'bacalhau-infra-bot'
+          git config --global user.email 'github-automation@expanso.io'
+          git add .
+          git commit -m 'Run Documentation tests'
+          git push
