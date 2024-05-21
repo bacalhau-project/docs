@@ -15,11 +15,11 @@ Please bear in mind that each executor is implemented independently and these do
 
 The following table describes how to specify hardware requirements for the Docker executor.
 
-| Flag       | Default                            | Description                                    |
-| ---------- | ---------------------------------- | ---------------------------------------------- |
-| `--cpu`    | 0.1 ([source](broken-reference))   | Job CPU cores (e.g. 500m, 2, 8)                |
-| `--memory` | 100MB ([source](broken-reference)) | Job Memory requirement (e.g. 500Mb, 2Gb, 8Gb). |
-| `--gpu`    | 0 ([source](broken-reference))     | Job GPU requirement (e.g. 1).                  |
+| Flag       | Default | Description                                    |
+| ---------- | ------- | ---------------------------------------------- |
+| `--cpu`    | 500m    | Job CPU cores (e.g. 500m, 2, 8)                |
+| `--memory` | 1Gb     | Job Memory requirement (e.g. 500Mb, 2Gb, 8Gb). |
+| `--gpu`    | 0       | Job GPU requirement (e.g. 1).                  |
 
 ### How it Works
 
@@ -58,7 +58,7 @@ bacalhau docker run --gpu=1 nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
 
 The following limitations currently exist within Bacalhau.
 
-* Maximum CPU and memory limits depend on the participants in the network
-* For GPU:
-  * NVIDIA, Intel or AMD GPUs only
-  * Only the Docker Executor supports GPUs
+1. Maximum CPU and memory limits depend on the participants in the network
+2. For GPU:
+   1. NVIDIA, Intel or AMD GPUs only
+   2. Only the Docker Executor supports GPUs
