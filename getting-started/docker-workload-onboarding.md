@@ -65,7 +65,7 @@ If you need to pass data into your container you will do this through a Docker v
 We make the assumption that you are reading from a directory called `/inputs`, which is set as the default.
 
 {% hint style="info" %}
-You can specify which directory the data is written to with the [`--input`](broken-reference/) CLI flag.
+You can specify which directory the data is written to with the [`--input`](../dev/cli-reference/all-flags.md) CLI flag.
 {% endhint %}
 
 #### Step 2 - Write Data to the Your Directory
@@ -75,7 +75,7 @@ If you need to return data from your container you will do this through a Docker
 We make the assumption that you are writing to a directory called `/outputs`, which is set as the default.
 
 {% hint style="info" %}
-You can specify which directory the data is written to with the [`--output-volumes`](broken-reference/) CLI flag.
+You can specify which directory the data is written to with the [`--output-volumes`](../dev/cli-reference/all-flags.md) CLI flag.
 {% endhint %}
 
 #### Step 3 - Build and Push Your Image To a Registry
@@ -83,7 +83,7 @@ You can specify which directory the data is written to with the [`--output-volum
 At this step, you create (or update) a Docker image that Bacalhau will use to perform your task. You [build your image](https://docs.docker.com/engine/reference/commandline/build/) from your code and dependencies, then [push it](https://docs.docker.com/engine/reference/commandline/push/) to a public registry so that Bacalhau can access it. This is necessary for other Bacalhau nodes to run your container and execute the task.
 
 {% hint style="warning" %}
-Most Bacalhau nodes are of an `x86_64` architecture, therefore containers should be built for [`x86_64` systems](docker-workload-onboarding.md#what-containers-to-use).
+Most Bacalhau nodes are of an `x86_64` architecture, therefore containers should be built for `x86_64` systems.
 {% endhint %}
 
 For example:
@@ -168,7 +168,7 @@ You can choose to
 
 * [Copy data from a URL to public storage](../setting-up/data-ingestion/from-url.md)
 * [Pin Data to public storage](../setting-up/data-ingestion/pin.md)
-* [Copy Data from S3 Bucket to public storage](../setting-up/workload-onboarding/index-2.md).
+* [Copy Data from S3 Bucket to public storage](../setting-up/data-ingestion/s3.md).
 
 {% hint style="info" %}
 You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
