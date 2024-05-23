@@ -1,21 +1,16 @@
 ---
-sidebar_label: "CLI Reference"
+sidebar_label: CLI Reference
 sidebar_position: 7
 ---
 
 # CLI Commands
 
-:::info
+{% hint style="info" %}
+The following commands refer to bacalhau cli version `v1.0.3`. For installing or upgrading a client, follow the instructions in the [installation page](https://docs.bacalhau.org/getting-started/installation). Run `bacalhau version` in a terminal to check what version you have.
+{% endhint %}
 
-The following commands refer to bacalhau cli version `v1.0.3`.
-For installing or upgrading a client, follow the instructions in the [installation page](https://docs.bacalhau.org/getting-started/installation).
-Run `bacalhau version` in a terminal to check what version you have.
-
-:::
-
-```
-❯ bacalhau --help
-Compute over data
+<pre class="language-bash"><code class="lang-bash"><strong>❯ bacalhau --help
+</strong>Compute over data
 
 Usage:
   bacalhau [command]
@@ -43,7 +38,7 @@ Flags:
   -h, --help              help for bacalhau
 
 Use "bacalhau [command] --help" for more information about a command.
-```
+</code></pre>
 
 ## Cancel
 
@@ -73,8 +68,7 @@ Examples:
 
 ## Create
 
-Submit a job to the network in a declarative way by writing a jobspec instead of writing a command.
-JSON and YAML formats are accepted.
+Submit a job to the network in a declarative way by writing a jobspec instead of writing a command. JSON and YAML formats are accepted.
 
 ```
 Create a job from a file or from stdin.
@@ -356,8 +350,7 @@ bacalhau list --output json
 
 ## Logs
 
-Retrieves the log output (stdout, and stderr) from a job.
-If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
+Retrieves the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
 
 ```
 Follow logs from a currently executing job

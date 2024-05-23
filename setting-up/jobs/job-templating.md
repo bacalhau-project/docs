@@ -1,28 +1,29 @@
 ---
-sidebar_label: 'Job Templates'
+sidebar_label: Job Templates
 sidebar_position: 3
-title: 'Job Templates'
+title: Job Templates
 description: Templating Support in Bacalhau Job Run
 ---
 
+# Job Templates
 
-## Overview
+### Overview
 
-This documentation introduces templating support for [`bacalhau job run`](../../dev/cli-reference/cli/job/run), providing users with the ability to dynamically inject variables into their job specifications. This feature is particularly useful when running multiple jobs with varying parameters such as DuckDB query, S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually.
+This documentation introduces templating support for [`bacalhau job run`](broken-reference), providing users with the ability to dynamically inject variables into their job specifications. This feature is particularly useful when running multiple jobs with varying parameters such as DuckDB query, S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually.
 
-## Motivation
+### Motivation
 
 The motivation behind this feature arises from the need to streamline the process of preparing and running multiple jobs with different configurations. Rather than manually editing job specs for each run, users can leverage placeholders and pass actual values at runtime.
 
-## Templating Implementation
+### Templating Implementation
 
 The templating functionality in Bacalhau is built upon the Go `text/template` package. This powerful library offers a wide range of features for manipulating and formatting text based on template definitions and input variables.
 
 For more detailed information about the Go `text/template` library and its syntax, please refer to the official documentation: [Go `text/template` Package](https://pkg.go.dev/text/template).
 
-## Usage Examples
+### Usage Examples
 
-### Sample Job Spec (job.yaml)
+#### Sample Job Spec (job.yaml)
 
 ```yaml
 Name: docker job
@@ -41,25 +42,25 @@ Tasks:
           - echo {{.greeting}} {{.name}}
 ```
 
-### Running with Templating:
+#### Running with Templating:
 
 ```bash
 bacalhau job run job.yaml --template-vars "greeting=Hello,name=World"
 ```
 
-### Defining Flag Multiple Times:
+#### Defining Flag Multiple Times:
 
 ```bash
 bacalhau job run job.yaml --template-vars "greeting=Hello" --template-vars "name=World"
 ```
 
-### Disabling Templating:
+#### Disabling Templating:
 
 ```bash
 bacalhau job run job.yaml --no-template
 ```
 
-### Using Environment Variables:
+#### Using Environment Variables:
 
 You can also use environment variables for templating:
 
@@ -69,13 +70,13 @@ export name=World
 bacalhau job run job.yaml --template-envs "*"
 ```
 
-### Passing A Subset of Environment Variables:
+#### Passing A Subset of Environment Variables:
 
 ```bash
 bacalhau job run job.yaml --template-envs "greeting|name"
 ```
 
-### Dry Run to Preview Templated Spec:
+#### Dry Run to Preview Templated Spec:
 
 To preview the final templated job spec without actually submitting the job, you can use the `--dry-run` flag:
 
@@ -85,8 +86,10 @@ bacalhau job run job.yaml --template-vars "greeting=Hello,name=World" --dry-run
 
 This will output the processed job specification, showing you how the placeholders have been replaced with the provided values.
 
-## More Examples
-### Query Live Logs
+### More Examples
+
+#### Query Live Logs
+
 ```yaml
 Name: Live logs processing
 Type: ops
@@ -110,6 +113,7 @@ Tasks:
           Params:
             SourcePath: /data/log-orchestration/logs
 ```
+
 This is an `ops` job that runs on all nodes that match the job selection criteria. It accepts duckdb `query` variable, and two optional `start-time` and `end-time` variables to define the time range for the query.
 
 To run this job, you can use the following command:
@@ -120,7 +124,8 @@ bacalhau job run job.yaml \
   -V "start-time=-5m"
 ```
 
-### Query S3 Logs
+#### Query S3 Logs
+
 ```yaml
 Name: S3 logs processing
 Type: batch
@@ -144,6 +149,7 @@ Tasks:
             Filter: {{or (index . "AccessLogPattern") ".*"}}
             Region: {{.AWSRegion}}
 ```
+
 This is a `batch` job that runs on a single node. It accepts duckdb `query` variable, and four other variables to define the S3 bucket, prefix, pattern for the logs and the AWS region.
 
 To run this job, you can use the following command:

@@ -351,7 +351,7 @@ To list executions follow the following commands.
 bacalhau job executions [id] [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/cli/job/executions/index.md) to list all executions associated with a job, identified by its ID, in yaml format.
+You can use the command with [appropriate flags](../references/cli-reference/cli/job/index-3.md) to list all executions associated with a job, identified by its ID, in yaml format.
 {% endtab %}
 
 {% tab title="API" %}

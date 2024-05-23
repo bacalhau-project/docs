@@ -2,11 +2,11 @@
 sidebar_label: exec
 ---
 
-# Command: exec
+# Job Exec
 
 ## Description
 
-The `bacalhau exec` command allows for the specification of jobs to be executed from the command line, without the need for a job specification file (see [job run](../../../../../../dev/cli-reference/cli/job/run/)).
+The `bacalhau exec` command allows for the specification of jobs to be executed from the command line, without the need for a job specification file (see [job run](broken-reference)).
 
 ## Usage
 
@@ -33,7 +33,7 @@ bacalhau exec [flags] [job-type] arguments
 * `-p`, `--publisher`
   *   Description: Where to publish the result of the job.
 
-      #### Examples:
+      **Examples:**
 
       **Publish to IPFS**
 
@@ -45,7 +45,7 @@ bacalhau exec [flags] [job-type] arguments
 * `-i`, `--input`
   *   Description: Mount URIs as inputs to the job. Can be specified multiple times. Format: src=URI,dst=PATH\[,opt=key=value]
 
-      #### Examples:
+      **Examples:**
 
       **Mount IPFS CID to /inputs directory**
 
