@@ -1,5 +1,5 @@
 ---
-sidebar_label: 'FAQs'
+sidebar_label: FAQs
 sidebar_position: 6
 hide_title: true
 ---
@@ -7,6 +7,7 @@ hide_title: true
 # Bacalhau FAQs
 
 ### Can I use multiple data sources in the same job?
+
 You can use the `--input` or `-i` flag multiple times with multiple different CIDs, URLs or S3 objects, and give each of them a path to be mounted at.
 
 For example, doing `bacalhau run cat/main.wasm -i ipfs://CID1:/input1 -i ipfs://CID2:/input2` will result in both the `input1` and `input2` folders being available to your running WASM with the CID contents. You can use `-i` as many times as you need.
@@ -24,18 +25,20 @@ The key thing is whether the IPFS node is running on the same host as the Bacalh
 ### What to do when I get error connection refused when running Bacalhau API?
 
 #### Problem
-When running `bacalhau --api-host <MY_NODE_PUBLIC_IP> version`  and you get this error message:
+
+When running `bacalhau --api-host <MY_NODE_PUBLIC_IP> version` and you get this error message:
 
 ```bash
 Error running version: publicapi: after posting request: Post "http://127.0.0.1:1234/version": dial tcp 127.0.0.1:1234: connect: connection refused
 ```
 
 #### What to do
+
 First, you'll need to check that the bacalhau server is up and running on the same host then it should be connecting using `127.0.0.1`. This can be checked by running `telnet 127.0.0.1 1234`. If telnet is not connecting to **127.0.0.1 1234** on the machine that bacalhau is running then one of 3 things:
 
-- Bacalhau is running on a different machine
-- it's running on a different port
-- it's not running
+* Bacalhau is running on a different machine
+* it's running on a different port
+* it's not running
 
 ### Can I run Bacalhau in a containerized setup (nested containers)?
 
@@ -67,11 +70,10 @@ If you run your command with the `immutable` setting set to 1, then it will work
 
 You can run `bacalhau serve` on any machine that fits the prerequisites listed [here](https://docs.bacalhau.org/running-node/quick-start/).
 
-:::tip
+{% hint style="info" %}
 The walkthrough in the docs has been tested only on Ubuntu 22, bacalhau is being developed on Linux/macOS environments and therefore should work fine there as well. However, Windows hosts are supported with [limitations](https://docs.bacalhau.org/running-node/windows-support/).
-:::
+{% endhint %}
 
 ## Can I stop a running job?
 
-Yes. Given a valid job ID, you can use the [cancel command](https://docs.bacalhau.org/all-flags#cancel) to cancel the job,
-and stop it from running.
+Yes. Given a valid job ID, you can use the [cancel command](https://docs.bacalhau.org/all-flags#cancel) to cancel the job, and stop it from running.
