@@ -4,7 +4,7 @@ sidebar_label: About Bacalhau
 sidebar_position: 1
 slug: /
 hide_title: true
-cover: .gitbook/assets/Untitled design (6).png
+cover: .gitbook/assets/banner_bacalhau_docs.png
 coverY: 0
 ---
 
