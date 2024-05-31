@@ -1,8 +1,3 @@
----
-sidebar_label: Job Selection Policy
-sidebar_position: 2
----
-
 # Job selection policy
 
 When running a node, you can choose which jobs you want to run by using configuration options, environment variables or flags to specify a job selection policy.

@@ -1,8 +1,3 @@
----
-sidebar_label: Windows Support
-sidebar_position: 190
----
-
 # Windows support
 
 Running a Windows-based node is not officially supported, so your mileage may vary. Some features (like [resource limits](resource-limits.md)) are not present in Windows-based nodes.

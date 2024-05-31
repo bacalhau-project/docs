@@ -1,8 +1,3 @@
----
-sidebar_position: 4
-sidebar_label: Internet Access
----
-
 # Accessing the Internet from Jobs
 
 By default, Bacalhau jobs do not have any access to the internet. This is to keep both compute providers and users safe from malicious activities.

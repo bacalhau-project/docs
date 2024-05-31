@@ -1,6 +1,4 @@
 ---
-sidebar_position: 3
-sidebar_label: Social Media
 description: Find Bacalhau on your favorite social media platform
 ---
 

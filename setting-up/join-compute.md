@@ -1,16 +1,10 @@
----
-sidebar_label: 'Join as Compute Provider'
-sidebar_position: 100
-toc_max_heading_level: 4
----
-
 # Join as Compute Provider
 
 Bacalhau is a peer-to-peer network of computing providers that will run jobs submitted by users. A Compute Provider (CP) is anyone who is running a Bacalhau compute node participating in the Bacalhau compute network, regardless of whether they are hosting any Filecoin data.
 
 This section will show you how to configure and run a Bacalhau node and start accepting and running jobs.
 
-To bootstrap your node and join the network as a CP you can leap right into the [Ubuntu 22.04 quick start](#quick-start-ubuntu-2204) below, or find more setup details in these guides:
+To bootstrap your node and join the network as a CP you can leap right into the [Ubuntu 22.04 quick start](join-compute.md#quick-start-ubuntu-2204) below, or find more setup details in these guides:
 
 * [Networking](https://docs.bacalhau.org/running-node/networking)
 * [Storage Providers](https://docs.bacalhau.org/running-node/storage-providers)
@@ -21,8 +15,7 @@ To bootstrap your node and join the network as a CP you can leap right into the 
 
 :::info
 
-If you run on a different system than Ubuntu, drop us a message on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY)!
-We'll add instructions for your favorite OS.
+If you run on a different system than Ubuntu, drop us a message on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY)! We'll add instructions for your favorite OS.
 
 :::
 
@@ -72,7 +65,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
-Now make [Docker manageable by a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#:~:text=The%20Docker%20daemon%20always%20runs,members%20of%20the%20docker%20group):
+Now make [Docker manageable by a non-root user](https://docs.docker.com/engine/install/linux-postinstall/):
 
 ```bash
 sudo groupadd docker
@@ -132,7 +125,7 @@ ipfs daemon
 
 :::info
 
-If you want to run the IPFS daemon as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote_files/configs/ipfs.service).
+If you want to run the IPFS daemon as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote\_files/configs/ipfs.service).
 
 :::
 
@@ -182,11 +175,11 @@ Firewall configuration is very specific to your network and we can't provide gen
 
 ### Install the Bacalhau Binary
 
-[Install the bacalhau binary](/getting-started/installation#install-the-bacalhau-client) to run `bacalhau serve`.
+[Install the bacalhau binary](../getting-started/installation/#install-the-bacalhau-client) to run `bacalhau serve`.
 
 :::info
 
-If you want to run Bacalhau as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote_files/configs/bacalhau.service).
+If you want to run Bacalhau as a [systemd](https://en.wikipedia.org/wiki/Systemd) service, here's an example [systemd service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote\_files/configs/bacalhau.service).
 
 :::
 
@@ -232,5 +225,4 @@ If you see logs of your compute node bidding for the job above it means you've s
 
 ### What's next?
 
-At this point, you probably have a number of questions for us. What incentive should you expect for running a public Bacalhau node?
-Please contact us on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY) to further discuss this topic and for sharing your valuable feedback.
+At this point, you probably have a number of questions for us. What incentive should you expect for running a public Bacalhau node? Please contact us on [Slack](https://bit.ly/bacalhau-project-slack/archives/C02RLM3JHUY) to further discuss this topic and for sharing your valuable feedback.

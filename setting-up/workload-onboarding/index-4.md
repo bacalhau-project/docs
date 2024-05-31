@@ -1,8 +1,3 @@
----
-sidebar_label: Sparkov Data Generation
-sidebar_position: 11
----
-
 # Generate Synthetic Data using Sparkov Data Generation technique
 
 ## Introduction

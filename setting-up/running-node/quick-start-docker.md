@@ -1,8 +1,3 @@
----
-sidebar_label: Quick Start Using Docker
-sidebar_position: 101
----
-
 # Running a Compute Node Using Docker
 
 Good news everyone! You can now run your Bacalhau-IPFS stack in Docker.

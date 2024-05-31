@@ -1,8 +1,3 @@
----
-sidebar_label: Rust WASM
-sidebar_position: 10
----
-
 # Running Rust programs as WebAssembly (WASM)
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
@@ -176,19 +171,19 @@ import IPython.display as display
 display.Image("./wasm_results/outputs/original.png")
 ```
 
-![png](rust-wasm/index\_files/index\_18\_0.png)
+![png](<../../.gitbook/assets/index\_18\_0 (1).png>)
 
 ```python
 display.Image("./wasm_results/outputs/annotated_gradients.png")
 ```
 
-![png](rust-wasm/index\_files/index\_19\_0.png)
+![png](<../../.gitbook/assets/index\_19\_0 (1).png>)
 
 ```python
 display.Image("./wasm_results/outputs/shrunk.png")
 ```
 
-![png](rust-wasm/index\_files/index\_20\_0.png)
+![png](../../.gitbook/assets/index\_20\_0.png)
 
 ## Support
 

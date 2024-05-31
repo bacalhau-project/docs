@@ -1,6 +1,4 @@
 ---
-sidebar_label: Workloads (Docker)
-sidebar_position: 3
 description: How to use docker containers with Bacalhau
 ---
 

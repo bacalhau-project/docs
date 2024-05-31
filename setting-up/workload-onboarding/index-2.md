@@ -1,8 +1,3 @@
----
-sidebar_label: Reading-From-Multiple-S3-Buckets
-sidebar_position: 2
----
-
 # Reading Data from Multiple S3 Buckets using Bacalhau
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bacalhau-project/examples/blob/main/workload-onboarding/Reading-from-Multiple-S3-buckets/index.ipynb) [![Open In Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/bacalhau-project/examples/HEAD?labpath=workload-onboarding/Reading-from-Multiple-S3-buckets/index.ipynb) [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
@@ -130,13 +125,13 @@ The code processes and displays all images in the specified directory by applyin
 results/outputs/S2-16D_V1_075086_20180218_B04_TCI.jpg
 ```
 
-![png](Reading-From-Multiple-S3-Buckets/index\_files/index\_19\_1.png)
+![png](../../.gitbook/assets/index\_19\_1.png)
 
 ```
 results/outputs/B04_TCI.jpg
 ```
 
-![png](Reading-From-Multiple-S3-Buckets/index\_files/index\_19\_3.png)
+![png](../../.gitbook/assets/index\_19\_3.png)
 
 ## Support
 

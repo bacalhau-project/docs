@@ -1,8 +1,3 @@
----
-sidebar_label: 'Fundamentals'
-sidebar_position: 1
----
-
 # Networking Fundamentals in Bacalhau
 
 Bacalhau uses [libp2p](https://libp2p.io/) under the hood to communicate with other nodes on the network.

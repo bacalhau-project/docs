@@ -1,7 +1,4 @@
 ---
-sidebar_label: Configuring TLS
-sidebar_position: 185
-title: Configuring Transport Level Security
 description: How to configure TLS for the requester node APIs
 ---
 

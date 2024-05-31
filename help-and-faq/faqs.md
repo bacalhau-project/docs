@@ -1,9 +1,3 @@
----
-sidebar_label: FAQs
-sidebar_position: 6
-hide_title: true
----
-
 # Bacalhau FAQs
 
 ### Can I use multiple data sources in the same job?

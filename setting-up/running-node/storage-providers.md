@@ -1,8 +1,3 @@
----
-sidebar_label: Storage Providers
-sidebar_position: 130
----
-
 # Storage Providers
 
 Bacalhau has two ways to make use of external storage providers:

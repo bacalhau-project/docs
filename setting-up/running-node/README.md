@@ -1,2 +1,2 @@
-# running-node
+# Running a Node
 

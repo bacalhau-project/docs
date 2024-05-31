@@ -1,13 +1,11 @@
----
-sidebar_label: 'Observability'
-sidebar_position: 200
----
 # Observability
 
 Bacalhau supports the three main 'pillars' of observability - logging, metrics, and tracing. Bacalhau uses the [OpenTelemetry Go SDK](https://github.com/open-telemetry/opentelemetry-go) for metrics and tracing, which can be configured using the [standard environment variables](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/exporter.md). Exporting metrics and traces can be as simple as setting the `OTEL_EXPORTER_OTLP_PROTOCOL` and `OTEL_EXPORTER_OTLP_ENDPOINT` environment variables. Custom code is used for logging as the [OpenTelemetry Go SDK currently doesn't support logging](https://github.com/open-telemetry/opentelemetry-go#project-status).
 
 ## Logging
+
 Logging in Bacalhau outputs in human-friendly format to stderr at `INFO` level by default, but this can be changed by two environment variables:
+
 * `LOG_LEVEL` - Can be one of `trace`, `debug`, `error`, `warn` or `fatal` to output more or fewer logging messages as required
 * `LOG_TYPE` - Can be one of the following values:
   * `default` - output logs to stderr in a human-friendly format
@@ -17,19 +15,20 @@ Logging in Bacalhau outputs in human-friendly format to stderr at `INFO` level b
 Log statements should include the relevant trace, span and job ID so it can be tracked back to the work being performed.
 
 ## Metrics
-Bacalhau produces a number of different metrics including those around the libp2p resource manager (`rcmgr`), performance
-of the requester HTTP API and the number of jobs accepted/completed/received.
+
+Bacalhau produces a number of different metrics including those around the libp2p resource manager (`rcmgr`), performance of the requester HTTP API and the number of jobs accepted/completed/received.
 
 ## Tracing
+
 Traces are produced for all major pieces of work when processing a job, although the naming of some spans is still being worked on. You can find relevant traces covering working on a job by searching for the `jobid` attribute.
 
 ## Viewing
+
 The metrics and traces can easily be forwarded to a variety of different services as we use OpenTelemetry, such as Honeycomb or Datadog.
 
-To view the data locally, or simply to not use a SaaS offering, you can start up Jaeger and Prometheus placing these three files into a directory then running `docker compose start` while running Bacalhau with the
-`OTEL_EXPORTER_OTLP_PROTOCOL=grpc` and `OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317` environment variables.
+To view the data locally, or simply to not use a SaaS offering, you can start up Jaeger and Prometheus placing these three files into a directory then running `docker compose start` while running Bacalhau with the `OTEL_EXPORTER_OTLP_PROTOCOL=grpc` and `OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317` environment variables.
 
-```yaml title="docker-compose.yaml"
+```yaml
 version: "2"
 services:
 
@@ -65,7 +64,7 @@ services:
       - "9090:9090" # Prometheus UI
 ```
 
-```yaml title="otel-collector-config.yaml"
+```yaml
 receivers:
   otlp:
     protocols:
@@ -99,7 +98,7 @@ service:
       exporters: [prometheus]
 ```
 
-```yaml title="prometheus.yaml"
+```yaml
 scrape_configs:
   - job_name: 'otel-collector'
     scrape_interval: 10s

@@ -1,9 +1,4 @@
 ---
-title: About Bacalhau
-sidebar_label: About Bacalhau
-sidebar_position: 1
-slug: /
-hide_title: true
 cover: .gitbook/assets/bacalhau_banner_high_resolution.png
 coverY: 0
 ---
@@ -80,11 +75,11 @@ Once you have more than 10 devices generating or storing around 100GB of data, y
 
 Here are some example tutorials on how you can process your data with Bacalhau:
 
-* [Stable Diffusion AI](examples/model-inference/stable-diffusion-gpu/index.md)
-* [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/stylegan3/index.md)
-* [Object Detection with YOLOv5 on Bacalhau](examples/model-inference/object-detection-yolo5/index.md)
+* [Stable Diffusion AI](examples/model-inference/index-3.md)
+* [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/index-6.md)
+* [Object Detection with YOLOv5 on Bacalhau](examples/model-inference/index-5.md)
 * [Running Genomics on Bacalhau](examples/molecular-dynamics/index-3.md)
-* [Training Pytorch Model with Bacalhau](examples/model-training/training-pytorch-model/index.md)
+* [Training Pytorch Model with Bacalhau](examples/model-training/index.md)
 
 {% hint style="info" %}
 For more tutorials, visit our [example page](broken-reference)

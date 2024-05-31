@@ -1,9 +1,3 @@
----
-sidebar_label: Quick Start
-sidebar_position: 100
-toc_max_heading_level: 4
----
-
 # Join as Compute Provider
 
 Bacalhau is a peer-to-peer network of computing providers that will run jobs submitted by users. A Compute Provider (CP) is anyone who is running a Bacalhau compute node participating in the Bacalhau compute network, regardless of whether they are hosting any Filecoin data.

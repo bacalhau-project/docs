@@ -1,6 +1,4 @@
 ---
-sidebar_label: 'WebUI'
-sidebar_position: 160
 description: How to run the WebUI.
 ---
 
@@ -16,7 +14,7 @@ For contributing to the WebUI's development, please refer to the [Bacalhau WebUI
 
 ### Prerequisites
 
-- Ensure you have a Bacalhau v1.1.7 or later installed.
+* Ensure you have a Bacalhau v1.1.7 or later installed.
 
 ### Running the WebUI
 
@@ -36,5 +34,4 @@ Once started, the WebUI is accessible at [http://127.0.0.1/](http://127.0.0.1/).
 
 For observational purposes, a development version of the WebUI is available at [bootstrap.development.bacalhau.org](http://bootstrap.development.bacalhau.org). This instance displays jobs from the development server.
 
-N.b.
-The development version of the WebUI is for observation only and may not reflect the latest changes or features available in the local setup.
+N.b. The development version of the WebUI is for observation only and may not reflect the latest changes or features available in the local setup.

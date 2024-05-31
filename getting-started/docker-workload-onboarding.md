@@ -1,6 +1,4 @@
 ---
-sidebar_label: Workloads (Docker)
-sidebar_position: 3
 description: How to use docker containers with Bacalhau
 ---
 
@@ -65,7 +63,7 @@ If you need to pass data into your container you will do this through a Docker v
 We make the assumption that you are reading from a directory called `/inputs`, which is set as the default.
 
 {% hint style="info" %}
-You can specify which directory the data is written to with the [`--input`](../dev/cli-reference/all-flags.md) CLI flag.
+You can specify which directory the data is written to with the [`--input`](../references/cli-reference/all-flags.md) CLI flag.
 {% endhint %}
 
 #### Step 2 - Write Data to the Your Directory
@@ -75,7 +73,7 @@ If you need to return data from your container you will do this through a Docker
 We make the assumption that you are writing to a directory called `/outputs`, which is set as the default.
 
 {% hint style="info" %}
-You can specify which directory the data is written to with the [`--output-volumes`](../dev/cli-reference/all-flags.md) CLI flag.
+You can specify which directory the data is written to with the [`--output-volumes`](../references/cli-reference/all-flags.md) CLI flag.
 {% endhint %}
 
 #### Step 3 - Build and Push Your Image To a Registry

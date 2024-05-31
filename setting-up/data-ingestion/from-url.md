@@ -1,8 +1,3 @@
----
-sidebar_label: From A URL
-sidebar_position: 1
----
-
 # Copy Data from URL to Public Storage
 
 To upload a file from a URL we will use the `bacalhau docker run` command.

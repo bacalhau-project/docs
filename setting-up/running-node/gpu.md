@@ -1,8 +1,5 @@
 ---
-sidebar_label: 'GPU Support'
-sidebar_position: 160
 description: How to enable GPU support on your Bacalhau node.
-# cspell: ignore nvidia, amd, intel, rocm, xpumanager, xpumd, xpumcli, kfd, dri, nvidia-smi, rocm-smi, xpu-smi
 ---
 
 # GPU Support
@@ -32,11 +29,9 @@ docker run --rm --gpus all nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
 
 ### AMD
 
-Bacalhau requires AMD drivers to be appropriately installed and access to the
-`rocm-smi` tool.
+Bacalhau requires AMD drivers to be appropriately installed and access to the `rocm-smi` tool.
 
-You can test whether you have a working GPU setup with the following command,
-which should print details of your GPUs:
+You can test whether you have a working GPU setup with the following command, which should print details of your GPUs:
 
 ```bash
 docker run --rm --device=/dev/kfd --device=/dev/dri --entrypoint=rocm-smi rocm/rocm-terminal
@@ -44,11 +39,9 @@ docker run --rm --device=/dev/kfd --device=/dev/dri --entrypoint=rocm-smi rocm/r
 
 ### Intel
 
-Bacalhau requires appropriate Intel drivers to be installed and access to the
-`xpu-smi` tool.
+Bacalhau requires appropriate Intel drivers to be installed and access to the `xpu-smi` tool.
 
-You can test whether you have a working GPU setup with the following command,
-which should print details of your GPUs:
+You can test whether you have a working GPU setup with the following command, which should print details of your GPUs:
 
 ```bash
 docker run --rm --device=/dev/dri --entrypoint=/bin/bash intel/xpumanager -- -c 'xpumd & sleep 5; xpumcli discovery'
@@ -56,6 +49,4 @@ docker run --rm --device=/dev/dri --entrypoint=/bin/bash intel/xpumanager -- -c 
 
 ## GPU Node Configuration
 
-Access to GPUs can be controlled using [resource limits](./resource-limits.md).
-To limit the number of GPUs that can be used per job, set a job resource limit.
-To limit access to GPUs from all jobs, set a total resource limit.
+Access to GPUs can be controlled using [resource limits](resource-limits.md). To limit the number of GPUs that can be used per job, set a job resource limit. To limit access to GPUs from all jobs, set a total resource limit.

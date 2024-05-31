@@ -1,8 +1,3 @@
----
-sidebar_label: How Bacalhau Works
-sidebar_position: 1
----
-
 # How Bacalhau Works
 
 In this tutorial we will go over the components and the architecture of Bacalhau. You will learn how it is built, what components are used, how you could interact and how you could use Bacalhau.
@@ -11,7 +6,7 @@ In this tutorial we will go over the components and the architecture of Bacalhau
 
 Bacalhau is a peer-to-peer network of nodes that enables decentralized communication between computers. The network consists of two types of nodes, which can communicate with each other.
 
-![Bacalhau Architecture](../static/img/architecture/architecture-overview.webp)
+![Bacalhau Architecture](../.gitbook/assets/architecture-overview.webp)
 
 The requester and compute nodes together form a p2p network and use gossiping to discover each other, share information about node capabilities, available resources and health status. Bacalhau is a peer-to-peer network of nodes that enables decentralized communication between computers.
 
@@ -91,7 +86,7 @@ The publisher is responsible for uploading the final results of a job to a remot
 
 ### Job preparation
 
-You can create jobs in the Bacalhau network using various [job types](../setting-up/jobs/job-types.md) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](../setting-up/jobs/job-specification/job.md).
+You can create jobs in the Bacalhau network using various [job types](../setting-up/jobs/job-types.md) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](../setting-up/jobs/job.md).
 
 <details>
 
@@ -101,7 +96,7 @@ Prepare data with Bacalhau by [copying from URLs](../setting-up/data-ingestion/f
 
 Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](docker-workload-onboarding.md) and [WebAssembly](wasm-workload-onboarding.md) workloads.
 
-Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](../setting-up/gpu.md) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](../integration/python-sdk.md).
+Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](../setting-up/gpu.md) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](../integrations/python-sdk.md).
 
 For node operation, refer to the [Running a Node](../setting-up/running-node/) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](../setting-up/networking-instructions/private-cluster.md) for performing tasks without connecting to the main Bacalhau network.
 
@@ -121,7 +116,7 @@ Bacalhau provides an interface to interact with the server via a REST API. Bacal
 bacalhau create [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md) to create a job in Bacalhau using JSON and YAML formats.
+You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to create a job in Bacalhau using JSON and YAML formats.
 {% endtab %}
 
 {% tab title="API" %}
@@ -129,11 +124,11 @@ You can use the command with [appropriate flags](../dev/cli-reference/all-flags.
 Endpoint: `PUT /api/v1/orchestrator/jobs` 
 ```
 
-You can use [Create Job API Documentation](../dev/api/jobs.md) to submit a new job for execution.
+You can use [Create Job API Documentation](../references/api/jobs.md) to submit a new job for execution.
 {% endtab %}
 {% endtabs %}
 
-You can use the `bacalhau docker run` [command](../dev/cli-reference/all-flags.md#docker-run) to start a job in a Docker container. Below, you can see an excerpt of the commands:
+You can use the `bacalhau docker run` [command](../references/cli-reference/all-flags.md#docker-run) to start a job in a Docker container. Below, you can see an excerpt of the commands:
 
 <details>
 
@@ -191,7 +186,7 @@ Flags:
 
 </details>
 
-You can also use the `bacalhau wasm run` [command](../dev/cli-reference/all-flags.md) to run a job compiled into the (WASM) format. Below, you can find an excerpt of the commands in the Bacalhau CLI:
+You can also use the `bacalhau wasm run` [command](../references/cli-reference/all-flags.md) to run a job compiled into the (WASM) format. Below, you can find an excerpt of the commands in the Bacalhau CLI:
 
 <details>
 
@@ -307,7 +302,7 @@ To describe a specific job, inserting the ID to the CLI or API gives back an ove
 bacalhau describe [id] [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md) to get a full description of a job in yaml format.
+You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to get a full description of a job in yaml format.
 {% endtab %}
 
 {% tab title="API" %}
@@ -315,7 +310,7 @@ You can use the command with [appropriate flags](../dev/cli-reference/all-flags.
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID`
 ```
 
-You can use [describe Job API Documentation](../dev/api/) to retrieve the specification and current status of a particular job.
+You can use [describe Job API Documentation](../references/api/) to retrieve the specification and current status of a particular job.
 {% endtab %}
 {% endtabs %}
 
@@ -329,7 +324,7 @@ If you run more then one job or you want to find a specific job ID
 bacalhau list [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md) to list jobs on the network in yaml format.
+You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to list jobs on the network in yaml format.
 {% endtab %}
 
 {% tab title="API" %}
@@ -337,7 +332,7 @@ You can use the command with [appropriate flags](../dev/cli-reference/all-flags.
 Endpoint: `GET /api/v1/orchestrator/jobs`
 ```
 
-You can use [List Jobs API Documentation](../dev/api/jobs.md#list-jobs) to retrieve a list of jobs.
+You can use [List Jobs API Documentation](../references/api/jobs.md#list-jobs) to retrieve a list of jobs.
 {% endtab %}
 {% endtabs %}
 
@@ -359,13 +354,13 @@ You can use the command with [appropriate flags](../references/cli-reference/cli
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID/executions`
 ```
 
-You can use [Job Executions API Documentation](../dev/api/jobs.md#job-executions) to retrieve all executions for a particular job.
+You can use [Job Executions API Documentation](../references/api/jobs.md#job-executions) to retrieve all executions for a particular job.
 {% endtab %}
 {% endtabs %}
 
 ## Chapter 4 - Monitoring and Management
 
-The Bacalhau client provides the user with tools to monitor and manage the execution of jobs. You can get information about status, progress and decide on next steps. View the [Bacalhau Agent APIs](../dev/api/agent.md) if you want to know the node's health, capabilities, and deployed Bacalhau version. To get information about the status and characteristics of the nodes in the cluster use [Nodes API Documentation](../dev/api/nodes.md).
+The Bacalhau client provides the user with tools to monitor and manage the execution of jobs. You can get information about status, progress and decide on next steps. View the [Bacalhau Agent APIs](../references/api/agent.md) if you want to know the node's health, capabilities, and deployed Bacalhau version. To get information about the status and characteristics of the nodes in the cluster use [Nodes API Documentation](../references/api/nodes.md).
 
 ### Stop a Job
 
@@ -375,7 +370,7 @@ The Bacalhau client provides the user with tools to monitor and manage the execu
 bacalhau cancel [id] [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md#cancel) to cancel a job that was previously submitted and stop it running if it has not yet completed.
+You can use the command with [appropriate flags](../references/cli-reference/all-flags.md#cancel) to cancel a job that was previously submitted and stop it running if it has not yet completed.
 {% endtab %}
 
 {% tab title="API" %}
@@ -383,7 +378,7 @@ You can use the command with [appropriate flags](../dev/cli-reference/all-flags.
 Endpoint: `DELETE /api/v1/orchestrator/jobs/:jobID`
 ```
 
-You can use [Stop Job API Documentation](../dev/api/jobs.md#stop-job) to terminate a specific job asynchronously.
+You can use [Stop Job API Documentation](../references/api/jobs.md#stop-job) to terminate a specific job asynchronously.
 {% endtab %}
 {% endtabs %}
 
@@ -395,7 +390,7 @@ You can use [Stop Job API Documentation](../dev/api/jobs.md#stop-job) to termina
 bacalhau job history [id] [flags]
 ```
 
-You can use the command with [appropriate flags](../dev/cli-reference/all-flags.md) to enumerate the historical events related to a job, identified by its ID.
+You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to enumerate the historical events related to a job, identified by its ID.
 {% endtab %}
 
 {% tab title="API" %}
@@ -403,7 +398,7 @@ You can use the command with [appropriate flags](../dev/cli-reference/all-flags.
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID/history`
 ```
 
-You can use [Job History API Documentation](../dev/api/jobs.md#job-history) to retrieve historical events for a specific job.
+You can use [Job History API Documentation](../references/api/jobs.md#job-history) to retrieve historical events for a specific job.
 {% endtab %}
 {% endtabs %}
 
@@ -413,8 +408,8 @@ You can use [Job History API Documentation](../dev/api/jobs.md#job-history) to r
 bacalhau logs [flags] [id]
 ```
 
-You can use this [command](../dev/cli-reference/all-flags.md#logs) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
+You can use this [command](../references/cli-reference/all-flags.md#logs) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
 
 {% hint style="info" %}
-To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](../dev/cli-reference/all-flags.md)
+To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](../references/cli-reference/all-flags.md)
 {% endhint %}

@@ -1,6 +1,4 @@
 ---
-sidebar_label: 'Configuration'
-sidebar_position: 160
 description: How to configure your Bacalhau node.
 ---
 
@@ -10,7 +8,7 @@ Bacalhau employs the [viper](https://github.com/spf13/viper) and [cobra](https:/
 
 ## The Bacalhau Repo
 
-Bacalhau manages its configuration, metadata, and internal state within a specialized repository named `.bacalhau`. Serving as the heart of the Bacalhau node, this repository holds the  data and settings that determine node behavior. It's located on the  filesystem, and by default, Bacalhau initializes this repository at `$HOME/.bacalhau`, where `$HOME` is the home directory of the user running the bacalhau process.
+Bacalhau manages its configuration, metadata, and internal state within a specialized repository named `.bacalhau`. Serving as the heart of the Bacalhau node, this repository holds the data and settings that determine node behavior. It's located on the filesystem, and by default, Bacalhau initializes this repository at `$HOME/.bacalhau`, where `$HOME` is the home directory of the user running the bacalhau process.
 
 To customize this location, users can:
 
@@ -43,36 +41,36 @@ This repository comprises four directories and seven files:
 #### Files
 
 1. `user_id.pem`:
-   - This file houses the Bacalhau node user's cryptographic private key, used for signing requests sent to a Requester Node.
-   - Format: PEM.
+   * This file houses the Bacalhau node user's cryptographic private key, used for signing requests sent to a Requester Node.
+   * Format: PEM.
 2. `repo.version`:
-   - Indicates the version of the Bacalhau node's repository.
-   - Format: JSON, e.g., `{"Version":1}`.
+   * Indicates the version of the Bacalhau node's repository.
+   * Format: JSON, e.g., `{"Version":1}`.
 3. `libp2p_private_key`:
-   - Stores the Bacalhau node's [libp2p](https://libp2p.io/) private key, essential for its network identity. The NodeID of a Bacalhau node is derived from this key.
-   - Format: Base64 encoded RSA private key.
+   * Stores the Bacalhau node's [libp2p](https://libp2p.io/) private key, essential for its network identity. The NodeID of a Bacalhau node is derived from this key.
+   * Format: Base64 encoded RSA private key.
 4. `config.yaml`:
-   - Contains configuration settings for the Bacalhau node.
-   - Format: YAML.
+   * Contains configuration settings for the Bacalhau node.
+   * Format: YAML.
 5. `update.json`:
-   - A file containing the date/time when the last version check was made.
-   - Format: JSON, e.g., `{"LastCheck":"2024-01-24T11:06:14.631816Z"}`
+   * A file containing the date/time when the last version check was made.
+   * Format: JSON, e.g., `{"LastCheck":"2024-01-24T11:06:14.631816Z"}`
 6. `tokens.json`:
-   - A file containing the tokens obtained through authenticating with bacalhau clusters.
+   * A file containing the tokens obtained through authenticating with bacalhau clusters.
 
 #### Directories
 
 1. `QmdGUjsMHEgtAfdtw7U62yPEcAZFtA33tKMsczLToegZtv-compute`:
-   - Contains the [BoltDB](https://github.com/etcd-io/bbolt) `executions.db` database, which aids the Compute node in state persistence. Additionally, the `jobStats.json` file records the Compute Node's completed jobs tally.
-   - Note: The segment `QmdGUjsMHEgtAfdtw7U62yPEcAZFtA33tKMsczLToegZtv` is a unique NodeID for each Bacalhau node, derived from the `libp2p_private_key`.
+   * Contains the [BoltDB](https://github.com/etcd-io/bbolt) `executions.db` database, which aids the Compute node in state persistence. Additionally, the `jobStats.json` file records the Compute Node's completed jobs tally.
+   * Note: The segment `QmdGUjsMHEgtAfdtw7U62yPEcAZFtA33tKMsczLToegZtv` is a unique NodeID for each Bacalhau node, derived from the `libp2p_private_key`.
 2. `QmdGUjsMHEgtAfdtw7U62yPEcAZFtA33tKMsczLToegZtv-requester`:
-   - Contains the [BoltDB](https://github.com/etcd-io/bbolt) `jobs.db` database for the Requester node's state persistence.
-   - Note: NodeID derivation is similar to the Compute directory.
+   * Contains the [BoltDB](https://github.com/etcd-io/bbolt) `jobs.db` database for the Requester node's state persistence.
+   * Note: NodeID derivation is similar to the Compute directory.
 3. `executor_storages`:
-   - Storage for data handled by Bacalhau storage drivers.
+   * Storage for data handled by Bacalhau storage drivers.
 4. `plugins`:
-   - Houses binaries that allow the Compute node to execute specific tasks.
-   - Note: This feature is currently experimental and isn't active during standard node operations.
+   * Houses binaries that allow the Compute node to execute specific tasks.
+   * Note: This feature is currently experimental and isn't active during standard node operations.
 
 ## Configuring a Bacalhau Node
 
@@ -99,53 +97,51 @@ Node:
         Connect: value
 ```
 
-There is no corresponding environment variable for either `Node` or `Node.IPFS`.
-Config values may also have other environment variables that set them for
-simplicity or to maintain backwards compatibility.
+There is no corresponding environment variable for either `Node` or `Node.IPFS`. Config values may also have other environment variables that set them for simplicity or to maintain backwards compatibility.
 
 ### Environments
 
-- Bacalhau leverages the `BACALHAU_ENVIRONMENT` environment variable to determine the specific environment configuration when initializing a repository. Notably, if a `.bacalhau` repository has already been initialized, the `BACALHAU_ENVIRONMENT` setting will be ignored.
+*   Bacalhau leverages the `BACALHAU_ENVIRONMENT` environment variable to determine the specific environment configuration when initializing a repository. Notably, if a `.bacalhau` repository has already been initialized, the `BACALHAU_ENVIRONMENT` setting will be ignored.
 
-  By default, if the `BACALHAU_ENVIRONMENT` variable is not explicitly set by the user, Bacalhau will adopt the `production` environment settings.
+    By default, if the `BACALHAU_ENVIRONMENT` variable is not explicitly set by the user, Bacalhau will adopt the `production` environment settings.
 
-  Below is a breakdown of the configurations associated with each environment:
+    Below is a breakdown of the configurations associated with each environment:
 
-  #### 1. Production (public network)
+    **1. Production (public network)**
 
-  - **Environment Variable:** `BACALHAU_ENVIRONMENT=production`
-  - Configurations:
-    - `Node.ClientAPI.Host`: `"bootstrap.production.bacalhau.org"`
-    - `Node.Client.API.Host`: `1234`
-    - *...other configurations specific to this environment...*
+    * **Environment Variable:** `BACALHAU_ENVIRONMENT=production`
+    * Configurations:
+      * `Node.ClientAPI.Host`: `"bootstrap.production.bacalhau.org"`
+      * `Node.Client.API.Host`: `1234`
+      * _...other configurations specific to this environment..._
 
-  #### 2. Staging (staging network)
+    **2. Staging (staging network)**
 
-  - **Environment Variable:** `BACALHAU_ENVIRONMENT=staging`
-  - Configurations:
-    - `Node.ClientAPI.Host`: `"bootstrap.staging.bacalhau.org"`
-    - `Node.Client.API.Host`: `1234`
-    - *...other configurations specific to this environment...*
+    * **Environment Variable:** `BACALHAU_ENVIRONMENT=staging`
+    * Configurations:
+      * `Node.ClientAPI.Host`: `"bootstrap.staging.bacalhau.org"`
+      * `Node.Client.API.Host`: `1234`
+      * _...other configurations specific to this environment..._
 
-  #### 3. Development (development network)
+    **3. Development (development network)**
 
-  - **Environment Variable:** `BACALHAU_ENVIRONMENT=development`
-  - Configurations:
-    - `Node.ClientAPI.Host`: `"bootstrap.development.bacalhau.org"`
-    - `Node.Client.API.Host`: `1234`
-    - *...other configurations specific to this environment...*
+    * **Environment Variable:** `BACALHAU_ENVIRONMENT=development`
+    * Configurations:
+      * `Node.ClientAPI.Host`: `"bootstrap.development.bacalhau.org"`
+      * `Node.Client.API.Host`: `1234`
+      * _...other configurations specific to this environment..._
 
-  #### 4. Local (private or local networks)
+    **4. Local (private or local networks)**
 
-  - **Environment Variable:** `BACALHAU_ENVIRONMENT=local`
-  - Configurations:
-    - `Node.ClientAPI.Host`: `"0.0.0.0"`
-    - `Node.Client.API.Host`: `1234`
-    - *...other configurations specific to this environment...*
+    * **Environment Variable:** `BACALHAU_ENVIRONMENT=local`
+    * Configurations:
+      * `Node.ClientAPI.Host`: `"0.0.0.0"`
+      * `Node.Client.API.Host`: `1234`
+      * _...other configurations specific to this environment..._
 
-  ------
+    ***
 
-  **Note**: The above configurations provided for each environment are not exhaustive. Consult the specific environment documentation for a [comprehensive list of configurations](https://github.com/bacalhau-project/bacalhau/tree/main/pkg/config/configenv).
+    **Note**: The above configurations provided for each environment are not exhaustive. Consult the specific environment documentation for a [comprehensive list of configurations](https://github.com/bacalhau-project/bacalhau/tree/main/pkg/config/configenv).
 
 ## Usage Examples
 

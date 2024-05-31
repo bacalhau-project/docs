@@ -1,31 +1,23 @@
----
-sidebar_label: "Running-Jupyter-Notebook"
-sidebar_position: 3
----
 # Running Jupyter Notebooks on Bacalhau
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bacalhau-project/examples/blob/main/workload-onboarding/Running-Jupyter-Notebook/index.ipynb)
-[![Open In Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/bacalhau-project/examples/HEAD?labpath=workload-onboarding/Running-Jupyter-Notebook/index.ipynb)
-[![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bacalhau-project/examples/blob/main/workload-onboarding/Running-Jupyter-Notebook/index.ipynb) [![Open In Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/bacalhau-project/examples/HEAD?labpath=workload-onboarding/Running-Jupyter-Notebook/index.ipynb) [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
 ## Introduction
+
 Jupyter Notebooks have become an essential tool for data scientists, researchers, and developers for interactive computing and the development of data-driven projects. They provide an efficient way to share code, equations, visualizations, and narrative text with support for multiple programming languages. In this tutorial, we will introduce you to running Jupyter Notebooks on Bacalhau, a powerful and flexible container orchestration platform. By leveraging Bacalhau, you can execute Jupyter Notebooks in a scalable and efficient manner using Docker containers, without the need for manual setup or configuration.
 
 In the following sections, we will explore two examples of executing Jupyter Notebooks on Bacalhau:
 
 1. **Executing a Simple Hello World Notebook:** We will begin with a basic example to familiarize you with the process of running a Jupyter Notebook on Bacalhau. We will execute a simple "Hello, World!" notebook to demonstrate the steps required for running a notebook in a containerized environment.
-
 2. **Notebook to Train an MNIST Model:** In this section, we will dive into a more advanced example. We will execute a Jupyter Notebook that trains a machine-learning model on the popular MNIST dataset. This will showcase the potential of Bacalhau to handle more complex tasks while providing you with insights into utilizing containerized environments for your data science projects.
 
 ### Prerequisite
 
 To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
 
-
 ## 1. Executing a Simple Hello World Notebook
 
 There are no external dependencies that we need to install. All dependencies are already there in the container.
-
 
 ```bash
 %%bash --out job_id
@@ -58,12 +50,9 @@ bacalhau docker run \
 
 `--output /outputs/hello_output.ipynb`: This option specifies the path and filename for the output Jupyter Notebook, which will contain the results of the executed input notebook.
 
-
-
 ## Checking the State of your Jobs
 
 **Job status**: You can check the status of the job using `bacalhau list`.
-
 
 ```bash
 %%bash
@@ -74,14 +63,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
-
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
-
 
 ```bash
 %%bash
@@ -103,8 +90,8 @@ hello_output.nbconvert.ipynb
 ### Building the container (optional)
 
 #### Prerequisite
-1. Install Docker on your local machine.
 
+1. Install Docker on your local machine.
 2. Sign up for a DockerHub account if you don't already have one.
 
 **Step 1: Create a Dockerfile**
@@ -131,6 +118,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN pip install -U scikit-learn
 ```
+
 This Dockerfile creates a Docker image based on the official `TensorFlow` GPU-enabled image, sets the working directory to the root, updates the package list, and copies an IPython notebook (`mnist.ipynb`) and a `requirements.txt` file. It then upgrades `pip` and installs Python packages from the `requirements.txt` file, along with `scikit-learn`. The resulting image provides an environment ready for running the `mnist.ipynb` notebook with `TensorFlow` and `scikit-learn`, as well as other specified dependencies.
 
 **Step 2: Build the Docker Image**
@@ -140,6 +128,7 @@ In your terminal, navigate to the directory containing the Dockerfile and run th
 ```bash
 docker build -t your-dockerhub-username/jupyter-mnist-tensorflow:latest .
 ```
+
 Replace "your-dockerhub-username" with your actual DockerHub username. This command will build the Docker image and tag it with your DockerHub username and the name "your-dockerhub-username/jupyter-mnist-tensorflow".
 
 **Step 3: Push the Docker Image to DockerHub**
@@ -157,7 +146,6 @@ Again, replace "your-dockerhub-username" with your actual DockerHub username. Th
 #### Prerequisite
 
 To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
-
 
 ```bash
 %%bash --out job_id
@@ -188,7 +176,6 @@ bacalhau docker run \
 
 **Job status**: You can check the status of the job using `bacalhau list`.
 
-
 ```bash
 %%bash
 bacalhau list --id-filter=${JOB_ID} --no-style
@@ -198,14 +185,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
-
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
-
 
 ```bash
 %%bash
@@ -215,7 +200,6 @@ bacalhau get ${JOB_ID} --output-dir results # Download the results
 
 After the download has finished you can see the contents in the `results` directory, running the command below:
 
-
 ```bash
 %%bash
 ls results/outputs
@@ -224,4 +208,5 @@ ls results/outputs
 The outputs include our trained model and the Jupyter notebook with the output cells.
 
 ## Support
+
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

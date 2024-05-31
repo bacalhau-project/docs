@@ -1,8 +1,3 @@
----
-sidebar_label: Installation
-sidebar_position: 0
----
-
 # Installation
 
 ## Install the Bacalhau CLI
@@ -105,7 +100,7 @@ Checking job status...
 The `job_id` above is shown in its full form. For convenience, you can use the shortened version, in this case: `9d20bbad`.
 
 {% hint style="info" %}
-While this command is designed to resemble Docker's run command which you may be familiar with, Bacalhau introduces a whole new set of [flags](../dev/cli-reference/all-flags.md#docker-run) to support its computing model.
+While this command is designed to resemble Docker's run command which you may be familiar with, Bacalhau introduces a whole new set of [flags](../references/cli-reference/all-flags.md#docker-run) to support its computing model.
 {% endhint %}
 {% endtab %}
 
@@ -154,7 +149,7 @@ CREATED   ID          JOB                                       STATE      PUBLI
 When it says `Completed`, that means the job is done, and we can get the results.
 
 {% hint style="info" %}
-For a comprehensive list of flags you can pass to the list command check out [the related CLI Reference page](../dev/cli-reference/all-flags.md)
+For a comprehensive list of flags you can pass to the list command check out [the related CLI Reference page](../references/cli-reference/all-flags.md)
 {% endhint %}
 
 #### Step 3.2 - Job information:

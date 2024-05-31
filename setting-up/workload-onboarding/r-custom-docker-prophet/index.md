@@ -1,8 +1,3 @@
----
-sidebar_label: R Custom Container
-sidebar_position: 8
----
-
 # Building and Running your Custom R Containers on Bacalhau
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
@@ -252,11 +247,11 @@ You can't natively display PDFs in notebooks, so here are some static images of 
 
 **output0.pdf**
 
-![](output0.png)
+![](../../../.gitbook/assets/output0.png)
 
 **output1.pdf**
 
-![](output1.png)
+![](../../../.gitbook/assets/output1.png)
 
 ## Support
 

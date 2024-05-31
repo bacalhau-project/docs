@@ -1,8 +1,3 @@
----
-sidebar_label: Hardware/GPU setup
-sidebar_position: 4
----
-
 # Hardware Setup
 
 Different jobs may require different amounts of resources to execute. Some jobs may have specific hardware requirements, such as GPU. This page describes how to specify hardware requirements for your job.

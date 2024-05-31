@@ -1,8 +1,3 @@
----
-sidebar_label: Workloads (WebAssembly)
-sidebar_position: 3
----
-
 # WebAssembly (WASM) Workloads
 
 Bacalhau supports running programs that are compiled to [WebAssembly (WASM)](https://webassembly.org/). With the Bacalhau client, you can upload WASM programs, retrieve data from public storage, read and write data, receive program arguments, and access environment variables.

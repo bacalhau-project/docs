@@ -1,6 +1,4 @@
 ---
-sidebar_label: Ways to Contribute
-sidebar_position: 2
 description: How to contribute to Bacalhau
 ---
 

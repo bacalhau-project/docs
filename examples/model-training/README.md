@@ -1,2 +1,2 @@
-# model-training
+# Model Training
 

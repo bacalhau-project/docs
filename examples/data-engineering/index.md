@@ -1,8 +1,3 @@
----
-sidebar_label: DuckDB
-sidebar_position: 3
----
-
 # Using Bacalhau with DuckDB
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)

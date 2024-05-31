@@ -1,8 +1,3 @@
----
-sidebar_label: Test Network Locally
-sidebar_position: 155
----
-
 # Test Network Locally
 
 Before you join the main Bacalhau network, you can test locally.

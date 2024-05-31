@@ -1,6 +1,4 @@
 ---
-sidebar_label: Bacalhau Docker Image
-sidebar_position: 1
 description: How to use the Bacalhau Docker image
 ---
 
@@ -151,7 +149,7 @@ bacalhau get ${JOB_ID} --output-dir result
 
 After the download has finished you should see the following contents in the results directory.
 
-![png](../bacalhau-docker-image/index\_files/index\_25\_0.png)
+![png](../../../.gitbook/assets/index\_25\_0.png)
 
 ## Support
 

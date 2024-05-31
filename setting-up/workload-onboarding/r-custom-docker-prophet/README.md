@@ -1,2 +1,2 @@
-# r-custom-docker-prophet
+# R (language)
 

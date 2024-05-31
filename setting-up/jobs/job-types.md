@@ -1,7 +1,4 @@
 ---
-sidebar_label: Job Types
-sidebar_position: 4
-title: Job Types
 description: The different job types available in Bacalhau
 ---
 

@@ -1,7 +1,3 @@
----
-sidebar_label: exec
----
-
 # Job Exec
 
 ## Description

@@ -1,10 +1,4 @@
----
-sidebar_label: Coresets On Bacalhau
-sidebar_position: 2
----
 # Coresets On Bacalhau
-
-
 
 [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
@@ -13,36 +7,28 @@ sidebar_position: 2
 We construct a small coreset for arbitrary shapes of numerical data with a decent time cost. The implementation was mainly based on the coreset construction algorithm that was proposed by Braverman et al. (SODA 2021).
 
 ## TD:LR
-Running compressed dataset with Bacalhau
 
+Running compressed dataset with Bacalhau
 
 ## Running Locally
 
 Clone the repo which contains the code
-
-
 
 ```bash
 %%bash
 git clone https://github.com/js-ts/Coreset
 ```
 
-
 To download the dataset you should open Street Map, which is a public repository that aims to generate and distribute accessible geographic data for the whole world. Basically, it supplies detailed position information, including the longitude and latitude of the places around the world.
 
 The dataset is a osm.pbf (compressed format for .osm file), the file can be downloaded from [Geofabrik Download Server](https://download.geofabrik.de/)
-
-
 
 ```bash
 %%bash
 wget https://download.geofabrik.de/europe/liechtenstein-latest.osm.pbf -o liechtenstein-latest.osm.pbf
 ```
 
-
 The following command is installing Linux dependencies:
-
-
 
 ```bash
 %%bash
@@ -54,8 +40,6 @@ sudo apt-get -y install libpq-dev gdal-bin libgdal-dev libxml2-dev libxslt-dev
 
 The following command is installing Python dependencies:
 
-
-
 ```bash
 %%bash
 pip3 install -r Coreset/requirements.txt
@@ -63,14 +47,12 @@ pip3 install -r Coreset/requirements.txt
 
 To run coreset locally, you need to convert from compressed pbf format to geojson format:
 
-
 ```bash
 %%bash
 osmium export liechtenstein-latest.osm.pbf -o liechtenstein-latest.geojson
 ```
 
 The following command is to run the Python script to generate the coreset:
-
 
 ```bash
 %%bash
@@ -93,13 +75,9 @@ ADD monaco-latest.geojson .
 RUN cd Coreset && pip3 install -r requirements.txt
 ```
 
-
 We will use the `python:3.8` image, and we will choose the src directory in the container as our work directory, we run the same commands for installing dependencies that we used locally, but we also add files and directories which are present on our local machine, we also run a test command, in the end, to check whether the script works
 
-:::info
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
-:::
-
+:::info See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/) :::
 
 ### Build the container
 
@@ -111,11 +89,9 @@ docker build -t <hub-user>/<repo-name>:<tag> .
 
 Before running the command replace;
 
-- **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
-
-- **repo-name** with the name of the container, you can name it anything you want
-
-- **tag** this is not required but you can use the latest tag
+* **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
+* **repo-name** with the name of the container, you can name it anything you want
+* **tag** this is not required but you can use the latest tag
 
 In our case
 
@@ -137,7 +113,6 @@ In our case
 docker push jsace/coreset
 ```
 
-
 ## Running a Bacalhau Job
 
 After the repo image has been pushed to Docker Hub, we can now use the container for running on Bacalhau. To submit a job, run the following Bacalhau command:
@@ -150,15 +125,11 @@ jsace/coreset \
 python Coreset/python/coreset.py -f input/liechtenstein-latest.geojson -o outputs'
 ```
 
-
 Backend: Docker backend here for running the job
 
 * `input/liechtenstein-latest.osm.pbf`: Upload the .osm.pbf file
-
 * `-i ipfs://QmXuatKaWL24CwrBPC9PzmLW8NGjgvBVJfk6ZGCWUGZgCu:/input`: mount dataset to the folder inside the container so it can be used by the script
-
-* `jsace/coreset`:  the name and the tag of the docker image we are using
-
+* `jsace/coreset`: the name and the tag of the docker image we are using
 
 The following command converts the osm.pbf dataset to geojson (the dataset is stored in the input volume folder):
 
@@ -175,25 +146,20 @@ python Coreset/python/coreset.py -f liechtenstein-latest.geojson -o outputs
 We get the output in stdout
 
 Additional parameters:
+
 * `-k`: amount of initialized centers (default=5)
-
 * `-n`: size of coreset (default=50)
-
 * `-o`: the output folder
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
-
 
 ```python
 %env JOB_ID={job_id}
 ```
 
-
 ## Checking the State of your Jobs
 
-- **Job status**: You can check the status of the job using `bacalhau list`.
-
-
+* **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
 %%bash
@@ -202,16 +168,14 @@ bacalhau list --id-filter ${JOB_ID} --wide
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-- **Job information**: You can find out more information about your job by using `bacalhau describe`.
-
+* **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
 %%bash
 bacalhau describe ${JOB_ID}
 ```
 
-- **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
-
+* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 %%bash
@@ -223,7 +187,6 @@ bacalhau get $JOB_ID --output-dir results
 
 To view the file, run the following command:
 
-
 ```bash
 %%bash
 ls results/
@@ -231,27 +194,23 @@ ls results/
 
 To view the output as a CSV file, run:
 
-
 ```bash
 %%bash
 cat results/outputs/centers.csv | head -n 10
 ```
-
 
 ```bash
 %%bash
 cat results/outputs/coreset-values-liechtenstein-latest.csv | head -n 10
 ```
 
-
 ```bash
 %%bash
 cat results/outputs/coreset-weights-liechtenstein-latest.csv | head -n 10
 ```
 
-
 #### Sources
 
-[1] [http://proceedings.mlr.press/v97/braverman19a/braverman19a.pdf](http://proceedings.mlr.press/v97/braverman19a/braverman19a.pdf)
+\[1] [http://proceedings.mlr.press/v97/braverman19a/braverman19a.pdf](http://proceedings.mlr.press/v97/braverman19a/braverman19a.pdf)
 
-[2][https://aaltodoc.aalto.fi/bitstream/handle/123456789/108293/master_Wu_Xiaobo_2021.pdf?sequence=2](https://aaltodoc.aalto.fi/bitstream/handle/123456789/108293/master_Wu_Xiaobo_2021.pdf?sequence=2)
+\[2][https://aaltodoc.aalto.fi/bitstream/handle/123456789/108293/master\_Wu\_Xiaobo\_2021.pdf?sequence=2](https://aaltodoc.aalto.fi/bitstream/handle/123456789/108293/master\_Wu\_Xiaobo\_2021.pdf?sequence=2)

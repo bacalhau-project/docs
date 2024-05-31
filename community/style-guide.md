@@ -1,6 +1,4 @@
 ---
-sidebar_label: Style Guide
-sidebar_position: 1
 description: >-
   This guide explains things to keep in mind when writing for Bacalhau’s
   documentation.

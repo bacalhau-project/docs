@@ -1,2 +1,2 @@
-# networking-instructions
+# Networking Instructions
 

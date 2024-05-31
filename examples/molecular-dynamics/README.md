@@ -1,2 +1,2 @@
-# molecular-dynamics
+# Molecular Dynamics
 

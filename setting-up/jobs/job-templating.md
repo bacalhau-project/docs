@@ -1,7 +1,4 @@
 ---
-sidebar_label: Job Templates
-sidebar_position: 3
-title: Job Templates
 description: Templating Support in Bacalhau Job Run
 ---
 
