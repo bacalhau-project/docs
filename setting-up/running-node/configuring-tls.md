@@ -19,8 +19,6 @@ Using the `--autocert [hostname]` parameter to the CLI (in the `serve` and `devs
 Alternatively, you may set these options via the environment variable, `BACALHAU_AUTO_TLS`. If you are using a configuration file, you can set the values in`Node.ServerAPI.TLS.AutoCert` instead.
 
 {% hint style="info" %}
-
-
 As a result of the Lets Encrypt verification step, it is necessary for the server to be able to handle requests on port 443. This typically requires elevated privileges, and rather than obtain these through a privileged account (such as root), you should instead use setcap to grant the executable the right to bind to ports <1024.
 
 ```bash
@@ -41,15 +39,15 @@ Obtaining a TLS certificate from a Certificate Authority (CA) without using the 
 5. Complete Additional Verification: Depending on the CA's policies and the type of certificate you're requesting (e.g., Extended Validation or EV certificates), you may need to provide additional documentation to verify your organization's identity. This can include legal documents or phone calls from the CA to confirm your request.
 6. Payment and Processing: If you're obtaining a paid certificate, you'll need to make the payment at this stage. Once the CA has received your payment and completed the verification process, they will issue the TLS certificate.
 
-Once you have obtained your certificates, you will need to put two files in a location that bacalhau can read them. You need the server certificate, often called something like `server.cert` or `server.cert.pem`, and the server key which is often called something like `server.key` or `server.key.pem`.
+Once you have obtained your certificates, you will need to put two files in a location that bacalhau can read them. You need the **server certificate**, often called something like `server.cert` or `server.cert.pem`, and the **server key** which is often called something like `server.key` or `server.key.pem`.
 
 Once you have these two files available, you must start `bacalhau serve` which two new flags. These are `tlscert` and `tlskey` flags, whose arguments should point to the relevant file. An example of how it is used is:
 
 ```
-bacalhau server --node-type=requester --tlscert=server.cert --tlskey=server.key
+bacalhau serve --node-type=requester --tlscert=server.cert --tlskey=server.key
 ```
 
-Alternatively, you may set these options via the environment variables, `BACALHAU_TLS_CERT` and `BACALHAU_TLS_KEY`. If you are using a configuration file, you can set the values in`Node.ServerAPI.TLS.ServerCertificate` and `Node.ServerAPI.TLS.ServerKey` instead.
+Alternatively, you may set these options via the **environment variables**, `BACALHAU_TLS_CERT` and `BACALHAU_TLS_KEY`. If you are using a configuration file, you can set the values in`Node.ServerAPI.TLS.ServerCertificate` and `Node.ServerAPI.TLS.ServerKey` instead.
 
 ### Self-signed certificates
 
@@ -58,7 +56,7 @@ If you wish, it is possible to use Bacalhau with a self-signed certificate which
 Once you have generated the necessary files, the steps are much like above, you must start `bacalhau serve` which two new flags. These are `tlscert` and `tlskey` flags, whose arguments should point to the relevant file. An example of how it is used is:
 
 ```
-bacalhau server --node-type=requester --tlscert=server.cert --tlskey=server.key
+bacalhau serve --node-type=requester --tlscert=server.cert --tlskey=server.key
 ```
 
 Alternatively, you may set these options via the environment variables, `BACALHAU_TLS_CERT` and `BACALHAU_TLS_KEY`. If you are using a configuration file, you can set the values in`Node.ServerAPI.TLS.ServerCertificate` and `Node.ServerAPI.TLS.ServerKey` instead.
