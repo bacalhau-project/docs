@@ -21,7 +21,6 @@
   * [Observability](setting-up/running-node/observability.md)
   * [Configuring node persistence](setting-up/running-node/persistence.md)
   * [Running a Compute Node Using Docker](setting-up/running-node/quick-start-docker.md)
-  * [Join as Compute Provider](setting-up/running-node/quick-start.md)
   * [Resource Limits](setting-up/running-node/resource-limits.md)
   * [Storage Providers](setting-up/running-node/storage-providers.md)
   * [Test Network Locally](setting-up/running-node/test-network.md)
