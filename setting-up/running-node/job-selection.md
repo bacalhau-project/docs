@@ -7,7 +7,7 @@ When running a node, you can choose which jobs you want to run by using configur
 | Node.Compute.JobSelection.Locality            | `--job-selection-data-locality`    | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").  |
 | Node.Compute.JobSelection.ProbeExec           | `--job-selection-probe-exec`       | unused        | Use the result of an external program to decide if we should take on the job.             |
 | Node.Compute.JobSelection.ProbeHttp           | `--job-selection-probe-http`       | unused        | Use the result of a HTTP POST to decide if we should take on the job.                     |
-| Node.Compute.JobSelection.RejectStatelessJobs | `--job-selection-reject-stateless` | False         | Reject jobs that don't specify any [input data](broken-reference).                        |
+| Node.Compute.JobSelection.RejectStatelessJobs | `--job-selection-reject-stateless` | False         | Reject jobs that don't specify any [input data](../data-ingestion/).                      |
 | Node.Compute.JobSelection.AcceptNetworkedJobs | `--job-selection-accept-networked` | False         | Accept jobs that require [network connections](../networking-instructions/networking.md). |
 
 ## Job selection probes
