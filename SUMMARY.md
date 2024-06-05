@@ -17,7 +17,7 @@
   * [Authentication & Authorization](setting-up/running-node/auth.md)
   * [Configuration Overview](setting-up/running-node/configuration.md)
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
-  * [GPU Support](setting-up/running-node/gpu.md)
+  * [GPU Installation](setting-up/running-node/gpu.md)
   * [Observability](setting-up/running-node/observability.md)
   * [Configuring node persistence](setting-up/running-node/persistence.md)
   * [Running a Compute Node Using Docker](setting-up/running-node/quick-start-docker.md)
