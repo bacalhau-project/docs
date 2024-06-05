@@ -22,7 +22,7 @@
   * [Configuring node persistence](setting-up/running-node/persistence.md)
   * [Running a Compute Node Using Docker](setting-up/running-node/quick-start-docker.md)
   * [Resource Limits](setting-up/running-node/resource-limits.md)
-  * [Storage Providers](setting-up/running-node/storage-providers.md)
+  * [Connect Storage](setting-up/running-node/storage-providers.md)
   * [Test Network Locally](setting-up/running-node/test-network.md)
   * [Job execution timeouts](setting-up/running-node/timeouts.md)
   * [Bacalhau WebUI](setting-up/running-node/webui.md)
