@@ -34,7 +34,11 @@ For example, Rust users can specify the `wasm32-wasi` target to `rustup` and `ca
 
 Data is identified by its content identifier (CID) and can be accessed by anyone who knows the CID. You can use either of these methods to upload your data:
 
-[Copy data from a URL to public storage](../../data-ingestion/from-url.md) [Pin Data to public storage](../../data-ingestion/pin.md) [Copy Data from S3 Bucket to public storage](../../data-ingestion/s3.md)
+[Copy data from a URL to public storage](../../data-ingestion/from-url.md)&#x20;
+
+[Pin Data to public storage](../../data-ingestion/pin.md)
+
+[Copy Data from S3 Bucket to public storage](../../data-ingestion/s3.md)
 
 {% hint style="info" %}
 You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
@@ -56,7 +60,7 @@ If your program is locally compiled, specify it as an argument. For instance, ru
 $ bacalhau wasm run main.wasm
 ```
 
-{% hint style="danger" %}
+{% hint style="warning" %}
 The program you specify will be uploaded to a Bacalhau storage node and will be publicly available.
 {% endhint %}
 
