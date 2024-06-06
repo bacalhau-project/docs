@@ -20,8 +20,7 @@ To get started, you need to install the Bacalhau client, see more information [h
 There are no external dependencies that we need to install. All dependencies are already there in the container.
 
 ```bash
-%%bash --out job_id
-bacalhau docker run \
+export JOB_ID=$(bacalhau docker run \
     --wait \
     --id-only \
     --timeout 3600 \
@@ -29,49 +28,38 @@ bacalhau docker run \
     -w /inputs \
     -i https://raw.githubusercontent.com/js-ts/hello-notebook/main/hello.ipynb \
     jsacex/jupyter \
-    -- jupyter nbconvert --execute --to notebook --output /outputs/hello_output.ipynb hello.ipynb
+    -- jupyter nbconvert --execute --to notebook --output /outputs/hello_output.ipynb hello.ipynb)
 ```
 
-`/inputs/hello.ipynb`: This is the path of the input Jupyter Notebook inside the Docker container.
-
-`-i`: This flag stands for "input" and is used to provide the URL of the input Jupyter Notebook you want to execute.
-
-`https://raw.githubusercontent.com/js-ts/hello-notebook/main/hello.ipynb`: This is the URL of the input Jupyter Notebook.
-
-`jsacex/jupyter`: This is the name of the Docker image used for running the Jupyter Notebook. It is a minimal Jupyter Notebook stack based on the official Jupyter Docker Stacks.
-
-`--`: This double dash is used to separate the Bacalhau command options from the command that will be executed inside the Docker container.
-
-`jupyter nbconvert`: This is the primary command used to convert and execute Jupyter Notebooks. It allows for the conversion of notebooks to various formats, including execution.
-
-`--execute`: This flag tells `nbconvert` to execute the notebook and store the results in the output file.
-
-`--to notebook`: This option specifies the output format. In this case, we want to keep the output as a Jupyter Notebook.
-
-`--output /outputs/hello_output.ipynb`: This option specifies the path and filename for the output Jupyter Notebook, which will contain the results of the executed input notebook.
+1. `/inputs/hello.ipynb`: This is the path of the input Jupyter Notebook inside the Docker container.
+2. `-i`: This flag stands for "input" and is used to provide the URL of the input Jupyter Notebook you want to execute.
+3. `https://raw.githubusercontent.com/js-ts/hello-notebook/main/hello.ipynb`: This is the URL of the input Jupyter Notebook.
+4. `jsacex/jupyter`: This is the name of the Docker image used for running the Jupyter Notebook. It is a minimal Jupyter Notebook stack based on the official Jupyter Docker Stacks.
+5. `--`: This double dash is used to separate the Bacalhau command options from the command that will be executed inside the Docker container.
+6. `jupyter nbconvert`: This is the primary command used to convert and execute Jupyter Notebooks. It allows for the conversion of notebooks to various formats, including execution.
+7. `--execute`: This flag tells `nbconvert` to execute the notebook and store the results in the output file.
+8. `--to notebook`: This option specifies the output format. In this case, we want to keep the output as a Jupyter Notebook.
+9. `--output /outputs/hello_output.ipynb`: This option specifies the path and filename for the output Jupyter Notebook, which will contain the results of the executed input notebook.
 
 ## Checking the State of your Jobs
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau list`:
 
 ```bash
-%%bash
 bacalhau list --id-filter=${JOB_ID} --no-style
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau describe`:
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir results # Temporary directory to store the results
 bacalhau get ${JOB_ID} --output-dir results # Download the results
 ```
@@ -79,7 +67,6 @@ bacalhau get ${JOB_ID} --output-dir results # Download the results
 After the download has finished you can see the contents in the `results` directory, running the command below:
 
 ```bash
-%%bash
 ls results/outputs
 
 hello_output.nbconvert.ipynb

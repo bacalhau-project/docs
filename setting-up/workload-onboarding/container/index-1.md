@@ -16,14 +16,12 @@ Bacalhau operates by executing jobs within containers. This example shows you ho
 You're likely familiar with executing Docker commands to start a container:
 
 ```bash
-%%bash
 docker run docker/whalesay cowsay sup old fashioned container run
 ```
 
 This command runs a container from the `docker/whalesay` image. The container executes the `cowsay sup old fashioned container run` command:
 
 ```shell
-Expected output:
 _________________________________
 < sup old fashioned container run >
  ---------------------------------
@@ -43,8 +41,10 @@ _________________________________
 ### Bacalhau Command
 
 ```bash
-%%bash --out job_id
-bacalhau docker run --wait --id-only docker/whalesay -- bash -c 'cowsay hello web3 uber-run'
+export JOB_ID=$(bacalhau docker run \
+    --wait \
+    --id-only \ 
+    docker/whalesay -- bash -c 'cowsay hello web3 uber-run')
 ```
 
 This command also runs a container from the `docker/whalesay` image, using Bacalhau. We use the `bacalhau docker run` command to start a job in a Docker container. It contains additional flags such as `--wait` to wait for job completion and `--id-only` to return only the job identifier. Inside the container, the `bash -c 'cowsay hello web3 uber-run'` command is executed.
@@ -57,14 +57,9 @@ When a job is submitted, Bacalhau prints out the related `job_id` (`7e41b9b9-a9e
 
 We store that in an environment variable so that we can reuse it later on.
 
-```python
-%env JOB_ID={job_id}
-```
-
 You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get ${JOB_ID}  --output-dir results
 ```
@@ -72,10 +67,7 @@ bacalhau get ${JOB_ID}  --output-dir results
 Viewing your job output
 
 ```bash
-%%bash
 cat ./results/stdout
-
-Expected output:
 
  _____________________
 < hello web3 uber-run >
@@ -110,7 +102,7 @@ To use your own custom container, you must publish the container to a container 
 To demonstrate this, you will develop and build a simple custom container that comes from an old Docker example. I remember seeing cowsay at a Docker conference about a decade ago. I think it's about time we brought it back to life and distribute it across the Bacalhau network.
 
 ```````````````````````````python
-%%writefile cod.cow
+# write to the cod.cow
 $the_cow = <<"EOC";
    $thoughts
     $thoughts
@@ -134,7 +126,7 @@ EOC
 Next, the Dockerfile adds the script and sets the entry point.
 
 ```python
-%%writefile Dockerfile
+# write the Dockerfile
 FROM debian:stretch
 RUN apt-get update && apt-get install -y cowsay
 # "cowsay" installs to /usr/games
@@ -147,35 +139,33 @@ COPY cod.cow /usr/share/cowsay/cows/default.cow
 Now let's build and test the container locally.
 
 ```bash
-%%bash
 docker build -t ghcr.io/bacalhau-project/examples/codsay:latest . 2> /dev/null
 ```
 
 ```bash
-%%bash
-docker run --rm ghcr.io/bacalhau-project/examples/codsay:latest codsay I like swimming in data
+%%bashdocker run --rm ghcr.io/bacalhau-project/examples/codsay:latest codsay I like swimming in data
 ```
 
 Once your container is working as expected then you should push it to a public container registry. In this example, I'm pushing to Github's container registry, but we'll skip the step below because you probably don't have permission. Remember that the Bacalhau nodes expect your container to have a `linux/amd64` architecture.
 
 ```bash
-%%bash
-# docker buildx build --platform linux/amd64,linux/arm64 --push -t ghcr.io/bacalhau-project/examples/codsay:latest .
+docker buildx build --platform linux/amd64,linux/arm64 --push -t ghcr.io/bacalhau-project/examples/codsay:latest .
 ```
 
 ## 3. Running Your Custom Container on Bacalhau
 
 Now we're ready to submit a Bacalhau job using your custom container. This code runs a job, downloads the results, and prints the stdout.
 
-:::tip The `bacalhau docker run` command strips the default entry point, so don't forget to run your entry point in the command line arguments. :::
+{% hint style="info" %}
+The `bacalhau docker run` command strips the default entry point, so don't forget to run your entry point in the command line arguments.
+{% endhint %}
 
 ```bash
-%%bash --out job_id
-bacalhau docker run \
+export JOB_ID=$(bacalhau docker run \
     --wait \
     --id-only \
     ghcr.io/bacalhau-project/examples/codsay:v1.0.0 \
-    -- bash -c 'codsay Look at all this data'
+    -- bash -c 'codsay Look at all this data')
 ```
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
@@ -183,7 +173,6 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 Download your job results directly by using `bacalhau get` command.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get ${JOB_ID}  --output-dir results
 ```
@@ -191,10 +180,7 @@ bacalhau get ${JOB_ID}  --output-dir results
 View your job output
 
 ```````````````````````````bash
-%%bash
 cat ./results/stdout
-
-Expected output:
 
 _______________________
 < Look at all this data >
