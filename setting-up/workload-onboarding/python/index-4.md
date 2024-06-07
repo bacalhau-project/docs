@@ -13,7 +13,7 @@ To get started, you need to install the Bacalhau client, see more information [h
 To demonstrate this example, I will use the data generated from an Ethereum example. This produced a list of hashes that I will iterate over and execute a job for each one.
 
 ```python
-%%writefile hashes.txt
+#write following to the file hashes.txt
 bafybeihvtzberlxrsz4lvzrzvpbanujmab3hr5okhxtbgv2zvonqos2l3i
 bafybeifb25fgxrzu45lsc47gldttomycqcsao22xa2gtk2ijbsa5muzegq
 bafybeig4wwwhs63ly6wbehwd7tydjjtnw425yvi2tlzt3aii3pfcj6hvoq
@@ -25,7 +25,7 @@ bafybeicjd4545xph6rcyoc74wvzxyaz2vftapap64iqsp5ky6nz3f5yndm
 Now let's create a file called `bacalhau.py`. The script below automates the submission, monitoring, and retrieval of results for multiple Bacalhau jobs in parallel. It is designed to be used in a scenario where there are multiple hash files, each representing a job, and the script manages the execution of these jobs using Bacalhau commands.
 
 ```python
-%%writefile bacalhau.py
+# write following to the file bacalhau.py
 import json, glob, os, multiprocessing, shutil, subprocess, tempfile, time
 
 # checkStatusOfJob checks the status of a Bacalhau job
@@ -164,21 +164,17 @@ This code has a few interesting features:
 Let's run it!
 
 ```bash
-%%bash
-python bacalhau.py
+python3 bacalhau.py
 ```
 
 Hopefully, the `results` directory contains all the combined results from the jobs we just executed. Here's we're expecting to see CSV files:
 
 ```bash
-%%bash
 ls results
 
-Expected Output:
 transactions_00000000_00049999.csv  transactions_00150000_00199999.csv
 transactions_00050000_00099999.csv  transactions_00200000_00249999.csv
 transactions_00100000_00149999.csv  transactions_00250000_00299999.csv
-
 ```
 
 Success! We've now executed a bunch of jobs in parallel using Python. This is a great way to execute lots of jobs in a repeatable manner. You can alter the file above for your purposes.
@@ -187,7 +183,7 @@ Success! We've now executed a bunch of jobs in parallel using Python. This is a 
 
 You might also be interested in the following examples:
 
-[Analysing Data with Python Pandas](broken-reference)
+[Analysing Data with Python Pandas](running-pandas-on-bacalhau.md)
 
 ## Support
 
