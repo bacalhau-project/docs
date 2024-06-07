@@ -135,8 +135,7 @@ Again, replace "your-dockerhub-username" with your actual DockerHub username. Th
 To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
 
 ```bash
-%%bash --out job_id
-bacalhau docker run \
+export JOB_ID=$(bacalhau docker run \
     --wait \
     --id-only \
     --timeout 3600 \
@@ -144,27 +143,23 @@ bacalhau docker run \
     --gpu 1 \
     -i gitlfs://huggingface.co/datasets/VedantPadwal/mnist.git \
     jsacex/jupyter-tensorflow-mnist:v02 \
-    -- jupyter nbconvert --execute --to notebook --output /outputs/mnist_output.ipynb mnist.ipynb
+    -- jupyter nbconvert --execute --to notebook --output /outputs/mnist_output.ipynb mnist.ipynb)
 ```
 
 ### Structure of the command
 
-`--gpu 1`: Flag to specify the number of GPUs to use for the execution. In this case, 1 GPU will be used.
+1. `--gpu 1`: Flag to specify the number of GPUs to use for the execution. In this case, 1 GPU will be used.
+2. `-i gitlfs://huggingface.co/datasets/VedantPadwal/mnist.git`: The `-i` flag is used to clone the MNIST dataset from Hugging Face's repository using Git LFS. The files will be mounted inside the container.
+3.  `jsacex/jupyter-tensorflow-mnist:v02`: The name and the tag of the Docker image.
 
-`-i gitlfs://huggingface.co/datasets/VedantPadwal/mnist.git`: The `-i` flag is used to clone the MNIST dataset from Hugging Face's repository using Git LFS. The files will be mounted inside the container.
-
-`jsacex/jupyter-tensorflow-mnist:v02`: The name and the tag of the Docker image.
-
-`--`: This double dash is used to separate the Bacalhau command options from the command that will be executed inside the Docker container.
-
-`jupyter nbconvert --execute --to notebook --output /outputs/mnist_output.ipynb mnist.ipynb`: The command to be executed inside the container. In this case, it runs the `jupyter nbconvert` command to execute the `mnist.ipynb` notebook and save the output as `mnist_output.ipynb` in the `/outputs` directory.
+    `--`: This double dash is used to separate the Bacalhau command options from the command that will be executed inside the Docker container.
+4. `jupyter nbconvert --execute --to notebook --output /outputs/mnist_output.ipynb mnist.ipynb`: The command to be executed inside the container. In this case, it runs the `jupyter nbconvert` command to execute the `mnist.ipynb` notebook and save the output as `mnist_output.ipynb` in the `/outputs` directory.
 
 ## Checking the State of your Jobs
 
 **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter=${JOB_ID} --no-style
 ```
 
@@ -173,14 +168,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir results # Temporary directory to store the results
 bacalhau get ${JOB_ID} --output-dir results # Download the results
 ```
@@ -188,7 +181,6 @@ bacalhau get ${JOB_ID} --output-dir results # Download the results
 After the download has finished you can see the contents in the `results` directory, running the command below:
 
 ```bash
-%%bash
 ls results/outputs
 ```
 
