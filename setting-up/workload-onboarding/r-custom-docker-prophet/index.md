@@ -6,7 +6,10 @@
 
 This example will walk you through building Time Series Forecasting using [Prophet](https://github.com/facebook/prophet). Prophet is a forecasting procedure implemented in R and Python. It is fast and provides completely automated forecasts that can be tuned by hand by data scientists and analysts.
 
-:::info Quick script to run custom R container on Bacalhau:
+
+
+{% hint style="info" %}
+Quick script to run custom R container on Bacalhau:
 
 ```bash
 bacalhau docker run \
@@ -14,8 +17,7 @@ bacalhau docker run \
     ghcr.io/bacalhau-project/examples/r-prophet:0.0.2 \
     -- Rscript Saturating-Forecasts.R "/example_wp_log_R.csv" "/outputs/output0.pdf" "/outputs/output1.pdf"
 ```
-
-:::
+{% endhint %}
 
 ## Prerequisites
 
@@ -23,24 +25,21 @@ To get started, you need to install the Bacalhau client, see more information [h
 
 ## 1. Running Prophet in R Locally
 
-Open R studio or R-supported IDE. If you want to run this on a notebook server, then make sure you use an R kernel. Prophet is a CRAN package, so you can use install.packages to install the prophet package:
+Open R studio or R-supported IDE. If you want to run this on a notebook server, then make sure you use an R kernel. Prophet is a CRAN package, so you can use `install.packages` to install the `prophet` package:
 
-```bash
-%%bash
+```r
 R -e "install.packages('prophet',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 ```
 
 After installation is finished, you can download the example data that is stored in IPFS:
 
 ```bash
-%%bash
 wget https://w3s.link/ipfs/QmZiwZz7fXAvQANKYnt7ya838VPpj4agJt5EDvRYp3Deeo/example_wp_log_R.csv
 ```
 
 The code below instantiates the library and fits a model to the data.
 
 ```bash
-%%bash
 mkdir -p outputs
 mkdir -p R
 ```
@@ -48,7 +47,7 @@ mkdir -p R
 Create a new file called `Saturating-Forecasts.R` and in it paste the following script:
 
 ```python
-%%writefile Saturating-Forecasts.R
+# content of the Saturating-Forecasts.R
 
 # Library Inclusion
 library('prophet')
@@ -104,7 +103,6 @@ This script performs time series forecasting using the Prophet library in R, tak
 Let's have a look at the command below:
 
 ```bash
-%%bash
 Rscript Saturating-Forecasts.R "example_wp_log_R.csv" "outputs/output0.pdf" "outputs/output1.pdf"
 ```
 
@@ -126,8 +124,7 @@ To use Bacalhau, you need to package your code in an appropriate format. The dev
 
 To build your own docker container, create a `Dockerfile`, which contains instructions to build your image.
 
-```
-%%writefile Dockerfile
+```docker
 FROM r-base
 RUN R -e "install.packages('prophet',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN mkdir /R
@@ -179,41 +176,30 @@ docker push ghcr.io/bacalhau-project/examples/r-prophet:0.0.1
 The following command passes a prompt to the model and generates the results in the outputs directory. It takes approximately 2 minutes to run.
 
 ```bash
-%%bash --out job_id
-bacalhau docker run \
+export JOB_ID=$(bacalhau docker run \
     --wait \
     --id-only \
     -i ipfs://QmY8BAftd48wWRYDf5XnZGkhwqgjpzjyUG3hN1se6SYaFt:/example_wp_log_R.csv \
     ghcr.io/bacalhau-project/examples/r-prophet:0.0.2 \
-    -- Rscript Saturating-Forecasts.R "/example_wp_log_R.csv" "/outputs/output0.pdf" "/outputs/output1.pdf"
+    -- Rscript Saturating-Forecasts.R "/example_wp_log_R.csv" "/outputs/output0.pdf" "/outputs/output1.pdf")
 ```
 
 ### Structure of the command
 
-`bacalhau docker run`: call to Bacalhau
-
-`-i ipfs://QmY8BAftd48wWRYDf5XnZGkhwqgjpzjyUG3hN1se6SYaFt:/example_wp_log_R.csv`: Mounting the uploaded dataset at `/inputs` in the execution. It takes two arguments, the first is the IPFS CID (`QmY8BAftd48wWRYDf5XnZGkhwqgjpzjyUG3hN1se6SYaFtz`) and the second is file path within IPFS (`/example_wp_log_R.csv`)
-
-`ghcr.io/bacalhau-project/examples/r-prophet:0.0.2`: the name and the tag of the docker image we are using
-
-`/example_wp_log_R.csv` : path to the input dataset
-
-`/outputs/output0.pdf`, `/outputs/output1.pdf`: paths to the output
-
-`Rscript Saturating-Forecasts.R`: execute the R script
+1. `bacalhau docker run`: call to Bacalhau
+2. `-i ipfs://QmY8BAftd48wWRYDf5XnZGkhwqgjpzjyUG3hN1se6SYaFt:/example_wp_log_R.csv`: Mounting the uploaded dataset at `/inputs` in the execution. It takes two arguments, the first is the IPFS CID (`QmY8BAftd48wWRYDf5XnZGkhwqgjpzjyUG3hN1se6SYaFtz`) and the second is file path within IPFS (`/example_wp_log_R.csv`)
+3. `ghcr.io/bacalhau-project/examples/r-prophet:0.0.2`: the name and the tag of the docker image we are using
+4. `/example_wp_log_R.csv` : path to the input dataset
+5. `/outputs/output0.pdf`, `/outputs/output1.pdf`: paths to the output
+6. `Rscript Saturating-Forecasts.R`: execute the R script
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on:
-
-```python
-%env JOB_ID={job_id}
-```
 
 ## 5. Checking the State of your Jobs
 
 **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
@@ -222,14 +208,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get ${JOB_ID} --output-dir results
 ```
@@ -239,7 +223,6 @@ bacalhau get ${JOB_ID} --output-dir results
 To view the file, run the following command:
 
 ```bash
-%%bash
 ls results/outputs
 ```
 
