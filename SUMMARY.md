@@ -74,7 +74,6 @@
   * [Accessing the Internet from Jobs](setting-up/networking-instructions/networking.md)
   * [Private Cluster](setting-up/networking-instructions/private-cluster.md)
 * [GPU Workloads Setup](setting-up/gpu.md)
-* [Join as Compute Provider](setting-up/join-compute.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
 
 ## Examples
