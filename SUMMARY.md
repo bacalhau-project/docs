@@ -167,7 +167,7 @@
       * [Node Reject](references/cli-reference/cli/node/index-5.md)
   * [CLI Commands](references/cli-reference/all-flags.md)
 * [Debugging](references/debugging/README.md)
-  * [Fundamentals - Debugging Failed Jobs](references/debugging/debugging-general.md)
+  * [Debugging Failed Jobs](references/debugging/debugging-general.md)
   * [Debugging Locally](references/debugging/debugging\_locally.md)
 
 ## Help & FAQ
