@@ -14,7 +14,6 @@ Bacalhau supports running jobs as a [WebAssembly (WASM)](https://webassembly.org
 We can use `cargo` (which will have been installed by `rustup`) to start a new project (`my-program`) and compile it:
 
 ```bash
-%%bash
 cargo init my-program
 ```
 
@@ -22,8 +21,8 @@ We can then write a Rust program. Rust programs that run on Bacalhau can read an
 
 The program below will use the Rust `imageproc` crate to resize an image through seam carving, based on [an example from their repository](https://github.com/image-rs/imageproc/blob/master/examples/seam\_carving.rs).
 
-```python
-%%writefile ./my-program/src/main.rs
+```rust
+// ./my-program/src/main.rs
 use image::{open, GrayImage, Luma, Pixel};
 use imageproc::definitions::Clamp;
 use imageproc::gradients::sobel_gradient_map;
@@ -91,8 +90,8 @@ In the main function `main()` an image is loaded, the original is saved, and the
 
 We also need to install the `imageproc` and `image` libraries and switch off the default features to make sure that multi-threading is disabled (`default-features = false`). After disabling the default features, you need to explicitly specify only the features that you need:
 
-```python
-%%writefile ./my-program/Cargo.toml
+```rust
+// ./my-program/Cargo.toml
 [package]
 name = "my-program"
 version = "0.1.0"
@@ -111,7 +110,6 @@ default-features = false
 We can now build the Rust program into a WASM blob using `cargo`:
 
 ```bash
-%%bash
 cd my-program && cargo build --target wasm32-wasi --release
 ```
 
@@ -128,36 +126,27 @@ The `-i` flag allows specifying a URI to be mounted as a named volume in the job
 For this example, we are using an image of the Statue of Liberty that has been pinned to a storage facility.
 
 ```bash
-%%bash --out job_id
-bacalhau wasm run ./my-program/target/wasm32-wasi/release/my-program.wasm _start \
+export JOB_ID=$(bacalhau wasm run \
+    ./my-program/target/wasm32-wasi/release/my-program.wasm _start \
     --id-only \
-    -i ipfs://bafybeifdpl6dw7atz6uealwjdklolvxrocavceorhb3eoq6y53cbtitbeu:/inputs
+    -i ipfs://bafybeifdpl6dw7atz6uealwjdklolvxrocavceorhb3eoq6y53cbtitbeu:/inputs)
 ```
 
 ### Structure of the Commands
 
-`bacalhau wasm run`: call to Bacalhau
-
-`./my-program/target/wasm32-wasi/release/my-program.wasm`: the path to the WASM file that will be executed
-
-`_start`: the entry point of the WASM program, where its execution begins
-
-`--id-only`: this flag indicates that only the identifier of the executed job should be returned
-
-`-i ipfs://bafybeifdpl6dw7atz6uealwjdklolvxrocavceorhb3eoq6y53cbtitbeu:/inputs`: input data volume that will be accessible within the job at the specified destination path
+1. `bacalhau wasm run`: call to Bacalhau
+2. `./my-program/target/wasm32-wasi/release/my-program.wasm`: the path to the WASM file that will be executed
+3. `_start`: the entry point of the WASM program, where its execution begins
+4. `--id-only`: this flag indicates that only the identifier of the executed job should be returned
+5. `-i ipfs://bafybeifdpl6dw7atz6uealwjdklolvxrocavceorhb3eoq6y53cbtitbeu:/inputs`: input data volume that will be accessible within the job at the specified destination path
 
 When a job is submitted, Bacalhau prints out the related job\_id. We store that in an environment variable so that we can reuse it later on:
-
-```python
-%env JOB_ID={job_id}
-```
 
 You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`wasm_results`) and downloaded our job output to be stored in that directory.
 
 We can now get the results.
 
 ```bash
-%%bash
 rm -rf wasm_results && mkdir -p wasm_results
 bacalhau get ${JOB_ID} --output-dir wasm_results
 ```
@@ -167,21 +156,19 @@ bacalhau get ${JOB_ID} --output-dir wasm_results
 When we view the files, we can see the original image, the resulting shrunk image, and the seams that were removed.
 
 ```python
-import IPython.display as display
-display.Image("./wasm_results/outputs/original.png")
+./wasm_results/outputs/original.png
 ```
 
 ![png](<../../.gitbook/assets/index\_18\_0 (1).png>)
 
 ```python
-display.Image("./wasm_results/outputs/annotated_gradients.png")
+./wasm_results/outputs/annotated_gradients.png
 ```
 
 ![png](<../../.gitbook/assets/index\_19\_0 (1).png>)
 
-```python
-display.Image("./wasm_results/outputs/shrunk.png")
-```
+<pre class="language-python"><code class="lang-python"><strong>./wasm_results/outputs/shrunk.png
+</strong></code></pre>
 
 ![png](../../.gitbook/assets/index\_20\_0.png)
 
