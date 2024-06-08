@@ -6,17 +6,17 @@ By defining constraints, you can ensure that jobs are scheduled on nodes that ha
 
 ### `Constraint` Parameters:
 
-* **Key**: The name of the attribute or property to check on the compute node. This could be anything from a specific hardware feature, operating system version, or any other node property.
-* **Operator**: Determines the kind of comparison to be made against the `Key`'s value, which can be:
-  * `in`: Checks if the Key's value exists within the provided list of values.
-  * `notin`: Ensures the Key's value doesn't match any in the provided list of values.
-  * `exists`: Verifies that a value for the specified Key is present, regardless of its actual value.
-  * `!`: Confirms the absence of the specified Key. i.e DoesNotExist
-  * `gt`: Assesses if the Key's value is greater than the provided value.
-  * `lt`: Assesses if the Key's value is less than the provided value.
-  * `=` & `==`: Both are used to compare the Key's value for an exact match with the provided value.
-  * `!=`: Ensures the Key's value is not the same as the provided value.
-* **Values (optional)**: A list of values that the node attribute, specified by the `Key`, is compared against using the `Operator`. This is not needed for operators like `exists` or `!`.
+1. **Key**: The name of the attribute or property to check on the compute node. This could be anything from a specific hardware feature, operating system version, or any other node property.
+2. **Operator**: Determines the kind of comparison to be made against the `Key`'s value, which can be:
+   1. `in`: Checks if the Key's value exists within the provided list of values.
+   2. `notin`: Ensures the Key's value doesn't match any in the provided list of values.
+   3. `exists`: Verifies that a value for the specified Key is present, regardless of its actual value.
+   4. `!`: Confirms the absence of the specified Key. i.e DoesNotExist
+   5. `gt`: Assesses if the Key's value is greater than the provided value.
+   6. `lt`: Assesses if the Key's value is less than the provided value.
+   7. `=` & `==`: Both are used to compare the Key's value for an exact match with the provided value.
+   8. `!=`: Ensures the Key's value is not the same as the provided value.
+3. **Values (optional)**: A list of values that the node attribute, specified by the `Key`, is compared against using the `Operator`. This is not needed for operators like `exists` or `!`.
 
 ### Example:
 
@@ -38,6 +38,6 @@ In this example, the first constraint checks if the node has a GPU, the second c
 
 ### Notes:
 
-* Constraints are evaluated as a logical AND, meaning all constraints must be satisfied for a node to be eligible.
-* Using too many specific constraints can lead to a job not being scheduled if no nodes satisfy all the conditions.
-* It's essential to balance the specificity of constraints with the broader needs and resources available in the cluster.
+1. Constraints are evaluated as a logical AND, meaning all constraints must be satisfied for a node to be eligible.
+2. Using too many specific constraints can lead to a job not being scheduled if no nodes satisfy all the conditions.
+3. It's essential to balance the specificity of constraints with the broader needs and resources available in the cluster.
