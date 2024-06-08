@@ -52,7 +52,6 @@
   * [Pinning Data](setting-up/data-ingestion/pin.md)
   * [Running a Job over S3 data](setting-up/data-ingestion/s3.md)
 * [Jobs](setting-up/jobs/README.md)
-  * [Networking with Bacalhau](setting-up/jobs/index.md)
   * [Job selection policy](setting-up/jobs/job-selection.md)
   * [Job Templates](setting-up/jobs/job-templating.md)
   * [Job Types](setting-up/jobs/job-types.md)
