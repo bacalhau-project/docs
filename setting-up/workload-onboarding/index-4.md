@@ -17,47 +17,40 @@ To get started, you need to install the Bacalhau client, see more information [h
 To run Sparkov locally, you'll need to clone the repo and install dependencies:
 
 ```bash
-%%bash
 git clone https://github.com/js-ts/Sparkov_Data_Generation/
 pip3 install -r Sparkov_Data_Generation/requirements.txt
 ```
 
 Go to the `Sparkov_Data_Generation` directory:
 
-```python
-%cd Sparkov_Data_Generation
+```bash
+cd Sparkov_Data_Generation
 ```
 
 Create a temporary directory (`outputs`) to store the outputs:
 
 ```bash
-%%bash
 mkdir ../outputs
 ```
 
 ## 2. Running the script
 
 ```bash
-%%bash
 python3 datagen.py -n 1000 -o ../outputs "01-01-2022" "10-01-2022"
 ```
 
 The command above executes the Python script `datagen.py`, passing the following arguments to it:
 
-`-n 1000`: Number of customers to generate
-
-`-o ../outputs`: path to store the outputs
-
-`"01-01-2022"`: Start date
-
-`"10-01-2022"`: End date
+1. `-n 1000`: Number of customers to generate
+2. `-o ../outputs`: path to store the outputs
+3. `"01-01-2022"`: Start date
+4. `"10-01-2022"`: End date
 
 Thus, this command uses a Python script to generate synthetic credit card transaction data for the period from `01-01-2022` to `10-01-2022` and saves the results in the `../outputs` directory.
 
 To see the full list of options, use:
 
 ```bash
-%%bash
 python datagen.py -h
 ```
 
@@ -65,9 +58,7 @@ python datagen.py -h
 
 To build your own docker container, create a `Dockerfile`, which contains instructions to build your image:
 
-```
-%%writefile Dockerfile
-
+```docker
 FROM python:3.8
 
 RUN apt update && apt install git
@@ -103,7 +94,7 @@ Before running the command replace:
 
 In our case:
 
-```
+```bash
 docker build -t jsacex/sparkov-data-generation .
 ```
 
@@ -111,13 +102,13 @@ docker build -t jsacex/sparkov-data-generation .
 
 Next, upload the image to the registry. This can be done by using the Docker hub username, repo name or tag.
 
-```
+```bash
 docker push <hub-user>/<repo-name>:<tag>
 ```
 
 In our case:
 
-```
+```bash
 docker push jsacex/sparkov-data-generation
 ```
 
@@ -128,34 +119,26 @@ After the repo image has been pushed to Docker Hub, we can now use the container
 Now we're ready to run a Bacalhau job:
 
 ```bash
-%%bash --out job_id
-bacalhau docker run \
+export JOB_ID=$(bacalhau docker run \
     --id-only \
     --wait \
     jsacex/sparkov-data-generation \
-    --  python3 datagen.py -n 1000 -o ../outputs "01-01-2022" "10-01-2022"
+    --  python3 datagen.py -n 1000 -o ../outputs "01-01-2022" "10-01-2022")
 ```
 
 ### Structure of the command:
 
-`bacalhau docker run`: call to Bacalhau
-
-`jsacex/sparkov-data-generation`: the name of the docker image we are using
-
-`-- python3 datagen.py -n 1000 -o ../outputs "01-01-2022" "10-01-2022"`: the arguments passed into the container, specifying the execution of the Python script `datagen.py` with specific parameters, such as the amount of data, output path, and time range.
+1. `bacalhau docker run`: call to Bacalhau
+2. `jsacex/sparkov-data-generation`: the name of the docker image we are using
+3. `-- python3 datagen.py -n 1000 -o ../outputs "01-01-2022" "10-01-2022"`: the arguments passed into the container, specifying the execution of the Python script `datagen.py` with specific parameters, such as the amount of data, output path, and time range.
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on:
-
-```python
-%env JOB_ID={job_id}
-```
 
 ## 5. Checking the State of your Jobs
 
 **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
@@ -164,14 +147,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get ${JOB_ID} --output-dir results
 ```
@@ -181,7 +162,6 @@ bacalhau get ${JOB_ID} --output-dir results
 To view the contents of the current directory, run the following command:
 
 ```bash
-%%bash
 ls results/outputs
 ```
 
