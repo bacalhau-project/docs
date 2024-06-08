@@ -10,4 +10,6 @@ If you have data that you want to make available to your Bacalhau jobs (or other
 
 To use a pinning service, you will almost always need to create an account. After registration, you get an API token, which is necessary to control and access the files. Then you need to upload files - usually services provide a web interface, CLI and code samples for integration into your application. Once you upload the files you will get its CID, which looks like this: `QmUyUg8en7G6RVL5uhyoLBxSWFgRMdMraCRWFcDdXKWEL9`. Now you can access pinned data from the jobs via this CID.
 
-:::info Data source can be specified via `--input` flag, see the [CLI Guide](broken-reference/) for more details :::
+{% hint style="info" %}
+Data source can be specified via `--input` flag, see the [CLI Guide](../../references/cli-reference/all-flags.md#docker-run) for more details
+{% endhint %}
