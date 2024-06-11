@@ -6,7 +6,7 @@
 
 We construct a small coreset for arbitrary shapes of numerical data with a decent time cost. The implementation was mainly based on the coreset construction algorithm that was proposed by Braverman et al. (SODA 2021).
 
-## TD:LR
+## TL:DR
 
 Running compressed dataset with Bacalhau
 
@@ -15,7 +15,6 @@ Running compressed dataset with Bacalhau
 Clone the repo which contains the code
 
 ```bash
-%%bash
 git clone https://github.com/js-ts/Coreset
 ```
 
@@ -24,14 +23,12 @@ To download the dataset you should open Street Map, which is a public repository
 The dataset is a osm.pbf (compressed format for .osm file), the file can be downloaded from [Geofabrik Download Server](https://download.geofabrik.de/)
 
 ```bash
-%%bash
 wget https://download.geofabrik.de/europe/liechtenstein-latest.osm.pbf -o liechtenstein-latest.osm.pbf
 ```
 
 The following command is installing Linux dependencies:
 
 ```bash
-%%bash
 sudo apt-get -y update \
 sudo apt-get -y install osmium-tool \
 sudo apt update \
@@ -41,21 +38,18 @@ sudo apt-get -y install libpq-dev gdal-bin libgdal-dev libxml2-dev libxslt-dev
 The following command is installing Python dependencies:
 
 ```bash
-%%bash
 pip3 install -r Coreset/requirements.txt
 ```
 
 To run coreset locally, you need to convert from compressed pbf format to geojson format:
 
 ```bash
-%%bash
 osmium export liechtenstein-latest.osm.pbf -o liechtenstein-latest.geojson
 ```
 
 The following command is to run the Python script to generate the coreset:
 
 ```bash
-%%bash
 python Coreset/python/coreset.py -f liechtenstein-latest.geojson
 ```
 
@@ -77,7 +71,9 @@ RUN cd Coreset && pip3 install -r requirements.txt
 
 We will use the `python:3.8` image, and we will choose the src directory in the container as our work directory, we run the same commands for installing dependencies that we used locally, but we also add files and directories which are present on our local machine, we also run a test command, in the end, to check whether the script works
 
-:::info See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/) :::
+{% hint style="info" %}
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
+{% endhint %}
 
 ### Build the container
 
@@ -162,7 +158,6 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 * **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID} --wide
 ```
 
@@ -171,14 +166,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 * **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
 * **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get $JOB_ID --output-dir results
 ```
@@ -188,24 +181,20 @@ bacalhau get $JOB_ID --output-dir results
 To view the file, run the following command:
 
 ```bash
-%%bash
 ls results/
 ```
 
 To view the output as a CSV file, run:
 
 ```bash
-%%bash
 cat results/outputs/centers.csv | head -n 10
 ```
 
 ```bash
-%%bash
 cat results/outputs/coreset-values-liechtenstein-latest.csv | head -n 10
 ```
 
 ```bash
-%%bash
 cat results/outputs/coreset-weights-liechtenstein-latest.csv | head -n 10
 ```
 
