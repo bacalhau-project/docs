@@ -32,7 +32,6 @@ print("TensorFlow version:", tf.__version__)
 ```
 
 ```bash
-%%bash
 mkdir /inputs
 wget https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz -O /inputs/mnist.npz
 ```
@@ -125,7 +124,6 @@ probability_model(x_test[:5])
 ```
 
 ```bash
-%%bash
 mkdir /outputs
 ```
 
@@ -136,7 +134,6 @@ model.save_weights('/outputs/checkpoints/my_checkpoint')
 ```
 
 ```bash
-%%bash
 ls /outputs/
 ```
 
@@ -147,14 +144,12 @@ You can use a tool like `nbconvert` to convert your Python notebook into a scrip
 After that, you can create a gist of the training script at gist.github.com copy the raw link of the gist
 
 ```bash
-%%bash
 wget https://gist.githubusercontent.com/js-ts/0ce4d671ced642fbe807e65f5186ae87/raw/7f28cc497cc1c509661a33b144c0683b8fc97f41/train.py
 ```
 
 Testing whether the script works
 
 ```bash
-%%bash
 python train.py
 ```
 
@@ -167,7 +162,6 @@ python train.py
 The dataset and the script are mounted to the TensorFlow container using an URL we then run the script inside the container
 
 ```bash
-%%bash --out job_id
 bacalhau docker run \
 --wait \
 --id-only \
@@ -188,7 +182,6 @@ Structure of the command:
 By default whatever URL you mount using the -i flag gets mounted at the path /inputs so we choose that as our input directory `-w /inputs`
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
@@ -197,27 +190,22 @@ Where it says `Completed`, that means the job is done, and we can get the result
 To find out more information about your job, run the following command:
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get $JOB_ID --output-dir results
 ```
 
 ```bash
-%%bash
 ls results/
 ```
 
 ```bash
-%%bash
 cat results/stdout
 ```
 
 ```bash
-%%bash
 ls results/outputs/
 ```
