@@ -12,7 +12,7 @@ Running any type of Pytorch model with Bacalhau
 
 To get started, you need to install the Bacalhau client, see more information [here](https://docs.bacalhau.org/getting-started/installation)
 
-```python
+```bash
 !command -v bacalhau >/dev/null 2>&1 || (export BACALHAU_INSTALL_DIR=.; curl -sL https://get.bacalhau.org/install.sh | bash)
 path=!echo $PATH
 %env PATH=./:{path[0]}
@@ -23,26 +23,22 @@ path=!echo $PATH
 To train our model locally, we will start by cloning the Pytorch examples [repo](https://github.com/pytorch/examples)
 
 ```bash
-%%bash
 git clone https://github.com/pytorch/examples
 ```
 
 Install the following
 
 ```bash
-%%bash
 pip install torch
 ```
 
 ```bash
-%%bash
 pip install torchvision
 ```
 
 Next, we run the command below to begin the training of the _mnist\_rnn_ model. We added the `--save-model` flag to save the model
 
 ```bash
-%%bash
 python ./examples/mnist_rnn/main.py --save-model
 ```
 
@@ -59,7 +55,6 @@ Once you have uploaded your data, you'll be finished copying the CID. Here is th
 After the repo image has been pushed to Docker Hub, we can now use the container for running on Bacalhau. To submit a job, run the following Bacalhau command:
 
 ```bash
-%%bash --out job_id
 bacalhau docker run \
 --gpu 1 \
 --timeout 3600 \
@@ -91,7 +86,6 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 * **Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
@@ -100,14 +94,12 @@ When it says `Completed`, that means the job is done, and we can get the results
 * **Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
 * **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get $JOB_ID --output-dir results
 ```
@@ -119,7 +111,6 @@ After the download has finished you should see the following contents in the res
 To view the file, run the following command:
 
 ```bash
-%%bash
 ls results/ # list the contents of the current directory
 cat results/stdout # displays the contents of the file given to it as a parameter.
 ls results/outputs/ # list the successfully trained model
