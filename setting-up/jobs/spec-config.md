@@ -4,8 +4,8 @@
 
 ## `SpecConfig` Parameters
 
-* **Type** `(string : <required>)`: Specifies the type of the configuration. Examples include `docker` and `wasm` for execution engines, `S3` for input sources and publishers, etc.
-* **Params** `(map[string]any : <optional>)`: A set of key-value pairs that provide the specific configurations for the chosen type. The keys and values are flexible and depend on the `Type`. For instance, parameters for a Docker engine might include image name and version, while an S3 publisher would require configurations like the bucket name and AWS region. If not provided, it defaults to `nil`.
+1. **Type** `(string : <required>)`: Specifies the type of the configuration. Examples include `docker` and `wasm` for execution engines, `S3` for input sources and publishers, etc.
+2. **Params** `(map[string]any : <optional>)`: A set of key-value pairs that provide the specific configurations for the chosen type. The keys and values are flexible and depend on the `Type`. For instance, parameters for a Docker engine might include image name and version, while an S3 publisher would require configurations like the bucket name and AWS region. If not provided, it defaults to `nil`.
 
 ## Usage Examples
 
@@ -23,7 +23,7 @@ Here are a few hypothetical examples to demonstrate how you might define `SpecCo
 }
 ```
 
-Full Docker spec can be found [here](../other-specifications/engines/docker/).
+Full Docker spec can be found [here](../../references/other-specifications/engines/docker.md).
 
 ### S3 Publisher
 
@@ -37,7 +37,7 @@ Full Docker spec can be found [here](../other-specifications/engines/docker/).
 }
 ```
 
-Full S3 Publisher can be found [here](../other-specifications/publishers/s3/).
+Full S3 Publisher can be found [here](../../references/other-specifications/publishers/s3.md).
 
 ### Local Directory Input Source
 

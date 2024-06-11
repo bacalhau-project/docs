@@ -34,7 +34,9 @@ Bacalhau has some configuration options for controlling how often checks are per
 | Update.CheckFrequency | `BACALHAU_UPDATE_CHECKFREQUENCY` | 24 hours                   | The minimum amount of time between automated update checks. Set as any duration of hours, minutes or seconds, e.g. `24h` or `10m`. |
 | Update.CheckStatePath | `BACALHAU_UPDATE_CHECKSTATEPATH` | $BACALHAU\_DIR/update.json | An absolute path where Bacalhau should store the date and time of the last check.                                                  |
 
-:::info It's important to note that disabling the automatic update checks may lead to potential issues, arising from mismatched versions of different actors within Bacalhau. :::
+{% hint style="info" %}
+It's important to note that disabling the automatic update checks may lead to potential issues, arising from mismatched versions of different actors within Bacalhau.
+{% endhint %}
 
 To output update check config, run `bacalhau config list`:
 

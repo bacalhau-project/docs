@@ -2,7 +2,7 @@
 description: How to troubleshoot and debug failed Bacalhau jobs
 ---
 
-# Fundamentals - Debugging Failed Jobs
+# Debugging Failed Jobs
 
 > "An expert is a person who has made all the mistakes that can be made in a very narrow field." ― Niels Bohr
 

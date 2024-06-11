@@ -75,11 +75,9 @@ bacalhau serve \
   --host 127.0.0.1
 ```
 
-:::tip
-
+{% hint style="info" %}
 You can use the `--host` flag to restrict network access to the REST API.
-
-:::
+{% endhint %}
 
 ## Generic Endpoint
 

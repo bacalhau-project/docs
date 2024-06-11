@@ -10,14 +10,14 @@ Labels are essentially key-value pairs attached to jobs, allowing for detailed c
 
 Jobs can be filtered using the following operators:
 
-* `in`: Checks if the key's value matches any within a specified list of values.
-* `notin`: Validates that the key's value isn’t within a provided list of values.
-* `exists`: Checks for the presence of a specified key, regardless of its value.
-* `!`: Validates the absence of a specified key. (i.e., DoesNotExist)
-* `gt`: Checks if the key's value is greater than a specified value.
-* `lt`: Checks if the key's value is less than a specified value.
-* `= & ==`: Used for exact match comparisons between the key’s value and a specified value.
-* `!=`: Validates that the key’s value doesn't match a specified value.
+1. `in`: Checks if the key's value matches any within a specified list of values.
+2. `notin`: Validates that the key's value isn’t within a provided list of values.
+3. `exists`: Checks for the presence of a specified key, regardless of its value.
+4. `!`: Validates the absence of a specified key. (i.e., DoesNotExist)
+5. `gt`: Checks if the key's value is greater than a specified value.
+6. `lt`: Checks if the key's value is less than a specified value.
+7. `= & ==`: Used for exact match comparisons between the key’s value and a specified value.
+8. `!=`: Validates that the key’s value doesn't match a specified value.
 
 ### Example Usage
 

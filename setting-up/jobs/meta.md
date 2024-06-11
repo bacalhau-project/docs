@@ -1,6 +1,6 @@
 # Meta Specification
 
-In both the `Job` and `Task` specifications within Bacalhau, the `Meta` block is a versatile element used to attach arbitrary metadata. This metadata isn't utilized for filtering or categorizing jobs; there's a separate [`Labels`](job-specification/label/) block specifically designated for that purpose. Instead, the `Meta` block is instrumental for embedding additional information for operators or external systems, enhancing clarity and context.
+In both the `Job` and `Task` specifications within Bacalhau, the `Meta` block is a versatile element used to attach arbitrary metadata. This metadata isn't utilized for filtering or categorizing jobs; there's a separate [`Labels`](label.md) block specifically designated for that purpose. Instead, the `Meta` block is instrumental for embedding additional information for operators or external systems, enhancing clarity and context.
 
 ## `Meta` Parameters in Job and Task Specs
 
@@ -21,10 +21,10 @@ Users can incorporate any arbitrary key-value pairs to convey descriptive inform
 }
 ```
 
-* **project**: Identifies the associated project.
-* **version**: Specifies the version of the application or service.
-* **owner**: Names the responsible team or individual.
-* **environment**: Indicates the stage in the development lifecycle.
+1. **project**: Identifies the associated project.
+2. **version**: Specifies the version of the application or service.
+3. **owner**: Names the responsible team or individual.
+4. **environment**: Indicates the stage in the development lifecycle.
 
 ## Auto-Generated Metadata by Bacalhau
 
@@ -32,9 +32,9 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 ### Bacalhau Auto-Generated Keys:
 
-* **bacalhau.org/requester.id**: A unique identifier for the orchestrator that handled the job.
-* **bacalhau.org/requester.publicKey**: The public key of the requester, aiding in security and validation.
-* **bacalhau.org/client.id**: The ID for the client submitting the job, enhancing traceability.
+1. **bacalhau.org/requester.id**: A unique identifier for the orchestrator that handled the job.
+2. **bacalhau.org/requester.publicKey**: The public key of the requester, aiding in security and validation.
+3. **bacalhau.org/client.id**: The ID for the client submitting the job, enhancing traceability.
 
 #### Example:
 
@@ -48,8 +48,8 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 ### Implications and Utility
 
-* **Identification**: The metadata aids in uniquely identifying jobs and tasks, connecting them to their originators and executors.
-* **Context Enhancement**: Metadata can supplement jobs and tasks with additional data, offering insights and context that aren't captured by standard parameters.
-* **Security Enhancement**: Auto-generated keys like the requester's public key contribute to the secure handling and execution of jobs and tasks.
+1. **Identification**: The metadata aids in uniquely identifying jobs and tasks, connecting them to their originators and executors.
+2. **Context Enhancement**: Metadata can supplement jobs and tasks with additional data, offering insights and context that aren't captured by standard parameters.
+3. **Security Enhancement**: Auto-generated keys like the requester's public key contribute to the secure handling and execution of jobs and tasks.
 
-While the `Meta` block is distinct from the [`Labels`](job-specification/label/) block used for filtering, its contribution to providing context, security, and traceability is integral in managing and understanding the diverse jobs and tasks within the Bacalhau ecosystem effectively.
+While the `Meta` block is distinct from the [`Labels`](label.md) block used for filtering, its contribution to providing context, security, and traceability is integral in managing and understanding the diverse jobs and tasks within the Bacalhau ecosystem effectively.

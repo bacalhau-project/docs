@@ -18,11 +18,13 @@ To use these features, the data to be downloaded has to be known before the job 
 
 To run Docker jobs on Bacalhau to access the internet, you'll need to specify one of the following:
 
-* **full**: unfiltered networking for any protocol `--network=full`
-* **http**: HTTP(S)-only networking to a specified list of domains `--network=http`
-* **none**: no networking at all, the default `--network=none`
+1. **full**: unfiltered networking for any protocol `--network=full`
+2. **http**: HTTP(S)-only networking to a specified list of domains `--network=http`
+3. **none**: no networking at all, the default `--network=none`
 
-:::tip Specifying `none` will still allow Bacalhau to download and upload data before and after the job. :::
+{% hint style="info" %}
+Specifying `none` will still allow Bacalhau to download and upload data before and after the job.
+{% endhint %}
 
 Jobs using `http` must specify the domains they want to access when the job is submitted. When the job runs, only HTTP requests to those domains will be possible and data transfer will be rate limited to 10Mbit/sec in either direction to prevent ddos.
 
@@ -30,7 +32,9 @@ Jobs will be provided with [`http_proxy` and `https_proxy` environment variables
 
 The required networking can be specified using the `--network` flag. For `http` networking, the required domains can be specified using the `--domain` flag, multiple times for as many domains as required. Specifying a domain starting with a `.` means that all sub-domains will be included. For example, specifying `.example.com` will cover `some.thing.example.com` as well as `example.com`.
 
-:::caution Bacalhau jobs are explicitly prevented from starting other Bacalhau jobs, even if a Bacalhau requester node is specified on the HTTP allowlist. :::
+{% hint style="warning" %}
+Bacalhau jobs are explicitly prevented from starting other Bacalhau jobs, even if a Bacalhau requester node is specified on the HTTP allowlist.
+{% endhint %}
 
 ## Support for networked jobs on the public network
 

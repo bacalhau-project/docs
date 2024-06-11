@@ -9,6 +9,7 @@
 * [Docker Workload Onboarding](getting-started/docker-workload-onboarding.md)
 * [WebAssembly (WASM) Workloads](getting-started/wasm-workload-onboarding.md)
 * [Hardware Setup](getting-started/resources.md)
+* [Create Private Network](getting-started/create-private-network.md)
 
 ## Setting Up
 
@@ -69,16 +70,12 @@
   * [Timeouts Specification](setting-up/jobs/timeouts.md)
 * [Networking Instructions](setting-up/networking-instructions/README.md)
   * [Networking Fundamentals in Bacalhau](setting-up/networking-instructions/fundamentals.md)
-  * [Networking with Bacalhau](setting-up/networking-instructions/index.md)
   * [Accessing the Internet from Jobs](setting-up/networking-instructions/networking.md)
-  * [Private Cluster](setting-up/networking-instructions/private-cluster.md)
 * [GPU Workloads Setup](setting-up/gpu.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
 
 ## Examples
 
-* [Case Studies](examples/case-studies/README.md)
-  * [DuckDB for Log Processing](examples/case-studies/index.md)
 * [Data Engineering](examples/data-engineering/README.md)
   * [Using Bacalhau with DuckDB](examples/data-engineering/index.md)
   * [Blockchain Analysis](examples/data-engineering/index-1.md)
