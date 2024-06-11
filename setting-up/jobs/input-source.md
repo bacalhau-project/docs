@@ -1,12 +1,12 @@
 # InputSource Specification
 
-An `InputSource` defines where and how to retrieve specific artifacts needed for a [`Task`](job-specification/task/), such as files or data, and where to mount them within the task's context. This ensures the necessary data is present before the task's execution begins.
+An `InputSource` defines where and how to retrieve specific artifacts needed for a [`Task`](https://github.com/bacalhau-project/docs/blob/main/setting-up/jobs/job-specification/task/README.md), such as files or data, and where to mount them within the task's context. This ensures the necessary data is present before the task's execution begins.
 
 Bacalhau's `InputSource` natively supports fetching data from remote sources like S3 and IPFS and can also mount local directories. It is intended to be flexible for future expansion.
 
 ## `InputSource` Parameters:
 
-* **Source** `(`[`SpecConfig`](job-specification/spec-config/) `: <required>)`: Specifies the origin of the artifact, which could be a URL, an S3 bucket, or other locations.
+* **Source** `(`[`SpecConfig`](https://github.com/bacalhau-project/docs/blob/main/setting-up/jobs/job-specification/spec-config/README.md) `: <required>)`: Specifies the origin of the artifact, which could be a URL, an S3 bucket, or other locations.
 * **Alias** `(string: <optional>)`: An optional identifier for this input source. It's particularly useful for dynamic operations within a task, such as dynamically importing data in WebAssembly using an alias.
 * **Target** `(string: <required>)`: Defines the path inside the task's environment where the retrieved artifact should be mounted or stored. This ensures that the task can access the data during its execution.
 

@@ -181,4 +181,4 @@ If have questions or need support or guidance, please reach out to the [Bacalhau
 
 ## Contributing
 
-If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](../docs/community/ways-to-contribute.md).
+If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](https://github.com/bacalhau-project/docs/blob/main/docs/community/ways-to-contribute.md).

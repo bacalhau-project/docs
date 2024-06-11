@@ -31,7 +31,7 @@ Lilypad v0 does not charge for compute jobs, outside of network running fees (ie
 * v2: **September 2023** - A more robust trustless distributed testnet
 * v3: tbd - Lilypad Mainnet
 
-<figure><img src="../img/lilypad/Lilypad%20Roadmap%20June.png" alt=""><figcaption><p>Lilypad Roadmap</p></figcaption></figure>
+<figure><img src="https://github.com/bacalhau-project/docs/blob/main/img/lilypad/Lilypad%20Roadmap%20June.png" alt=""><figcaption><p>Lilypad Roadmap</p></figcaption></figure>
 
 ## Lilypad v0 Reference
 
@@ -45,7 +45,7 @@ Lilypad v0 is a proof of concept bridge which runs off the public (free to use) 
 
 > If you have a need for reliable compute based on this infrastructure - get in touch with us.
 
-<figure><img src="../img/lilypad/Lilypad%20Architecture.png" alt=""><figcaption><p>Lilypad v0 on the FVM Network</p></figcaption></figure>
+<figure><img src="https://github.com/bacalhau-project/docs/blob/main/img/lilypad/Lilypad%20Architecture.png" alt=""><figcaption><p>Lilypad v0 on the FVM Network</p></figcaption></figure>
 
 A user contract implements the LilypadCaller interface and to call a job, they make a function call to the deployed LilypadEvents contract.
 
