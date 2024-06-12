@@ -6,10 +6,10 @@ DuckDB is a relational table-oriented database management system that supports S
 
 DuckDB is suited for the following use cases:
 
-* Processing and storing tabular datasets, e.g. from CSV or Parquet files
-* Interactive data analysis, e.g. Joining & aggregate multiple large tables
-* Concurrent large changes, to multiple large tables, e.g. appending rows, adding/removing/updating columns
-* Large result set transfer to client
+1. Processing and storing tabular datasets, e.g. from CSV or Parquet files
+2. Interactive data analysis, e.g. Joining & aggregate multiple large tables
+3. Concurrent large changes, to multiple large tables, e.g. appending rows, adding/removing/updating columns
+4. Large result set transfer to client
 
 In this example tutorial, we will show how to use DuckDB with Bacalhau. The advantage of using DuckDB with Bacalhau is that you don’t need to install, and there is no need to download the datasets since the datasets are already there on IPFS or on the web.
 
@@ -19,7 +19,7 @@ In this example tutorial, we will show how to use DuckDB with Bacalhau. The adva
 
 ## Prerequisites
 
-To get started, you need to install the Bacalhau client, see more information [here](https://docs.bacalhau.org/getting-started/installation)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
 ## Containerize Script using Docker
 
@@ -31,7 +31,7 @@ If you want any additional dependencies to be installed along with DuckDB, you n
 
 To build your own docker container, create a `Dockerfile`, which contains instructions to build your DuckDB docker container.
 
-```Dockerfile
+```docker
 FROM mcr.microsoft.com/vscode/devcontainers/python:3.9
 
 RUN apt-get update && apt-get install -y nodejs npm g++
@@ -57,19 +57,21 @@ See more information on how to containerize your script/app [here](https://docs.
 
 ### Build the container
 
-We will run `docker build` command to build the container;
+We will run `docker build` command to build the container:
 
 ```
 docker build -t <hub-user>/<repo-name>:<tag> .
 ```
 
-Before running the command replace;
+Before running the command replace:
 
-* **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
-* **repo-name** with the name of the container, you can name it anything you want
-* **tag** this is not required but you can use the latest tag
+**hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
 
-In our case
+**repo-name** with the name of the container, you can name it anything you want
+
+**tag** this is not required, but you can use the latest tag
+
+In our case:
 
 ```bash
 docker build -t davidgasquez/datadex:v0.2.0
@@ -79,11 +81,11 @@ docker build -t davidgasquez/datadex:v0.2.0
 
 Next, upload the image to the registry. This can be done by using the Docker hub username, repo name or tag.
 
-```
+```bash
 docker push <hub-user>/<repo-name>:<tag>
 ```
 
-In our case
+In our case:
 
 ```bash
 docker push davidgasquez/datadex:v0.2.0
@@ -94,51 +96,70 @@ docker push davidgasquez/datadex:v0.2.0
 After the repo image has been pushed to Docker Hub, we can now use the container for running on Bacalhau. To submit a job, run the following Bacalhau command:
 
 ```bash
-%%bash --out job_id
-bacalhau docker run \
+export JOB_ID=$(bacalhau docker run \
 --workdir /inputs/ \
 --wait \
 --id-only \
-davidgasquez/datadex:v0.2.0 -- /bin/bash -c 'duckdb -s "select 1"'
+davidgasquez/datadex:v0.2.0 -- /bin/bash -c 'duckdb -s "select 1"')
 ```
 
 ### Structure of the command
 
 Let's look closely at the command above:
 
-* `bacalhau docker run`: call to bacalhau
-* `davidgasquez/datadex:v0.2.0` : the name and the tag of the docker image we are using
-* `/inputs/`: path to input dataset
-* `'duckdb -s "select 1"'`: execute DuckDB
+1. `bacalhau docker run`: call to bacalhau
+2. `davidgasquez/datadex:v0.2.0` : the name and the tag of the docker image we are using
+3. `/inputs/`: path to input dataset
+4. `'duckdb -s "select 1"'`: execute DuckDB
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-```python
-%env JOB_ID={job_id}
+### Declarative job description[​](http://localhost:3000/examples/data-engineering/DuckDB/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+
+The same job can be presented in the [declarative](../../setting-up/jobs/job.md) format. In this case, the description will look like this:
+
+```yaml
+name: DuckDB Hello World
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    Engine:
+      type: docker
+      params:
+        Image: davidgasquez/datadex:v0.2.0
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - duckdb -s "select 1"
+```
+
+The job description should be saved in `.yaml` format, e.g. `duckdb1.yaml`, and then run with the command:
+
+```bash
+bacalhau job run duckdb1.yaml
 ```
 
 ## Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-* **Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
-* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get $JOB_ID --output-dir results
 ```
@@ -148,11 +169,12 @@ bacalhau get $JOB_ID --output-dir results
 Each job creates 3 subfolders: the **combined\_results**,**per\_shard files**, and the **raw** directory. To view the file, run the following command:
 
 ```bash
-%%bash
 cat results/stdout  # displays the contents of the file
 ```
 
-```
+Expected output:
+
+```bash
 ┌───┐
 │ 1 │
 ├───┤
@@ -165,57 +187,87 @@ cat results/stdout  # displays the contents of the file
 Below is the `bacalhau docker run` command to to run arbitrary SQL commands over the yellow taxi trips dataset
 
 ```bash
-%%bash --out job_id
-bacalhau docker run \
+export JOB_ID=$(bacalhau docker run \
  -i ipfs://bafybeiejgmdpwlfgo3dzfxfv3cn55qgnxmghyv7vcarqe3onmtzczohwaq \
   --workdir /inputs \
   --id-only \
   --wait \
   davidgasquez/duckdb:latest \
-  -- duckdb -s "select count(*) from '0_yellow_taxi_trips.parquet'"
-
+  -- duckdb -s "select count(*) from '0_yellow_taxi_trips.parquet'")
 ```
 
 ### Structure of the command
 
 Let's look closely at the command above:
 
-* `bacalhau docker run`: call to bacalhau
-* `-i ipfs://bafybeiejgmdpwlfgo3dzfxfv3cn55qgnxmghyv7vcarqe3onmtzczohwaq \`: CIDs to use on the job. Mounts them at '/inputs' in the execution.
-* `davidgasquez/duckdb:latest`: the name and the tag of the docker image we are using
-* `/inputs`: path to input dataset
-* `duckdb -s`: execute DuckDB
+1. `bacalhau docker run`: call to bacalhau
+2. `-i ipfs://bafybeiejgmdpwlfgo3dzfxfv3cn55qgnxmghyv7vcarqe3onmtzczohwaq \`: CIDs to use on the job. Mounts them at '/inputs' in the execution.
+3. `davidgasquez/duckdb:latest`: the name and the tag of the docker image we are using
+4. `/inputs`: path to input dataset
+5. `duckdb -s`: execute DuckDB
+
+### Declarative job description[​](http://localhost:3000/examples/data-engineering/DuckDB/#declarative-job-description-1) <a href="#declarative-job-description-1" id="declarative-job-description-1"></a>
+
+The same job can be presented in the [declarative](../../setting-up/jobs/job.md) format. In this case, the description will look like this:
+
+```yaml
+name: DuckDB Parquet Query
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    Engine:
+      type: docker
+      params:
+        WorkingDirectory: "/inputs"
+        Image: davidgasquez/duckdb:latest
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - duckdb -s "select count(*) from '0_yellow_taxi_trips.parquet'"
+    InputSources:
+    - Target: "/inputs"
+      Source:
+        Type: "s3"
+        Params:
+          Bucket: "bacalhau-duckdb"
+          Key: "*"
+          Region: "us-east-1"
+```
+
+The job description should be saved in `.yaml` format, e.g. `duckdb2.yaml`, and then run with the command:
+
+```
+bacalhau job run duckdb2.yaml
+```
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID} --wide
 ```
 
-* **Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
-* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results && mkdir -p results
 bacalhau get $JOB_ID --output-dir results
 ```
 
 ## Viewing your Job Output
 
-Each job creates 3 subfolders: the **combined\_results**,**per\_shard files**, and the **raw** directory. To view the file, run the following command:
+Each job creates 3 subfolders: the **combined\_results**, **per\_shard files**, and the **raw** directory. To view the file, run the following command:
 
 ```bash
-%%bash
 cat results/stdout
 ```
 
@@ -230,4 +282,4 @@ cat results/stdout
 
 ## Need Support?
 
-For questions, and feedback, please reach out in our [forum](https://github.com/filecoin-project/bacalhau/discussions)
+If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
