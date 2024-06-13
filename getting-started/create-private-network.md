@@ -1,3 +1,7 @@
+---
+description: In this tutorial you are setting up your own network
+---
+
 # Create Private Network
 
 ## Introduction[​](http://localhost:3000/getting-started/create-private-network#introduction) <a href="#introduction" id="introduction"></a>

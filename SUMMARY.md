@@ -6,10 +6,10 @@
 
 * [How Bacalhau Works](getting-started/architecture.md)
 * [Installation](getting-started/installation.md)
+* [Create Private Network](getting-started/create-private-network.md)
 * [Docker Workload Onboarding](getting-started/docker-workload-onboarding.md)
 * [WebAssembly (WASM) Workloads](getting-started/wasm-workload-onboarding.md)
 * [Hardware Setup](getting-started/resources.md)
-* [Create Private Network](getting-started/create-private-network.md)
 
 ## Setting Up
 
