@@ -1,18 +1,27 @@
 # Training Tensorflow Model
 
-[![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
+## Introduction
 
-TensorFlow is an open-source machine learning software library, TensorFlow is used to train neural networks. Expressed in the form of stateful dataflow graphs, each node in the graph represents the operations performed by neural networks on multi-dimensional arrays. These multi-dimensional arrays are commonly known as “tensors,” hence the name TensorFlow. In this example, we will be training a MNIST model.
+[TensorFlow](https://www.tensorflow.org/) is an open-source machine learning software library, TensorFlow is used to train neural networks. Expressed in the form of stateful dataflow graphs, each node in the graph represents the operations performed by neural networks on multi-dimensional arrays. These multi-dimensional arrays are commonly known as “tensors”, hence the name TensorFlow. In this example, we will be training a MNIST model.
 
-## TD;lR
+## TL;DR[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#tldr) <a href="#tldr" id="tldr"></a>
 
-Running any type of Tensorflow model with Bacalhau
+```bash
+bacalhau docker run \
+  --wait \
+  --id-only \
+  -w /inputs  \
+  -i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py \
+  -i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz \
+  tensorflow/tensorflow \
+  -- python train.py
+```
 
-## Training TensorFlow models Locally
+## Training TensorFlow models Locally[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#training-tensorflow-models-locally) <a href="#training-tensorflow-models-locally" id="training-tensorflow-models-locally"></a>
 
 This section is from [TensorFlow 2 quickstart for beginners](https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/quickstart/beginner.ipynb)
 
-### TensorFlow 2 quickstart for beginners
+### TensorFlow 2 quickstart for beginners[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#tensorflow-2-quickstart-for-beginners) <a href="#tensorflow-2-quickstart-for-beginners" id="tensorflow-2-quickstart-for-beginners"></a>
 
 This short introduction uses [Keras](https://www.tensorflow.org/guide/keras/overview) to:
 
@@ -21,11 +30,11 @@ This short introduction uses [Keras](https://www.tensorflow.org/guide/keras/over
 3. Train this neural network.
 4. Evaluate the accuracy of the model.
 
-### Set up TensorFlow
+### Set up TensorFlow[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#set-up-tensorflow) <a href="#set-up-tensorflow" id="set-up-tensorflow"></a>
 
 Import TensorFlow into your program to check whether it is installed
 
-```
+```python
 import tensorflow as tf
 import os
 print("TensorFlow version:", tf.__version__)
@@ -36,7 +45,7 @@ mkdir /inputs
 wget https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz -O /inputs/mnist.npz
 ```
 
-```python
+```bash
 mnist = tf.keras.datasets.mnist
 
 CWD = '' if os.getcwd() == '/' else os.getcwd()
@@ -44,7 +53,7 @@ CWD = '' if os.getcwd() == '/' else os.getcwd()
 x_train, x_test = x_train / 255.0, x_test / 255.0
 ```
 
-### Build a machine-learning model
+### Build a machine-learning model[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#build-a-machine-learning-model) <a href="#build-a-machine-learning-model" id="build-a-machine-learning-model"></a>
 
 Build a `tf.keras.Sequential` model by stacking layers.
 
@@ -94,7 +103,7 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 ```
 
-### Train and evaluate your model
+### Train and evaluate your model[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#train-and-evaluate-your-model) <a href="#train-and-evaluate-your-model" id="train-and-evaluate-your-model"></a>
 
 Use the `Model.fit` method to adjust your model parameters and minimize the loss:
 
@@ -127,7 +136,7 @@ probability_model(x_test[:5])
 mkdir /outputs
 ```
 
-the following method can be used to save the model as a checkpoint
+The following method can be used to save the model as a checkpoint
 
 ```python
 model.save_weights('/outputs/checkpoints/my_checkpoint')
@@ -137,75 +146,120 @@ model.save_weights('/outputs/checkpoints/my_checkpoint')
 ls /outputs/
 ```
 
-### Converting the notebook into a Python script
+## Running on Bacalhau[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#running-on-bacalhau) <a href="#running-on-bacalhau" id="running-on-bacalhau"></a>
 
-You can use a tool like `nbconvert` to convert your Python notebook into a script.
+The dataset and the script are mounted to the TensorFlow container using an URL, we then run the script inside the container
 
-After that, you can create a gist of the training script at gist.github.com copy the raw link of the gist
+### Structure of the command[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
-```bash
-wget https://gist.githubusercontent.com/js-ts/0ce4d671ced642fbe807e65f5186ae87/raw/7f28cc497cc1c509661a33b144c0683b8fc97f41/train.py
-```
+Let's look closely at the command below:
 
-Testing whether the script works
+1. `export JOB_ID=$( ... )` exports the job ID as environment variable
+2. `bacalhau docker run`: call to bacalhau
+3. The `-i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py` flag is used to mount the training script
+4. The `-i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz` flag is used to mount the dataset
+5. `tensorflow/tensorflow`: the name and the tag of the docker image we are using
+6. `python train.py`: command to execute the script
 
-```bash
-python train.py
-```
-
-## Running on bacalhau
-
-```python
-!curl -sL https://get.bacalhau.org/install.sh | bash
-```
-
-The dataset and the script are mounted to the TensorFlow container using an URL we then run the script inside the container
+By default whatever URL you mount using the `-i` flag gets mounted at the path `/inputs` so we choose that as our input directory `-w /inputs`
 
 ```bash
-bacalhau docker run \
---wait \
---id-only \
--w /inputs  \
--i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py \
--i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz \
-tensorflow/tensorflow \
--- python train.py
+export JOB_ID=$(bacalhau docker run \
+  --wait \
+  --id-only \
+  -w /inputs  \
+  -i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py \
+  -i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz \
+  tensorflow/tensorflow \
+  -- python train.py)
 ```
-
-Structure of the command:
-
-* `-i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py`: mount the training script
-* `-i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz`: mount the dataset
-* `tensorflow/tensorflow`: specify the Docker image
-* `python train.py`: execute the script
-
-By default whatever URL you mount using the -i flag gets mounted at the path /inputs so we choose that as our input directory `-w /inputs`
 
 ```bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
-Where it says `Completed`, that means the job is done, and we can get the results.
+When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-To find out more information about your job, run the following command:
+### Declarative job description[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+
+The same job can be presented in the [declarative](../../setting-up/jobs/job.md) format. In this case, the description will look like this:
+
+```yaml
+name: Training ML model using tensorflow
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    Engine:
+      type: docker
+      params:
+        WorkingDirectory: "/inputs"
+        Image: "tensorflow/tensorflow" 
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - python train.py
+    InputSources:
+      - Source:
+          Type: urlDownload
+          Params:
+            URL: https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
+        Target: /inputs
+      - Source:
+          Type: urlDownload
+          Params:
+            URL: https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py
+        Target: /inputs
+    Resources:
+      GPU: "1"
+```
+
+The job description should be saved in `.yaml` format, e.g. `tensorflow.yaml`, and then run with the command:
+
+```bash
+bacalhau job run tensorflow.yaml
+```
+
+## Checking the State of your Jobs[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+
+### Job status[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#job-status) <a href="#job-status" id="job-status"></a>
+
+You can check the status of the job using `bacalhau list`.
+
+```bash
+bacalhau list --id-filter ${JOB_ID}
+```
+
+When it says `Completed`, that means the job is done, and we can get the results.
+
+### Job information[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#job-information) <a href="#job-information" id="job-information"></a>
+
+You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
 bacalhau describe ${JOB_ID}
 ```
+
+### Job download[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#job-download) <a href="#job-download" id="job-download"></a>
+
+You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir -p results
 bacalhau get $JOB_ID --output-dir results
 ```
 
-```bash
-ls results/
-```
+After the download has finished you should see the following contents in results directory
+
+## Viewing your Job Output[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+
+Now you can find the file in the `results/outputs` folder. To view it, run the following command:
 
 ```bash
-cat results/stdout
+cat results/outputs/
 ```
 
-```bash
-ls results/outputs/
-```
+## Support[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#support) <a href="#support" id="support"></a>
+
+If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
