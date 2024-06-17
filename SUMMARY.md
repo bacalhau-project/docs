@@ -98,7 +98,6 @@
   * [Training Tensorflow Model](examples/model-training/index-1.md)
   * [Stable Diffusion Dreambooth (Finetuning)](examples/model-training/stable-diffusion-dreambooth-finetuning.md)
 * [Molecular Dynamics](examples/molecular-dynamics/README.md)
-  * [Data Engineering](examples/molecular-dynamics/index.md)
   * [Running BIDS Apps on Bacalhau](examples/molecular-dynamics/index-1.md)
   * [Coresets On Bacalhau](examples/molecular-dynamics/index-2.md)
   * [Genomics Data Generation](examples/molecular-dynamics/index-3.md)
