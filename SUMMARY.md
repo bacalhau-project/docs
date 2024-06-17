@@ -78,7 +78,7 @@
 
 * [Data Engineering](examples/data-engineering/README.md)
   * [Using Bacalhau with DuckDB](examples/data-engineering/index.md)
-  * [Blockchain Analysis](examples/data-engineering/index-1.md)
+  * [Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau](examples/data-engineering/index-1.md)
   * [Convert CSV To Parquet Or Avro](examples/data-engineering/index-2.md)
   * [Simple Image Processing](examples/data-engineering/index-3.md)
   * [Oceanography - Data Conversion](examples/data-engineering/index-4.md)
