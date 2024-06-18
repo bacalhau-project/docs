@@ -1,18 +1,18 @@
 # Observability for WebAssembly Workloads in Bacalhau
 
-Gain deeper insights into the WebAssembly (Wasm) jobs running on Bacalhau compute nodes using the [Observe SDK](https://dev.dylibso.com/docs/category/observe-sdk/), an open-source library that unlocks modern observability for WebAssembly. This feature supplements the [host-level observability](../setting-up/running-node/observability/) data with additional traces extracted from within the Wasm modules running on compute nodes in a Bacalhau network.
+Gain deeper insights into the WebAssembly (Wasm) jobs running on Bacalhau compute nodes using the [Observe SDK](https://dev.dylibso.com/docs/category/observe-sdk/), an open-source library that unlocks modern observability for WebAssembly. This feature supplements the [host-level observability](../setting-up/running-node/observability.md) data with additional traces extracted from within the Wasm modules running on compute nodes in a Bacalhau network.
 
 ## Features
 
-* Extract telemetry data from Wasm workloads. Currently supports tracing, with logs and metrics coming soon.
-* Data can be sent to the [same viewing destinations](../setting-up/running-node/observability/#viewing) (ie. sinks) that are supported for the host-level data.
-* Utilizes the same Trace ID as the host-level data, allowing for seamless visibility into the end-to-end execution of the job.
+1. Extract telemetry data from Wasm workloads. Currently supports tracing, with logs and metrics coming soon.
+2. Data can be sent to the [same viewing destinations](../setting-up/running-node/observability.md#viewing) (ie. sinks) that are supported for the host-level data.
+3. Utilizes the same Trace ID as the host-level data, allowing for seamless visibility into the end-to-end execution of the job.
 
 ## Installing the SDK
 
-* The Observe SDK is integrated with the default WebAssembly [Executor](../getting-started/architecture/#executor) provided by Bacalhau, so node operators are not required to integrate the SDK itself as long as a custom / pluggable Executor is not being used.
-* _(Optional)_ For node operators using a custom Executer see [here](https://dev.dylibso.com/docs/observe/adapters/golang/opentelemetry) for instructions on how to integrate the Observe SDK.
-* The SDK uses the same environment variables noted [here](../setting-up/running-node/observability/#viewing) for sending data out to a viewing destination.
+1. The Observe SDK is integrated with the default WebAssembly [Executor](../getting-started/architecture.md#executor) provided by Bacalhau, so node operators are not required to integrate the SDK itself as long as a custom / pluggable Executor is not being used.
+2. _(Optional)_ For node operators using a custom Executer see [here](https://dev.dylibso.com/docs/observe/adapters/golang/opentelemetry) for instructions on how to integrate the Observe SDK.
+3. The SDK uses the same environment variables noted [here](../setting-up/running-node/observability.md#viewing) for sending data out to a viewing destination.
 
 ## Usage
 
