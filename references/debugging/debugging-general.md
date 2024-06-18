@@ -16,13 +16,13 @@ A failing job could be described as anything that didn't meet your expectations.
 
 When it comes to Bacalhau, a failing job is one that has failed to complete successfully. If you run a job in the foreground you might see a message saying:
 
-```
+```bash
 Error while executing the job.
 ```
 
 Or when you list the jobs you might see a state of `ERROR`, like:
 
-```
+```bash
 CREATED   ID        JOB                      STATE      VERIFIED  PUBLISHED
 11:05:47  bab5f64c  Docker ubuntu echo "...  Error
 ```
@@ -37,7 +37,7 @@ Look through the `Shards` of the job and see if any of them have a `State` of `E
 
 One of the most common reasons for failure is that the entrypoint for a job doesn't exist. The `stderr` or `runnerError` will look something like:
 
-```
+```bash
 JobState:
   Nodes:
     QmXMzb3GQRMyUyVvUB53nfkZ1sURTVxuR8BPowey7a3WKk:
@@ -59,13 +59,15 @@ JobState:
 
 This is usually caused by a mistake in the path to the executable or quotes. To fix this, you'll need to edit the command and make sure it's a valid command.
 
-:::tip Try enclosing your command in a bash -c '...' (or equivalent shell) to make sure that your command is parsed by the process in the container, not your shell. :::
+{% hint style="info" %}
+Try enclosing your command in a bash -c '...' (or equivalent shell) to make sure that your command is parsed by the process in the container, not your shell.
+{% endhint %}
 
 ## 4. Common Error 2 - `exit code was not zero: 1`
 
 If your program exits with a non-zero exit code, the job will report a failure. The `exitCode` field will present the code. Inspect the `stderr` or `stdout` to see what went wrong. For example:
 
-```
+```bash
 JobState:
   Nodes:
     QmVAb7r2pKWCuyLpYWoZr9syhhFnTWeFaByHdb8PkkhLQG:
@@ -86,14 +88,16 @@ Typically this is caused by a user error in the code. But you can sometimes see 
 
 If you're not sure what went wrong, you can try adding some sanity checks to your command or code. Here is a list of common command line commands that we use to make sure everything is in its right place:
 
-* `ls -lah /inputs > /outputs/ls.txt` - list the contents of a directory and write to the outputs (or stdout) to double check that files/binaries really exist
-* `md5sum /inputs/data.tar.gz > /outputs/checksum.txt` - calculate the checksum of a file and write to the outputs (or stdout) to double check that the file is what you expect
+1. `ls -lah /inputs > /outputs/ls.txt` - list the contents of a directory and write to the outputs (or stdout) to double check that files/binaries really exist
+2. `md5sum /inputs/data.tar.gz > /outputs/checksum.txt` - calculate the checksum of a file and write to the outputs (or stdout) to double check that the file is what you expect
 
 Inside your code:
 
 * Use your language's assert functionality to check that the inputs are what you expect
 
-:::info Seriously, we've seen all sorts of wonderful things go wrong. Like CIDs presenting a corrupted file. It's worth checking everything! :::
+{% hint style="info" %}
+Seriously, we've seen all sorts of wonderful things go wrong. Like CIDs presenting a corrupted file. It's worth checking everything!
+{% endhint %}
 
 More tips:
 
@@ -107,15 +111,15 @@ Since Bacalhau jobs have no external access, you can't rely on remote metric sol
 
 At the command line:
 
-* `cp /inputs/data.tar.gz /outputs/data.tar.gz` - copy a file to the outputs so you can download and inspect it later
-* Add `echo` or `cat` commands to list out pertinent information
+1. `cp /inputs/data.tar.gz /outputs/data.tar.gz` - copy a file to the outputs so you can download and inspect it later
+2. Add `echo` or `cat` commands to list out pertinent information
 
 Inside your code:
 
-* Use a logging framework if you have one - structure the output to make it more searchable
-* Add `print`-like debugging statements to trace the path of execution within your code. When you think you've added enough, add more.
-* `print` out the hardware resources observed by your code, to ensure that hardware is visible and behaving as expected (e.g. GPU information)
-* For longer-running or hardware intensive jobs, `print` status updates and current consumption metrics to ensure that the job is progressing as expected
+1. Use a logging framework if you have one - structure the output to make it more searchable
+2. Add `print`-like debugging statements to trace the path of execution within your code. When you think you've added enough, add more.
+3. `print` out the hardware resources observed by your code, to ensure that hardware is visible and behaving as expected (e.g. GPU information)
+4. For longer-running or hardware intensive jobs, `print` status updates and current consumption metrics to ensure that the job is progressing as expected
 
 More tips:
 
@@ -125,17 +129,17 @@ More tips:
 
 ## 8. Debugging by Running Locally
 
-It might sound obvious but run a test job locally first. You'll often have much better visibility into what's going on and you can use your local tools to debug.
+It might sound obvious but run a test job locally first. You'll often have much better visibility into what's going on, and you can use your local tools to debug.
 
 ## 7. Debugging Via Simple Jobs
 
 Before running a Bacalhau job for real, it's worth taking the time to slowly baby-step your way to the final command. This is especially true if you're new to Bacalhau or if you're not sure what the inputs will look like.
 
-* Your first job should be a simple `ubuntu` based `ls` command to make sure that the inputs are where you expect them to be
-* Your second job should be a similarly simple `ls`-like job, but using your code/container
-* Your third job should use your code, but run some kind of "inspect" or "list" or "sanity check" like job to double check that your job has everything it needs to do before it starts. A "hello world" if you will.
-* Finally, try and run the actual job.
-* If the job fails, try to tailor a job that tests the specific issue you're facing.
+1. Your first job should be a simple `ubuntu` based `ls` command to make sure that the inputs are where you expect them to be
+2. Your second job should be a similarly simple `ls`-like job, but using your code/container
+3. Your third job should use your code, but run some kind of "inspect" or "list" or "sanity check" like job to double check that your job has everything it needs to do before it starts. A "hello world" if you will.
+4. Finally, try and run the actual job.
+5. If the job fails, try to tailor a job that tests the specific issue you're facing.
 
 In essence, you should try and minimize failure of the job by intentionally testing all the normal things that can go wrong, like data not being in the right place or in the wrong format.
 
