@@ -6,319 +6,186 @@ description: >-
 
 # Lilypad
 
-## 🍃 What is Lilypad?
-
-### Full Documentation
-
-[Lilypad Docs](https://docs.lilypadnetwork.org)
-
-### Vision
+## Vision[​](http://localhost:3000/integration/lilypad#vision) <a href="#vision" id="vision"></a>
 
 [Lilypad](https://blog.lilypadnetwork.org/) is aiming to build an internet-scale trustless distributed compute network for web3. Creating the infrastructure for use cases like AI inference, ML training, DeSci and more.
 
-### Overview
+## Overview[​](http://localhost:3000/integration/lilypad#overview) <a href="#overview" id="overview"></a>
 
-Lilypad (v0) currently enables users to access verifiable, distributed off-chain compute directly from smart contracts.\
-\
-Lilypad is at v0 and is a Proof of Concept project operating as an integration layer between Bacalhau compute jobs and solidity smart contracts. This integration enables users to access verifiable off-chain decentralised compute from DApps and smart contract projects, enabling interactions and innovations between on-chain and off-chain compute.\
-\
-Lilypad v0 does not charge for compute jobs, outside of network running fees (ie. the cost of transactions on the blockchain network it is deployed to). It operates on the [Bacalhau](https://www.docs.bacalhau.org) public compute network (which is free to use), though it is worth noting that there are no reliability guarantees given for this network (which is something future versions of this protocol will be working to improve\\
+Lilypad serves as a verifiable, trustless, and decentralized computational network engineered to facilitate mainstream adoption of web3 applications. By extending unrestricted, global access to computational power, Lilypad strategically collaborates with decentralized infrastructure networks, such as Filecoin, to formulate a transparent, efficient, and accessible computational ecosystem. While Lilypad does not specifically resolve issues related to the accessibility of AI models, it significantly alleviates challenges associated with procuring high-performance AI hardware. In this context, Lilypad provides decentralized AI computational services. The network recently unveiled its second version, dubbed Lilypad V2 (Aurora), and is actively laying groundwork for multi-chain integration and the deployment of an incentivized test net.
 
-### Lilypad Roadmap
+{% embed url="https://www.youtube.com/watch?v=yQnB2Yxia4Y" %}
 
-* v0: **September 2022** - Lilypad Bridge POC for triggering and returning Bacalhau compute jobs from a smart contract
-* v1: **July 2023** - A [modicum](https://dl.acm.org/doi/pdf/10.1145/3401025.3401737)-based minimal testnet (EVM-based). See [github](https://github.com/bacalhau-project/lilypad)
-* v2: **September 2023** - A more robust trustless distributed testnet
-* v3: tbd - Lilypad Mainnet
+### Key features[​](http://localhost:3000/integration/lilypad#key-features) <a href="#key-features" id="key-features"></a>
 
-<figure><img src="../img/lilypad/Lilypad%20Roadmap%20June.png" alt=""><figcaption><p>Lilypad Roadmap</p></figcaption></figure>
+Some of the key features of Lilypad include:
 
-## Lilypad v0 Reference
+1. **Verifiable Trustless Decentralized Compute Network**: Lilypad is a decentralized compute network that aims to provide global, permissionless access to compute power. It leverages decentralized physical infrastructure networks like Filecoin to ensure trustlessness and verifiability.
+2. **Mainstream Web3 Application Support**: Lilypad is designed to enable mainstream web3 applications to use its compute network. It aims to make decentralized AI more accessible, efficient, and transparent for developers and users.
+3. **Open Compute Network**: Lilypad creates an open compute network that allows users to access and run AI models and jobs. It separates module creators from users and curates a set of deterministic modules for users to run, ensuring determinism in verification systems.
+4. **Multichain Support**: Lilypad plans to go multichain, which means it will support multiple blockchain networks. This will increase the scalability and interoperability of the network, allowing users to choose the blockchain that best suits their needs.
+5. **Incentivized Test Net**: Lilypad has plans to launch an incentivized test net, which will provide users with incentives to participate in testing and improving the network. This will help identify and address any issues or challenges before the mainnet launch.
+6. **Decentralization of Mediators**: The team also aims to decentralize the mediators in the network. This means that the decision-making process and governance of the network will be distributed among multiple participants, ensuring a more decentralized and resilient system.
 
-### Architecture
+## Lilypad Roadmap[​](http://localhost:3000/integration/lilypad#lilypad-roadmap) <a href="#lilypad-roadmap" id="lilypad-roadmap"></a>
 
-#### Overview
+1. v0: **September 2022** - Lilypad Bridge POC for triggering and returning Bacalhau compute jobs from a smart contract
+2. v1: **July 2023** - A modicum-based minimal testnet (EVM-based). See github
+3. v2: **September 2023** - A more robust trustless distributed testnet
+4. v3 **November 2023** - Lilypad AI Studio, Calibration Net for compute providers
+5. v4: **Q1 2024** - Lilypad Incentivized Testnet deployment
+6. v5: **tbd** - Lilypad Mainnet
 
-Lilypad is a ‘bridge’ to enable computation jobs from smart contracts. The aim of Lilypad v0 was to create an integration for users to call Bacalhau jobs directly from their solidity smart contracts and hence enable interactions and innovations between on-chain and off-chain compute.\
-\
-Lilypad v0 is a proof of concept bridge which runs off the public (free to use) Bacalhau compute network. As such, the reliability of jobs on this network are not guaranteed.
+<figure><img src="../.gitbook/assets/lilypad-roadmap-2024-a6f975c8db1d9ba637f40da8cf5b267b.png" alt=""><figcaption></figcaption></figure>
 
-> If you have a need for reliable compute based on this infrastructure - get in touch with us.
+## Lilypad v2 Reference[​](http://localhost:3000/integration/lilypad#lilypad-v2-reference) <a href="#lilypad-v2-reference" id="lilypad-v2-reference"></a>
 
-<figure><img src="../img/lilypad/Lilypad%20Architecture.png" alt=""><figcaption><p>Lilypad v0 on the FVM Network</p></figcaption></figure>
+### Architecture Overview[​](http://localhost:3000/integration/lilypad#architecture-overview) <a href="#architecture-overview" id="architecture-overview"></a>
 
-A user contract implements the LilypadCaller interface and to call a job, they make a function call to the deployed LilypadEvents contract.
+The architecture of Lilypad is inspired by the research paper titled "Mechanisms for Outsourcing Computation via a Decentralized Market." The paper introduces MODiCuM, a decentralized system that allows for computational outsourcing in an open market. Just like MODiCuM, Lilypad aims to create an open market of computational resources by introducing various decentralized services like solver, resource provider, job creator, mediator, and directory services. MODiCuM's unique approach to deterring misbehavior in a decentralized environment through dedicated mediators and enforceable fines has influenced Lilypad's own design, particularly in the areas of dispute resolution and system integrity.
 
-This contract emits an event which the Lilypad bridge daemon listens for and then forwards on to the Bacalhau network for processing.
+Lilypad is a proof of concept bridge which runs off the demo (free to use) Bacalhau compute network. As such, the reliability of jobs on this network are not guaranteed.
 
-Once the job is complete, the results are returned back to the originating user contract from the bridge code.
+{% hint style="success" %}
+If you have a need for reliable compute based on this infrastructure - get in touch with us.
+{% endhint %}
 
-<figure><img src="https://user-images.githubusercontent.com/12529822/224299570-366bde1c-1f48-4af9-9d7c-0d4f8a0fc1fc.png" alt=""><figcaption><p>Note: runBacalhauJob() is now runLilypadJob()</p></figcaption></figure>
+Components of the Lilypad Ecosystem - From SaaS to Smart Contracts:&#x20;
+
+<figure><img src="../.gitbook/assets/lilypad-layers-0be371dadb06e3022e0fa2bf2c1dc157.png" alt=""><figcaption></figcaption></figure>
+
+Main architecture of the Lilypad Ecosystem:&#x20;
+
+<figure><img src="../.gitbook/assets/lilypad-arch-9631f24f62e8ef91bc446b16134ef127.png" alt=""><figcaption></figcaption></figure>
+
+Services in the Lilypad Ecosystem:&#x20;
+
+<figure><img src="../.gitbook/assets/lilypad-services-d8ee5fc1c2e7ca85e267194ab144ed18.png" alt=""><figcaption></figcaption></figure>
 
 See more about how Bacalhau & Lilypad are related below:
 
 * [Bacalhau Notion page](https://www.notion.so/7-Introduction-to-Bacalhau-Decentralised-Compute-over-Data-AI-ML-DeSci-fbef1ef73b4e479a9b209be8d29cb58f)
 * FVM Hackerbase Video
 
-### Lilypad v0 Quick Start
+## Lilypad v2 Quick Start[​](http://localhost:3000/integration/lilypad#lilypad-v2-quick-start) <a href="#lilypad-v2-quick-start" id="lilypad-v2-quick-start"></a>
 
-### Prefer Video?
+### Video Guide[​](http://localhost:3000/integration/lilypad#video-guide) <a href="#video-guide" id="video-guide"></a>
 
 {% hint style="info" %}
 Note: Since this video was released some changes have been made to the underlying code, but the process and general architecture remains the same.
 {% endhint %}
 
-### Quick Start Guide
+{% embed url="https://www.youtube.com/watch?v=B0l0gFYxADY" %}
 
-{% hint style="info" %}
-The Lilypad Contracts are not currently importable via npm (though this is in progress), so to import them to you own project, you'll need to use their github links
-{% endhint %}
+### Setting up metamask[​](http://localhost:3000/integration/lilypad#setting-up-metamask) <a href="#setting-up-metamask" id="setting-up-metamask"></a>
 
-Using Lilypad in your own solidity smart contract requires the following steps
+1. Install [metamask Extension](https://metamask.io/)
+2. Add the Lilypad Testnet chain to metamask:
 
-1.  Create a contract that implements the [LilypadCaller](https://github.com/bacalhau-project/lilypad-v0/blob/main/hardhat/contracts/LilypadCallerInterface.sol) interface.
-
-    As part of this interface you need to implement 2 functions:
-
-    * `lilypadFulfilled` - a callback function that will be called when the job completes successfully
-    * `lilypadCancelled` - a callback function that will be called when the job fails
-2. Provide a public [Docker Spec compatible for use on Bacalhau](https://docs.bacalhau.org/getting-started/docker-workload-onboarding) in JSON format to the contract.
-3. To trigger a job from your contract, you need to call the `LilypadEvents` contract which the Lilypad bridge is listening to and which connects to the Bacalhau public network. Create an instance of [`LilypadEvents`](https://github.com/bacalhau-project/lilypad-v0/blob/main/hardhat/contracts/LilypadEvents.sol) by passing the public contract address on the network you are using (see [deployed network details](https://docs.lilypadnetwork.org/lilypad-v0-reference/deployed-network-details)) to the `LilypadEvents` constructor.
-4. Call the [LilypadEvents](https://github.com/bacalhau-project/lilypad-v0/blob/main/hardhat/contracts/LilypadEvents.sol) contract function `runLilypadJob()` passing in the following parameters.
-
-|      Name     |                                                               Type                                                              |                                                                                                              Purpose                                                                                                             |
-| :-----------: | :-----------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|    `_from`    |                                                            `address`                                                            |                                          The address of the calling contract, to which success or failure will be passed back. You should probably use address(this) from your contract.                                         |
-|    `_spec`    |                                                             `string`                                                            |                                                                    A Bacalhau job spec in JSON format. See below for more information on creating a job spec.                                                                    |
-| `_resultType` | [`LilypadResultType`](https://github.com/bacalhau-project/lilypad/blob/main/hardhat/contracts/LilypadCallerInterface.sol#L4-L9) | The type of result that you want to be returned. If you specify CID, the result tree will come back as a retrievable IPFS CID. If you specify StdOut, StdErr or ExitCode, those raw values output from the job will be returned. |
-
-### Implement the LilypadCaller Interface in your contract
-
-Create a contract that implements [`LilypadCallerInterface`](https://github.com/bacalhau-project/lilypad/blob/main/hardhat/contracts/LilypadCallerInterface.sol). As part of this interface you need to implement 2 functions:
-
-* `lilypadFulfilled` - a callback function that will be called when the job completes successfully
-* `lilypadCancelled` - a callback function that will be called when the job fails
-
-```solidity
-  /** === LilypadCaller Interface === **/
-  pragma solidity >=0.8.4;
-  import 'https://github.com/bacalhau-project/lilypad/blob/main/hardhat/contracts/LilypadCallerInterface.sol' //Location of file link
-
-  /** === User Contract Example === **/
-  contract MyContract is LilypadCallerInterface {
-
-      function lilypadFulfilled(address _from, uint _jobId,
-          LilypadResultType _resultType, string calldata _result)
-          external override {
-          // Do something when the LilypadEvents contract returns
-          // results successfully
-      }
-
-      function lilypadCancelled(address _from, uint _jobId, string
-          calldata _errorMsg) external override {
-          // Do something if there's an error returned by the
-          // LilypadEvents contract
-      }
-  }
-
+```bash
+Network name: Lilypad v2 Aurora testnet
+New RPC URL: http://testnet.lilypad.tech:8545
+Chain ID: 1337
+Currency symbol: ETH
+Block explorer URL: (leave blank)
 ```
 
-### Add a Spec compatible with [Bacalhau](https://www.docs.bacalhau.org)
+To do this, open metamask then click on the `Network` button > `Add Network` > `Add a network manually` See the [Lilypad documentation](https://docs.lilypad.tech/lilypad/lilypad-aurora-testnet/quick-start/setting-up-metamask) for more details
+
+### Funding your wallet[​](http://localhost:3000/integration/lilypad#funding-your-wallet) <a href="#funding-your-wallet" id="funding-your-wallet"></a>
+
+To obtain funds, connect to the lilypad v2 Aurora testnet network on your wallet and head to the faucet at `http://faucet.lilypad.tech:8080` to get ETH and LP. Copy your metamask wallet address into the bar and click request.
+
+### Install requirements[​](http://localhost:3000/integration/lilypad#install-requirements) <a href="#install-requirements" id="install-requirements"></a>
 
 {% hint style="info" %}
-There are several public examples you can try out without needing to know anything about Docker or WASM specification jobs -> see the [Bacalhau Docs](https://www.docs.bacalhau.org). The full specification for Bacalhau jobs can be [seen here](https://docs.bacalhau.org/all-flags).&#x20;
+Only `x86_64 Linux` platform is supported
 {% endhint %}
 
-Bacalhau operates by executing jobs within containers. This means it is able to run any arbitrary Docker jobs or WASM images
+There are two ways to install CLI:
 
-We'll use the public Stable Diffusion Docker Container[ located here](https://github.com/bacalhau-project/examples/pkgs/container/examples%2Fstable-diffusion-gpu) for this example.
+1. With GO toolchain
 
-Here's an example JSON job specification for the Stable Diffusion job:
-
-```json
-{
-  "Engine": "docker",
-  "Verifier": "noop",
-  "PublisherSpec": { "Type": "ipfs" },
-  "Docker": {
-    "Image": "ghcr.io/bacalhau-project/examples/stable-diffusion-gpu:0.0.1",
-    "Entrypoint": ["python"],
-    "Parameters": [
-      "main.py",
-      "--o",
-      "./outputs",
-      "--p",
-      "A User Prompt Goes here"
-    ]
-  },
-  "Resources": { "GPU": "1" },
-  "Outputs": [{ "Name": "outputs", "Path": "/outputs" }],
-  "Deal": { "Concurrency": 1 }
-}
+```go
+go install github.com/bacalhau-project/lilypad@latest
 ```
 
-Here's an example of using this JSON specification in solidity:
+You may then need to set:
 
-Note that since we need to be able to add the user prompt input to the spec, it's been split into 2 parts.
-
-```solidity
-string constant specStart = '{'
-    '"Engine": "docker",'
-    '"Verifier": "noop",'
-    '"PublisherSpec": {"Type": "ipfs"},'
-    '"Docker": {'
-    '"Image": "ghcr.io/bacalhau-project/examples/stable-diffusion-gpu:0.0.1",'
-    '"Entrypoint": ["python"],
-    '"Parameters": ["main.py", "--o", "./outputs", "--p", "';
-
-string constant specEnd =
-    '"]},'
-    '"Resources": {"GPU": "1"},'
-    '"Outputs": [{"Name": "outputs", "Path": "/outputs"}],'
-    '"Deal": {"Concurrency": 1}'
-    '}';
-
-
-//Example of use:
-string memory spec = string.concat(specStart, _prompt, specEnd);
+```bash
+NO export SERVICE_SOLVER="0xd4646ef9f7336b06841db3019b617ceadf435316"
+export SERVICE_MEDIATORS="0x2d83ced7562e406151bd49c749654429907543b4"
+export WEB3_PRIVATE_KEY=<your private key>
 ```
 
-{% hint style="info" %}
-See more about how to [onboard your Docker Workloads for Bacalhau](https://docs.bacalhau.org/getting-started/docker-workload-onboarding/), [Onboard WebAssembly Workloads](https://docs.bacalhau.org/getting-started/wasm-workload-onboarding) or [Work with Custom Containers](https://docs.bacalhau.org/examples/workload-onboarding/custom-containers/) in the Bacalhau Docs.&#x20;
-{% endhint %}
+2. Via officially released binaries
 
-### Add the Lilypad Events Address & Network Fee
-
-You can do this by either passing it into your constructor or setting it as a variable
-
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity >=0.8.4;
-import "https://github.com/bacalhau-project/lilypad/blob/main/hardhat/contracts/LilypadEventsUpgradeable.sol";
-import "https://github.com/bacalhau-project/lilypad/blob/main/hardhat/contracts/LilypadCallerInterface.sol";
-
-/** === User Contract Example === **/
-contract MyContract is LilypadCallerInterface {
-  address public bridgeAddress; // LilypadEvents contract address for interacting with the deployed LilypadEvents contract
-  LilypadEventsUpgradeable bridge; // Instance of the LilypadEvents Contract to interact with
-  uint256 public lilypadFee; //=30000000000000000 on FVM;
-
-  constructor(address _bridgeContractAddress) {
-    bridgeAddress = _bridgeContractAddress; //the LilypadEvents contract address for your network
-    bridge = LilypadEventsUpgradeable(_bridgeContractAddress); //create an instance of the Events Contract to interact with
-    uint fee = bridge.getLilypadFee(); // you can fetch the fee amount required for the contract to run also
-    lilypadFee = fee;
-  }
-
-  function lilypadFulfilled(address _from, uint _jobId,
-    LilypadResultType _resultType, string calldata _result)
-    external override {
-    // Do something when the LilypadEvents contract returns
-    // results successfully
-  }
-
-  function lilypadCancelled(address _from, uint _jobId, string
-    calldata _errorMsg) external override {
-    // Do something if there's an error returned by the Lilypad Job
-  }
-}
+```bash
+# Detect your machine's architecture and set it as $OSARCH
+OSARCH=$(uname -m | awk '{if ($0 ~ /arm64|aarch64/) print "arm64"; else if ($0 ~ /x86_64|amd64/) print "amd64"; else print "unsupported_arch"}') && export OSARCH;
+# Detect your operating system and set it as $OSNAME
+OSNAME=$(uname -s | awk '{if ($1 == "Darwin") print "darwin"; else if ($1 == "Linux") print "linux"; else print "unsupported_os"}') && export OSNAME;
+# Download the latest production build
+curl -sSL -o lilypad https://github.com/bacalhau-project/lilypad/releases/download/v2.0.0-701b8cb/lilypad-$OSNAME-$OSARCH
+# Make Lilypad executable and install it
+chmod +x lilypad
+sudo mv lilypad /usr/local/bin/lilypad
 ```
 
-### Call the LilypadEvents runLilypadJob function
+You may then need to set:
 
-Using the LilypadEvents Instance, we can now send jobs to the Bacalhau Network via our contract using the `runLilypadJob()` function.
-
-In this example we'll use the Stable Diffusion Spec shown above in [#add-a-spec-compatible-with-bacalhau](https://docs.lilypadnetwork.org/lilypad-v0-reference/lilypad-v0-quick-start#add-a-spec-compatible-with-bacalhau)
-
-{% hint style="info" %}
-Note that calling the runLilypadJob() function requires a network fee. While the Bacalhau public Network is currently free to use, gas fees are still needed to return the results of the job performed. This is the payable fee in the contract.
-{% endhint %}
-
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity >=0.8.4;
-import "https://github.com/bacalhau-project/lilypad/blob/main/hardhat/contracts/LilypadEventsUpgradeable.sol";
-import "https://github.com/bacalhau-project/lilypad/blob/main/hardhat/contracts/LilypadCallerInterface.sol";
-
-/** === User Contract Example === **/
-contract MyContract is LilypadCallerInterface {
-  address public bridgeAddress; // Variable for interacting with the deployed LilypadEvents contract
-  LilypadEventsUpgradeable bridge;
-  uint256 public lilypadFee; //=30000000000000000;
-
-  constructor(address _bridgeContractAddress) {
-    bridgeAddress = _bridgeContractAddress;
-    bridge = LilypadEventsUpgradeable(_bridgeContractAddress);
-    uint fee = bridge.getLilypadFee(); // you can fetch the fee amount required for the contract to run also
-    lilypadFee = fee;
-  }
-
-  //** Define the Bacalhau Specification */
-  string constant specStart = '{'
-      '"Engine": "docker",'
-      '"Verifier": "noop",'
-      '"PublisherSpec": {"Type": "ipfs"},'
-      '"Docker": {'
-      '"Image": "ghcr.io/bacalhau-project/examples/stable-diffusion-gpu:0.0.1",'
-      '"Entrypoint": ["python"],
-      '"Parameters": ["main.py", "--o", "./outputs", "--p", "';
-
-  string constant specEnd =
-      '"]},'
-      '"Resources": {"GPU": "1"},'
-      '"Outputs": [{"Name": "outputs", "Path": "/outputs"}],'
-      '"Deal": {"Concurrency": 1}'
-      '}';
-
-
-  /** Call the runLilypadJob() to generate a stable diffusion image from a text prompt*/
-  function StableDiffusion(string calldata _prompt) external payable {
-      require(msg.value >= lilypadFee, "Not enough to run Lilypad job");
-      // TODO: spec -> do proper json encoding, look out for quotes in _prompt
-      string memory spec = string.concat(specStart, _prompt, specEnd);
-      uint id = bridge.runLilypadJob{value: lilypadFee}(address(this), spec, uint8(LilypadResultType.CID));
-      require(id > 0, "job didn't return a value");
-      prompts[id] = _prompt;
-  }
-
-  /** LilypadCaller Interface Implementation */
-  function lilypadFulfilled(address _from, uint _jobId,
-    LilypadResultType _resultType, string calldata _result)
-    external override {
-    // Do something when the LilypadEvents contract returns
-    // results successfully
-  }
-
-  function lilypadCancelled(address _from, uint _jobId, string
-    calldata _errorMsg) external override {
-    // Do something if there's an error returned by the
-    // LilypadEvents contract
-  }
-}
+```bash
+export SERVICE_SOLVER="0xd4646ef9f7336b06841db3019b617ceadf435316"
+export SERVICE_MEDIATORS="0x2d83ced7562e406151bd49c749654429907543b4"
+export WEB3_PRIVATE_KEY=<your private key>
 ```
 
-***
+Verifying if the installation is successful: Execute `lilypad` on your terminal and it should produce the following response.
 
-### Lilypad v0 Integrated Networks
+```bash
+Lilypad
 
-## Deployed Network Details
+Usage:
+  lilypad [command]
 
-{% hint style="info" %}
-If you have a use case for another network - please get in touch with us!
-{% endhint %}
+Available Commands:
+  completion        Generate the autocompletion script for the specified shell
+  help              Help about any command
+  mediator          Start the lilypad mediator service.
+  resource-provider Start the lilypad resource-provider service.
+  run               Run a job on the Lilypad network.
+  solver            Start the lilypad solver service.
 
-The Lilypad Events contract - used for triggering compute jobs on Bacalhau, is currently integrated to the following networks on the address specified:
+Flags:
+  -h, --help   help for lilypad
 
-### Lilypad v0 Deployed Networks
+Use "lilypad [command] --help" for more information about a command.
+```
 
-|                                        |                                            |                                                                                                                                                                                                                                                                                    |                     |                                                                                                                                                                                                                            |                                                                                                                                                                                                              |
-| -------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Chain Name**                         | **LilypadEvents Contract Address**         | **RPC**                                                                                                                                                                                                                                                                            | **ChainID**         | **BlockExplorer**                                                                                                                                                                                                          | **Faucet**                                                                                                                                                                                                   |
-| Filecoin Calibration Net (**testnet**) | 0xdC7612fa94F098F1d7BB40E0f4F4db8fF0bC8820 | [https://api.calibration.node.glif.io/rpc/v0](https://api.calibration.node.glif.io/rpc/v0)                                                                                                                                                                                         | 314159 (0x4cb2f)    | [https://calibration.filscan.io/](https://calibration.filscan.io/),                                                                                                                                                        | [https://faucet.calibration.fildev.network/](https://faucet.calibration.fildev.network/)                                                                                                                     |
-| Filecoin Mainnet                       | 0xc18879C0a781DdFa0258302467687413AaD5a4E6 | [https://api.node.glif.io/rpc/v1](https://api.node.glif.io/rpc/v1), [https://filecoin-mainnet.chainstacklabs.com/rpc/v1](https://filecoin-mainnet.chainstacklabs.com/rpc/v1), [https://rpc.ankr.com/filecoin](https://rpc.ankr.com/filecoin)                                       | 314 (0x13a)         | [https://fvm.starboard.ventures/](https://fvm.starboard.ventures/), [https://explorer.glif.io/](https://explorer.glif.io/), [https://beryx.zondax.ch/](https://beryx.zondax.ch/), [https://filfox.io/](https://filfox.io/) | Requires Filecoin token [See docs](https://docs.filecoin.io/basics/assets/get-fil/)                                                                                                                          |
-| Mantle Testnet                         | 0xdC7612fa94F098F1d7BB40E0f4F4db8fF0bC8820 | [https://rpc.testnet.mantle.xyz](https://rpc.testnet.mantle.xyz)                                                                                                                                                                                                                   | 5001 (0x1389)       | [https://explorer.testnet.mantle.xyz/](https://explorer.testnet.mantle.xyz/)                                                                                                                                               | [https://faucet.testnet.mantle.xyz/](https://faucet.testnet.mantle.xyz/)                                                                                                                                     |
-| Sepolia Testnet                        | 0xdC7612fa94F098F1d7BB40E0f4F4db8fF0bC8820 | [https://rpc2.sepolia.org](https://rpc2.sepolia.org), [https://eth-sepolia.g.alchemy.com/v2/demo](https://eth-sepolia.g.alchemy.com/v2/demo), [https://rpc.sepolia.org](https://rpc.sepolia.org), see [https://chainlist.org/chain/11155111](https://chainlist.org/chain/11155111) | 11155111 (0xaa36a7) | [https://sepolia.etherscan.io/](https://sepolia.etherscan.io/)                                                                                                                                                             | [https://www.infura.io/faucet/sepolia](https://www.infura.io/faucet/sepolia), [https://sepoliafaucet.com/](https://sepoliafaucet.com/), [https://sepolia-faucet.pk910.de/](https://sepolia-faucet.pk910.de/) |
-| Polygon Mumbai                         | 0xdC7612fa94F098F1d7BB40E0f4F4db8fF0bC8820 | see [https://chainlist.org/chain/80001](https://chainlist.org/chain/80001)                                                                                                                                                                                                         | 80001 (0x13881)     | [https://mumbai.polygonscan.com/](https://mumbai.polygonscan.com/)                                                                                                                                                         | [https://faucet.polygon.technology/](https://faucet.polygon.technology/), [https://mumbaifaucet.com/](https://mumbaifaucet.com/)                                                                             |
-| Polygon Mainnet (coming soon)          |                                            | see [https://chainlist.org/chain/137](https://chainlist.org/chain/137)                                                                                                                                                                                                             | 137 (0x89)          | [https://polygonscan.com/](https://polygonscan.com/)                                                                                                                                                                       | Requires MATIC tokens                                                                                                                                                                                        |
-| Optimism (coming soon)                 |                                            | see [https://chainlist.org/chain/10](https://chainlist.org/chain/10)                                                                                                                                                                                                               | 10(0xa)             |                                                                                                                                                                                                                            | Requires OP tokens                                                                                                                                                                                           |
-| Arbitrum One (coming soon)             |                                            | see [https://chainlist.org/chain/42161](https://chainlist.org/chain/42161)                                                                                                                                                                                                         | 42161 (0xa4b1)      |                                                                                                                                                                                                                            | Requires ARB tokens                                                                                                                                                                                          |
+### Run Hello World with Cowsay[​](http://localhost:3000/integration/lilypad#run-hello-world-with-cowsay) <a href="#run-hello-world-with-cowsay" id="run-hello-world-with-cowsay"></a>
+
+1. Run the command below
+
+```bash
+lilypad run cowsay:v0.0.1 -i Message="moo"
+```
+
+2. Wait for the compute to take place and for the results to be published
+3. View your results by executing
+
+```bash
+cat /tmp/lilypad/data/downloaded-files/Qma2Ds9uGmtDd3GkerqqKLJe9TjcZC4yxuGRUaFBsQi7yr/stdout
+
+ _____
+< moo >
+ -----
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+```
+
+## Full Documentation[​](http://localhost:3000/integration/lilypad#full-documentation) <a href="#full-documentation" id="full-documentation"></a>
+
+Check out the latest version of the official [Lilypad documentation](https://docs.lilypad.tech/lilypad)
