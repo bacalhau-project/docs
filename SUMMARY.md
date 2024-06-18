@@ -160,7 +160,7 @@
       * [Node List](references/cli-reference/cli/node/index-3.md)
       * [Node Describe](references/cli-reference/cli/node/index-4.md)
       * [Node Reject](references/cli-reference/cli/node/index-5.md)
-  * [CLI Commands](references/cli-reference/all-flags.md)
+  * [CLI Commands Overview](references/cli-reference/all-flags.md)
 * [Debugging](references/debugging/README.md)
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
   * [Debugging Locally](references/debugging/debugging\_locally.md)
