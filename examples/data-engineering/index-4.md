@@ -1,38 +1,33 @@
----
-description: Oceanography data conversion with Bacalhau
----
-
 # Oceanography - Data Conversion
 
-[![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
+## Introduction
 
-The Surface Ocean CO₂ Atlas (SOCAT) contains measurements of the [fugacity](https://en.wikipedia.org/wiki/Fugacity) of CO2 in seawater around the globe. But to calculate how much carbon the ocean is taking up from the atmosphere, these measurements need to be converted to the partial pressure of CO2. We will convert the units by combining measurements of the surface temperature and fugacity. Python libraries (xarray, pandas, numpy) and the pyseaflux package facilitate this process.
+The Surface Ocean CO₂ Atlas (SOCAT) contains measurements of the [fugacity](https://en.wikipedia.org/wiki/Fugacity) of CO₂ in seawater around the globe. But to calculate how much carbon the ocean is taking up from the atmosphere, these measurements need to be converted to the partial pressure of CO₂. We will convert the units by combining measurements of the surface temperature and fugacity. Python libraries (xarray, pandas, numpy) and the pyseaflux package facilitate this process.
 
-In this example tutorial, we will investigate the data and convert the workload so that it can be executed on the Bacalhau network, to take advantage of the distributed storage and compute resources.
+In this example tutorial, our focus will be on running the oceanography dataset with Bacalhau, where we will investigate the data and convert the workload. This will enable the execution on the Bacalhau network, allowing us to leverage its distributed storage and compute resources.
 
-## TD;LR
+## Prerequisites[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
 
-Running oceanography dataset with Bacalhau
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Prerequisites
+## Running Locally[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#running-locally) <a href="#running-locally" id="running-locally"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](https://docs.bacalhau.org/getting-started/installation)
+### Downloading the dataset[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#downloading-the-dataset) <a href="#downloading-the-dataset" id="downloading-the-dataset"></a>
 
-## The Sample Data
-
-The raw data is available on the [SOCAT website](https://www.socat.info/). We will use the [SOCATv2021](https://www.socat.info/index.php/version-2021/) dataset in the "Gridded" format to perform this calculation. First, let's take a quick look at some data:
+For the purposes of this example we will use the [SOCATv2022](https://www.socat.info/index.php/version-2022/) dataset in the "Gridded" format from the [SOCAT website](https://www.socat.info/) and long-term global sea surface temperature data from [NOAA](https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc) - information about that dataset can be found [here](https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.highres.html).
 
 ```bash
-%%bash
 mkdir -p inputs
-curl --output ./inputs/SOCATv2022_tracks_gridded_monthly.nc.zip https://www.socat.info/socat_files/v2022/SOCATv2022_tracks_gridded_monthly.nc.zip
+curl -L --output ./inputs/SOCATv2022_tracks_gridded_monthly.nc.zip https://www.socat.info/socat_files/v2022/SOCATv2022_tracks_gridded_monthly.nc.zip
 curl --output ./inputs/sst.mnmean.nc https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc
 ```
 
-Next let's write the `requirements.txt` and install the dependencies. This file will also be used by the Dockerfile to install the dependencies.
+### Installing dependencies[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#installing-dependencies) <a href="#installing-dependencies" id="installing-dependencies"></a>
 
-```python
-%%writefile requirements.txt
+Next let's write the `requirements.txt`. This file will also be used by the Dockerfile to install the dependencies.
+
+```bash
+# requirements.txt
 Bottleneck==1.3.5
 dask==2022.2.0
 fsspec==2022.5.0
@@ -46,57 +41,45 @@ xarray==0.20.2
 zarr>=2.0.0
 ```
 
-Installing dependencies
-
 ```bash
-%%bash
 pip install -r requirements.txt > /dev/null
 ```
 
-### Writing the Script
+### Reading and Viewing Data[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#reading-and-viewing-data) <a href="#reading-and-viewing-data" id="reading-and-viewing-data"></a>
 
 ```python
 import fsspec # for reading remote files
 import xarray as xr
+
+# Open the zip archive using fsspec and load the data into xarray.Dataset
 with fsspec.open("./inputs/SOCATv2022_tracks_gridded_monthly.nc.zip", compression='zip') as fp:
     ds = xr.open_dataset(fp)
+
+# Display information about the dataset    
 ds.info()
 ```
 
 ```python
 time_slice = slice("2010", "2020") # select a decade
-<!--- cslint:enable -->
-res = ds['sst_ave_unwtd'].sel(tmnth=time_slice).mean(dim='tmnth') # average over time
+res = ds['sst_ave_unwtd'].sel(tmnth=time_slice).mean(dim='tmnth') # compute the mean for this period
 res.plot() # plot the result
 
 ```
 
-We can see that the dataset contains lat-long coordinates, the date, and a series of seawater measurements. Above you can see a plot of the average surface sea temperature (sst) between 2010-2020, where recording buoys and boats have traveled.
+We can see that the dataset contains latitude-longitude coordinates, the date, and a series of seawater measurements. Below is a plot of the average sea surface temperature (SST) between 2010 and 2020, where data have been collected by buoys and vessels.
 
-### Data Conversion
+<figure><img src="../../.gitbook/assets/Average-SST-ffb8a88c400a51315cdbc29a98e3cf19.png" alt=""><figcaption></figcaption></figure>
+
+### Data Conversion[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#data-conversion) <a href="#data-conversion" id="data-conversion"></a>
 
 To convert the data from fugacity of CO2 (fCO2) to partial pressure of CO2 (pCO2) we will combine the measurements of the surface temperature and fugacity. The conversion is performed by the [pyseaflux](https://seaflux.readthedocs.io/en/latest/api.html?highlight=fCO2\_to\_pCO2#pyseaflux.fco2\_pco2\_conversion.fCO2\_to\_pCO2) package.
 
-To execute this workload on the Bacalhau network we need to perform three steps:
+### Writing the Script[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#writing-the-script) <a href="#writing-the-script" id="writing-the-script"></a>
 
-* Upload the data to IPFS
-* Create a docker image with the code and dependencies
-* Run a Bacalhau job with the docker image using the IPFS data
-
-## Upload the Data to IPFS
-
-The first step is to upload the data to IPFS. The simplest way to do this is to use a third-party service to "pin" data to the IPFS network, to ensure that the data exists and is available. To do this you need an account with a pinning service like [web3.storage](https://web3.storage/) or [Pinata](https://pinata.cloud/). Once registered you can use their UI or API or SDKs to upload files.
-
-For the purposes of this example:
-
-1. Downloaded the latest monthly data from the [SOCAT website](https://www.socat.info/)
-2. Downloaded the latest long-term global sea surface temperature data from [NOAA](https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc) - information about that dataset can be found [here](https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.highres.html).
-3. Pinned the data to IPFS
-
-This resulted in the IPFS CID of `bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y`.
+Let's create a new file called `main.py` and paste the following script in it:
 
 ```python
-%%writefile main.py
+# main.py
 import fsspec
 import xarray as xr
 import pandas as pd
@@ -179,12 +162,19 @@ if __name__ == "__main__":
     main()
 ```
 
-## Setting up Docker Container
+This code loads and processes SST and SOCAT data, combines them, computes pCO2, and saves the results for further use.
+
+## Upload the Data to IPFS[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#upload-the-data-to-ipfs) <a href="#upload-the-data-to-ipfs" id="upload-the-data-to-ipfs"></a>
+
+The simplest way to upload the data to IPFS is to use a third-party service to "pin" data to the IPFS network, to ensure that the data exists and is available. To do this you need an account with a pinning service like [NFT.storage](https://nft.storage/) or [Pinata](https://pinata.cloud/). Once registered you can use their UI or API or SDKs to upload files.
+
+This resulted in the IPFS CID of `bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y`.
+
+## Setting up Docker Container[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#setting-up-docker-container) <a href="#setting-up-docker-container" id="setting-up-docker-container"></a>
 
 We will create a `Dockerfile` and add the desired configuration to the file. These commands specify how the image will be built, and what extra requirements will be included.
 
-```python
-%%writefile Dockerfile
+```bash
 FROM python:slim
 
 RUN apt-get update && apt-get -y upgrade \
@@ -203,83 +193,91 @@ COPY ./main.py /project
 CMD ["python","main.py"]
 ```
 
-### Build the container
+### Build the container[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
 
-We will run `docker build` command to build the container;
+We will run `docker build` command to build the container:
 
-```
+```bash
 docker build -t <hub-user>/<repo-name>:<tag> .
 ```
 
-Before running the command replace;
+Before running the command replace:
 
-* **hub-user** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create a Docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
-* **repo-name** with the name of the container, you can name it anything you want
-* **tag** this is not required but you can use the latest tag
+**`hub-user`** with your docker hub username, If you don’t have a docker hub account [follow these instructions to create a Docker account](https://docs.docker.com/docker-id/), and use the username of the account you created
+
+**`repo-name`** with the name of the container, you can name it anything you want
+
+**`tag`** this is not required but you can use the latest tag
+
+### Push the container[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#push-the-container) <a href="#push-the-container" id="push-the-container"></a>
 
 Now you can push this repository to the registry designated by its name or tag.
 
-```
+```bash
 docker push <hub-user>/<repo-name>:<tag>
 ```
 
-:::tip For more information about working with custom containers, see the [custom containers example](broken-reference). :::
+{% hint style="info" %}
+For more information about working with custom containers, see the [custom containers example](http://localhost:3000/setting-up/workload-onboarding/custom-containers/).
+{% endhint %}
 
-## Running a Bacalhau Job
+## Running a Bacalhau Job[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 Now that we have the data in IPFS and the Docker image pushed, next is to run a job using the `bacalhau docker run` command
 
 ```bash
-%%bash  --out job_id
-bacalhau docker run \
-        --input ipfs://bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y \
-        --id-only \
-        --wait \
-        ghcr.io/bacalhau-project/examples/socat:0.0.11 -- python main.py
+export JOB_ID=$(bacalhau docker run \
+    --input ipfs://bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y \
+    --memory 10Gb \
+    ghcr.io/bacalhau-project/examples/socat:0.0.11 \
+    -- python main.py)
 ```
+
+### Structure of the command[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+
+Let's look closely at the command above:
+
+1. `bacalhau docker run`: call to Bacalhau
+2. `--input ipfs://bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y`: CIDs to use on the job. Mounts them at '/inputs' in the execution.
+3. `ghcr.io/bacalhau-project/examples/socat:0.0.11`: the name and the tag of the image we are using
+4. `python main.py`: execute the script
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-```python
-%env JOB_ID={job_id}
-```
+## Checking the State of your Jobs[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-## Checking the State of your Jobs
-
-* **Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau list`.
 
 ```bash
-%%bash
 bacalhau list --id-filter ${JOB_ID}
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-* **Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau describe`.
 
 ```bash
-%%bash
 bacalhau describe ${JOB_ID}
 ```
 
-* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
-%%bash
 rm -rf results
 mkdir -p ./results # Temporary directory to store the results
-bacalhau get --output-dir ./results ${JOB_ID} # Download the results
+bacalhau get ${JOB_ID} --output-dir ./results # Download the results
 ```
 
-## Viewing your Job Output
+## Viewing your Job Output[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 To view the file, run the following command:
 
 ```bash
-%%bash
-cat results/stdout
+ls results/outputs
+
+processed.zarr.zip
 ```
 
-## Need Support?
+## Support[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#support) <a href="#support" id="support"></a>
 
-For questions, and feedback, please reach out in our [forum](https://github.com/filecoin-project/bacalhau/discussions)
+If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
