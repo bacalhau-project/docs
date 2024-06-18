@@ -15,7 +15,7 @@
 
 * [Running a Node](setting-up/running-node/README.md)
   * [Job selection policy](setting-up/running-node/job-selection.md)
-  * [Authentication & Authorization](setting-up/running-node/auth.md)
+  * [Access Management](setting-up/running-node/auth.md)
   * [Configuration Overview](setting-up/running-node/configuration.md)
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
   * [GPU Installation](setting-up/running-node/gpu.md)

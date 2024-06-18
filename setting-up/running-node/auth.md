@@ -2,9 +2,9 @@
 description: How to configure authentication and authorization on your Bacalhau node.
 ---
 
-# Authentication & Authorization
+# Access Management
 
-## Authentication and authorization
+## Access Management
 
 Bacalhau includes a flexible auth system that supports multiple methods of auth that are appropriate for different deployment environments.
 
