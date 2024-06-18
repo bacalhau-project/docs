@@ -30,9 +30,9 @@ Error running version: publicapi: after posting request: Post "http://127.0.0.1:
 
 First, you'll need to check that the bacalhau server is up and running on the same host then it should be connecting using `127.0.0.1`. This can be checked by running `telnet 127.0.0.1 1234`. If telnet is not connecting to **127.0.0.1 1234** on the machine that bacalhau is running then one of 3 things:
 
-* Bacalhau is running on a different machine
-* it's running on a different port
-* it's not running
+1. Bacalhau is running on a different machine
+2. it's running on a different port
+3. it's not running
 
 ### Can I run Bacalhau in a containerized setup (nested containers)?
 
@@ -48,11 +48,7 @@ Networking is supported by Bacalhau which enables one to run a script that requi
 
 ## How do I see a job’s progress while it’s running?
 
-If your job writes to stdout, or stderr, while it is running, you can view the output with the [logs](https://docs.bacalhau.org/all-flags/#logs) command.
-
-## How do I get an IPFS peer if I want to start Bacalhau Server?
-
-A viable option is to run your own IPFS daemon and fetch your multiaddress as explained [here](https://docs.bacalhau.org/running-node/quick-start/#ensure-ipfs-is-running).
+If your job writes to stdout, or stderr, while it is running, you can view the output with the [logs](../references/cli-reference/all-flags.md#logs) command.
 
 ## How can I download and query SQLite when it complains about being in read-only directory?
 
@@ -60,9 +56,9 @@ When downloading content to run your code against, it is written to a read-only 
 
 If you run your command with the `immutable` setting set to 1, then it will work. From the sqlite3 command you can use `.open 'file:/inputs/database.db?immutable=1'` where you should replace "database.db" with your downloaded database filename.
 
-## Can I run bacalhau serve on my home machine? What are the requirements?
+## Can I run `bacalhau serve` on my home machine? What are the requirements?
 
-You can run `bacalhau serve` on any machine that fits the prerequisites listed [here](https://docs.bacalhau.org/running-node/quick-start/).
+You can run `bacalhau serve` on any machine that fits the prerequisites listed [here](../getting-started/create-private-network.md).
 
 {% hint style="info" %}
 The walkthrough in the docs has been tested only on Ubuntu 22, bacalhau is being developed on Linux/macOS environments and therefore should work fine there as well. However, Windows hosts are supported with [limitations](https://docs.bacalhau.org/running-node/windows-support/).
@@ -70,4 +66,4 @@ The walkthrough in the docs has been tested only on Ubuntu 22, bacalhau is being
 
 ## Can I stop a running job?
 
-Yes. Given a valid job ID, you can use the [cancel command](https://docs.bacalhau.org/all-flags#cancel) to cancel the job, and stop it from running.
+Yes. Given a valid `job ID`, you can use the [cancel command](../references/cli-reference/all-flags.md#cancel) to cancel the job, and stop it from running.
