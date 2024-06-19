@@ -36,7 +36,7 @@ bacalhau config auto-resources [flags]
     **Command**:
 
     ```bash
-    $ bacalhau config auto-resources
+    bacalhau config auto-resources
     ```
 
     **Config File**:
@@ -71,7 +71,7 @@ bacalhau config auto-resources [flags]
     **Command**:
 
     ```bash
-    $ bacalhau config auto-resources --queue-job-percentage=500
+    bacalhau config auto-resources --queue-job-percentage=500
     ```
 
     **Config File**:
@@ -106,7 +106,7 @@ bacalhau config auto-resources [flags]
     **Command**:
 
     ```bash
-    $ bacalhau config auto-resources  --total-percentage=25 --job-percentage=25 --default-job-percentage=25
+    bacalhau config auto-resources  --total-percentage=25 --job-percentage=25 --default-job-percentage=25
     ```
 
     **Config File**:
