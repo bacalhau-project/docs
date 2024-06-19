@@ -12,35 +12,35 @@ bacalhau node [command]
 
 ## Available Commands
 
-1. [**approve**](broken-reference):
+1. [**approve**](index-1.md):
    * Description: Approves a single node to join the cluster.
    *   Usage:
 
        ```bash
        bacalhau node approve
        ```
-2. [**delete**](broken-reference):
+2. [**delete**](index-2.md):
    * Description: Deletes a node from the cluster using its ID.
    *   Usage:
 
        ```bash
        bacalhau node delete
        ```
-3. [**describe**](broken-reference):
+3. [**describe**](index-4.md):
    * Description: Retrieves detailed information of a node using its ID.
    *   Usage:
 
        ```bash
        bacalhau node describe
        ```
-4. [**list**](broken-reference):
+4. [**list**](index-3.md):
    * Description: Lists the details of all nodes present in the network.
    *   Usage:
 
        ```bash
        bacalhau node list
        ```
-5. [**reject**](broken-reference):
+5. [**reject**](index-5.md):
 
 * Description: Reject a specific node's request to join the cluster.
 *   Usage:
