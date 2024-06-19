@@ -12,21 +12,21 @@ bacalhau agent [command]
 
 ## Available Commands
 
-1. [**alive**](broken-reference):
+1. [**alive**](../../all-flags.md#alive):
    * Description: Retrieves the agent's liveness and health information. This can be helpful to determine if the agent is running and healthy.
    *   Usage:
 
        ```bash
        bacalhau agent alive
        ```
-2. [**node**](broken-reference):
+2. [**node**](../../all-flags.md#node):
    * Description: Gathers the agent's node-related information. This might include details about the machine or environment where the agent is running, available resources, supported engines, etc.
    *   Usage:
 
        ```bash
        bacalhau agent node
        ```
-3. [**version**](broken-reference):
+3. [**version**](../../all-flags.md#version):
    * Description: Retrieves the Bacalhau version of the agent. This can be beneficial for ensuring compatibility or checking for updates.
    *   Usage:
 
