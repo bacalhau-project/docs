@@ -25,6 +25,6 @@ bacalhau config default
 ### Redirecting Default Configuration to a File
 
 ```bash
-$ bacalhau config default > ~/.bacalhau/config.yaml
+bacalhau config default > ~/.bacalhau/config.yaml
 # This command redirects the default configuration output directly into the bacalhau configuration file at ~/.bacalhau/config.yaml, effectively resetting it to default settings.
 ```
