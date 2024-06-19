@@ -6,31 +6,31 @@ The `bacalhau job logs` command allows users to retrieve logs from a job that ha
 
 ## Usage
 
-```
+```bash
 bacalhau job logs [id] [flags]
 ```
 
 ## Flags
 
-* `-f`, `--follow`:
-  * Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
-* `-h`, `--help`:
-  * Description: Display help information for the `logs` command.
+1. `-f`, `--follow`:
+   * Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
+2. `-h`, `--help`:
+   * Description: Display help information for the `logs` command.
 
 ## Global Flags
 
-* `--api-host string`:
-  * Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  * Default: `bootstrap.production.bacalhau.org`
-* `--api-port int`:
-  * Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
-  * Default: `1234`
-* `--log-mode logging-mode`:
-  * Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
-  * Default: `default`
-* `--repo string`:
-  * Description: Specifies the path to the bacalhau repository.
-  * Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   * Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+   * Default: `bootstrap.production.bacalhau.org`
+2. `--api-port int`:
+   * Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
+   * Default: `1234`
+3. `--log-mode logging-mode`:
+   * Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
+   * Default: `default`
+4. `--repo string`:
+   * Description: Specifies the path to the bacalhau repository.
+   * Default: `$HOME/.bacalhau`
 
 ## Examples
 
@@ -44,7 +44,7 @@ bacalhau job logs [id] [flags]
 
     **Expected Output:**
 
-    ```plaintext
+    ```bash
     [2023-09-24 09:01:32] INFO - Application started successfully.
     [2023-09-24 09:01:33] DEBUG - Initializing database connections.
     [2023-09-24 09:01:35] WARN - API rate limit approaching.
@@ -61,7 +61,7 @@ bacalhau job logs [id] [flags]
 
     **Expected Output**:
 
-    ```plaintext
+    ```bash
     [2023-09-24 11:30:02] INFO - User 'john_doe' logged in successfully.
     [2023-09-24 11:30:15] DEBUG - Fetching data from cache for key: userSettings_john_doe.
     [2023-09-24 11:31:05] WARN - High memory usage detected: 85% of allocated resources.
@@ -77,7 +77,7 @@ bacalhau job logs [id] [flags]
 
     **Expected Output:**
 
-    ```plaintext
+    ```bash
     [2023-09-24 10:15:12] INFO - Application initialization sequence started.
     [2023-09-24 10:15:13] DEBUG - Loading configurations from /config/app.json.
     [2023-09-24 10:15:14] INFO - Connected to message broker successfully.
