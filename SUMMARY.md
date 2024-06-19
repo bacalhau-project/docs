@@ -69,7 +69,6 @@
   * [Task Specification](setting-up/jobs/task.md)
   * [Timeouts Specification](setting-up/jobs/timeouts.md)
 * [Networking Instructions](setting-up/networking-instructions/README.md)
-  * [Networking Fundamentals in Bacalhau](setting-up/networking-instructions/fundamentals.md)
   * [Accessing the Internet from Jobs](setting-up/networking-instructions/networking.md)
 * [GPU Workloads Setup](setting-up/gpu.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
