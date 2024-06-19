@@ -22,10 +22,12 @@ bacalhau config set <key> <value>
 ### Configuring the Server API Port Value
 
 ```bash
-$ bacalhau config set node.serverapi.port 9999
-$ bacalhau config list | grep serverapi.port
+bacalhau config set node.serverapi.port 9999
+
+bacalhau config list | grep serverapi.port
  node.serverapi.port                                             9999
-$ cat ~/.bacalhau/config.yaml
+
+cat ~/.bacalhau/config.yaml
 node:
     serverapi:
         port: 9999
@@ -34,10 +36,12 @@ node:
 ### Configuring the Logging Mode Value
 
 ```bash
-$ bacalhau config set node.loggingmode json
-$ bacalhau config list | grep loggingmode
+bacalhau config set node.loggingmode json
+
+bacalhau config list | grep loggingmode
  node.loggingmode                                                json
-$ cat ~/.bacalhau/config.yaml
+
+cat ~/.bacalhau/config.yaml
 node:
     loggingmode: json
 ```
@@ -45,10 +49,11 @@ node:
 ### Multiple Set commands append to the file
 
 ```bash
-$ bacalhau config set node.serverapi.port 9999
-$ bacalhau config set node.serverapi.host 0.0.0.0
-$ bacalhau config set node.loggingmode json
-$ cat ~/.bacalhau/config.yaml
+bacalhau config set node.serverapi.port 9999
+bacalhau config set node.serverapi.host 0.0.0.0
+bacalhau config set node.loggingmode json
+
+cat ~/.bacalhau/config.yaml
 node:
     loggingmode: json
     serverapi:
@@ -61,14 +66,15 @@ node:
 **Example of invalid logging mode value**
 
 ```bash
-$ bacalhau config set node.loggingmode some-invalid-value
+bacalhau config set node.loggingmode some-invalid-value
+
 Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
 ```
 
 **Example of invalid time duration value**
 
 ```bash
-$ bacalhau config set node.volumesizerequesttimeout 10days
-Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
+bacalhau config set node.volumesizerequesttimeout 10days
 
+Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
 ```
