@@ -42,7 +42,7 @@ bacalhau config list [flags]
     **Command**:
 
     ```bash
-    $ bacalhau config list
+    bacalhau config list
     ```
 
     **Output**:
@@ -57,7 +57,7 @@ bacalhau config list [flags]
     **Command**:
 
     ```bash
-    $ bacalhau config list --output json --pretty
+    bacalhau config list --output json --pretty
     ```
 
     **Output**:
