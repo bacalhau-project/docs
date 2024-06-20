@@ -20,7 +20,7 @@
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
   * [GPU Installation](setting-up/running-node/gpu.md)
   * [Observability](setting-up/running-node/observability.md)
-  * [Configuring node persistence](setting-up/running-node/persistence.md)
+  * [Node persistence](setting-up/running-node/persistence.md)
   * [Node Onboarding](setting-up/running-node/quick-start-docker.md)
   * [Limits and Timeouts](setting-up/running-node/resource-limits.md)
   * [Connect Storage](setting-up/running-node/storage-providers.md)
