@@ -13,7 +13,7 @@
 
 ## Setting Up
 
-* [Running a Node](setting-up/running-node/README.md)
+* [Running Nodes](setting-up/running-node/README.md)
   * [Job selection policy](setting-up/running-node/job-selection.md)
   * [Access Management](setting-up/running-node/auth.md)
   * [Configuration Overview](setting-up/running-node/configuration.md)
