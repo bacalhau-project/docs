@@ -31,7 +31,7 @@ make build
 ./bacalhau devstack
 ```
 
-This will start a 3 node Bacalhau cluster connected with libp2p.
+This will start a 3 node Bacalhau cluster.
 
 Each node has its own IPFS server isolated using the `IPFS_PATH` environment variable and its own API RPC server isolated using a random port. These IPFS nodes are not connected to the public IPFS network. If you wish to connect the devstack to the public IPFS network, you can include `--public-ipfs` flag.
 
