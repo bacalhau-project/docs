@@ -14,7 +14,7 @@ Despite the differences in job types, all jobs benefit from core functionalities
 
 ### Batch Jobs
 
-Batch jobs are executed on demand, running on a specified number of Bacalhau nodes. These jobs either run until completion or until they reach a timeout. They are designed to carry out a single, discrete task before finishing.
+Batch jobs are executed on demand, running on a specified number of Bacalhau nodes. These jobs either run until completion or until they reach a timeout. They are designed to carry out a single, discrete task before finishing. This is the only queueable job type.
 
 Ideal for intermittent yet intensive data dives, for instance performing computation over large datasets before publishing the response. This approach eliminates the continuous processing overhead, focusing on specific, in-depth investigations and computation.
 
@@ -22,7 +22,7 @@ Ideal for intermittent yet intensive data dives, for instance performing computa
 
 Similar to batch jobs, ops jobs have a broader reach. They are executed on all nodes that align with the job specification, but otherwise behave like batch jobs.
 
-Ops jobs are perfect for urgent investigations, granting direct access to logs on host machines, where previously you may have had to wait for the logs to arrive at a central locartion before being able to query them. They can also be used for delivering configuration files for other systems should you wish to deploy an update to many machines at once.
+Ops jobs are perfect for urgent investigations, granting direct access to logs on host machines, where previously you may have had to wait for the logs to arrive at a central location before being able to query them. They can also be used for delivering configuration files for other systems should you wish to deploy an update to many machines at once.
 
 ### Daemon Jobs
 
@@ -32,6 +32,6 @@ A good application of daemon jobs is to handle continuously generated data on ev
 
 ### Service Jobs
 
-Service jobs run continuously on a specified number of nodes that meet the criteria given in the job specification. Bacalhau's orchestrator selects the optimal nodes to run the job, and continuously monitors its health, performance. If required it will reschedule on other nodes.
+Service jobs run continuously on a specified number of nodes that meet the criteria given in the job specification. Bacalhau's orchestrator selects the optimal nodes to run the job, and continuously monitors its health, performance. If required, it will reschedule on other nodes.
 
-This job type is good for long running consumers such as streaming or queueing services, or real-time event listeners.
+This job type is good for long-running consumers such as streaming or queuing services, or real-time event listeners.
