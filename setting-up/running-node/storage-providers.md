@@ -119,27 +119,27 @@ Publisher:
 
 ### IPFS[​](http://localhost:3000/setting-up/running-node/storage-providers#ipfs-1) <a href="#ipfs-1" id="ipfs-1"></a>
 
-The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an IPFS server running and a multiaddress for it. Then you'll pass that multiaddress using the `--ipfs-connect` argument to the `serve` command. If you are publishing to a public IPFS node, you can use `bacalhau get` with no further arguments to download the results. However, you may experience a delay in results becoming available as indexing of new data by public nodes takes time.
+The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an IPFS server running and a multiaddress for it. Then you'll pass that multiaddress using the `--ipfs-connect` argument to the `serve` command. If you are publishing to a public IPFS node, you can use `bacalhau job get` with no further arguments to download the results. However, you may experience a delay in results becoming available as indexing of new data by public nodes takes time.
 
 To use the IPFS publisher you will have to specify **CID** which can be used to access the published content. See the [IPFS publisher specification](../../references/other-specifications/publishers/ipfs.md) for more details.
 
-To speed up the download or to retrieve results from a private IPFS node, pass the swarm multiaddress to `bacalhau get` to download results.
+To speed up the download or to retrieve results from a private IPFS node, pass the swarm multiaddress to `bacalhau job get` to download results.
 
 ```
 # Set the below environment variable, use the --ipfs-swarm-addrs flag,
 # or set the Node.IPFS.SwarmAddresses config property.
 export BACALHAU_IPFS_SWARM_ADDRESSES=/ip4/.../tcp/5001/p2p/Qmy...
 
-bacalhau get $JOB_ID
+bacalhau job get $JOB_ID
 ```
 
-Pass the swarm key to `bacalhau get` if the IPFS swarm is a private swarm.
+Pass the swarm key to `bacalhau job get` if the IPFS swarm is a private swarm.
 
 <pre><code># Set the below environment variable, use the --ipfs-swarm-key flag,
 # or set the Node.IPFS.SwarmKeyPath config property.
 <strong>export BACALHAU_IPFS_SWARM_KEY=./path/to/swarm.key
 </strong>
-bacalhau get $JOB_ID
+bacalhau job get $JOB_ID
 </code></pre>
 
 And part of the declarative job description with an IPFS publisher will look like this:

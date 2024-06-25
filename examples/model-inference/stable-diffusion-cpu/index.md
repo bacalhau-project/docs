@@ -187,7 +187,7 @@ If you see that the job has completed and there are no errors, then you can down
 ```bash
 %%bash
 rm -rf results && mkdir -p results
-bacalhau get $JOB_ID --output-dir results
+bacalhau job get $JOB_ID --output-dir results
 ```
 
 After the download has finished you should see the following contents in the results directory:

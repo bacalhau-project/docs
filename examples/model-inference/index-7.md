@@ -157,10 +157,10 @@ bacalhau logs ${JOB_ID}
 Predicted class: 0
 ```
 
-You can also use `bacalhau get` to download job results:
+You can also use `bacalhau job get` to download job results:
 
 ```bash
-bacalhau get ${JOB_ID}
+bacalhau job get ${JOB_ID}
 ```
 
 ## Support <a href="#support" id="support"></a>

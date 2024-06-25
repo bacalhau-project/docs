@@ -198,11 +198,11 @@ bacalhau describe ${JOB_ID}
 
 ### Job download[​](http://localhost:3000/examples/model-inference/StyleGAN3/#job-download) <a href="#job-download" id="job-download"></a>
 
-You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
+You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir -p results
-bacalhau get $JOB_ID --output-dir results
+bacalhau job get $JOB_ID --output-dir results
 ```
 
 After the download has finished you should see the following contents in results directory

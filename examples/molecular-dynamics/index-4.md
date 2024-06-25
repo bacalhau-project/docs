@@ -126,11 +126,11 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 bacalhau describe ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir -p results
-bacalhau get $JOB_ID --output-dir results
+bacalhau job get $JOB_ID --output-dir results
 ```
 
 ## Viewing your Job Output[​](http://localhost:3000/examples/molecular-dynamics/Gromacs/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>

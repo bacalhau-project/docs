@@ -57,11 +57,11 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 bacalhau describe ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir results # Temporary directory to store the results
-bacalhau get ${JOB_ID} --output-dir results # Download the results
+bacalhau job get ${JOB_ID} --output-dir results # Download the results
 ```
 
 After the download has finished you can see the contents in the `results` directory, running the command below:
@@ -171,11 +171,11 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 bacalhau describe ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir results # Temporary directory to store the results
-bacalhau get ${JOB_ID} --output-dir results # Download the results
+bacalhau job get ${JOB_ID} --output-dir results # Download the results
 ```
 
 After the download has finished you can see the contents in the `results` directory, running the command below:

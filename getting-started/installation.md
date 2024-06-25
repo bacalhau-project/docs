@@ -84,7 +84,7 @@ Checking job status... (Enter Ctrl+C to exit at any time, your job will continue
                    Job in progress  ................  done ✅  2.1s
 
 To download the results, execute:
-    bacalhau get f8e7789d-8e76-4e6c-8e71-436e2d76c72e
+    bacalhau job get f8e7789d-8e76-4e6c-8e71-436e2d76c72e
 
 To get more details about the run, execute:
     bacalhau describe f8e7789d-8e76-4e6c-8e71-436e2d76c72e
@@ -180,10 +180,10 @@ This outputs all information about the job, including stdout, stderr, where the 
 
 #### Step 3.3 - Job download:
 
-You can download your job results directly by using `bacalhau get`.
+You can download your job results directly by using `bacalhau job get`.
 
 ```shell
-bacalhau get 9d20bbad
+bacalhau job get 9d20bbad
 ```
 
 This results in
