@@ -43,10 +43,10 @@ export JOB_ID=$(bacalhau docker run \
 
 ## Checking the State of your Jobs
 
-**Job status**: You can check the status of the job using `bacalhau list`:
+**Job status**: You can check the status of the job using `bacalhau job list`:
 
 ```bash
-bacalhau list --id-filter=${JOB_ID} --no-style
+bacalhau job list --id-filter=${JOB_ID} --no-style
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
@@ -157,10 +157,10 @@ export JOB_ID=$(bacalhau docker run \
 
 ## Checking the State of your Jobs
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter=${JOB_ID} --no-style
+bacalhau job list --id-filter=${JOB_ID} --no-style
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.

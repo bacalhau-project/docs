@@ -106,7 +106,7 @@ d7d4d23d-08ff-46f4-a695-f37647da67cc
 After a short while - the job should be in `complete` state.
 
 ```bash
-./bacalhau list --wide
+./bacalhau job list --wide
  CREATION_TIME      ID                                    JOB                             STATE      RESULT
  22-08-29-15:01:00  d7d4d23d-08ff-46f4-a695-f37647da67cc  Docker ubuntu echo hello world  Published  /ipfs/QmW7TdjNEMzqmWxm5WPK1p6QCkeChxMLpvhLxyUW2wpjCf
 ```

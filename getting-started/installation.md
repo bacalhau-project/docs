@@ -129,10 +129,10 @@ After having deployed the job, we now can use the CLI for the interaction with t
 
 #### Step 3.1 - Job status:
 
-You can check the status of the job using `bacalhau list` command adding the `--id-filter` flag and specifying your job id.
+You can check the status of the job using `bacalhau job list` command adding the `--id-filter` flag and specifying your job id.
 
 ```shell
-bacalhau list --id-filter 9d20bbad
+bacalhau job list --id-filter 9d20bbad
 ```
 
 Let's take a look at the results of the command execution in the terminal:

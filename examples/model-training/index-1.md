@@ -175,7 +175,7 @@ export JOB_ID=$(bacalhau docker run \
 ```
 
 ```bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
@@ -225,10 +225,10 @@ bacalhau job run tensorflow.yaml
 
 ### Job status[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#job-status) <a href="#job-status" id="job-status"></a>
 
-You can check the status of the job using `bacalhau list`.
+You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When it says `Completed`, that means the job is done, and we can get the results.

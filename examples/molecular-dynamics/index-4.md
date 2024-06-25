@@ -112,10 +112,10 @@ bacalhau job run gromacs.yaml
 
 ## Checking the State of your Jobs[​](http://localhost:3000/examples/molecular-dynamics/Gromacs/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter ${JOB_ID} --wide
+bacalhau job list --id-filter ${JOB_ID} --wide
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.

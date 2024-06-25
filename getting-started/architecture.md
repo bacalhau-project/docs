@@ -319,7 +319,7 @@ If you run more then one job or you want to find a specific job ID
 {% tabs %}
 {% tab title="CLI" %}
 ```bash
-bacalhau list [flags]
+bacalhau job list [flags]
 ```
 
 You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to list jobs on the network in yaml format.

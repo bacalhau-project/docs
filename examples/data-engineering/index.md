@@ -143,10 +143,10 @@ bacalhau job run duckdb1.yaml
 
 ## Checking the State of your Jobs
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
@@ -244,10 +244,10 @@ bacalhau job run duckdb2.yaml
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter ${JOB_ID} --wide
+bacalhau job list --id-filter ${JOB_ID} --wide
 ```
 
 **Job information**: You can find out more information about your job by using `bacalhau describe`.

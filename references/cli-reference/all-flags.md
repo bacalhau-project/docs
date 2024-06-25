@@ -1577,12 +1577,12 @@ Expected Output:
 
 ## List[​](http://localhost:3000/dev/cli-reference/all-flags#list-2) <a href="#list-2" id="list-2"></a>
 
-The `bacalhau list` command lists jobs on the network.
+The `bacalhau job list` command lists jobs on the network.
 
 Usage:
 
 ```bash
-bacalhau list [flags]
+bacalhau job list [flags]
 ```
 
 ```bash
@@ -1607,13 +1607,13 @@ Flags:
 1. To List jobs on the network, run:
 
 ```bash
-bacalhau list
+bacalhau job list
 ```
 
 2. To List jobs and output as json, run:
 
 ```bash
-bacalhau list --output json
+bacalhau job list --output json
 ```
 
 ## Logs[​](http://localhost:3000/dev/cli-reference/all-flags#logs-1) <a href="#logs-1" id="logs-1"></a>

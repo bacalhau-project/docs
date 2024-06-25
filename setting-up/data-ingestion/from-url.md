@@ -32,10 +32,10 @@ For more details, see the [CLI commands guide](../../references/cli-reference/al
 
 ### Checking the State of Your Jobs[​](http://localhost:3000/setting-up/data-ingestion/from-url#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-**Job status**: You can check the status of the job using `bacalhau list`, processing the json ouput with the `jq`:
+**Job status**: You can check the status of the job using `bacalhau job list`, processing the json ouput with the `jq`:
 
 ```bash
-bacalhau list $JOB_ID --output=json | jq '.[0].Status.JobState.Nodes[] | .Shards."0" | select(.RunOutput)'
+bacalhau job list $JOB_ID --output=json | jq '.[0].Status.JobState.Nodes[] | .Shards."0" | select(.RunOutput)'
 ```
 
 When the job status is `Published` or `Completed`, that means the job is done, and we can get the results using the job ID.
@@ -72,7 +72,7 @@ tail ./results/outputs/README.md
 To get the output CID from a completed job, run the following command:
 
 ```bash
-bacalhau list $JOB_ID --output=json | jq -r '.[0].Status.JobState.Nodes[] | .Shards."0".PublishedResults | select(.CID) | .CID'
+bacalhau job list $JOB_ID --output=json | jq -r '.[0].Status.JobState.Nodes[] | .Shards."0".PublishedResults | select(.CID) | .CID'
 ```
 
 The job will upload the CID to the public storage via IPFS. We will store the CID in an environment variable so that we can reuse it later on.

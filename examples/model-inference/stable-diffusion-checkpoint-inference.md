@@ -157,10 +157,10 @@ jsacex/stable-diffusion-ckpt \
 
 ## Checking the State of your Jobs[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-**Job status**: You can check the status of the job using `bacalhau list`:
+**Job status**: You can check the status of the job using `bacalhau job list`:
 
 ```bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When it says `Completed`, that means the job is done, and we can get the results.

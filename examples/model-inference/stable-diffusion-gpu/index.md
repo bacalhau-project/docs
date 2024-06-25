@@ -255,11 +255,11 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 
 ## Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+* **Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
 %%bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When it says `Completed`, that means the job is done, and we can get the results.

@@ -58,11 +58,11 @@ This should output a UUID (like `59c59bfb-4ef8-45ac-9f4b-f0e9afd26e70`). This is
 
 ## Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+* **Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
 %%bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When it says `Completed`, that means the job is done, and we can get the results.
@@ -120,11 +120,11 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 
 ### Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+* **Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
 %%bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 * **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.

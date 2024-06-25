@@ -310,11 +310,11 @@ Let's look closely at the command above:
 
 ## Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+* **Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
 %%bash
-bacalhau list --id-filter ${JOB_ID} --wide
+bacalhau job list --id-filter ${JOB_ID} --wide
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
