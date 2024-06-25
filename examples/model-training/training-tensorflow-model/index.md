@@ -198,7 +198,7 @@ To find out more information about your job, run the following command:
 
 ```bash
 %%bash
-bacalhau describe ${JOB_ID}
+bacalhau job describe ${JOB_ID}
 ```
 
 ```bash

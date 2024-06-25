@@ -172,7 +172,7 @@ To download the results, execute:
         bacalhau get ddbfa358-d663-4f54-804e-598c53dbb969
         
 To get more details about the run, execute: 
-        bacalhau describe ddbfa358-d663-4f54-804e-598c53dbb969 
+        bacalhau job describe ddbfa358-d663-4f54-804e-598c53dbb969 
 ```
 
 You will be able to see the job execution logs on the compute node:

@@ -419,10 +419,10 @@ When it says `Completed`, that means the job is done, and we can get the results
 
 ### Job information[​](http://localhost:3000/examples/model-training/Stable-Diffusion-Dreambooth/#job-information) <a href="#job-information" id="job-information"></a>
 
-You can find out more information about your job by using `bacalhau describe`.
+You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
-bacalhau describe ${JOB_ID}
+bacalhau job describe ${JOB_ID}
 ```
 
 ### Job download[​](http://localhost:3000/examples/model-training/Stable-Diffusion-Dreambooth/#job-download) <a href="#job-download" id="job-download"></a>

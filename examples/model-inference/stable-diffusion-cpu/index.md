@@ -179,7 +179,7 @@ To find out more information about your job, run the following command:
 
 ```bash
 %%bash
-bacalhau describe ${JOB_ID}
+bacalhau job describe ${JOB_ID}
 ```
 
 If you see that the job has completed and there are no errors, then you can download the results with the following command:

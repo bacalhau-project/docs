@@ -40,10 +40,10 @@ bacalhau list $JOB_ID --output=json | jq '.[0].Status.JobState.Nodes[] | .Shards
 
 When the job status is `Published` or `Completed`, that means the job is done, and we can get the results using the job ID.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
-bacalhau describe  $JOB_ID 
+bacalhau job describe  $JOB_ID 
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we removed a directory in case it was present before, created it and downloaded our job output to be stored in that directory.

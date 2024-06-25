@@ -641,7 +641,7 @@ bacalhau job run ./job.yaml
 2. To create a new job from an already executed job, run:
 
 ```bash
-bacalhau describe 6e51df50 | bacalhau create
+bacalhau job describe 6e51df50 | bacalhau create
 ```
 
 ### YAML format[​](http://localhost:3000/dev/cli-reference/all-flags#yaml-format) <a href="#yaml-format" id="yaml-format"></a>
@@ -741,12 +741,12 @@ Using a UCAN Invocation object allows you to customize the parameters of job exe
 
 ## Describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe) <a href="#describe" id="describe"></a>
 
-The `bacalhau describe` command provides a full description of a job in YAML format. Short form and long form of the job id are accepted.
+The `bacalhau job describe` command provides a full description of a job in YAML format. Short form and long form of the job id are accepted.
 
 Usage:
 
 ```bash
-bacalhau describe [id] [flags]
+bacalhau job describe [id] [flags]
 ```
 
 ```bash
@@ -762,19 +762,19 @@ Flags:
 1. To describe a job with the full ID, run:
 
 ```bash
-bacalhau describe e3f8c209-d683-4a41-b840-f09b88d087b9
+bacalhau job describe e3f8c209-d683-4a41-b840-f09b88d087b9
 ```
 
 2. To describe a job with the shortened ID, run:
 
 ```bash
-bacalhau describe e3f8c209
+bacalhau job describe e3f8c209
 ```
 
 3. To describe a job and include all server and local events, run:
 
 ```bash
-bacalhau describe e3f8c209 --include-events  
+bacalhau job describe e3f8c209 --include-events  
 ```
 
 ## Devstack[​](http://localhost:3000/dev/cli-reference/all-flags#devstack) <a href="#devstack" id="devstack"></a>
@@ -1087,7 +1087,7 @@ Usage:
 
 Available Commands:
 
-### describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe-1) <a href="#describe-1" id="describe-1"></a>
+### Job describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe-1) <a href="#describe-1" id="describe-1"></a>
 
 ```bash
 bacalhau job describe [id] [flags]
