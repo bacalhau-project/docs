@@ -365,7 +365,7 @@ The Bacalhau client provides the user with tools to monitor and manage the execu
 {% tabs %}
 {% tab title="CLI" %}
 ```bash
-bacalhau cancel [id] [flags]
+bacalhau job stop [id] [flags]
 ```
 
 You can use the command with [appropriate flags](../references/cli-reference/all-flags.md#cancel) to cancel a job that was previously submitted and stop it running if it has not yet completed.

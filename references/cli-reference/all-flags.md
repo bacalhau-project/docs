@@ -252,14 +252,14 @@ Expected Output:
 }
 ```
 
-## Cancel[​](http://localhost:3000/dev/cli-reference/all-flags#cancel) <a href="#cancel" id="cancel"></a>
+## Job stop[​](http://localhost:3000/dev/cli-reference/all-flags#cancel) <a href="#cancel" id="cancel"></a>
 
 The `bacalhau cancel` command cancels a job that was previously submitted and stops it running if it has not yet completed.
 
 Usage:
 
 ```bash
-bacalhau cancel [id] [flags]
+bacalhau job stop [id] [flags]
 ```
 
 ```bash
@@ -273,13 +273,13 @@ Flags:
 To cancel a previously submitted job, run:
 
 ```bash
- bacalhau cancel 51225160-807e-48b8-88c9-28311c7899e1
+ bacalhau job stop 51225160-807e-48b8-88c9-28311c7899e1
 ```
 
 To cancel a job using a short ID, run:
 
 ```bash
- bacalhau cancel 51225160
+ bacalhau job stop 51225160
 ```
 
 ## Completion[​](http://localhost:3000/dev/cli-reference/all-flags#completion) <a href="#completion" id="completion"></a>
