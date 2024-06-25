@@ -1616,14 +1616,14 @@ bacalhau list
 bacalhau list --output json
 ```
 
-## Logs[​](http://localhost:3000/dev/cli-reference/all-flags#logs-1) <a href="#logs-1" id="logs-1"></a>
+## Job logs[​](http://localhost:3000/dev/cli-reference/all-flags#logs-1) <a href="#logs-1" id="logs-1"></a>
 
-The `bacalhau logs` command retrieves the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
+The `bacalhau job logs` command retrieves the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
 
 Usage:
 
 ```bash
-bacalhau logs [id] [flags]
+bacalhau job logs [id] [flags]
 ```
 
 ```bash
@@ -1637,13 +1637,13 @@ Flags:
 1. To follow logs for a previously submitted job, run:
 
 ```bash
-bacalhau logs -f 51225160-807e-48b8-88c9-28311c7899e1
+bacalhau job logs -f 51225160-807e-48b8-88c9-28311c7899e1
 ```
 
 2. To retrieve the log output with a short ID, but don't follow any newly generated logs,run:
 
 ```bash
-bacalhau logs ebd9bf2f
+bacalhau job logs ebd9bf2f
 ```
 
 ## Node[​](http://localhost:3000/dev/cli-reference/all-flags#node-1) <a href="#node-1" id="node-1"></a>

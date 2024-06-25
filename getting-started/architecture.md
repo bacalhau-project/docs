@@ -403,7 +403,7 @@ You can use [Job History API Documentation](../references/api/jobs.md#job-histor
 ### Job Logs
 
 ```shell
-bacalhau logs [flags] [id]
+bacalhau job logs [flags] [id]
 ```
 
 You can use this [command](../references/cli-reference/all-flags.md#logs) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
