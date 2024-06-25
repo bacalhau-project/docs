@@ -1,4 +1,8 @@
-# Bacalhau API
+# Bacalhau API overview
+
+{% hint style="warning" %}
+Note that in version 1.4.0 API logic and endpoints have changed. Check out the release notes and updated API description in the API documentation section.
+{% endhint %}
 
 Welcome to the official API documentation for Bacalhau. This guide provides a detailed insight into Bacalhau's RESTful HTTP APIs and demonstrates how to make the most out of them.
 
