@@ -1939,14 +1939,14 @@ bacalhau serve --peer env --private-internal-ipfs=false
 bacalhau serve --webui
 ```
 
-## Validate[​](http://localhost:3000/dev/cli-reference/all-flags#validate) <a href="#validate" id="validate"></a>
+## Job validate[​](http://localhost:3000/dev/cli-reference/all-flags#validate) <a href="#validate" id="validate"></a>
 
-The `bacalhau validate` command allows you to validate job files in JSON or YAML formats before sending them to the Bacalhau system. It is used to confirm that the structure and contents of the job description file conform to the expected format.
+The `bacalhau job validate` command allows you to validate job files in JSON or YAML formats before sending them to the Bacalhau system. It is used to confirm that the structure and contents of the job description file conform to the expected format.
 
 Usage:
 
 ```bash
-bacalhau validate [flags]
+bacalhau job validate [flags]
 ```
 
 ```bash
@@ -1960,7 +1960,7 @@ Flags:
 To Validate the `job.yaml` file, run:
 
 ```bash
-bacalhau validate ./job.yaml
+bacalhau job validate ./job.yaml
 ```
 
 ## Version[​](http://localhost:3000/dev/cli-reference/all-flags#version-1) <a href="#version-1" id="version-1"></a>
