@@ -113,7 +113,7 @@ Bacalhau provides an interface to interact with the server via a REST API. Bacal
 {% tabs %}
 {% tab title="CLI" %}
 ```sh
-bacalhau create [flags]
+bacalhau job run [flags]
 ```
 
 You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to create a job in Bacalhau using JSON and YAML formats.
