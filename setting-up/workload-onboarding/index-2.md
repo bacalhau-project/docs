@@ -22,7 +22,7 @@ We will use the S3 mount feature to mount bucket objects from s3 buckets. Let’
 -i src=s3://sentinel-s1-rtc-indigo/tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/Gamma0_VH.tif,dst=/sentinel-s1-rtc-indigo/,opt=region=us-west-2
 ```
 
-&#x20;It defines S3 object as input to the job:
+It defines S3 object as input to the job:
 
 1. `sentinel-s1-rtc-indigo`: bucket’s name
 2. `tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/Gamma0_VH.tif`: represents the key of the object in that bucket. The object to be processed is called `Gamma0_VH.tif` and is located in the subdirectory with the specified path.

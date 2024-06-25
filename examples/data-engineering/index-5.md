@@ -112,7 +112,7 @@ bacalhau get ${JOB_ID} --output-dir ./results # Download the results
 
 ## Viewing your Job Output[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
-To view the results open the `results/outputs/` folder.&#x20;
+To view the results open the `results/outputs/` folder.
 
 {% file src="../../.gitbook/assets/scaled_Prominent_Late_Gothic_styled_architecture.mp4" %}
 

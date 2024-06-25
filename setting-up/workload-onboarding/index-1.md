@@ -80,7 +80,7 @@ export JOB_ID=$(bacalhau docker run \
 
 ### Structure of the Command
 
-1. `-i ipfs://QmYq9ipYf3vsj7iLv5C67BXZcpLHxZbvFAJbtj7aKN5qii:/helloworld.pl` : Sets the input data for the container.&#x20;
+1. `-i ipfs://QmYq9ipYf3vsj7iLv5C67BXZcpLHxZbvFAJbtj7aKN5qii:/helloworld.pl` : Sets the input data for the container.
 2. `mYq9ipYf3vsj7iLv5C67BXZcpLHxZbvFAJbtj7aKN5qii` is our CID which points to the `helloworld.pl` file on the IPFS network. This file will be accessible within the container.
 3. `-- swipl -q -s helloworld.pl -g hello_world`: instructs SWI-Prolog to load the program from the `helloworld.pl` file and execute the `hello_world` function in quiet mode:
    1. `-q`: running in quiet mode

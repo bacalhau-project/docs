@@ -199,7 +199,7 @@ The final folder structure will look like this:
 ```
 
 {% hint style="info" %}
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)&#x20;
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
 {% endhint %}
 
 #### Build the container

@@ -81,7 +81,7 @@ export JOB_ID=$(bacalhau docker run \
 
 1. `bacalhau docker run`: call to Bacalhau
 2. `amancevice/pandas` : Docker image with pandas installed.
-3. `-i ipfs://QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz:/files`: Mounting the uploaded dataset to path. The `-i` flag allows us to mount a file or directory from IPFS into the container. It takes two arguments, the first is the IPFS CID&#x20;
+3. `-i ipfs://QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz:/files`: Mounting the uploaded dataset to path. The `-i` flag allows us to mount a file or directory from IPFS into the container. It takes two arguments, the first is the IPFS CID
 4.  `QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz`) and the second is the file path within IPFS (`/files`). The `-i` flag can be used multiple times to mount multiple directories.
 
     `-w /files` Our working directory is /files. This is the folder where we will save the model as it will automatically get uploaded to IPFS as outputs

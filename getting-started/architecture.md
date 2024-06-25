@@ -98,7 +98,7 @@ Optimize workflows without completely redesigning them. Run arbitrary tasks usin
 
 Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](../setting-up/gpu.md) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](../integrations/python-sdk.md).
 
-For node operation, refer to the [Running a Node](../setting-up/running-node/) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](broken-reference) for performing tasks without connecting to the main Bacalhau network.
+For node operation, refer to the [Running a Node](../setting-up/running-node/) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](broken-reference/) for performing tasks without connecting to the main Bacalhau network.
 
 </details>
 
@@ -107,8 +107,6 @@ For node operation, refer to the [Running a Node](../setting-up/running-node/) s
 You should use the Bacalhau client to send a task to the network. The client transmits the job information to the Bacalhau network via established protocols and interfaces. Jobs submitted via the Bacalhau CLI are forwarded to a Bacalhau network node at [http://bootstrap.production.bacalhau.org/](http://bootstrap.production.bacalhau.org/) via port `1234` by default. This Bacalhau node will act as the requester node for the duration of the job lifecycle.
 
 Bacalhau provides an interface to interact with the server via a REST API. Bacalhau uses 127.0.0.1 as the localhost and 1234 as the port by default.
-
-
 
 {% tabs %}
 {% tab title="CLI" %}

@@ -6,8 +6,6 @@
 
 This example will walk you through building Time Series Forecasting using [Prophet](https://github.com/facebook/prophet). Prophet is a forecasting procedure implemented in R and Python. It is fast and provides completely automated forecasts that can be tuned by hand by data scientists and analysts.
 
-
-
 {% hint style="info" %}
 Quick script to run custom R container on Bacalhau:
 

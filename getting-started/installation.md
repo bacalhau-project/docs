@@ -234,7 +234,7 @@ With that, you have just successfully run a job on Bacalhau! :fish:
 
 Here are few resources that provide a deeper dive into running jobs with Bacalhau:
 
-[How Bacalhau works](architecture.md), [Setting up Bacalhau](broken-reference), [Examples & Use Cases](broken-reference)
+[How Bacalhau works](architecture.md), [Setting up Bacalhau](broken-reference/), [Examples & Use Cases](broken-reference/)
 
 ### Support
 
