@@ -2,7 +2,7 @@
 description: How to configure compute/requester persistence
 ---
 
-# Configuring node persistence
+# Node persistence
 
 Both compute nodes, and requester nodes, maintain state. How that state is maintained is configurable, although the defaults are likely adequate for most use-cases. This page describes how to configure the persistence of compute and requester nodes should the defaults not be suitable.
 

@@ -1,2 +1,2 @@
-# publishers
+# Publishers
 
