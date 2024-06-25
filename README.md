@@ -5,9 +5,17 @@ coverY: 0
 
 # Welcome to Bacalhau Docs
 
+{% hint style="success" %}
+* Bacalhau is now using [NATS](https://nats.io/).&#x20;
+* The support for libp2p and IPFS is deprecated from the version 1.4.0. going forward.
+* The API and the job specifications changed from previous versions.
+
+For more information, check out the release notes.
+{% endhint %}
+
 ## What is Bacalhau?
 
-Bacalhau is a platform for fast, cost efficient, and secure computation by running jobs where the data is generated and stored. With Bacalhau, you can streamline your existing workflows without the need of extensive rewriting by running arbitrary Docker containers and WebAssembly (wasm) images as tasks. This architecture is also referred to as **Compute Over Data** (or CoD). [_Bacalhau_](https://translate.google.com/?sl=pt\&tl=en\&text=bacalhau\&op=translate) _was coined from the Portuguese word for salted Cod fish_.
+Bacalhau is a platform for fast, cost efficient, and secure computation by running jobs where the data is generated and stored. With Bacalhau, you can streamline your existing workflows without the need of extensive rewriting by running arbitrary Docker containers and WebAssembly (WASM) images as tasks. This architecture is also referred to as **Compute Over Data** (or CoD). [_Bacalhau_](https://translate.google.com/?sl=pt\&tl=en\&text=bacalhau\&op=translate) _was coined from the Portuguese word for salted Cod fish_.
 
 Bacalhau seeks to transform data processing for large-scale datasets to improve cost and efficiency, and to open up data processing to larger audiences. Our goals is to create an open, collaborative compute ecosystem that enables unparalleled collaboration. We ([Expanso.io](https://expanso.io)) offer a demo network so you can try out jobs without even installing. Give it a shot!
 
