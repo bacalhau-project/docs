@@ -136,7 +136,7 @@ docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
 
 When it says `Completed`, that means the job is done, and we can get the results.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
 docker run -t ghcr.io/bacalhau-project/bacalhau:latest \

@@ -98,7 +98,7 @@ Examples:
   bacalhau create ./job.yaml
 
   # Create a new job from an already executed job
-  bacalhau describe 6e51df50 | bacalhau create -
+  bacalhau job describe 6e51df50 | bacalhau create -
 ```
 
 An example job in YAML format:
@@ -196,7 +196,7 @@ An example UCAN Invocation that runs a WebAssembly job might look like:
 Full description of a job, in yaml format. Use 'bacalhau list' to get a list of all ids. Short form and long form of the job id are accepted.
 
 Usage:
-  bacalhau describe [id] [flags]
+  bacalhau job describe [id] [flags]
 
 Flags:
   -h, --help             help for describe
@@ -209,13 +209,13 @@ Flags:
 ```
 Examples:
   # Describe a job with the full ID
-  bacalhau describe e3f8c209-d683-4a41-b840-f09b88d087b9
+  bacalhau job describe e3f8c209-d683-4a41-b840-f09b88d087b9
 
   # Describe a job with the a shortened ID
-  bacalhau describe 47805f5c
+  bacalhau job describe 47805f5c
 
   # Describe a job and include all server and local events
-  bacalhau describe --include-events b6ad164a
+  bacalhau job describe --include-events b6ad164a
 ```
 
 ## Docker run

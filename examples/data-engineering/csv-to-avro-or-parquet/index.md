@@ -190,7 +190,7 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 ```
 
 ```
-env: JOB_ID=bacalhau describe 71ecde0e-dac3-4c8d-bf2e-7a92cc54425e
+env: JOB_ID=bacalhau job describe 71ecde0e-dac3-4c8d-bf2e-7a92cc54425e
 ```
 
 ## Checking the State of your Jobs
@@ -211,11 +211,11 @@ bacalhau list --id-filter={JOB_ID}
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-* **Job information**: You can find out more information about your job by using `bacalhau describe`.
+* **Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
 %%bash
-bacalhau describe {JOB_ID}
+bacalhau job describe {JOB_ID}
 ```
 
 * **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.

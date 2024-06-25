@@ -189,7 +189,7 @@ bacalhau list --id-filter JOB_ID
 To get more information on your job, you can run the following command.
 
 ```shell
-bacalhau describe JOB_ID
+bacalhau job describe JOB_ID
 ```
 
 To download your job, run.

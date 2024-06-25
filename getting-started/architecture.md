@@ -297,7 +297,7 @@ To describe a specific job, inserting the ID to the CLI or API gives back an ove
 {% tabs %}
 {% tab title="CLI" %}
 ```bash
-bacalhau describe [id] [flags]
+bacalhau job describe [id] [flags]
 ```
 
 You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to get a full description of a job in yaml format.
