@@ -600,14 +600,14 @@ node:
         port: 9999
 ```
 
-## Create[​](http://localhost:3000/dev/cli-reference/all-flags#create) <a href="#create" id="create"></a>
+## Job run[​](http://localhost:3000/dev/cli-reference/all-flags#create) <a href="#create" id="create"></a>
 
 The `bacalhau create` command is used to submit a job to the network in a declarative way by writing a jobspec instead of writing a command. JSON and YAML formats are accepted.
 
 Usage:
 
 ```bash
-bacalhau create [flags]
+bacalhau job run [flags]
 ```
 
 ```bash
@@ -631,7 +631,7 @@ Flags:
 1. To create a job using the data in `job.yaml`, run:
 
 ```bash
-bacalhau create ./job.yaml
+bacalhau job run ./job.yaml
 ```
 
 2. To create a new job from an already executed job, run:
