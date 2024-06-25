@@ -1053,14 +1053,14 @@ Flags:
   -h, --help   help for help
 ```
 
-## ID[​](http://localhost:3000/dev/cli-reference/all-flags#id) <a href="#id" id="id"></a>
+## Agent node[​](http://localhost:3000/dev/cli-reference/all-flags#id) <a href="#id" id="id"></a>
 
-The `bacalhau id` command shows bacalhau node id info.
+The `bacalhau agent node` command shows bacalhau node id info.
 
 Usage:
 
 ```bash
-bacalhau id [flags]
+bacalhau agent node [flags]
 ```
 
 ```bash
