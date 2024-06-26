@@ -204,7 +204,7 @@ bacalhau job describe ${JOB_ID}
 ```bash
 %%bash
 rm -rf results && mkdir -p results
-bacalhau get $JOB_ID --output-dir results
+bacalhau job get $JOB_ID --output-dir results
 ```
 
 ```bash

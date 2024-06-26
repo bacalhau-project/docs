@@ -155,12 +155,12 @@ When it says `Completed`, that means the job is done, and we can get the results
 bacalhau job describe ${JOB_ID}
 ```
 
-* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
+* **Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 %%bash
 rm -rf results && mkdir -p results
-bacalhau get $JOB_ID --output-dir results
+bacalhau job get $JOB_ID --output-dir results
 ```
 
 After the download has finished you should see the following contents in the results directory

@@ -114,7 +114,7 @@ After a short while - the job should be in `complete` state.
 Download the results to the current directory:
 
 ```bash
-./bacalhau get d7d4d23d-08ff-46f4-a695-f37647da67cc # Works with partial IDs - just the first 8 characters
+./bacalhau job get d7d4d23d-08ff-46f4-a695-f37647da67cc # Works with partial IDs - just the first 8 characters
 ```
 
 You should now have the following files and directories:

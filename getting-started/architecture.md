@@ -267,14 +267,14 @@ The Bacalhau client receives updates on the task execution status and results. A
 To Get the results of a job you can run the following command.
 
 ```bash
-bacalhau get [id] [flags]
+bacalhau job get [id] [flags]
 ```
 
 One can choose from a wide range of flags, from which a few are shown below.
 
 ```shell
 Usage:
-  bacalhau get [id] [flags]
+  bacalhau job get [id] [flags]
 
 Flags:
       --download-timeout-secs duration   Timeout duration for IPFS downloads. (default 5m0s)

@@ -142,13 +142,13 @@ export JOB_ID=$(bacalhau wasm run \
 
 When a job is submitted, Bacalhau prints out the related job\_id. We store that in an environment variable so that we can reuse it later on:
 
-You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`wasm_results`) and downloaded our job output to be stored in that directory.
+You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`wasm_results`) and downloaded our job output to be stored in that directory.
 
 We can now get the results.
 
 ```bash
 rm -rf wasm_results && mkdir -p wasm_results
-bacalhau get ${JOB_ID} --output-dir wasm_results
+bacalhau job get ${JOB_ID} --output-dir wasm_results
 ```
 
 ## Viewing Job Output

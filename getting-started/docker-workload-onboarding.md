@@ -195,7 +195,7 @@ bacalhau job describe JOB_ID
 To download your job, run.
 
 ```shell
-bacalhau get JOB_ID
+bacalhau job get JOB_ID
 ```
 
 To put this all together into one would look like the following.
@@ -206,7 +206,7 @@ echo "The job ID is: $JOB_ID"
 bacalhau list --id-filter $JOB_ID
 sleep 5
 bacalhau list --id-filter $JOB_ID
-bacalhau get $JOB_ID
+bacalhau job get $JOB_ID
 ls shards
 ```
 
@@ -235,7 +235,7 @@ bacalhau docker run --input ${URL} ${IMAGE} ${CMD}
 
 bacalhau list
 
-bacalhau get JOB_ID
+bacalhau job get JOB_ID
 ```
 
 {% hint style="warning" %}

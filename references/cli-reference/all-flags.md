@@ -776,14 +776,14 @@ bacalhau exec python app.py
 bacalhau exec -i src=...,dst=/inputs/data.csv duckdb "select * from /inputs/data.csv"e
 ```
 
-## Get[​](http://localhost:3000/dev/cli-reference/all-flags#get) <a href="#get" id="get"></a>
+## Job get[​](http://localhost:3000/dev/cli-reference/all-flags#get) <a href="#get" id="get"></a>
 
-The `bacalhau get` command is used to get the results of the job, including stdout and stderr.
+The `bacalhau job get` command is used to get the results of the job, including stdout and stderr.
 
 Usage:
 
 ```bash
- bacalhau get [id] [flags]
+ bacalhau job get [id] [flags]
 ```
 
 ```bash
@@ -804,13 +804,13 @@ Flags:
 1. To get the results of a job, run:
 
 ```bash
-bacalhau get 51225160-807e-48b8-88c9-28311c7899e1
+bacalhau job get 51225160-807e-48b8-88c9-28311c7899e1
 ```
 
 2. To get the results of a job, using a short ID, run:
 
 ```bash
-bacalhau get 51225160
+bacalhau job get 51225160
 ```
 
 ## Help[​](http://localhost:3000/dev/cli-reference/all-flags#help) <a href="#help" id="help"></a>

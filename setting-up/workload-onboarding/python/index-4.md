@@ -159,7 +159,7 @@ This code has a few interesting features:
 
 1. Change the value in the `main` call (`main("hashes.txt", 10)`) to change the number of jobs to execute.
 2. Because all jobs are complete at different times, there's a loop to check that all jobs have been completed before downloading the results. If you don't do this, you'll likely see an error when trying to download the results. The `while True` loop is used to monitor the status of jobs and wait for them to complete.
-3. When downloading the results, the IPFS get often times out, so I wrapped that in a loop. The `for i in range(0, 5)` loop in the `getResultsFromJob` function involves retrying the `bacalhau get` operation if it fails to complete successfully.
+3. When downloading the results, the IPFS get often times out, so I wrapped that in a loop. The `for i in range(0, 5)` loop in the `getResultsFromJob` function involves retrying the `bacalhau job get` operation if it fails to complete successfully.
 
 Let's run it!
 

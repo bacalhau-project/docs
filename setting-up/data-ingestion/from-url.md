@@ -46,11 +46,11 @@ When the job status is `Published` or `Completed`, that means the job is done, a
 bacalhau job describe  $JOB_ID 
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we removed a directory in case it was present before, created it and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we removed a directory in case it was present before, created it and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir ./results
-bacalhau get --output-dir ./results $JOB_ID 
+bacalhau job get --output-dir ./results $JOB_ID 
 ```
 
 ### Viewing your Job Output[​](http://localhost:3000/setting-up/data-ingestion/from-url#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>

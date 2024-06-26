@@ -182,12 +182,12 @@ When it says `Published` or `Completed`, that means the job is done, and we can 
 bacalhau job describe ${JOB_ID}
 ```
 
-* **Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
+* **Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 %%bash
 rm -rf ./results && mkdir -p ./results # Temporary directory to store the results
-bacalhau get --output-dir ./results ${JOB_ID} # Download the results
+bacalhau job get --output-dir ./results ${JOB_ID} # Download the results
 ```
 
 After the download has finished you should see the following contents in the results directory.
@@ -253,7 +253,7 @@ And then download all the results and merge them into a single directory. This m
 %%bash
 for id in $(cat job_ids.txt); do \
     rm -rf results_$id && mkdir results_$id
-    bacalhau get --output-dir results_$id $id &
+    bacalhau job get --output-dir results_$id $id &
 done
 wait
 ```
