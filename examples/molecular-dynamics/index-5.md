@@ -219,10 +219,10 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 
 ## Checking the State of your Jobs[​](http://localhost:3000/examples/molecular-dynamics/openmm/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter=${JOB_ID} --no-style
+bacalhau job list --id-filter=${JOB_ID} --no-style
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.

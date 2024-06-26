@@ -189,7 +189,7 @@ By default whatever URL you mount using the -i flag gets mounted at the path /in
 
 ```bash
 %%bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 Where it says `Completed`, that means the job is done, and we can get the results.

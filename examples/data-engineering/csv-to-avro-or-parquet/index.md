@@ -195,13 +195,13 @@ env: JOB_ID=bacalhau job describe 71ecde0e-dac3-4c8d-bf2e-7a92cc54425e
 
 ## Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+* **Job status**: You can check the status of the job using `bacalhau job list`.
 
 :::note Replace the `{JOB_ID}` with your generated ID. :::
 
 ```bash
 %%bash
-bacalhau list --id-filter={JOB_ID}
+bacalhau job list --id-filter={JOB_ID}
 ```
 
 ```

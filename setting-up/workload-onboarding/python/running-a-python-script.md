@@ -86,10 +86,10 @@ bacalhau job run helloworld.yaml
 
 ## 3. Checking the State of your Jobs[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#3-checking-the-state-of-your-jobs) <a href="#id-3-checking-the-state-of-your-jobs" id="id-3-checking-the-state-of-your-jobs"></a>
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```
-bacalhau list --id-filter ${JOB_ID} --no-style
+bacalhau job list --id-filter ${JOB_ID} --no-style
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.

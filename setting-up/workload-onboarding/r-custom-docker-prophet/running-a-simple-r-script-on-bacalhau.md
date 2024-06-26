@@ -83,10 +83,10 @@ bacalhau job run rhello.yaml
 
 ### 3. Checking the State of your Jobs[​](http://localhost:3000/setting-up/workload-onboarding/r-hello-world/#3-checking-the-state-of-your-jobs) <a href="#id-3-checking-the-state-of-your-jobs" id="id-3-checking-the-state-of-your-jobs"></a>
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.

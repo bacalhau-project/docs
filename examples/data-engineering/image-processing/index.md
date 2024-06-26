@@ -55,11 +55,11 @@ Bacalhau also mounts a data volume to store output data. The `bacalhau docker ru
 
 ## Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+* **Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
 %%bash
-bacalhau list --id-filter=${JOB_ID} --no-style
+bacalhau job list --id-filter=${JOB_ID} --no-style
 ```
 
 ```

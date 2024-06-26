@@ -173,7 +173,7 @@ $ bacalhau docker run --input ipfs://${CID} ${IMAGE} ${CMD}
 To check the status of your job, run the following command:
 
 ```shell
-$ bacalhau list --id-filter JOB_ID
+$ bacalhau job list --id-filter JOB_ID
 ```
 
 To get more information on your job,run:
@@ -193,10 +193,12 @@ For example, running:
 ```shell
 JOB_ID=$(bacalhau docker run ubuntu echo hello | grep 'Job ID:' | sed 's/.*Job ID: \([^ ]*\).*/\1/')
 echo "The job ID is: $JOB_ID"
-bacalhau list --id-filter $JOB_ID
+bacalhau job list --id-filter $JOB_ID
 sleep 5
-bacalhau list --id-filter $JOB_ID
-bacalhau job get $JOB_ID
+
+bacalhau job list --id-filter $JOB_ID
+bacalhau get $JOB_ID
+
 ls shards
 ```
 
@@ -223,7 +225,7 @@ Alternatively, you can run your workload with a publicly accessible http(s) URL,
 $ export URL=https://download.geofabrik.de/antarctica-latest.osm.pbf
 $ bacalhau docker run --input ${URL} ${IMAGE} ${CMD}
 
-$ bacalhau list
+$ bacalhau job list
 
 $ bacalhau job get JOB_ID
 ```

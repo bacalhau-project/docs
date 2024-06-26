@@ -91,7 +91,7 @@ Both commands execute cowsay in the `docker/whalesay` container, but Bacalhau pr
 
 Bacalhau uses a syntax that is similar to Docker, and you can use the same containers. The main difference is that input and output data is passed to the container via IPFS, to enable planetary scale. In the example above, it doesn't make too much difference except that we need to download the stdout.
 
-The `--wait` flag tells Bacalhau to wait for the job to finish before returning. This is useful in interactive sessions like this, but you would normally allow jobs to complete in the background and use the `bacalhau list` command to check on their status.
+The `--wait` flag tells Bacalhau to wait for the job to finish before returning. This is useful in interactive sessions like this, but you would normally allow jobs to complete in the background and use the `bacalhau job list` command to check on their status.
 
 Another difference is that by default Bacalhau overwrites the default entry point for the container, so you have to pass all shell commands as arguments to the `run` command after the `--` flag.
 

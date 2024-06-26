@@ -351,10 +351,10 @@ bacalhau job run convertcsv.yaml
 
 ## Checking the State of your Jobs[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-**Job status**: You can check the status of the job using `bacalhau list`.
+**Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-bacalhau list --id-filter ${JOB_ID} 
+bacalhau job list --id-filter ${JOB_ID} 
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.

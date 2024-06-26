@@ -24,5 +24,5 @@ You can now interact with Bacalhau - all jobs are running by the local devstack 
 
 ```bash
 bacalhau docker run ubuntu echo hello
-bacalhau list
+bacalhau job list
 ```

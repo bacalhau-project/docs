@@ -166,11 +166,11 @@ Bacalhau also mounts a data volume to store output data. The `bacalhau docker ru
 
 ## Checking the State of your Jobs
 
-* **Job status**: You can check the status of the job using `bacalhau list`.
+* **Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
 %%bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
@@ -233,7 +233,7 @@ for h in $(cat hashes.txt); do \
 done
 ```
 
-Now take a look at the job id's. You can use these to check the status of the jobs and download the results. You might want to double-check that the jobs ran ok by doing a `bacalhau list`.
+Now take a look at the job id's. You can use these to check the status of the jobs and download the results. You might want to double-check that the jobs ran ok by doing a `bacalhau job list`.
 
 ```bash
 %%bash
@@ -244,7 +244,7 @@ Wait until all of these jobs have been completed:
 
 ```bash
 %%bash
-bacalhau list -n 50
+bacalhau job list -n 50
 ```
 
 And then download all the results and merge them into a single directory. This might take a while, so this is a good time to treat yourself to a nice Dark Mild. There's also been some issues in the past communicating with IPFS, so if you get an error, try again.

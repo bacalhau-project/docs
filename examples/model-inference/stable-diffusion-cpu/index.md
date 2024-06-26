@@ -170,7 +170,7 @@ Running the commands will output a UUID that represents the job that was created
 
 ```bash
 %%bash
-bacalhau list --id-filter ${JOB_ID}
+bacalhau job list --id-filter ${JOB_ID}
 ```
 
 Wait until it says `Completed` and then get the results.
