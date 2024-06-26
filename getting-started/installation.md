@@ -84,10 +84,10 @@ Checking job status... (Enter Ctrl+C to exit at any time, your job will continue
                    Job in progress  ................  done ✅  2.1s
 
 To download the results, execute:
-    bacalhau get f8e7789d-8e76-4e6c-8e71-436e2d76c72e
+    bacalhau job get f8e7789d-8e76-4e6c-8e71-436e2d76c72e
 
 To get more details about the run, execute:
-    bacalhau describe f8e7789d-8e76-4e6c-8e71-436e2d76c72e
+    bacalhau job describe f8e7789d-8e76-4e6c-8e71-436e2d76c72e
 ```
 
 After the above command is run, the job is submitted to the public network, which processes the job and Bacalhau prints out the related job id:
@@ -154,10 +154,10 @@ For a comprehensive list of flags you can pass to the list command check out [th
 
 #### Step 3.2 - Job information:
 
-You can find out more information about your job by using `bacalhau describe`.
+You can find out more information about your job by using `bacalhau job describe`.
 
 ```shell
-bacalhau describe 9d20bbad
+bacalhau job describe 9d20bbad
 ```
 
 Let's take a look at the results of the command execution in the terminal:
@@ -180,10 +180,10 @@ This outputs all information about the job, including stdout, stderr, where the 
 
 #### Step 3.3 - Job download:
 
-You can download your job results directly by using `bacalhau get`.
+You can download your job results directly by using `bacalhau job get`.
 
 ```shell
-bacalhau get 9d20bbad
+bacalhau job get 9d20bbad
 ```
 
 This results in
@@ -234,7 +234,7 @@ With that, you have just successfully run a job on Bacalhau! :fish:
 
 Here are few resources that provide a deeper dive into running jobs with Bacalhau:
 
-[How Bacalhau works](architecture.md), [Setting up Bacalhau](broken-reference), [Examples & Use Cases](broken-reference)
+[How Bacalhau works](architecture.md), [Setting up Bacalhau](broken-reference/), [Examples & Use Cases](broken-reference/)
 
 ### Support
 

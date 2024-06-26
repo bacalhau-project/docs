@@ -34,7 +34,7 @@ To help provide a safe, secure network for all users, we add the following runti
 
 1. **Limited Ingress/Egress Networking**:
 
-All ingress/egress networking is limited as described in the [networking](broken-reference) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
+All ingress/egress networking is limited as described in the [networking](broken-reference/) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
 
 2. **Data Passing with Docker Volumes**:
 
@@ -189,13 +189,13 @@ bacalhau job list --id-filter JOB_ID
 To get more information on your job, you can run the following command.
 
 ```shell
-bacalhau describe JOB_ID
+bacalhau job describe JOB_ID
 ```
 
 To download your job, run.
 
 ```shell
-bacalhau get JOB_ID
+bacalhau job get JOB_ID
 ```
 
 To put this all together into one would look like the following.
@@ -205,8 +205,10 @@ JOB_ID=$(bacalhau docker run ubuntu echo hello | grep 'Job ID:' | sed 's/.*Job I
 echo "The job ID is: $JOB_ID"
 bacalhau job list --id-filter $JOB_ID
 sleep 5
+
 bacalhau job list --id-filter $JOB_ID
 bacalhau get $JOB_ID
+
 ls shards
 ```
 
@@ -235,7 +237,7 @@ bacalhau docker run --input ${URL} ${IMAGE} ${CMD}
 
 bacalhau job list
 
-bacalhau get JOB_ID
+bacalhau job get JOB_ID
 ```
 
 {% hint style="warning" %}

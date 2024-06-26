@@ -149,18 +149,18 @@ When the job is submitted Bacalhau prints out the related job id. We store that 
 
 ### Viewing the Output[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#viewing-the-output) <a href="#viewing-the-output" id="viewing-the-output"></a>
 
-Use the `bacalhau logs` command to view the job output, since the script prints the result of execution to the stdout:
+Use the `bacalhau job logs` command to view the job output, since the script prints the result of execution to the stdout:
 
 ```bash
-bacalhau logs ${JOB_ID}
+bacalhau job logs ${JOB_ID}
 
 Predicted class: 0
 ```
 
-You can also use `bacalhau get` to download job results:
+You can also use `bacalhau job get` to download job results:
 
 ```bash
-bacalhau get ${JOB_ID}
+bacalhau job get ${JOB_ID}
 ```
 
 ## Support <a href="#support" id="support"></a>

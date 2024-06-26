@@ -169,10 +169,10 @@ Checking job status... (Enter Ctrl+C to exit at any time, your job will continue
                        Job in progress  ................  done ✅  0.0s
 
 To download the results, execute:
-        bacalhau get ddbfa358-d663-4f54-804e-598c53dbb969
+        bacalhau job get ddbfa358-d663-4f54-804e-598c53dbb969
         
 To get more details about the run, execute: 
-        bacalhau describe ddbfa358-d663-4f54-804e-598c53dbb969 
+        bacalhau job describe ddbfa358-d663-4f54-804e-598c53dbb969 
 ```
 
 You will be able to see the job execution logs on the compute node:

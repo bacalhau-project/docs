@@ -81,7 +81,7 @@ export JOB_ID=$(bacalhau docker run \
 
 1. `bacalhau docker run`: call to Bacalhau
 2. `amancevice/pandas` : Docker image with pandas installed.
-3. `-i ipfs://QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz:/files`: Mounting the uploaded dataset to path. The `-i` flag allows us to mount a file or directory from IPFS into the container. It takes two arguments, the first is the IPFS CID&#x20;
+3. `-i ipfs://QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz:/files`: Mounting the uploaded dataset to path. The `-i` flag allows us to mount a file or directory from IPFS into the container. It takes two arguments, the first is the IPFS CID
 4.  `QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz`) and the second is the file path within IPFS (`/files`). The `-i` flag can be used multiple times to mount multiple directories.
 
     `-w /files` Our working directory is /files. This is the folder where we will save the model as it will automatically get uploaded to IPFS as outputs
@@ -99,17 +99,17 @@ bacalhau job list --id-filter ${JOB_ID}
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
-bacalhau describe ${JOB_ID}
+bacalhau job describe ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir -p results
-bacalhau get ${JOB_ID}  --output-dir results
+bacalhau job get ${JOB_ID}  --output-dir results
 ```
 
 ### 5. Viewing your Job Output

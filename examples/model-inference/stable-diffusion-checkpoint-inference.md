@@ -12,7 +12,7 @@ The following guide is using the fine-tuned model, which was finetuned on Bacalh
 
 1. Convert your existing model weights to the `ckpt` format and upload to the IPFS storage.
 2. Create a job using `bacalhau docker run`, relevant docker image, model weights and any prompt.
-3. Download results using `bacalhau get` and the job id.
+3. Download results using `bacalhau job get` and the job id.
 
 ## Prerequisite[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
 
@@ -165,17 +165,17 @@ bacalhau job list --id-filter ${JOB_ID}
 
 When it says `Completed`, that means the job is done, and we can get the results.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`:
+**Job information**: You can find out more information about your job by using `bacalhau job describe`:
 
 ```bash
-bacalhau describe ${JOB_ID}
+bacalhau job describe ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir results
-bacalhau get ${JOB_ID} --output-dir results
+bacalhau job get ${JOB_ID} --output-dir results
 ```
 
 ## Viewing your Job Output[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>

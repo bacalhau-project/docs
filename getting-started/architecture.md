@@ -98,7 +98,7 @@ Optimize workflows without completely redesigning them. Run arbitrary tasks usin
 
 Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](../setting-up/gpu.md) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](../integrations/python-sdk.md).
 
-For node operation, refer to the [Running a Node](../setting-up/running-node/) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](broken-reference) for performing tasks without connecting to the main Bacalhau network.
+For node operation, refer to the [Running a Node](../setting-up/running-node/) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](broken-reference/) for performing tasks without connecting to the main Bacalhau network.
 
 </details>
 
@@ -108,12 +108,10 @@ You should use the Bacalhau client to send a task to the network. The client tra
 
 Bacalhau provides an interface to interact with the server via a REST API. Bacalhau uses 127.0.0.1 as the localhost and 1234 as the port by default.
 
-
-
 {% tabs %}
 {% tab title="CLI" %}
 ```sh
-bacalhau create [flags]
+bacalhau job run [flags]
 ```
 
 You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to create a job in Bacalhau using JSON and YAML formats.
@@ -269,14 +267,14 @@ The Bacalhau client receives updates on the task execution status and results. A
 To Get the results of a job you can run the following command.
 
 ```bash
-bacalhau get [id] [flags]
+bacalhau job get [id] [flags]
 ```
 
 One can choose from a wide range of flags, from which a few are shown below.
 
 ```shell
 Usage:
-  bacalhau get [id] [flags]
+  bacalhau job get [id] [flags]
 
 Flags:
       --download-timeout-secs duration   Timeout duration for IPFS downloads. (default 5m0s)
@@ -297,7 +295,7 @@ To describe a specific job, inserting the ID to the CLI or API gives back an ove
 {% tabs %}
 {% tab title="CLI" %}
 ```bash
-bacalhau describe [id] [flags]
+bacalhau job describe [id] [flags]
 ```
 
 You can use the command with [appropriate flags](../references/cli-reference/all-flags.md) to get a full description of a job in yaml format.
@@ -365,7 +363,7 @@ The Bacalhau client provides the user with tools to monitor and manage the execu
 {% tabs %}
 {% tab title="CLI" %}
 ```bash
-bacalhau cancel [id] [flags]
+bacalhau job stop [id] [flags]
 ```
 
 You can use the command with [appropriate flags](../references/cli-reference/all-flags.md#cancel) to cancel a job that was previously submitted and stop it running if it has not yet completed.
@@ -403,7 +401,7 @@ You can use [Job History API Documentation](../references/api/jobs.md#job-histor
 ### Job Logs
 
 ```shell
-bacalhau logs [flags] [id]
+bacalhau job logs [flags] [id]
 ```
 
 You can use this [command](../references/cli-reference/all-flags.md#logs) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.

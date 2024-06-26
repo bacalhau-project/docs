@@ -80,7 +80,7 @@ export JOB_ID=$(bacalhau docker run \
 
 ### Structure of the Command
 
-1. `-i ipfs://QmYq9ipYf3vsj7iLv5C67BXZcpLHxZbvFAJbtj7aKN5qii:/helloworld.pl` : Sets the input data for the container.&#x20;
+1. `-i ipfs://QmYq9ipYf3vsj7iLv5C67BXZcpLHxZbvFAJbtj7aKN5qii:/helloworld.pl` : Sets the input data for the container.
 2. `mYq9ipYf3vsj7iLv5C67BXZcpLHxZbvFAJbtj7aKN5qii` is our CID which points to the `helloworld.pl` file on the IPFS network. This file will be accessible within the container.
 3. `-- swipl -q -s helloworld.pl -g hello_world`: instructs SWI-Prolog to load the program from the `helloworld.pl` file and execute the `hello_world` function in quiet mode:
    1. `-q`: running in quiet mode
@@ -99,17 +99,17 @@ bacalhau job list --id-filter ${JOB_ID} --wide
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
-bacalhau describe ${JOB_ID}
+bacalhau job describe ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir -p results
-bacalhau get $JOB_ID --output-dir results
+bacalhau job get $JOB_ID --output-dir results
 ```
 
 ## 4. Viewing your Job Output

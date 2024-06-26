@@ -91,17 +91,17 @@ bacalhau job list --id-filter ${JOB_ID}
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
-bacalhau describe  ${JOB_ID}
+bacalhau job describe  ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir results
-bacalhau get ${JOB_ID} --output-dir results
+bacalhau job get ${JOB_ID} --output-dir results
 ```
 
 ### 4. Viewing your Job Output[​](http://localhost:3000/setting-up/workload-onboarding/r-hello-world/#4-viewing-your-job-output) <a href="#id-4-viewing-your-job-output" id="id-4-viewing-your-job-output"></a>
@@ -114,10 +114,10 @@ cat results/stdout
 
 #### Futureproofing your R Scripts[​](http://localhost:3000/setting-up/workload-onboarding/r-hello-world/#futureproofing-your-r-scripts) <a href="#futureproofing-your-r-scripts" id="futureproofing-your-r-scripts"></a>
 
-You can generate the job request using `bacalhau describe` with the `--spec` flag. This will allow you to re-run that job in the future:
+You can generate the job request using `bacalhau job describe` with the `--spec` flag. This will allow you to re-run that job in the future:
 
 ```bash
-bacalhau describe ${JOB_ID} --spec > job.yaml
+bacalhau job describe ${JOB_ID} --spec > job.yaml
 ```
 
 ```bash

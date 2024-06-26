@@ -31,7 +31,7 @@ CREATED   ID        JOB                      STATE      VERIFIED  PUBLISHED
 
 ## 2. Inspecting the Status of the Job
 
-When you first suspect that your job has failed, the first thing you should do is inspect the status. The `bacalhau describe $JOB_ID` command presents everything that is known about a job from the perspective of the network.
+When you first suspect that your job has failed, the first thing you should do is inspect the status. The `bacalhau job describe $JOB_ID` command presents everything that is known about a job from the perspective of the network.
 
 Look through the `Shards` of the job and see if any of them have a `State` of `Error`. The `RunOutput` field provides the juicy details of what went wrong.
 

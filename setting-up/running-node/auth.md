@@ -37,10 +37,10 @@ curl -sL https://raw.githubusercontent.com/bacalhau-project/bacalhau/main/pkg/au
 bacalhau config set Auth.Methods '\{Method: ClientKey, Policy: \{Type: challenge, PolicyPath: ~/.bacalhau/challenge_ns_no_anon.rego\}\}'
 ```
 
-Then, modify the `allowed_clients` variable in `challange_ns_no_anon.rego` to include acceptable client IDs, found by running `bacalhau id`.
+Then, modify the `allowed_clients` variable in `challange_ns_no_anon.rego` to include acceptable client IDs, found by running `bacalhau agent node`.
 
 ```
-bacalhau id | jq -rc .ClientID
+bacalhau agent node | jq -rc .ClientID
 ```
 
 Once the node is restarted, only keys in the allowed list will be able to access any API.

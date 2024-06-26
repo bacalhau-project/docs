@@ -1,11 +1,14 @@
 # CLI Commands Overview
 
-The following commands refer to bacalhau cli version `v1.2.0`. For installing or upgrading a client, follow the instructions in the [installation page](../../getting-started/installation.md). Run `bacalhau version` in a terminal to check what version you have.
+{% hint style="warning" %}
+Note that in version 1.4.0 the syntax for certain commands has changed. Check out the release notes and the description of the updated commands on this page.
+{% endhint %}
 
-Let’s run the `bacalhau -- help` command in the terminal to find out information about available commands and flags:
+The following commands refer to bacalhau cli version `v1.4.0`. For installing or upgrading a client, follow the instructions in the [installation page](../../getting-started/installation.md). Run `bacalhau version` in a terminal to check what version you have.
+
+Let’s run the `bacalhau help` command in the terminal to find out information about available commands and flags:
 
 ```
-bacalhau --help
 Compute over data
 
 Usage:
@@ -13,23 +16,15 @@ Usage:
 
 Available Commands:
   agent       Commands to query agent information.
-  cancel      Cancel a previously submitted job
   completion  Generate the autocompletion script for the specified shell
   config      Interact with the bacalhau configuration system.
-  create      Create a job using a json or yaml file.
-  describe    Describe a job on the network
   devstack    Start a cluster of bacalhau nodes for testing and development
   docker      Run a docker job on the network (see run subcommand)
   exec        Execute a specific job type
-  get         Get the results of a job
   help        Help about any command
-  id          Show bacalhau node id info
   job         Commands to submit, query and update jobs.
-  list        List jobs on the network
-  logs        Follow logs from a currently executing job
   node        Commands to query and update nodes information.
   serve       Start the bacalhau compute node
-  validate    validate a job using a json or yaml file.
   version     Get the client and server version.
   wasm        Run and prepare WASM jobs on the network
 
@@ -39,17 +34,15 @@ Flags:
       --api-port int            The port for the client and server to communicate on (via REST).
                                 Ignored if BACALHAU_API_PORT environment variable is set. (default 1234)
       --cacert string           The location of a CA certificate file when self-signed certificates
-                                        are used by the server
+                                	are used by the server
   -h, --help                    help for bacalhau
       --insecure                Enables TLS but does not verify certificates
       --log-mode logging-mode   Log format: 'default','station','json','combined','event' (default default)
-      --repo string             path to bacalhau repo (default "/home/user/.bacalhau")
+      --repo string             path to bacalhau repo (default "/home/u/.bacalhau")
       --tls                     Instructs the client to use TLS
 
 Use "bacalhau [command] --help" for more information about a command.
 ```
-
-
 
 {% hint style="info" %}
 Global flags
@@ -250,32 +243,18 @@ Expected Output:
 
 ## Cancel[​](http://localhost:3000/dev/cli-reference/all-flags#cancel) <a href="#cancel" id="cancel"></a>
 
-The `bacalhau cancel` command cancels a job that was previously submitted and stops it running if it has not yet completed.
-
-Usage:
+## Job stop[​](http://localhost:3000/dev/cli-reference/all-flags#cancel) <a href="#cancel" id="cancel"></a>
 
 ```bash
-bacalhau cancel [id] [flags]
+bacalhau job stop [id] [flags]
 ```
 
 ```bash
-Flags:
-  -h, --help    help for cancel
-      --quiet   Do not print anything to stdout or stderr
+ bacalhau job stop 51225160-807e-48b8-88c9-28311c7899e1
 ```
 
-**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-3)
-
-To cancel a previously submitted job, run:
-
 ```bash
- bacalhau cancel 51225160-807e-48b8-88c9-28311c7899e1
-```
-
-To cancel a job using a short ID, run:
-
-```bash
- bacalhau cancel 51225160
+ bacalhau job stop 51225160
 ```
 
 ## Completion[​](http://localhost:3000/dev/cli-reference/all-flags#completion) <a href="#completion" id="completion"></a>
@@ -396,9 +375,7 @@ The `bacalhau config auto-resources` command intelligently adjusts resource allo
 ```bash
 Flags:
       --default-job-percentage int   Percentage expressed as a number from 1 to 100 representing default per job amount of resources jobs will get when they don't specify any resource limits themselves (values over 100 will be rejected (default 75)
-  -h, --help                         help for auto-resources
       --job-percentage int           Percentage expressed as a number from 1 to 100 representing per job amount of resource the system can be using at one time for a single job (values over 100 will be rejected) (default 75)
-      --queue-job-percentage int     Percentage expressed as a number from 1 to 100 representing the total amount of resource the system can queue at one time in aggregate for all jobs (values over 100 are accepted) (default 150)
       --total-percentage int         Percentage expressed as a number from 1 to 100 representing total amount of resource the system can be using at one time in aggregate for all jobs (values over 100 will be rejected) (default 75)
 ```
 
@@ -428,77 +405,12 @@ Config File:
                   disk: 568 GB
                   gpu: "0"
                   memory: 52 GB
-              queueresourcelimits:
-                  cpu: 15000m
-                  disk: 1.1 TB
-                  gpu: "0"
-                  memory: 103 GB
               totalresourcelimits:
                   cpu: 7500m
                   disk: 568 GB
                   gpu: "0"
                   memory: 52 GB
 ```
-
-2. Queue 500% system resources:
-
-```bash
-bacalhau config auto-resources --queue-job-percentage=500
-```
-
-Config File:
-
-```yaml
-   node:
-       compute:
-           capacity:
-               defaultjobresourcelimits:
-                   cpu: 7500m
-                   disk: 568 GB
-                   gpu: "0"
-                   memory: 52 GB
-               jobresourcelimits:
-                   cpu: 7500m
-                   disk: 568 GB
-                   gpu: "0"
-                   memory: 52 GB
-               queueresourcelimits:
-                   cpu: 50000m
-                   disk: 3.8 TB
-                   gpu: "0"
-                   memory: 344 GB
-               totalresourcelimits:
-                   cpu: 7500m
-                   disk: 568 GB
-                   gpu: "0"
-                   memory: 52 GB
-```
-
-### default[​](http://localhost:3000/dev/cli-reference/all-flags#default) <a href="#default" id="default"></a>
-
-```bash
-bacalhau config default [flags]
-```
-
-The `bacalhau config default` command prints the default configuration of a bacalhau node to the standard output (stdout). This command is advantageous for users to view the baseline settings a bacalhau node will use in the absence of any user-defined configuration changes. It provides a clear view of the default operational parameters of the node, aiding users in understanding and customizing their configuration from a known baseline.
-
-{% hint style="info" %}
-The output of this command shows the initial default settings for a new bacalhau node and is useful for understanding the foundational settings for customization. To apply these default settings, you can redirect the output to your configuration file using `bacalhau config default > ~/.bacalhau/config.yaml`, which overwrites your current configuration file with the default settings. However, if you wish to always use the latest default settings, especially if the defaults are updated over time, consider deleting your existing configuration file (e.g., `~/.bacalhau/config.yaml`). This approach ensures that your bacalhau node uses the most current defaults, circumventing potential discrepancies between the latest defaults and those captured in an older configuration file created with `bacalhau config default`.
-{% endhint %}
-
-```bash
-Flags:
-  -h, --help          help for default
-      --path string   sets path dependent config fields (default $HOME/.bacalhau)
-```
-
-**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-5)
-
-```bash
-bacalhau config default > ~/.bacalhau/config.yaml
-```
-
-This command redirects the default configuration output directly into the bacalhau configuration file at `~/.bacalhau/config.yaml`, effectively resetting it to default settings.
 
 ### list[​](http://localhost:3000/dev/cli-reference/all-flags#list) <a href="#list" id="list"></a>
 
@@ -600,177 +512,36 @@ node:
         port: 9999
 ```
 
-## Create[​](http://localhost:3000/dev/cli-reference/all-flags#create) <a href="#create" id="create"></a>
-
-The `bacalhau create` command is used to submit a job to the network in a declarative way by writing a jobspec instead of writing a command. JSON and YAML formats are accepted.
-
-Usage:
+## Job run[​](http://localhost:3000/dev/cli-reference/all-flags#create) <a href="#create" id="create"></a>
 
 ```bash
-bacalhau create [flags]
+bacalhau job run [flags]
 ```
 
 ```bash
-Flags:
-      --download                         Download the results and print stdout once the job has completed
-      --download-timeout-secs duration   Timeout duration for IPFS downloads. (default 5m0s)
-      --dry-run                          Do not submit the job, but instead print out what will be submitted
-  -f, --follow                           When specified will follow the output from the job as it runs
-  -g, --gettimeout int                   Timeout for getting the results of a job in --wait (default 10)
-  -h, --help                             help for create
-      --id-only                          Print out only the Job ID on successful submission.
-      --node-details                     Print out details of all nodes (overridden by --id-only).
-      --output-dir string                Directory to write the output to.
-      --raw                              Download raw result CIDs instead of merging multiple CIDs into a single result
-      --wait                             Wait for the job to finish. Use --wait=false to return as soon as the job is submitted. (default true)
-      --wait-timeout-secs int            When using --wait, how many seconds to wait for the job to complete before giving up. (default 600)
-```
-
-**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-8)
-
-1. To create a job using the data in `job.yaml`, run:
-
-```bash
-bacalhau create ./job.yaml
-```
-
-2. To create a new job from an already executed job, run:
-
-```bash
-bacalhau describe 6e51df50 | bacalhau create
-```
-
-### YAML format[​](http://localhost:3000/dev/cli-reference/all-flags#yaml-format) <a href="#yaml-format" id="yaml-format"></a>
-
-Let's have a look at a job example in **YAML format**:
-
-```yaml
-spec:
-    engine: Docker
-    verifier: Noop
-    publisher: IPFS
-    docker:
-        image: ubuntu
-        entryPoint:
-            - echo
-        parameters:
-            - Hello
-            - World
-    outputs:
-        - name: outputs
-          path: /outputs
-deal:
-    concurrency: 1
-```
-
-This example shows how a YAML file can be structured to describe a job and its parameters, which can then be used in Bacalhau to perform executions.
-
-### UCAN Invocation format[​](http://localhost:3000/dev/cli-reference/all-flags#ucan-invocation-format) <a href="#ucan-invocation-format" id="ucan-invocation-format"></a>
-
-You can also specify a job to run using a [UCAN Invocation](https://github.com/ucan-wg/invocation) object in JSON format. For the fields supported by Bacalhau, see the [IPLD schema](https://github.com/bacalhau-project/bacalhau/blob/main/pkg/model/schemas/bacalhau.ipldsch).
-
-There is no support for sharding, concurrency or minimum bidding for these jobs.
-
-**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-9)
-
-Refers to example models at balcalhau repository under [pkg/model/tasks](https://github.com/bacalhau-project/bacalhau/tree/main/pkg/model/tasks)
-
-An example UCAN Invocation that runs the same job as the above example would look like:
-
-```bash
-{
-  "with": "ubuntu",
-  "do": "docker/run",
-  "inputs": {
-    "entrypoint": ["echo"],
-    "parameters": ["hello", "world"],
-    "workdir": "/",
-    "mounts": {},
-    "outputs": {
-      "/outputs": ""
-    }
-  },
-  "meta": {
-    "bacalhau/config": {
-      "verifier": 1,
-      "publisher": 4,
-      "annotations": ["hello"],
-      "resources": {
-        "cpu": 1,
-        "disk": 1073741824,
-        "memory": 1073741824,
-        "gpu": 0
-      },
-      "timeout": 300e9,
-      "dnt": false
-    }
-  }
-}
-```
-
-An example UCAN Invocation that runs a WebAssembly job might look like:
-
-```json
-{
-	"with": "ipfs://bafybeig7mdkzcgpacpozamv7yhhaelztfrnb6ozsupqqh7e5uyqdkijegi",
-	"do": "wasm32-wasi/run",
-	"inputs": {
-		"entrypoint": "_start",
-		"parameters": ["/inputs/data.tar.gz"],
-		"mounts": {
-			"/inputs": "https://www.example.com/data.tar.gz"
-		},
-		"outputs": {
-			"/outputs": ""
-		},
-		"env": {
-			"HELLO": "world"
-		}
-	},
-	"meta": {
-    }
-  }
-}
-```
-
-Using a UCAN Invocation object allows you to customize the parameters of job execution in Bacalhau in a more flexible and detailed way.
-
-## Describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe) <a href="#describe" id="describe"></a>
-
-The `bacalhau describe` command provides a full description of a job in YAML format. Short form and long form of the job id are accepted.
-
-Usage:
-
-```bash
-bacalhau describe [id] [flags]
+bacalhau job run ./job.yaml
 ```
 
 ```bash
-Flags:
-  -h, --help             help for describe
-      --include-events   Include events in the description (could be noisy)
-      --json             Output description as JSON (if not included will be outputted as YAML by default)
-      --spec             Output Jobspec to stdout
+bacalhau job describe 6e51df50 | bacalhau create
 ```
 
-**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-10)
-
-1. To describe a job with the full ID, run:
+The `bacalhau job describe` command provides a full description of a job in YAML format. Short form and long form of the job id are accepted.
 
 ```bash
-bacalhau describe e3f8c209-d683-4a41-b840-f09b88d087b9
+bacalhau job describe [id] [flags]
 ```
 
-2. To describe a job with the shortened ID, run:
-
 ```bash
-bacalhau describe e3f8c209
+bacalhau job describe e3f8c209-d683-4a41-b840-f09b88d087b9
 ```
 
-3. To describe a job and include all server and local events, run:
+```bash
+bacalhau job describe e3f8c209
+```
 
 ```bash
-bacalhau describe e3f8c209 --include-events  
+bacalhau job describe e3f8c209 --include-events  
 ```
 
 ## Devstack[​](http://localhost:3000/dev/cli-reference/all-flags#devstack) <a href="#devstack" id="devstack"></a>
@@ -783,7 +554,7 @@ Usage:
 bacalhau devstack [flags]
 ```
 
-```bash
+```
 Flags:
       --Noop                                             Use the noop executor for all jobs
       --allow-listed-local-paths strings                 Local paths that are allowed to be mounted into jobs. Multiple paths can be specified by using this flag multiple times.
@@ -794,10 +565,13 @@ Flags:
       --compute-nodes int                                How many compute only nodes should be started in the cluster (default 3)
       --cpu-profiling-file string                        File to save CPU profiling to
       --default-job-execution-timeout duration           default value for the execution timeout this compute node will assign to jobs with no timeout requirement defined. (default 10m0s)
+      --default-publisher string                         A default publisher to apply to all jobs without a publisher
       --disable-engine strings                           Engine types to disable
       --disable-storage strings                          Storage types to disable
       --disabled-publisher strings                       Publisher types to disable
-  -h, --help                                             help for devstack
+      --docker-manifest-cache-duration duration          The default time-to-live for each record in the manifest cache (default 1h0m0s)
+      --docker-manifest-cache-frequency duration         The frequency that the checks for stale records is performed (default 1h0m0s)
+      --docker-manifest-cache-size uint                  Specifies the number of items that can be held in the manifest cache (default 1000)
       --hybrid-nodes int                                 How many hybrid (requester and compute) nodes should be started in the cluster
       --ignore-physical-resource-limits                  When set the compute node will ignore is physical resource limits
       --job-execution-timeout-bypass-client-id strings   List of IDs of clients that are allowed to bypass the job execution timeout check
@@ -818,11 +592,13 @@ Flags:
       --min-job-execution-timeout duration               The minimum execution timeout this compute node supports. Jobs with lower timeout requirements will not be bid on. (default 500ms)
       --peer string                                      Connect node 0 to another network node
       --pluggable-executors                              Will use pluggable executors when set to true
-      --public-ipfs                                      Connect devstack to public IPFS
+      --requester-job-translation-enabled                Whether jobs should be translated at the requester node or not. Default: false
       --requester-nodes int                              How many requester only nodes should be started in the cluster (default 1)
+      --self-signed                                      Specifies whether to auto-generate a self-signed certificate for the requester node
       --stack-repo string                                Folder to act as the devstack configuration repo
       --tlscert string                                   Specifies a TLS certificate file to be used by the requester node
       --tlskey string                                    Specifies a TLS key file matching the certificate to be used by the requester node
+
 ```
 
 **Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-11)
@@ -848,7 +624,7 @@ bacalhau devstack  --requester-nodes 0 --compute-nodes 0 --hybrid-nodes 1
 4. To run a devstack and create (or use) the config repo in a specific folder, run:
 
 ```bash
-bacalhau devstack  --stack-repo ./my-devstack-configuration
+bacalhau devstack --stack-repo ./my-devstack-configuration
 ```
 
 ## Docker run[​](http://localhost:3000/dev/cli-reference/all-flags#docker-run) <a href="#docker-run" id="docker-run"></a>
@@ -863,47 +639,50 @@ bacalhau docker run [flags] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
 
 ```bash
 Flags:
-      --concurrency int                  How many nodes should run the job (default 1)
-      --cpu string                       Job CPU cores (e.g. 500m, 2, 8).
-      --disk string                      Job Disk requirement (e.g. 500Gb, 2Tb, 8Tb).
-      --domain stringArray               Domain(s) that the job needs to access (for HTTP networking)
-      --download                         Should we download the results once the job is complete?
-      --download-timeout-secs duration   Timeout duration for IPFS downloads. (default 5m0s)
-      --dry-run                          Do not submit the job, but instead print out what will be submitted
-      --entrypoint strings               Override the default ENTRYPOINT of the image
-  -e, --env strings                      The environment variables to supply to the job (e.g. --env FOO=bar --env BAR=baz)
-  -f, --follow                           When specified will follow the output from the job as it runs
-  -g, --gettimeout int                   Timeout for getting the results of a job in --wait (default 10)
-      --gpu string                       Job GPU requirement (e.g. 1, 2, 8).
-  -h, --help                             help for run
-      --id-only                          Print out only the Job ID on successful submission.
-  -i, --input storage                    Mount URIs as inputs to the job. Can be specified multiple times. Format: src=URI,dst=PATH[,opt=key=value]
-                                         Examples:
-                                         # Mount IPFS CID to /inputs directory
-                                         -i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72
-                                         # Mount S3 object to a specific path
-                                         -i s3://bucket/key,dst=/my/input/path
-                                         # Mount S3 object with specific endpoint and region
-                                         -i src=s3://bucket/key,dst=/my/input/path,opt=endpoint=https://s3.example.com,opt=region=us-east-1
-      --ipfs-connect string              The ipfs host multiaddress to connect to, otherwise an in-process IPFS node will be created if not set.
-      --ipfs-serve-path string           path local Ipfs node will persist data to
-      --ipfs-swarm-addrs strings         IPFS multiaddress to connect the in-process IPFS node to - cannot be used with --ipfs-connect. (default [/ip4/35.245.161.250/tcp/4001/p2p/12D3KooWAQpZzf3qiNxpwizXeArGjft98ZBoMNgVNNpoWtKAvtYH,/ip4/35.245.161.250/udp/4001/quic/p2p/12D3KooWAQpZzf3qiNxpwizXeArGjft98ZBoMNgVNNpoWtKAvtYH,/ip4/34.86.254.26/tcp/4001/p2p/12D3KooWLfFBjDo8dFe1Q4kSm8inKjPeHzmLBkQ1QAjTHocAUazK,/ip4/34.86.254.26/udp/4001/quic/p2p/12D3KooWLfFBjDo8dFe1Q4kSm8inKjPeHzmLBkQ1QAjTHocAUazK,/ip4/35.245.215.155/tcp/4001/p2p/12D3KooWH3rxmhLUrpzg81KAwUuXXuqeGt4qyWRniunb5ipjemFF,/ip4/35.245.215.155/udp/4001/quic/p2p/12D3KooWH3rxmhLUrpzg81KAwUuXXuqeGt4qyWRniunb5ipjemFF,/ip4/34.145.201.224/tcp/4001/p2p/12D3KooWBCBZnXnNbjxqqxu2oygPdLGseEbfMbFhrkDTRjUNnZYf,/ip4/34.145.201.224/udp/4001/quic/p2p/12D3KooWBCBZnXnNbjxqqxu2oygPdLGseEbfMbFhrkDTRjUNnZYf,/ip4/35.245.41.51/tcp/4001/p2p/12D3KooWJM8j97yoDTb7B9xV1WpBXakT4Zof3aMgFuSQQH56rCXa,/ip4/35.245.41.51/udp/4001/quic/p2p/12D3KooWJM8j97yoDTb7B9xV1WpBXakT4Zof3aMgFuSQQH56rCXa])
-      --ipfs-swarm-key string            Optional IPFS swarm key required to connect to a private IPFS swarm
-  -l, --labels strings                   List of labels for the job. Enter multiple in the format '-l a -l 2'. All characters not matching /a-zA-Z0-9_:|-/ and all emojis will be stripped.
-      --memory string                    Job Memory requirement (e.g. 500Mb, 2Gb, 8Gb).
-      --network network-type             Networking capability required by the job. None, HTTP, or Full (default None)
-      --node-details                     Print out details of all nodes (overridden by --id-only).
-  -o, --output strings                   name:path of the output data volumes. 'outputs:/outputs' is always added unless '/outputs' is mapped to a different name. (default [outputs:/outputs])
-      --output-dir string                Directory to write the output to.
-      --private-internal-ipfs            Whether the in-process IPFS node should auto-discover other nodes, including the public IPFS network - cannot be used with --ipfs-connect. Use "--private-internal-ipfs=false" to disable. To persist a local Ipfs node, set BACALHAU_SERVE_IPFS_PATH to a valid path. (default true)
-  -p, --publisher publisher              Where to publish the result of the job (default ipfs)
-      --raw                              Download raw result CIDs instead of merging multiple CIDs into a single result
-  -s, --selector string                  Selector (label query) to filter nodes on which this job can be executed, supports '=', '==', and '!='.(e.g. -s key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
-      --target all|any                   Whether to target the minimum number of matching nodes ("any") (default) or all matching nodes ("all") (default any)
-      --timeout int                      Job execution timeout in seconds (e.g. 300 for 5 minutes)
-      --wait                             Wait for the job to finish. Use --wait=false to return as soon as the job is submitted. (default true)
-      --wait-timeout-secs int            When using --wait, how many seconds to wait for the job to complete before giving up. (default 600)
-  -w, --workdir string                   Working directory inside the container. Overrides the working directory shipped with the image (e.g. via WORKDIR in Dockerfile).
+  -c, --constraints string      Selector (label query) to filter nodes on which this job can be executed.
+                                Supports '=', '==', and '!='.(e.g. -s key1=value1,key2=value2).
+                                Matching objects must satisfy all of the specified label constraints.
+      --count int               How many nodes should run the job. (default 1)
+      --cpu string              Job CPU cores (e.g. 500m, 2, 8).
+      --disk string             Job Disk requirement (e.g. 500Gb, 2Tb, 8Tb).
+      --domain stringArray      Domain(s) that the job needs to access (for HTTP networking)
+      --dry-run                 Do not submit the job, but instead print out what will be submitted
+      --entrypoint strings      Override the default ENTRYPOINT of the image
+  -e, --env strings             The environment variables to supply to the job (e.g. --env FOO=bar --env BAR=baz)
+  -f, --follow                  When specified will follow the output from the job as it runs
+      --gpu string              Job GPU requirement (e.g. 1, 2, 8).
+      --id-only                 Print out only the Job ID on successful submission.
+  -i, --input storage           Mount URIs as inputs to the job. Can be specified multiple times. Format: src=URI,dst=PATH[,opt=key=value]
+                                Examples:
+                                # Mount IPFS CID to /inputs directory
+                                -i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72
+                                # Mount S3 object to a specific path
+                                -i s3://bucket/key,dst=/my/input/path
+                                # Mount S3 object with specific endpoint and region
+                                -i src=s3://bucket/key,dst=/my/input/path,opt=endpoint=https://s3.example.com,opt=region=us-east-1
+                                
+      --ipfs-connect string     The ipfs host multiaddress to connect to, otherwise an in-process IPFS node will be created if not set.
+  -l, --labels strings          List of labels for the job. Enter multiple in the format '-labels env=prod -label region=earth'.
+                                Valid label keys must consist of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character.
+                                Valid label values must be an empty string or consist of alphanumeric characters, '-', '_' or '.', and must start and end 
+                                with an alphanumeric character.
+      --memory string           Job Memory requirement (e.g. 500Mb, 2Gb, 8Gb).
+      --name string             The name to refer to this job by.
+      --namespace string        The namespace to associate with this job. (default "default")
+      --network network-type    Networking capability required by the job. None, HTTP, or Full (default None)
+      --node-details            Print out details of all nodes (overridden by --id-only).
+  -o, --output ResultPath       name=path of the output data volumes. 'outputs:/outputs' is always added unless '/outputs' is mapped to a different name.
+      --priority int            The priority of the job.
+  -p, --publisher publisher     Where to publish the result of the job
+      --queue-timeout int       Job queue timeout in seconds (e.g. 300 for 5 minutes). 
+                                zero timeout means no queueing is enabled and jobs will fail if they cannot be scheduled immediately
+      --target all|any          Whether to target the minimum number of matching nodes ("any") (default) or all matching nodes ("all"). (default any)
+      --task-name string        The name to refer to this task by (default "main")
+      --timeout int             Job execution timeout in seconds (e.g. 300 for 5 minutes)
+      --wait                    Wait for the job to finish. Use --wait=false to return as soon as the job is submitted. (default true)
+      --wait-timeout-secs int   When using --wait, how many seconds to wait for the job to complete before giving up. (default 600)
+  -w, --workdir string          Working directory inside the container. Overrides the working directory shipped with the image (e.g. via WORKDIR in Dockerfile).
+
 ```
 
 **Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-12)
@@ -997,14 +776,14 @@ bacalhau exec python app.py
 bacalhau exec -i src=...,dst=/inputs/data.csv duckdb "select * from /inputs/data.csv"e
 ```
 
-## Get[​](http://localhost:3000/dev/cli-reference/all-flags#get) <a href="#get" id="get"></a>
+## Job get[​](http://localhost:3000/dev/cli-reference/all-flags#get) <a href="#get" id="get"></a>
 
-The `bacalhau get` command is used to get the results of the job, including stdout and stderr.
+The `bacalhau job get` command is used to get the results of the job, including stdout and stderr.
 
 Usage:
 
 ```bash
- bacalhau get [id] [flags]
+ bacalhau job get [id] [flags]
 ```
 
 ```bash
@@ -1025,13 +804,13 @@ Flags:
 1. To get the results of a job, run:
 
 ```bash
-bacalhau get 51225160-807e-48b8-88c9-28311c7899e1
+bacalhau job get 51225160-807e-48b8-88c9-28311c7899e1
 ```
 
 2. To get the results of a job, using a short ID, run:
 
 ```bash
-bacalhau get 51225160
+bacalhau job get 51225160
 ```
 
 ## Help[​](http://localhost:3000/dev/cli-reference/all-flags#help) <a href="#help" id="help"></a>
@@ -1049,14 +828,14 @@ Flags:
   -h, --help   help for help
 ```
 
-## ID[​](http://localhost:3000/dev/cli-reference/all-flags#id) <a href="#id" id="id"></a>
+## Agent node[​](http://localhost:3000/dev/cli-reference/all-flags#id) <a href="#id" id="id"></a>
 
-The `bacalhau id` command shows bacalhau node id info.
+The `bacalhau agent node` command shows bacalhau node id info.
 
 Usage:
 
 ```bash
-bacalhau id [flags]
+bacalhau agent node [flags]
 ```
 
 ```bash
@@ -1083,7 +862,7 @@ Usage:
 
 Available Commands:
 
-### describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe-1) <a href="#describe-1" id="describe-1"></a>
+### Job describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe-1) <a href="#describe-1" id="describe-1"></a>
 
 ```bash
 bacalhau job describe [id] [flags]
@@ -1616,14 +1395,14 @@ bacalhau job list
 bacalhau job list --output json
 ```
 
-## Logs[​](http://localhost:3000/dev/cli-reference/all-flags#logs-1) <a href="#logs-1" id="logs-1"></a>
+## Job logs[​](http://localhost:3000/dev/cli-reference/all-flags#logs-1) <a href="#logs-1" id="logs-1"></a>
 
-The `bacalhau logs` command retrieves the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
+The `bacalhau job logs` command retrieves the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
 
 Usage:
 
 ```bash
-bacalhau logs [id] [flags]
+bacalhau job logs [id] [flags]
 ```
 
 ```bash
@@ -1637,13 +1416,13 @@ Flags:
 1. To follow logs for a previously submitted job, run:
 
 ```bash
-bacalhau logs -f 51225160-807e-48b8-88c9-28311c7899e1
+bacalhau job logs -f 51225160-807e-48b8-88c9-28311c7899e1
 ```
 
 2. To retrieve the log output with a short ID, but don't follow any newly generated logs,run:
 
 ```bash
-bacalhau logs ebd9bf2f
+bacalhau job logs ebd9bf2f
 ```
 
 ## Node[​](http://localhost:3000/dev/cli-reference/all-flags#node-1) <a href="#node-1" id="node-1"></a>
@@ -1935,14 +1714,14 @@ bacalhau serve --peer env --private-internal-ipfs=false
 bacalhau serve --webui
 ```
 
-## Validate[​](http://localhost:3000/dev/cli-reference/all-flags#validate) <a href="#validate" id="validate"></a>
+## Job validate[​](http://localhost:3000/dev/cli-reference/all-flags#validate) <a href="#validate" id="validate"></a>
 
-The `bacalhau validate` command allows you to validate job files in JSON or YAML formats before sending them to the Bacalhau system. It is used to confirm that the structure and contents of the job description file conform to the expected format.
+The `bacalhau job validate` command allows you to validate job files in JSON or YAML formats before sending them to the Bacalhau system. It is used to confirm that the structure and contents of the job description file conform to the expected format.
 
 Usage:
 
 ```bash
-bacalhau validate [flags]
+bacalhau job validate [flags]
 ```
 
 ```bash
@@ -1956,7 +1735,7 @@ Flags:
 To Validate the `job.yaml` file, run:
 
 ```bash
-bacalhau validate ./job.yaml
+bacalhau job validate ./job.yaml
 ```
 
 ## Version[​](http://localhost:3000/dev/cli-reference/all-flags#version-1) <a href="#version-1" id="version-1"></a>

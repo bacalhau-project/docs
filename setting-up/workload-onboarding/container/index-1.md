@@ -57,11 +57,11 @@ When a job is submitted, Bacalhau prints out the related `job_id` (`7e41b9b9-a9e
 
 We store that in an environment variable so that we can reuse it later on.
 
-You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir -p results
-bacalhau get ${JOB_ID}  --output-dir results
+bacalhau job get ${JOB_ID}  --output-dir results
 ```
 
 Viewing your job output
@@ -170,11 +170,11 @@ export JOB_ID=$(bacalhau docker run \
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-Download your job results directly by using `bacalhau get` command.
+Download your job results directly by using `bacalhau job get` command.
 
 ```bash
 rm -rf results && mkdir -p results
-bacalhau get ${JOB_ID}  --output-dir results
+bacalhau job get ${JOB_ID}  --output-dir results
 ```
 
 View your job output

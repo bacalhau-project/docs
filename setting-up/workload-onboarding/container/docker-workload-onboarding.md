@@ -34,7 +34,7 @@ To help provide a safe, secure network for all users, we add the following runti
 
 1. **Limited Ingress/Egress Networking**:
 
-All ingress/egress networking is limited as described in the [networking](broken-reference) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
+All ingress/egress networking is limited as described in the [networking](broken-reference/) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
 
 2. **Data Passing with Docker Volumes**:
 
@@ -152,9 +152,9 @@ do something useful
 
 Data is identified by its content identifier (CID) and can be accessed by anyone who knows the CID. You can use either of these methods to upload your data:
 
-[Copy data from a URL to public storage](../../data-ingestion/from-url.md)&#x20;
+[Copy data from a URL to public storage](../../data-ingestion/from-url.md)
 
-[Pin Data to public storage](../../data-ingestion/pin.md)&#x20;
+[Pin Data to public storage](../../data-ingestion/pin.md)
 
 [Copy Data from S3 Bucket to public storage](../../data-ingestion/s3.md)
 
@@ -179,13 +179,13 @@ $ bacalhau job list --id-filter JOB_ID
 To get more information on your job,run:
 
 ```shell
-$ bacalhau describe JOB_ID
+$ bacalhau job describe JOB_ID
 ```
 
 To download your job, run:
 
 ```shell
-$ bacalhau get JOB_ID
+$ bacalhau job get JOB_ID
 ```
 
 For example, running:
@@ -195,8 +195,10 @@ JOB_ID=$(bacalhau docker run ubuntu echo hello | grep 'Job ID:' | sed 's/.*Job I
 echo "The job ID is: $JOB_ID"
 bacalhau job list --id-filter $JOB_ID
 sleep 5
+
 bacalhau job list --id-filter $JOB_ID
 bacalhau get $JOB_ID
+
 ls shards
 ```
 
@@ -225,7 +227,7 @@ $ bacalhau docker run --input ${URL} ${IMAGE} ${CMD}
 
 $ bacalhau job list
 
-$ bacalhau get JOB_ID
+$ bacalhau job get JOB_ID
 ```
 
 {% hint style="warning" %}

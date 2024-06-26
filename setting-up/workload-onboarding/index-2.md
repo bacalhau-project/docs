@@ -22,7 +22,7 @@ We will use the S3 mount feature to mount bucket objects from s3 buckets. Let’
 -i src=s3://sentinel-s1-rtc-indigo/tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/Gamma0_VH.tif,dst=/sentinel-s1-rtc-indigo/,opt=region=us-west-2
 ```
 
-&#x20;It defines S3 object as input to the job:
+It defines S3 object as input to the job:
 
 1. `sentinel-s1-rtc-indigo`: bucket’s name
 2. `tiles/RTC/1/IW/10/S/DH/2017/S1A_20170125_10SDH_ASC/Gamma0_VH.tif`: represents the key of the object in that bucket. The object to be processed is called `Gamma0_VH.tif` and is located in the subdirectory with the specified path.
@@ -63,17 +63,17 @@ bacalhau job list --id-filter=${JOB_ID} --no-style
 
 When it says `Published` or `Completed`, that means the job is done, and we can get the results.
 
-**Job information**: You can find out more information about your job by using `bacalhau describe`.
+**Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
-bacalhau describe ${JOB_ID}
+bacalhau job describe ${JOB_ID}
 ```
 
-**Job download**: You can download your job results directly by using `bacalhau get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
+**Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir results # Temporary directory to store the results
-bacalhau get ${JOB_ID} --output-dir results # Download the results
+bacalhau job get ${JOB_ID} --output-dir results # Download the results
 ```
 
 ## 3. Viewing your Job Output
