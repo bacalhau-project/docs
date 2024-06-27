@@ -54,6 +54,7 @@
   * [Job selection policy](setting-up/jobs/job-selection.md)
   * [Job Templates](setting-up/jobs/job-templating.md)
   * [Job Types](setting-up/jobs/job-types.md)
+  * [Job Queuing](setting-up/jobs/job-queuing.md)
   * [Constraint Specification](setting-up/jobs/constraint.md)
   * [InputSource Specification](setting-up/jobs/input-source.md)
   * [Job Specification](setting-up/jobs/job.md)
