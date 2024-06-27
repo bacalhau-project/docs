@@ -30,4 +30,13 @@ Special Attention to create , validate and describe Commands
 | **describe Command** | <p><mark style="color:red;">describe</mark> returns a v1beta1 job spec and its corresponding state in YAML format.</p><p><br></p> | <mark style="color:green;">job describe</mark> provides columnar data detailing various parts of the job. | Users should expect a different output format with job describe compared to describe.   |
 | **validate Command** | <mark style="color:red;">validate</mark> validates a v1beta1 job spec.                                                            | <mark style="color:green;">job validate</mark> validates the current job spec.                            | v1beta1 job specs will not be considered valid when passed to the job validate command. |
 
+## Guidance for Users Not Ready for the Changes
+
+Users who are not prepared for the changes in CLI behavior and job specification definitions are advised to remain on Bacalhau v1.3.1. This version continues to support the legacy commands and job specifications. Users can maintain their own private Bacalhau cluster using v1.3.1.
+
+When users are ready to transition to the new CLI behavior and job specification requirements, they can upgrade to Bacalhau v1.4.
+
+\
+
+
 [^1]: These are the steps required to migrate to the new CLI commands
