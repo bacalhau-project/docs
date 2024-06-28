@@ -241,22 +241,6 @@ Expected Output:
 }
 ```
 
-## Cancel[​](http://localhost:3000/dev/cli-reference/all-flags#cancel) <a href="#cancel" id="cancel"></a>
-
-## Job stop[​](http://localhost:3000/dev/cli-reference/all-flags#cancel) <a href="#cancel" id="cancel"></a>
-
-```bash
-bacalhau job stop [id] [flags]
-```
-
-```bash
- bacalhau job stop 51225160-807e-48b8-88c9-28311c7899e1
-```
-
-```bash
- bacalhau job stop 51225160
-```
-
 ## Completion[​](http://localhost:3000/dev/cli-reference/all-flags#completion) <a href="#completion" id="completion"></a>
 
 The `bacalhau completion` command generates the autocompletion script for bacalhau for the specified shell.
@@ -512,37 +496,7 @@ node:
         port: 9999
 ```
 
-## Job run[​](http://localhost:3000/dev/cli-reference/all-flags#create) <a href="#create" id="create"></a>
 
-```bash
-bacalhau job run [flags]
-```
-
-```bash
-bacalhau job run ./job.yaml
-```
-
-```bash
-bacalhau job describe 6e51df50 | bacalhau create
-```
-
-The `bacalhau job describe` command provides a full description of a job in YAML format. Short form and long form of the job id are accepted.
-
-```bash
-bacalhau job describe [id] [flags]
-```
-
-```bash
-bacalhau job describe e3f8c209-d683-4a41-b840-f09b88d087b9
-```
-
-```bash
-bacalhau job describe e3f8c209
-```
-
-```bash
-bacalhau job describe e3f8c209 --include-events  
-```
 
 ## Devstack[​](http://localhost:3000/dev/cli-reference/all-flags#devstack) <a href="#devstack" id="devstack"></a>
 
@@ -776,43 +730,6 @@ bacalhau exec python app.py
 bacalhau exec -i src=...,dst=/inputs/data.csv duckdb "select * from /inputs/data.csv"e
 ```
 
-## Job get[​](http://localhost:3000/dev/cli-reference/all-flags#get) <a href="#get" id="get"></a>
-
-The `bacalhau job get` command is used to get the results of the job, including stdout and stderr.
-
-Usage:
-
-```bash
- bacalhau job get [id] [flags]
-```
-
-```bash
-Flags:
-      --download-timeout-secs duration   Timeout duration for IPFS downloads. (default 5m0s)
-  -h, --help                             help for get
-      --ipfs-connect string              The ipfs host multiaddress to connect to, otherwise an in-process IPFS node will be created if not set.
-      --ipfs-serve-path string           path local Ipfs node will persist data to
-      --ipfs-swarm-addrs strings         IPFS multiaddress to connect the in-process IPFS node to - cannot be used with --ipfs-connect. (default [/ip4/35.245.161.250/tcp/4001/p2p/12D3KooWAQpZzf3qiNxpwizXeArGjft98ZBoMNgVNNpoWtKAvtYH,/ip4/35.245.161.250/udp/4001/quic/p2p/12D3KooWAQpZzf3qiNxpwizXeArGjft98ZBoMNgVNNpoWtKAvtYH,/ip4/34.86.254.26/tcp/4001/p2p/12D3KooWLfFBjDo8dFe1Q4kSm8inKjPeHzmLBkQ1QAjTHocAUazK,/ip4/34.86.254.26/udp/4001/quic/p2p/12D3KooWLfFBjDo8dFe1Q4kSm8inKjPeHzmLBkQ1QAjTHocAUazK,/ip4/35.245.215.155/tcp/4001/p2p/12D3KooWH3rxmhLUrpzg81KAwUuXXuqeGt4qyWRniunb5ipjemFF,/ip4/35.245.215.155/udp/4001/quic/p2p/12D3KooWH3rxmhLUrpzg81KAwUuXXuqeGt4qyWRniunb5ipjemFF,/ip4/34.145.201.224/tcp/4001/p2p/12D3KooWBCBZnXnNbjxqqxu2oygPdLGseEbfMbFhrkDTRjUNnZYf,/ip4/34.145.201.224/udp/4001/quic/p2p/12D3KooWBCBZnXnNbjxqqxu2oygPdLGseEbfMbFhrkDTRjUNnZYf,/ip4/35.245.41.51/tcp/4001/p2p/12D3KooWJM8j97yoDTb7B9xV1WpBXakT4Zof3aMgFuSQQH56rCXa,/ip4/35.245.41.51/udp/4001/quic/p2p/12D3KooWJM8j97yoDTb7B9xV1WpBXakT4Zof3aMgFuSQQH56rCXa])
-      --ipfs-swarm-key string            Optional IPFS swarm key required to connect to a private IPFS swarm
-      --output-dir string                Directory to write the output to.
-      --private-internal-ipfs            Whether the in-process IPFS node should auto-discover other nodes, including the public IPFS network - cannot be used with --ipfs-connect. Use "--private-internal-ipfs=false" to disable. To persist a local Ipfs node, set BACALHAU_SERVE_IPFS_PATH to a valid path. (default true)
-      --raw                              Download raw result CIDs instead of merging multiple CIDs into a single result
-```
-
-**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-14)
-
-1. To get the results of a job, run:
-
-```bash
-bacalhau job get 51225160-807e-48b8-88c9-28311c7899e1
-```
-
-2. To get the results of a job, using a short ID, run:
-
-```bash
-bacalhau job get 51225160
-```
-
 ## Help[​](http://localhost:3000/dev/cli-reference/all-flags#help) <a href="#help" id="help"></a>
 
 The `bacalhau help` command provides help for any command in the application.
@@ -862,7 +779,7 @@ Usage:
 
 Available Commands:
 
-### Job describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe-1) <a href="#describe-1" id="describe-1"></a>
+### describe[​](http://localhost:3000/dev/cli-reference/all-flags#describe-1) <a href="#describe-1" id="describe-1"></a>
 
 ```bash
 bacalhau job describe [id] [flags]
@@ -895,6 +812,77 @@ bacalhau job describe j-e3f8c209
 
 ```bash
 bacalhau job describe j-e3f8c209 --output json --pretty
+```
+
+### run[​](http://localhost:3000/dev/cli-reference/all-flags#create) <a href="#create" id="create"></a>
+
+The `bacalhau job run` command creates a job from provided YAML file or CLI description.
+
+```bash
+bacalhau job run [flags]
+```
+
+```bash
+bacalhau job run ./job.yaml
+```
+
+```bash
+bacalhau job describe 6e51df50 | bacalhau job run
+```
+
+The `bacalhau job describe` command provides a full description of a job in YAML format. Short form and long form of the job id are accepted.
+
+```bash
+bacalhau job describe [id] [flags]
+```
+
+```bash
+bacalhau job describe e3f8c209-d683-4a41-b840-f09b88d087b9
+```
+
+```bash
+bacalhau job describe e3f8c209
+```
+
+```bash
+bacalhau job describe e3f8c209 --include-events  
+```
+
+### get[​](http://localhost:3000/dev/cli-reference/all-flags#get) <a href="#get" id="get"></a>
+
+The `bacalhau job get` command is used to get the results of the job, including stdout and stderr.
+
+Usage:
+
+```bash
+ bacalhau job get [id] [flags]
+```
+
+```bash
+Flags:
+      --download-timeout-secs duration   Timeout duration for IPFS downloads. (default 5m0s)
+  -h, --help                             help for get
+      --ipfs-connect string              The ipfs host multiaddress to connect to, otherwise an in-process IPFS node will be created if not set.
+      --ipfs-serve-path string           path local Ipfs node will persist data to
+      --ipfs-swarm-addrs strings         IPFS multiaddress to connect the in-process IPFS node to - cannot be used with --ipfs-connect. (default [/ip4/35.245.161.250/tcp/4001/p2p/12D3KooWAQpZzf3qiNxpwizXeArGjft98ZBoMNgVNNpoWtKAvtYH,/ip4/35.245.161.250/udp/4001/quic/p2p/12D3KooWAQpZzf3qiNxpwizXeArGjft98ZBoMNgVNNpoWtKAvtYH,/ip4/34.86.254.26/tcp/4001/p2p/12D3KooWLfFBjDo8dFe1Q4kSm8inKjPeHzmLBkQ1QAjTHocAUazK,/ip4/34.86.254.26/udp/4001/quic/p2p/12D3KooWLfFBjDo8dFe1Q4kSm8inKjPeHzmLBkQ1QAjTHocAUazK,/ip4/35.245.215.155/tcp/4001/p2p/12D3KooWH3rxmhLUrpzg81KAwUuXXuqeGt4qyWRniunb5ipjemFF,/ip4/35.245.215.155/udp/4001/quic/p2p/12D3KooWH3rxmhLUrpzg81KAwUuXXuqeGt4qyWRniunb5ipjemFF,/ip4/34.145.201.224/tcp/4001/p2p/12D3KooWBCBZnXnNbjxqqxu2oygPdLGseEbfMbFhrkDTRjUNnZYf,/ip4/34.145.201.224/udp/4001/quic/p2p/12D3KooWBCBZnXnNbjxqqxu2oygPdLGseEbfMbFhrkDTRjUNnZYf,/ip4/35.245.41.51/tcp/4001/p2p/12D3KooWJM8j97yoDTb7B9xV1WpBXakT4Zof3aMgFuSQQH56rCXa,/ip4/35.245.41.51/udp/4001/quic/p2p/12D3KooWJM8j97yoDTb7B9xV1WpBXakT4Zof3aMgFuSQQH56rCXa])
+      --ipfs-swarm-key string            Optional IPFS swarm key required to connect to a private IPFS swarm
+      --output-dir string                Directory to write the output to.
+      --private-internal-ipfs            Whether the in-process IPFS node should auto-discover other nodes, including the public IPFS network - cannot be used with --ipfs-connect. Use "--private-internal-ipfs=false" to disable. To persist a local Ipfs node, set BACALHAU_SERVE_IPFS_PATH to a valid path. (default true)
+      --raw                              Download raw result CIDs instead of merging multiple CIDs into a single result
+```
+
+**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-14)
+
+1. To get the results of a job, run:
+
+```bash
+bacalhau job get 51225160-807e-48b8-88c9-28311c7899e1
+```
+
+2. To get the results of a job, using a short ID, run:
+
+```bash
+bacalhau job get 51225160
 ```
 
 ### executions[​](http://localhost:3000/dev/cli-reference/all-flags#executions) <a href="#executions" id="executions"></a>
@@ -1354,6 +1342,60 @@ Expected Output:
 [No output displayed as the operation is run quietly.]
 ```
 
+### logs[​](http://localhost:3000/dev/cli-reference/all-flags#logs-1) <a href="#logs-1" id="logs-1"></a>
+
+The `bacalhau job logs` command retrieves the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
+
+Usage:
+
+```bash
+bacalhau job logs [id] [flags]
+```
+
+```bash
+Flags:
+  -f, --follow   Follow the logs in real-time after retrieving the current logs.
+  -h, --help     help for logs
+```
+
+**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-22)
+
+1. To follow logs for a previously submitted job, run:
+
+```bash
+bacalhau job logs -f 51225160-807e-48b8-88c9-28311c7899e1
+```
+
+2. To retrieve the log output with a short ID, but don't follow any newly generated logs,run:
+
+```bash
+bacalhau job logs ebd9bf2f
+```
+
+### validate[​](http://localhost:3000/dev/cli-reference/all-flags#validate) <a href="#validate" id="validate"></a>
+
+The `bacalhau job validate` command allows you to validate job files in JSON or YAML formats before sending them to the Bacalhau system. It is used to confirm that the structure and contents of the job description file conform to the expected format.
+
+Usage:
+
+```bash
+bacalhau job validate [flags]
+```
+
+```bash
+Flags:
+  -h, --help            help for validate
+      --output-schema   Output the JSON schema for a Job to stdout then exit
+```
+
+**Example**[**​**](http://localhost:3000/dev/cli-reference/all-flags#example-1)
+
+To Validate the `job.yaml` file, run:
+
+```bash
+bacalhau job validate ./job.yaml
+```
+
 ## List[​](http://localhost:3000/dev/cli-reference/all-flags#list-2) <a href="#list-2" id="list-2"></a>
 
 The `bacalhau job list` command lists jobs on the network.
@@ -1393,36 +1435,6 @@ bacalhau job list
 
 ```bash
 bacalhau job list --output json
-```
-
-## Job logs[​](http://localhost:3000/dev/cli-reference/all-flags#logs-1) <a href="#logs-1" id="logs-1"></a>
-
-The `bacalhau job logs` command retrieves the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
-
-Usage:
-
-```bash
-bacalhau job logs [id] [flags]
-```
-
-```bash
-Flags:
-  -f, --follow   Follow the logs in real-time after retrieving the current logs.
-  -h, --help     help for logs
-```
-
-**Examples**[**​**](http://localhost:3000/dev/cli-reference/all-flags#examples-22)
-
-1. To follow logs for a previously submitted job, run:
-
-```bash
-bacalhau job logs -f 51225160-807e-48b8-88c9-28311c7899e1
-```
-
-2. To retrieve the log output with a short ID, but don't follow any newly generated logs,run:
-
-```bash
-bacalhau job logs ebd9bf2f
 ```
 
 ## Node[​](http://localhost:3000/dev/cli-reference/all-flags#node-1) <a href="#node-1" id="node-1"></a>
@@ -1712,30 +1724,6 @@ bacalhau serve --peer env --private-internal-ipfs=false
 
 ```bash
 bacalhau serve --webui
-```
-
-## Job validate[​](http://localhost:3000/dev/cli-reference/all-flags#validate) <a href="#validate" id="validate"></a>
-
-The `bacalhau job validate` command allows you to validate job files in JSON or YAML formats before sending them to the Bacalhau system. It is used to confirm that the structure and contents of the job description file conform to the expected format.
-
-Usage:
-
-```bash
-bacalhau job validate [flags]
-```
-
-```bash
-Flags:
-  -h, --help            help for validate
-      --output-schema   Output the JSON schema for a Job to stdout then exit
-```
-
-**Example**[**​**](http://localhost:3000/dev/cli-reference/all-flags#example-1)
-
-To Validate the `job.yaml` file, run:
-
-```bash
-bacalhau job validate ./job.yaml
 ```
 
 ## Version[​](http://localhost:3000/dev/cli-reference/all-flags#version-1) <a href="#version-1" id="version-1"></a>
