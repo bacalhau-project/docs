@@ -125,7 +125,7 @@
     * [URL Source Specification](references/other-specifications/sources/url.md)
 * [API](references/api/README.md)
   * [Bacalhau API overview](references/api/index.md)
-  * [Agent API](references/api/agent.md)
+  * [Agent Endpoint](references/api/agent.md)
   * [Jobs API](references/api/jobs.md)
   * [Nodes API](references/api/nodes.md)
 * [CLI](references/cli-reference/README.md)
