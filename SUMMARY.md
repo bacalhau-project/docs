@@ -158,7 +158,6 @@
       * [Node Describe](references/cli-reference/cli/node/index-4.md)
       * [Node Reject](references/cli-reference/cli/node/index-5.md)
   * [CLI Commands Overview](references/cli-reference/all-flags.md)
-  * [Command Migration](references/cli-reference/command-migration.md)
 * [Debugging](references/debugging/README.md)
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
   * [Debugging Locally](references/debugging/debugging\_locally.md)
