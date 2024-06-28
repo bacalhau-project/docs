@@ -1,6 +1,6 @@
 # CLI Commands Overview
 
-The following commands refer to bacalhau cli version `v1.2.0`. For installing or upgrading a client, follow the instructions in the [installation page](../../getting-started/installation.md). Run `bacalhau version` in a terminal to check what version you have.
+The following commands refer to bacalhau cli version `v1.3.2`. For installing or upgrading a client, follow the instructions in the [installation page](../../getting-started/installation.md). Run `bacalhau version` in a terminal to check what version you have.
 
 Let’s run the `bacalhau -- help` command in the terminal to find out information about available commands and flags:
 
