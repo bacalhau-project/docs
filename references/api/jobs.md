@@ -1,6 +1,8 @@
-# Jobs API
+# Orchestrator Endpoint
 
-Job APIs enables creating, managing, monitoring, and analyzing jobs in Bacalhau.
+**Orchestrator** endpoint handles user requests and schedules and it is critical for creating, managing, monitoring, and analyzing jobs within Bacalhau. It also provides mechanisms to query information about the nodes in the cluster.
+
+This page describes the resources and activities available via the Orchestrator endpoint
 
 ## Describe Job
 
@@ -10,11 +12,11 @@ Retrieve the specification and current status of a particular job.
 
 **Parameters**:
 
-* `:jobID`: Identifier of the job to describe. This can be full ID of the job (e.g. `j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a`) or just the short format (e.g. `j-28c08f7f`) if it's unique.
+1. `jobID`: Identifier of the job to describe. This can be full ID of the job (e.g. `j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a`) or just the short format (e.g. `j-28c08f7f`) if it's unique.
 
 **Response**:
 
-* **Job**: Specification for the requested [job](../../setting-up/jobs/job.md).
+**Job**: Specification for the requested [job](../../setting-up/jobs/job.md).
 
 **Example**:
 
@@ -95,12 +97,12 @@ Retrieve a list of jobs.
 
 **Parameters**:
 
-* `namespace`: Specify a namespace to filter the jobs. Use `*` to display jobs from all namespaces.
-* `labels`: Use label-based criteria to filter jobs. See [Label Filtering](./) for usage details.
-* `limit`: Set the maximum number of jobs to return. Default is set to 10.
-* `next_token`: Utilize this parameter for pagination continuation.
-* `order_by`: Determine the ordering of jobs. Choose between `id` or `create_time` (default is `create_time`).
-* `reverse`: Opt to reverse the default order of displayed jobs.
+1. `namespace`: Specify a namespace to filter the jobs. Use `*` to display jobs from all namespaces.
+2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](./) for usage details.
+3. `limit`: Set the maximum number of jobs to return. Default is set to 10.
+4. `next_token`: Utilize this parameter for pagination continuation.
+5. `order_by`: Determine the ordering of jobs. Choose between `id` or `create_time` (default is `create_time`).
+6. `reverse`: Opt to reverse the default order of displayed jobs.
 
 **Response**:
 
@@ -150,9 +152,9 @@ Submit a new job for execution.
 
 **Response**:
 
-* **JobID** `(string)`: Identifier for the new job.
-* **EvaluationID** `(string)`: Identifier for the evaluation to schedule the job.
-* **Warnings** `(string[])`: Any warnings during job submission.
+1. **JobID** `(string)`: Identifier for the new job.
+2. **EvaluationID** `(string)`: Identifier for the evaluation to schedule the job.
+3. **Warnings** `(string[])`: Any warnings during job submission.
 
 **Example**:
 
@@ -208,8 +210,8 @@ Terminate a specific job asynchronously.
 
 **Parameters**:
 
-* `:jobID`: Identifier of the job to describe. This can be full ID of the job (e.g. `j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a`) or just the short format (e.g. `j-28c08f7f`) if it's unique.
-* `reason`: A message for debugging and traceability.
+1. `:jobID`: Identifier of the job to describe. This can be full ID of the job (e.g. `j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a`) or just the short format (e.g. `j-28c08f7f`) if it's unique.
+2. `reason`: A message for debugging and traceability.
 
 **Response**:
 
@@ -232,12 +234,12 @@ Retrieve historical events for a specific job.
 
 **Parameters**:
 
-* `since`: Timestamp to start (default: 0).
-* `event_type`: Filter by event type: `job`, `execution`, or `all` (default).
-* `execution_id`: Filter by execution ID.
-* `node_id`: Filter by node ID.
-* `limit`: Maximum events to return.
-* `next_token`: For pagination.
+1. `since`: Timestamp to start (default: 0).
+2. `event_type`: Filter by event type: `job`, `execution`, or `all` (default).
+3. `execution_id`: Filter by execution ID.
+4. `node_id`: Filter by node ID.
+5. `limit`: Maximum events to return.
+6. `next_token`: For pagination.
 
 **Response**:
 
@@ -349,10 +351,10 @@ Retrieve all executions for a particular job.
 
 **Parameters**:
 
-* `limit`: Maximum executions to return.
-* `next_token`: For pagination.
-* `order_by`: Order by `modify_time` (default), `create_time`, `id`, `state`.
-* `reverse`: Reverse the order.
+1. `limit`: Maximum executions to return.
+2. `next_token`: For pagination.
+3. `order_by`: Order by `modify_time` (default), `create_time`, `id`, `state`.
+4. `reverse`: Reverse the order.
 
 **Response**:
 
@@ -496,7 +498,7 @@ Fetch results published by all executions for the defined job. Applicable only f
 
 **Example**:
 
-Result of a job that used the [S3 Publisher](../../setting-up/other-specifications/publishers/s3/):
+Result of a job that used the [S3 Publisher](../other-specifications/publishers/s3.md):
 
 ```bash
 curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-479d160f-f9ab-4e32-aec9-a45554126450/results
@@ -516,3 +518,246 @@ curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-479d160f-f9ab-4e32-aec9-a45554126
   ]
 }
 ```
+
+## Describe Node <a href="#describe-node" id="describe-node"></a>
+
+**Endpoint:** `GET /api/v1/orchestrator/nodes/:nodeID`
+
+Retrieve information about a specific node.
+
+**Parameters**:
+
+1. `:nodeID`: Identifier of the node to describe. (e.g. `QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT`)
+
+**Response**:
+
+* **Node**: Detailed information about the requested node.
+
+**Example**:
+
+```bash
+curl 127.0.0.1:1234/api/v1/orchestrator/nodes/QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT
+{
+  "Node": {
+    "PeerInfo": {
+      "ID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "Addrs": [
+        "/ip4/34.34.247.247/tcp/1235"
+      ]
+    },
+    "NodeType": "Compute",
+    "Labels": {
+      "Architecture": "amd64",
+      "Operating-System": "linux",
+      "git-lfs": "True",
+      "owner": "bacalhau"
+    },
+    "ComputeNodeInfo": {
+      "ExecutionEngines": [
+        "docker",
+        "wasm"
+      ],
+      "Publishers": [
+        "s3",
+        "noop",
+        "ipfs"
+      ],
+      "StorageSources": [
+        "urldownload",
+        "inline",
+        "repoclone",
+        "repoclonelfs",
+        "s3",
+        "ipfs"
+      ],
+      "MaxCapacity": {
+        "CPU": 3.2,
+        "Memory": 12561049190,
+        "Disk": 582010404864,
+        "GPU": 1
+      },
+      "AvailableCapacity": {
+        "CPU": 3.2,
+        "Memory": 12561049190,
+        "Disk": 582010404864,
+        "GPU": 1
+      },
+      "MaxJobRequirements": {
+        "CPU": 3.2,
+        "Memory": 12561049190,
+        "Disk": 582010404864,
+        "GPU": 1
+      },
+      "RunningExecutions": 0,
+      "EnqueuedExecutions": 0
+    },
+    "BacalhauVersion": {
+      "Major": "1",
+      "Minor": "1",
+      "GitVersion": "v1.1.0",
+      "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+      "BuildDate": "2023-09-25T07:59:00Z",
+      "GOOS": "linux",
+      "GOARCH": "amd64"
+    }
+  }
+}
+```
+
+## List Nodes <a href="#list-nodes" id="list-nodes"></a>
+
+**Endpoint:** `GET /api/v1/orchestrator/nodes`
+
+Retrieve a list of nodes.
+
+**Parameters**:
+
+1. `labels`: Use label-based criteria to filter nodes. See [Label Filtering](https://docs.bacalhau.org/references/api) for usage details.
+2. `limit`: Set the maximum number of jobs to return. Default is set to 10.
+3. `next_token`: Utilize this parameter for pagination continuation.
+4. `order_by`: Determine the ordering of jobs. Choose between `id`, `type`, `available_cpu`, `available_memory`, `available_disk` or `available_gpu`. (default is `id`).
+5. `reverse`: Opt to reverse the default order of displayed jobs.
+
+**Response**:
+
+* **Nodes**: List of matching nodes.
+* **NextToken** `(string)`: Pagination token.
+
+**Example**:
+
+Find two linux nodes with most available Memory
+
+```bash
+curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available_memory" --data-urlencode 'labels=Operating-System=linux'
+{
+  "NextToken": "",
+  "Nodes": [
+    {
+      "PeerInfo": {
+        "ID": "QmcC3xifiiCuGGQ9rpvefUoary9tY65x2HaNxSdeMTvM9U",
+        "Addrs": [
+          "/ip4/212.248.248.248/tcp/1235"
+        ]
+      },
+      "NodeType": "Compute",
+      "Labels": {
+        "Architecture": "amd64",
+        "Operating-System": "linux",
+        "env": "prod",
+        "git-lfs": "False",
+        "name": "saturnia_len20"
+      },
+      "ComputeNodeInfo": {
+        "ExecutionEngines": [
+          "wasm",
+          "docker"
+        ],
+        "Publishers": [
+          "noop",
+          "ipfs"
+        ],
+        "StorageSources": [
+          "urldownload",
+          "inline",
+          "ipfs"
+        ],
+        "MaxCapacity": {
+          "CPU": 102,
+          "Memory": 858993459200,
+          "Disk": 562967789568,
+          "GPU": 2
+        },
+        "AvailableCapacity": {
+          "CPU": 102,
+          "Memory": 858993459200,
+          "Disk": 562967789568,
+          "GPU": 2
+        },
+        "MaxJobRequirements": {
+          "CPU": 96,
+          "Memory": 858993459200,
+          "Disk": 562967789568,
+          "GPU": 2
+        },
+        "RunningExecutions": 0,
+        "EnqueuedExecutions": 0
+      },
+      "BacalhauVersion": {
+        "Major": "1",
+        "Minor": "1",
+        "GitVersion": "v1.1.0",
+        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+        "BuildDate": "2023-09-25T07:59:00Z",
+        "GOOS": "linux",
+        "GOARCH": "amd64"
+      }
+    },
+    {
+      "PeerInfo": {
+        "ID": "QmXaXu9N5GNetatsvwnTfQqNtSeKAD6uCmarbh3LMRYAcF",
+        "Addrs": [
+          "/ip4/35.245.245.245/tcp/1235"
+        ]
+      },
+      "NodeType": "Compute",
+      "Labels": {
+        "Architecture": "amd64",
+        "Operating-System": "linux",
+        "git-lfs": "True",
+        "owner": "bacalhau"
+      },
+      "ComputeNodeInfo": {
+        "ExecutionEngines": [
+          "docker",
+          "wasm"
+        ],
+        "Publishers": [
+          "noop",
+          "ipfs",
+          "s3"
+        ],
+        "StorageSources": [
+          "s3",
+          "ipfs",
+          "urldownload",
+          "inline",
+          "repoclone",
+          "repoclonelfs"
+        ],
+        "MaxCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931124326,
+          "Disk": 718749414195,
+          "GPU": 0
+        },
+        "AvailableCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931124326,
+          "Disk": 718749414195,
+          "GPU": 0
+        },
+        "MaxJobRequirements": {
+          "CPU": 12.8,
+          "Memory": 53931124326,
+          "Disk": 718749414195,
+          "GPU": 0
+        },
+        "RunningExecutions": 0,
+        "EnqueuedExecutions": 0
+      },
+      "BacalhauVersion": {
+        "Major": "1",
+        "Minor": "1",
+        "GitVersion": "v1.1.0",
+        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+        "BuildDate": "2023-09-25T07:59:00Z",
+        "GOOS": "linux",
+        "GOARCH": "amd64"
+      }
+    }
+  ]
+}
+```
+
+[\
+](https://docs.bacalhau.org/references/api/jobs)

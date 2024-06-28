@@ -126,7 +126,7 @@
 * [API](references/api/README.md)
   * [Bacalhau API overview](references/api/index.md)
   * [Agent Endpoint](references/api/agent.md)
-  * [Jobs API](references/api/jobs.md)
+  * [Orchestrator Endpoint](references/api/jobs.md)
   * [Nodes API](references/api/nodes.md)
 * [CLI](references/cli-reference/README.md)
   * [Single CLI commands](references/cli-reference/cli/README.md)
