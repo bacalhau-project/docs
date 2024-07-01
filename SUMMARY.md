@@ -127,6 +127,7 @@
   * [Bacalhau API overview](references/api/index.md)
   * [Agent Endpoint](references/api/agent.md)
   * [Orchestrator Endpoint](references/api/jobs.md)
+  * [Migration API](references/api/migration-api.md)
 * [CLI](references/cli-reference/README.md)
   * [Single CLI commands](references/cli-reference/cli/README.md)
     * [Agent](references/cli-reference/cli/agent/README.md)
