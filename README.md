@@ -7,10 +7,10 @@ coverY: 0
 
 {% hint style="success" %}
 * Bacalhau is now using [NATS](https://nats.io/).&#x20;
-* The native integration of libp2p and IPFS is deprecated from the version v1.4.0. going forward.
+* The embedded integration of libp2p and IPFS is deprecated from the version v1.4.0. going forward.
 * The API and the job specifications changed from previous versions.
 
-For more information, check out the release notes.
+For more information, check out the [release notes](help-and-faq/release-notes.md).
 {% endhint %}
 
 ## What is Bacalhau?
