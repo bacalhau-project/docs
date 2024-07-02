@@ -1,10 +1,7 @@
----
-description: Release Notes for Bacalhau v.1.4.0
----
-
 # Release Notes
 
-## Outline
+{% hint style="info" %}
+Release Notes for Bacalhau v.1.4.0
 
 * Libp2p, IPFS deprecation and Migration to NATS
 * CLI command updates&#x20;
@@ -13,6 +10,7 @@ description: Release Notes for Bacalhau v.1.4.0
 * Different job timeouts
 * Improve error reporting ([https://github.com/bacalhau-project/bacalhau/pull/3771](https://github.com/bacalhau-project/bacalhau/pull/3771))
 * Introduction of Node Manager
+{% endhint %}
 
 ## Libp2p, IPFS deprecation and Migration to NATS (Warning)
 
