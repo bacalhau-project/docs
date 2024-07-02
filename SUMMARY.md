@@ -167,6 +167,7 @@
 ## Help & FAQ
 
 * [Bacalhau FAQs](help-and-faq/faqs.md)
+* [Release Notes](help-and-faq/release-notes.md)
 
 ## Integrations
 
