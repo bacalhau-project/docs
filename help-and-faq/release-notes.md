@@ -20,34 +20,26 @@ We migrated to NATS already in v.1.3.0. (read more [here](https://blog.bacalhau.
 
 In version 1.4.0 of Bacalhau, all legacy commands will be removed. Here’s a breakdown of the old commands and their new equivalents:
 
-| Old Commands      | New Commands          |
-| ----------------- | --------------------- |
-| bacalhau create   | bacalhau job run      |
-| bacalhau cancel   | bacalhau job stop     |
-| bacalhau list     | bacalhau job list     |
-| bacalhau logs     | bacalhau job logs     |
-| bacalhau get      | bacalhau job get      |
-| bacalhau describe | bacalhau job describe |
-| bacalhau id       | bacalhau agent node   |
-| bacalhau validate | bacalhau job validate |
-
-Tracking Epic:[ https://github.com/bacalhau-project/bacalhau/issues/3838](https://github.com/bacalhau-project/bacalhau/issues/3838)
+| Old Commands                                      | New Commands                                            |
+| ------------------------------------------------- | ------------------------------------------------------- |
+| bacalhau <mark style="color:red;">create</mark>   | bacalhau <mark style="color:green;">job run</mark>      |
+| bacalhau <mark style="color:red;">cancel</mark>   | bacalhau <mark style="color:green;">job stop</mark>     |
+| bacalhau <mark style="color:red;">list</mark>     | bacalhau <mark style="color:green;">job list</mark>     |
+| bacalhau <mark style="color:red;">logs</mark>     | bacalhau <mark style="color:green;">job logs</mark>     |
+| bacalhau <mark style="color:red;">get</mark>      | bacalhau <mark style="color:green;">job get</mark>      |
+| bacalhau <mark style="color:red;">describe</mark> | bacalhau <mark style="color:green;">job describe</mark> |
+| bacalhau <mark style="color:red;">id</mark>       | bacalhau <mark style="color:green;">agent node</mark>   |
+| bacalhau <mark style="color:red;">validate</mark> | bacalhau <mark style="color:green;">job validate</mark> |
 
 For some commands there are actions required to migrate to Bacalhau v.1.4.0. In your network. In the following view these actions are specified.
 
 Special Attention to create , validate and describe Commands
 
-\
-
-
-| <p><br></p>      | Old Command                                                                                       | New Command                                                             | Action Required                                                                         |
-| ---------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| create Command   | create accepts a v1beta1 job spec.                                                                | job run accepts the current job spec.                                   | Users must update their job specifications to align with the new job run requirements.  |
-| describe Command | <p>describe returns a v1beta1 job spec and its corresponding state in YAML format.</p><p><br></p> | job describe provides columnar data detailing various parts of the job. | Users should expect a different output format with job describe compared to describe.   |
-| validate Command | validate validates a v1beta1 job spec.                                                            | job validate validates the current job spec.                            | v1beta1 job specs will not be considered valid when passed to the job validate command. |
-
-\
-
+|                  | Old Command                                                                                                                       | New Command                                                                                               | Action Required                                                                         |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| create Command   | <mark style="color:red;">create</mark> accepts a v1beta1 job spec.                                                                | <mark style="color:green;">job run</mark> accepts the current job spec.                                   | Users must update their job specifications to align with the new job run requirements.  |
+| describe Command | <p><mark style="color:red;">describe</mark> returns a v1beta1 job spec and its corresponding state in YAML format.</p><p><br></p> | <mark style="color:green;">job describe</mark> provides columnar data detailing various parts of the job. | Users should expect a different output format with job describe compared to describe.   |
+| validate Command | <mark style="color:red;">validate</mark> validates a v1beta1 job spec.                                                            | <mark style="color:green;">job validate</mark> validates the current job spec.                            | v1beta1 job specs will not be considered valid when passed to the job validate command. |
 
 ## Error Handling for Legacy Commands
 
