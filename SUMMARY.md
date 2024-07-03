@@ -7,9 +7,10 @@
 * [How Bacalhau Works](getting-started/architecture.md)
 * [Installation](getting-started/installation.md)
 * [Create Network](getting-started/create-private-network.md)
-* [Docker Workload Onboarding](getting-started/docker-workload-onboarding.md)
-* [WebAssembly (WASM) Workloads](getting-started/wasm-workload-onboarding.md)
 * [Hardware Setup](getting-started/resources.md)
+* [Workload Onboarding](getting-started/workload-onboarding/README.md)
+  * [Docker Workloads](getting-started/workload-onboarding/docker-workload-onboarding.md)
+  * [WebAssembly (WASM) Workloads](getting-started/workload-onboarding/wasm-workload-onboarding.md)
 
 ## Setting Up
 

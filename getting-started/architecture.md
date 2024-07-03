@@ -94,7 +94,7 @@ You can create jobs in the Bacalhau network using various [job types](../setting
 
 Prepare data with Bacalhau by [copying from URLs](../setting-up/data-ingestion/from-url.md), [pinning to public storage](../setting-up/data-ingestion/pin.md) or [copying from an S3 bucket](../setting-up/data-ingestion/s3.md). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](../references/other-specifications/sources/ipfs.md), [Local](../references/other-specifications/publishers/local.md), [S3](../references/other-specifications/publishers/s3.md) and [URL](../references/other-specifications/sources/url.md) Source Specifications for data source usage.
 
-Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](docker-workload-onboarding.md) and [WebAssembly](wasm-workload-onboarding.md) workloads.
+Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](workload-onboarding/docker-workload-onboarding.md) and [WebAssembly](workload-onboarding/wasm-workload-onboarding.md) workloads.
 
 Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](../setting-up/gpu.md) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](../integrations/python-sdk.md).
 
