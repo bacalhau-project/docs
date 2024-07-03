@@ -58,7 +58,7 @@
 
 ## Guides
 
-* [Write config.yaml](guides/architecture.md)
+* [Write a config.yaml](guides/architecture.md)
 
 ## Examples
 
