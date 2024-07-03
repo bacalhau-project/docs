@@ -155,7 +155,7 @@
   * [Orchestrator Endpoint](references/api/jobs.md)
   * [Migration API](references/api/migration-api.md)
 * [Node Management](references/node\_management.md)
-* [Authentication & authorization](references/auth\_flow.md)
+* [Authentication & Authorization](references/auth\_flow.md)
 * [Database Integration](references/databases.md)
 * [Debugging](references/debugging/README.md)
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
