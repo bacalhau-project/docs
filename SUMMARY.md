@@ -180,7 +180,6 @@
 
 ## Community
 
-* [Compute Over Data - Landscape Analysis](community/compute-landscape.md)
 * [Social Media](community/social-media.md)
 * [Style Guide](community/style-guide.md)
 * [Ways to Contribute](community/ways-to-contribute.md)
