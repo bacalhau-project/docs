@@ -2,7 +2,7 @@
 description: How to write the config.yaml file to configure your nodes
 ---
 
-# Write config.yaml
+# Write a config.yaml
 
 On installation, Bacalhau creates a \`.bacalhau\` directory that includes a \`config.yaml\` file tailored for your specific settings. This configuration file is the central repository for custom settings for your Bacalhau nodes.
 
