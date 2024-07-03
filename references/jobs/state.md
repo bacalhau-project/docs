@@ -2,7 +2,7 @@
 
 ## `State` Structure Specification
 
-Within Bacalhau, the `State` structure is designed to represent the status or state of an object (like a [`Job`](job.md)), coupled with a human-readable message for added context. Below is a breakdown of the structure:
+Within Bacalhau, the `State` structure is designed to represent the status or state of an object (like a [`Job`](task/job.md)), coupled with a human-readable message for added context. Below is a breakdown of the structure:
 
 ### `State` Parameters
 

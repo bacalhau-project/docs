@@ -2,7 +2,7 @@
 description: In this tutorial you are setting up your own network
 ---
 
-# Create Private Network
+# Create Network
 
 ## Introduction[​](http://localhost:3000/getting-started/create-private-network#introduction) <a href="#introduction" id="introduction"></a>
 
@@ -192,7 +192,7 @@ By default, IPFS & Local publishers and URL & IPFS sources are available on the 
 
 {% tabs %}
 {% tab title="S3" %}
-To set up [S3 publisher](../references/other-specifications/publishers/s3.md) you need to specify environment variables such as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, populating a credentials file to be located on your compute node, i.e. `~/.aws/credentials`, or creating an [IAM role](https://aws.amazon.com/iam/) for your compute nodes if you are utilizing cloud instances.
+To set up [S3 publisher](../references/jobs/task/publishers/s3.md) you need to specify environment variables such as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, populating a credentials file to be located on your compute node, i.e. `~/.aws/credentials`, or creating an [IAM role](https://aws.amazon.com/iam/) for your compute nodes if you are utilizing cloud instances.
 
 Your chosen publisher can be set for your Bacalhau compute nodes declaratively or imperatively using either configuration yaml file:
 
@@ -211,7 +211,7 @@ Or within your imperative job execution commands:
 bacalhau docker run -p s3://bucket/key,opt=endpoint=http://s3.example.com,opt=region=us-east-1 ubuntu …
 ```
 
-S3 compatible publishers can also be used as [input sources](../references/other-specifications/sources/s3.md) for your jobs, with a similar configuration.
+S3 compatible publishers can also be used as [input sources](../references/jobs/task/sources/s3.md) for your jobs, with a similar configuration.
 
 ```yaml
 InputSources:
@@ -228,7 +228,7 @@ InputSources:
 {% tab title="IPFS" %}
 By default, bacalhau creates its own in-process IPFS node that will attempt to discover other IPFS nodes, including public nodes, on its own. If you specify the `--private-internal-ipfs` flag when starting the node, the node will not attempt to discover other nodes. Note, that such an IPFS node exists only with the compute node and will be shut down along with it. Alternatively, you can create your own private IPFS network and connect to it using the [appropriate flags](../references/cli-reference/all-flags.md#serve).
 
-[IPFS publisher](../references/other-specifications/publishers/ipfs.md) can be set for your Bacalhau compute nodes declaratively or imperatively using either configuration yaml file:
+[IPFS publisher](../references/jobs/task/publishers/ipfs.md) can be set for your Bacalhau compute nodes declaratively or imperatively using either configuration yaml file:
 
 ```bash
 Publisher:
@@ -241,7 +241,7 @@ Or within your imperative job execution commands:
 bacalhau docker run --publisher ipfs ubuntu ...
 ```
 
-Data pinned to the IPFS network can be used as [input source](../references/other-specifications/sources/ipfs.md). To do this, you will need to specify the CID in declarative:
+Data pinned to the IPFS network can be used as [input source](../references/jobs/task/sources/ipfs.md). To do this, you will need to specify the CID in declarative:
 
 ```bash
 InputSources:
@@ -262,7 +262,7 @@ bacalhau docker run --input QmY7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjY3fZ:/data
 {% tab title="Local" %}
 Bacalhau allows to publish job results directly to the compute node. Please note that this method is not a reliable storage option and is recommended to be used mainly for introductory purposes.
 
-[Local publisher](../references/other-specifications/publishers/local.md) can be set for your Bacalhau compute nodes declaratively or imperatively using configuration yaml file:
+[Local publisher](../references/jobs/task/publishers/local.md) can be set for your Bacalhau compute nodes declaratively or imperatively using configuration yaml file:
 
 ```bash
 Publisher:
@@ -275,7 +275,7 @@ Or within your imperative job execution commands:
 bacalhau docker run --publisher local ubuntu ...
 ```
 
-The [Local input source](../references/other-specifications/sources/local.md) allows Bacalhau jobs to access files and directories that are already present on the compute node. To allow jobs to access local files when starting a node, the `--allow-listed-local-paths` flag should be used, specifying the path to the data and access mode `:rw` for Read-Write access or `:ro` for Read-Only (used by default). For example:
+The [Local input source](../references/jobs/task/sources/local.md) allows Bacalhau jobs to access files and directories that are already present on the compute node. To allow jobs to access local files when starting a node, the `--allow-listed-local-paths` flag should be used, specifying the path to the data and access mode `:rw` for Read-Write access or `:ro` for Read-Only (used by default). For example:
 
 ```bash
 bacalhau serve --allow-listed-local-paths "/etc/config:rw,/etc/*.conf:ro"

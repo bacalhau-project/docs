@@ -313,7 +313,7 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 
 ### Declarative job description[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
 
-The same job can be presented in the [declarative](../../setting-up/jobs/job.md) format. In this case, the description will look like this:
+The same job can be presented in the [declarative](../../references/jobs/task/job.md) format. In this case, the description will look like this:
 
 ```yaml
 name: Convert CSV To Parquet Or Avro

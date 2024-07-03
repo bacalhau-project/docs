@@ -381,7 +381,7 @@ When a job is submitted, Bacalhau prints out the related `job_id`. Use the `expo
 
 ### Declarative job description[​](http://localhost:3000/examples/model-training/Stable-Diffusion-Dreambooth/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
 
-The same job can be presented in the [declarative](../../setting-up/jobs/job.md) format. In this case, the description will look like this. Change the command in the Parameters section and CID to suit your goals.
+The same job can be presented in the [declarative](../../references/jobs/task/job.md) format. In this case, the description will look like this. Change the command in the Parameters section and CID to suit your goals.
 
 ```yaml
 name: Stable Diffusion Dreambooth Finetuning

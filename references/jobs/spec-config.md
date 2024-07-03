@@ -23,7 +23,7 @@ Here are a few hypothetical examples to demonstrate how you might define `SpecCo
 }
 ```
 
-Full Docker spec can be found [here](../../references/other-specifications/engines/docker.md).
+Full Docker spec can be found [here](task/engines/docker.md).
 
 ### S3 Publisher
 
@@ -37,7 +37,7 @@ Full Docker spec can be found [here](../../references/other-specifications/engin
 }
 ```
 
-Full S3 Publisher can be found [here](../../references/other-specifications/publishers/s3.md).
+Full S3 Publisher can be found [here](task/publishers/s3.md).
 
 ### Local Directory Input Source
 
@@ -51,6 +51,6 @@ Full S3 Publisher can be found [here](../../references/other-specifications/publ
 }
 ```
 
-Full local source can be found [here](../../references/other-specifications/sources/local.md).
+Full local source can be found [here](task/sources/local.md).
 
 Remember, the exact keys and values in the `Params` map will vary depending on the specific requirements of the component being configured. Always refer to the individual component's documentation to understand the available parameters.
