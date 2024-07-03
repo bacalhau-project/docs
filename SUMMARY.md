@@ -56,6 +56,10 @@
 * [GPU Workloads Setup](setting-up/gpu.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
 
+## Guides
+
+* [Write config.yaml](guides/architecture.md)
+
 ## Examples
 
 * [Data Engineering](examples/data-engineering/README.md)
@@ -88,7 +92,7 @@
 
 ## References
 
-* [Jobs](references/jobs/README.md)
+* [Jobs Guide](references/jobs/README.md)
   * [Job Types](references/jobs/job-types.md)
   * [Task Specification](references/jobs/task/README.md)
     * [Job Specification](references/jobs/task/job.md)
@@ -117,7 +121,7 @@
   * [Labels Specification](references/jobs/label.md)
   * [SpecConfig Specification](references/jobs/spec-config.md)
   * [State](references/jobs/state.md)
-* [CLI](references/cli-reference/README.md)
+* [CLI Guide](references/cli-reference/README.md)
   * [Single CLI commands](references/cli-reference/cli/README.md)
     * [Agent](references/cli-reference/cli/agent/README.md)
       * [Agent Overview](references/cli-reference/cli/agent/index.md)
@@ -149,7 +153,7 @@
       * [Node Reject](references/cli-reference/cli/node/index-5.md)
   * [CLI Commands Overview](references/cli-reference/all-flags.md)
   * [Command Migration](references/cli-reference/command-migration.md)
-* [API](references/api/README.md)
+* [API Guide](references/api/README.md)
   * [Bacalhau API overview](references/api/index.md)
   * [Agent Endpoint](references/api/agent.md)
   * [Orchestrator Endpoint](references/api/jobs.md)
