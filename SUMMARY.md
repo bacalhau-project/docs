@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Welcome to Bacalhau Docs](README.md)
+* [Welcome to the Bacalhau Docs](README.md)
 
 ## Getting Started
 
