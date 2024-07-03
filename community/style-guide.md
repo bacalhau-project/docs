@@ -1,10 +1,8 @@
----
-description: >-
-  This guide explains things to keep in mind when writing for Bacalhau’s
-  documentation.
----
-
 # Style Guide
+
+{% hint style="info" %}
+This guide explains things to keep in mind when writing for Bacalhau’s documentation.
+{% endhint %}
 
 The Bacalhau documentation aims to provide information on how to transform data processing for large-scale datasets to improve cost and efficiency. Our purpose is to open data processing to larger audiences, and our documentation set reflects this intention.
 
