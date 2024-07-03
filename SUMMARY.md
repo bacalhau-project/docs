@@ -55,6 +55,8 @@
   * [Accessing the Internet from Jobs](setting-up/networking-instructions/networking.md)
 * [GPU Workloads Setup](setting-up/gpu.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
+* [Marketplace Deployments](setting-up/marketplace-deployments/README.md)
+  * [Google Cloud Marketplace](setting-up/marketplace-deployments/google-cloud-marketplace.md)
 
 ## Guides
 
