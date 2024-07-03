@@ -8,11 +8,9 @@ On installation, Bacalhau creates a \`.bacalhau\` directory that includes a \`co
 
 When initializing a Bacalhau node, the system determines its configuration by following a specific hierarchy. First, it checks the default settings, then the \`config.yaml\` file, followed by environment variables, and finally, any command line flags specified during execution. Configurations are set and overridden in that sequence. This layered approach allows the  default Bacalhau settings to provide a baseline, while environment variables and command-line flags offer added flexibility. However, the \`config.yaml\` file offers a reliable way to predefine all necessary settings before node creation across environments, ensuring consistency and ease of management.
 
-{% hint style="info" %}
-Modifications to the \`config.yaml\` file are not dynamically applied to existing nodes.&#x20;
+{% hint style="warning" %}
+Modifications to the \`config.yaml\` file are not dynamically applied to existing nodes. A restart of the Bacalhau node is required for any changes to take effect.
 {% endhint %}
-
-A restart of the Bacalhau node is required for any changes to take effect.
 
 Your \`config.yaml\` file starts off empty. However, you can see all available settings using the following command
 
@@ -28,7 +26,7 @@ Let’s go through the different options and how your configuration file is stru
 
 The \`bacalhau config list\` command displays your configuration paths, segmented with periods to indicate each part you are configuring.&#x20;
 
-Consider these configuration settings; \`user.installationid\`, \`node.name\`, \`node.compute.executionstore.path\`, \`node.compute.executionstore.type\`, \`node.requester.jobstore.type\`, and \`node.requester.jobstore.path\`. These settings help set an identifier tag for your Bacalhau user and node then establish storage options for your jobs and execution results.
+Consider these configuration settings; \``user.installationid`\`, \``node.name`\`, \``node.compute.executionstore.path`\`, \``node.compute.executionstore.type`\`, \``node.requester.jobstore.type`\`, and \``node.requester.jobstore.path`\`. These settings help set an identifier tag for your Bacalhau user and node then establish storage options for your jobs and execution results.
 
 In your \`config.yaml\`, these settings will be formatted like this:
 
@@ -47,7 +45,7 @@ user:
     installationid: 60d292e8-58f7-4019-8031-90955c431a26
 ```
 
-Your yaml file hierarchy follows the period delineation - node > compute > executionstore > type for \`node.compute.executionstore.type\`.
+Your yaml file hierarchy follows the period delineation - node > compute > executionstore > type for \``node.compute.executionstore.type`\`.
 
 ### Configuration Options
 
