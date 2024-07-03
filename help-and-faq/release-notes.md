@@ -3,13 +3,12 @@
 {% hint style="info" %}
 Release Notes for Bacalhau v.1.4.0
 
-* Libp2p, IPFS deprecation and Migration to NATS
-* CLI command updates&#x20;
-* Updates to job spec v2, while deprecating job spec v1
-* Job queuing was extended
-* Different job timeouts
-* Improve error reporting ([https://github.com/bacalhau-project/bacalhau/pull/3771](https://github.com/bacalhau-project/bacalhau/pull/3771))
-* Introduction of Node Manager
+* Embedded libp2p/IPFS deprecation and migration to NATS.
+* CLI command updates.&#x20;
+* Updates to job spec v2, while deprecating job spec v1.
+* Job queuing was extended with new job timeouts.
+* Improved error reporting.&#x20;
+* Introduction of Node Manager.
 {% endhint %}
 
 ## Libp2p, IPFS deprecation and Migration to NATS (Warning)
