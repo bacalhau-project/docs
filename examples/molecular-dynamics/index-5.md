@@ -40,7 +40,7 @@ Expected Output
 
 ### Writing the Script[​](http://localhost:3000/examples/molecular-dynamics/openmm/#writing-the-script) <a href="#writing-the-script" id="writing-the-script"></a>
 
-To run the script above all we need is a Python environment with the [OpenMM library](http://docs.openmm.org/latest/userguide/application/01\_getting\_started.html) installed.
+To run the script above all we need is a Python environment with the [OpenMM library](http://docs.openmm.org/latest/userguide/application/01\_getting\_started.html) installed. This script makes sure that there are no empty cells and to filter out potential error sources from the file.
 
 ```python
 # run_openmm_simulation.py
@@ -50,45 +50,78 @@ from openmm.app import *
 from openmm.unit import *
 
 # Input Files
-input_path = '/inputs/2dri-processed.pdb'
-os.path.exists(input_path) # check if input file exists
-pdb = PDBFile(input_path)
+input_path = 'inputs/2dri-processed.pdb'
+if not os.path.exists(input_path):
+    raise FileNotFoundError(f"Input file not found: {input_path}")
+
+# Function to check and filter PDB file lines
+def filter_valid_pdb_lines(input_path, output_path):
+    with open(input_path, 'r') as infile, open(output_path, 'w') as outfile:
+        lines = infile.readlines()
+        for i, line in enumerate(lines):
+            if line.startswith("ATOM") or line.startswith("HETATM"):
+                if len(line) >= 54:
+                    try:
+                        float(line[30:38].strip())
+                        float(line[38:46].strip())
+                        float(line[46:54].strip())
+                        outfile.write(line)
+                    except ValueError:
+                        print(f"Skipping line {i + 1} because it has invalid coordinates: {line.strip()}")
+                else:
+                    print(f"Skipping line {i + 1} because it is too short: {line.strip()}")
+            else:
+                outfile.write(line)
+
+# Filter PDB file
+filtered_pdb_path = 'inputs/filtered_2dri-processed.pdb'
+filter_valid_pdb_lines(input_path, filtered_pdb_path)
+
+# Load the filtered PDB file
+try:
+    pdb = PDBFile(filtered_pdb_path)
+except ValueError as e:
+    print(f"ValueError while reading filtered PDB file: {e}")
+    raise
+
 forcefield = ForceField('amber14-all.xml', 'amber14/tip3pfb.xml')
 
 # Output
-output_path = '/outputs/final_state.pdbx'
-if not os.path.exists(os.path.dirname(output_path)): # check if output dir exists
+output_path = 'outputs/final_state.pdbx'
+if not os.path.exists(os.path.dirname(output_path)):
     os.makedirs(os.path.dirname(output_path))
 
 # System Configuration
 
 nonbondedMethod = PME
-nonbondedCutoff = 1.0*nanometers
+nonbondedCutoff = 1.0 * nanometers
 ewaldErrorTolerance = 0.0005
 constraints = HBonds
 rigidWater = True
 constraintTolerance = 0.000001
-hydrogenMass = 1.5*amu
+hydrogenMass = 1.5 * amu
 
 # Integration Options
 
-dt = 0.002*picoseconds
-temperature = 310*kelvin
-friction = 1.0/picosecond
-pressure = 1.0*atmospheres
+dt = 0.002 * picoseconds
+temperature = 310 * kelvin
+friction = 1.0 / picosecond
+pressure = 1.0 * atmospheres
 barostatInterval = 25
 
 # Simulation Options
 
 steps = 10
 equilibrationSteps = 0
-#platform = Platform.getPlatformByName('CUDA')
+# platform = Platform.getPlatformByName('CUDA')
 platform = Platform.getPlatformByName('CPU')
-#platformProperties = {'Precision': 'single'}
+# platformProperties = {'Precision': 'single'}
 platformProperties = {}
 dcdReporter = DCDReporter('trajectory.dcd', 1000)
 dataReporter = StateDataReporter('log.txt', 1000, totalSteps=steps,
-    step=True, time=True, speed=True, progress=True, elapsedTime=True, remainingTime=True, potentialEnergy=True, kineticEnergy=True, totalEnergy=True, temperature=True, volume=True, density=True, separator='\t')
+                                 step=True, time=True, speed=True, progress=True, elapsedTime=True, remainingTime=True,
+                                 potentialEnergy=True, kineticEnergy=True, totalEnergy=True, temperature=True,
+                                 volume=True, density=True, separator='\t')
 checkpointReporter = CheckpointReporter('checkpoint.chk', 1000)
 
 # Prepare the Simulation
@@ -97,7 +130,8 @@ print('Building system...')
 topology = pdb.topology
 positions = pdb.positions
 system = forcefield.createSystem(topology, nonbondedMethod=nonbondedMethod, nonbondedCutoff=nonbondedCutoff,
-    constraints=constraints, rigidWater=rigidWater, ewaldErrorTolerance=ewaldErrorTolerance, hydrogenMass=hydrogenMass)
+                                 constraints=constraints, rigidWater=rigidWater, ewaldErrorTolerance=ewaldErrorTolerance,
+                                 hydrogenMass=hydrogenMass)
 system.addForce(MonteCarloBarostat(pressure, temperature, barostatInterval))
 integrator = LangevinMiddleIntegrator(temperature, friction, dt)
 integrator.setConstraintTolerance(constraintTolerance)
