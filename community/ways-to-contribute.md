@@ -1,8 +1,7 @@
 ---
 description: >-
   If you want to contribute to Bacalhau and the Compute ecosystem, we have
-  provided a quick listing of things we need help with and how you can get
-  started.
+  provided a quick list of things we need help with and how you can get started.
 ---
 
 # Ways to Contribute
@@ -27,7 +26,7 @@ For questions, give feedback or answer questions that will help other user produ
 
 ### Build with Bacalhau
 
-Bacalhau has an extensive list of examples and tutorial that showcase it's abilities. However this is just the tip of the iceberg, there are more use cases where Bacalhau can be implemented, if you have a specific idea you want to try out with Bacalhau, we encourage you to do that and build anything that you think is missing.
+Bacalhau has an extensive list of examples and tutorial that showcase its abilities. However this is just the tip of the iceberg, there are more use cases where Bacalhau can be implemented, if you have a specific idea you want to try out with Bacalhau, we encourage you to do that and build anything that you think is missing.
 
 If you're interested in contributing, please reach out to [contribute@bacalhau.org](mailto:contribute@bacalhau.org) for more information. Include what your interests are so we can make sure you get to work on something fun and valuable.
 
@@ -39,7 +38,7 @@ This guide explains things to keep in mind when writing for Bacalhau's documenta
 
 The purpose of a walkthrough is to tell the user _how_ to do something. They do not need to convince the reader of something or explain a concept. Walkthroughs are a list of steps the reader must follow to achieve a process or function.
 
-The vast majority of documentation within the Bacalhau documentation project falls under the _Walkthrough_ category. Walkthroughs are generally quite short, have a neutral tone, and teach the reader how to achieve a particular process or function. They present the reader with concrete steps on where to go, what to type, and things they should click on. There is little to no _conceptual_ information within walkthroughs.
+Most of the documentation within the Bacalhau documentation project falls under the _Walkthrough_ category. Walkthroughs are generally quite short, have a neutral tone, and teach the reader how to achieve a particular process or function. They present the reader with concrete steps on where to go, what to type, and things they should click on. There is little to no _conceptual_ information within walkthroughs.
 
 **Goals**
 
@@ -85,7 +84,7 @@ Use the following goals when writing conceptual articles:
 | ------------- | ------------------------ | -------------------------------------------------------------------------------- |
 | **Audience**  | _Knowledgeable_          | Requires a certain amount of focus to understand.                                |
 | **Formality** | _Neutral_                | Slang is restricted, but standard casual expressions are allowed.                |
-| **Domain**    | _Any_                    | Usually _technical_, but depends on the article.                                 |
+| **Domain**    | _Any_                    | Usually _technical_ but depends on the article.                                  |
 | **Tone**      | _Confident and friendly_ | The reader must feel confident that the writer knows what they’re talking about. |
 | **Intent**    | _Describe_               | Tell the reader _why_ something does the thing that it does, or why it exists.   |
 
@@ -101,7 +100,7 @@ Articles are separated into five major sections:
 
 **Tutorials**
 
-When writing a tutorial, you’re teaching a reader how to achieve a complex end-goal. Tutorials are a mix of walkthroughs and conceptual articles. Most tutorials will span several pages, and contain multiple walkthroughs within them.
+When writing a tutorial, you’re teaching a reader how to achieve a complex end-goal. Tutorials are a mix of walkthroughs and conceptual articles. Most tutorials will span several pages and contain multiple walkthroughs within them.
 
 Take the hypothetical tutorial _Get up and running with Bacalhau_, for example. This tutorial will likely have the following pages:
 
