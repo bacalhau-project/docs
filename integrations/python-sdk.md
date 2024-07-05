@@ -119,9 +119,9 @@ The script above prints the following object, the `job.metadata.id` value is our
 We can then use the `results` method to fetch, among other fields, the output data's CID.
 
 ```python
-from bacalhau_sdk.api import results
-
-print(results(job_id="710a0bc2-81d1-4025-8f80-5327ca3ce170"))
+jobs_instance = Jobs()
+results_response = jobs_instance.results(job_id=job_id)
+print(results_response)
 ```
 
 The line above prints the following dictionary:
@@ -139,6 +139,10 @@ The line above prints the following dictionary:
 ```
 
 Congrats, that was a good start! Please find more code snippets in [the examples folder](broken-reference).
+
+## Available Functions <a href="#devstack" id="devstack"></a>
+
+<table><thead><tr><th width="134">Function</th><th width="283">Description</th><th width="151">Input</th><th>Output</th></tr></thead><tbody><tr><td><strong>put</strong></td><td>A request to put a job to bacalhau network. It encapsulates the job model. Once the job is successful put on bacalhau network, this returns the job details.</td><td><strong>PutJobRequest</strong></td><td>PutJobResponse</td></tr><tr><td><strong>stop</strong></td><td>Stops a certain job and takes optionally a reason why it was stopped.</td><td><strong>job_id</strong> (str), <strong>reason</strong> <em>(str=None)</em></td><td>StopJobResponse</td></tr><tr><td><strong>executions</strong></td><td>Gets Job Executions with the given parameters. Note that only job_id is required.</td><td><strong>job_id</strong> (str), <strong>namespace</strong> (str=""), <strong>next_token</strong> (str =""), <strong>limit</strong> (int = 5), <strong>reverse</strong> (bool = False), <strong>order_by</strong> (str = "")</td><td>ListJobExecutionsResponse</td></tr><tr><td><strong>results</strong></td><td>Get the results of the specified job_id.</td><td><strong>job_id</strong> (str)</td><td>GetJobResponse <em>(Results of the job)</em></td></tr><tr><td><strong>get</strong></td><td>Gets Details/Specs of a Job by job_id and returns the job details.</td><td><strong>job_id</strong> (str), <strong>include</strong> (str = ""), <strong>limit</strong> (int = 10)</td><td>GetJobResponse</td></tr><tr><td><strong>history</strong></td><td>Get History of a Job by job_id and return it.</td><td><strong>job_id</strong> (str), <strong>event_type</strong> (str = "execution"), <strong>node_id</strong> (str = ""), <strong>execution_id</strong> (str = "")</td><td>ListJobHistoryResponse</td></tr><tr><td><strong>list</strong></td><td>Fetches and returns a list of all the Jobs, which abide the constraints given.</td><td><strong>limit</strong> (int = 5), <strong>next_token</strong> (str = ""), <strong>order_by</strong> (str="created_at"), <strong>reverse</strong> (bool = False)</td><td>ListJobsResponse</td></tr></tbody></table>
 
 ## Devstack[​](http://localhost:3000/integration/python-sdk#devstack) <a href="#devstack" id="devstack"></a>
 
