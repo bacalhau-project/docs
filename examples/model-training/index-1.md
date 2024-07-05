@@ -4,19 +4,6 @@
 
 [TensorFlow](https://www.tensorflow.org/) is an open-source machine learning software library, TensorFlow is used to train neural networks. Expressed in the form of stateful dataflow graphs, each node in the graph represents the operations performed by neural networks on multi-dimensional arrays. These multi-dimensional arrays are commonly known as “tensors”, hence the name TensorFlow. In this example, we will be training a MNIST model.
 
-## TL;DR[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#tldr) <a href="#tldr" id="tldr"></a>
-
-```bash
-bacalhau docker run \
-  --wait \
-  --id-only \
-  -w /inputs  \
-  -i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py \
-  -i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz \
-  tensorflow/tensorflow \
-  -- python train.py
-```
-
 ## Training TensorFlow models Locally[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#training-tensorflow-models-locally) <a href="#training-tensorflow-models-locally" id="training-tensorflow-models-locally"></a>
 
 This section is from [TensorFlow 2 quickstart for beginners](https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/quickstart/beginner.ipynb)
@@ -149,36 +136,6 @@ ls /outputs/
 ## Running on Bacalhau[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#running-on-bacalhau) <a href="#running-on-bacalhau" id="running-on-bacalhau"></a>
 
 The dataset and the script are mounted to the TensorFlow container using an URL, we then run the script inside the container
-
-### Structure of the command[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
-
-Let's look closely at the command below:
-
-1. `export JOB_ID=$( ... )` exports the job ID as environment variable
-2. `bacalhau docker run`: call to bacalhau
-3. The `-i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py` flag is used to mount the training script
-4. The `-i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz` flag is used to mount the dataset
-5. `tensorflow/tensorflow`: the name and the tag of the docker image we are using
-6. `python train.py`: command to execute the script
-
-By default whatever URL you mount using the `-i` flag gets mounted at the path `/inputs` so we choose that as our input directory `-w /inputs`
-
-```bash
-export JOB_ID=$(bacalhau docker run \
-  --wait \
-  --id-only \
-  -w /inputs  \
-  -i https://gist.githubusercontent.com/js-ts/e7d32c7d19ffde7811c683d4fcb1a219/raw/ff44ac5b157d231f464f4d43ce0e05bccb4c1d7b/train.py \
-  -i https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz \
-  tensorflow/tensorflow \
-  -- python train.py)
-```
-
-```bash
-bacalhau job list --id-filter ${JOB_ID}
-```
-
-When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
 ### Declarative job description[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
 
