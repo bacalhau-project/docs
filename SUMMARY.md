@@ -157,6 +157,7 @@
   * [Command Migration](references/cli-reference/command-migration.md)
 * [API Guide](references/api/README.md)
   * [Bacalhau API overview](references/api/index.md)
+  * [Best Practices](references/api/best-practices.md)
   * [Agent Endpoint](references/api/agent.md)
   * [Orchestrator Endpoint](references/api/jobs.md)
   * [Migration API](references/api/migration-api.md)
