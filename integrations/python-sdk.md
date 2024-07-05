@@ -116,7 +116,7 @@ The script above prints the following object, the `job.metadata.id` value is our
  'warnings': None}
 ```
 
-We can then use the `results` method to fetch, among other fields, the output data's CID.
+We can then use the `results` method to fetch, among other fields, the output data's CID. Please extract your own `job_id` from the above output and hand it over to the `results` function.
 
 ```python
 jobs_instance = Jobs()
@@ -127,18 +127,24 @@ print(results_response)
 The line above prints the following dictionary:
 
 ```json
-{'results': [{'data': {'cid': 'QmYEqqNDdDrsRhPRShKHzsnZwBq3F59Ti3kQmv9En4i5Sw',
-                       'metadata': None,
-                       'name': 'job-710a0bc2-81d1-4025-8f80-5327ca3ce170-shard-0-host-QmYgxZiySj3MRkwLSL4X2MF5F9f2PMhAE3LV49XkfNL1o3',
-                       'path': None,
-                       'source_path': None,
-                       'storage_source': 'IPFS',
-                       'url': None},
-              'node_id': 'QmYgxZiySj3MRkwLSL4X2MF5F9f2PMhAE3LV49XkfNL1o3',
-              'shard_index': None}]}
+{'items': [{'params': {'CID': 'QmSjnM3vNcD34jrwTDTcg2B8oZAHrZ5iAupJKuEcD9AURE'},
+            'type': 'ipfs'}],
+ 'next_token': ''}
 ```
 
 Congrats, that was a good start! Please find more code snippets in [the examples folder](broken-reference).
+
+{% hint style="info" %}
+When there wasn't some config specs specified, you may get messages about the config debugger working on them. This can look as the following:
+
+```
+DEBUG:bacalhau_sdk.config:BACALHAU_DIR not set, using default of ~/.bacalhau 
+DEBUG:bacalhau_sdk.config:Using config dir: /root/.bacalhau 
+DEBUG:bacalhau_sdk.config:config_dir: /root/.bacalhau 
+DEBUG:bacalhau_sdk.config:Host is set to: http://bootstrap.production.bacalhau.org:1234
+DEBUG:bacalhau_sdk.config:init config done
+```
+{% endhint %}
 
 ## Available Functions <a href="#devstack" id="devstack"></a>
 
@@ -156,7 +162,11 @@ To develop this SDK locally, create a dedicated poetry virtual environment and i
 
 ```bash
 poetry install --no-interaction --with test,dev -vvv
+```
 
+This outputs the following:
+
+```
 Creating virtualenv bacalhau-sdk-9mIcLX8U-py3.9 in /Users/enricorotundo/Library/Caches/pypoetry/virtualenvs
 Using virtualenv: /Users/enricorotundo/Library/Caches/pypoetry/virtualenvs/bacalhau-sdk-9mIcLX8U-py3.9
 Installing dependencies from lock file
