@@ -1,4 +1,4 @@
-# SpecConfig Specification
+# Write a SpecConfig
 
 `SpecConfig` provides a unified structure to specify configurations for various components in Bacalhau, including engines, publishers, and input sources. Its flexible design allows seamless integration with multiple systems like Docker, WebAssembly (Wasm), AWS S3, and local directories, among others.
 
@@ -23,7 +23,7 @@ Here are a few hypothetical examples to demonstrate how you might define `SpecCo
 }
 ```
 
-Full Docker spec can be found [here](task/engines/docker.md).
+Full Docker spec can be found [here](../references/jobs/job/task/engines/docker.md).
 
 ### S3 Publisher
 
@@ -37,7 +37,7 @@ Full Docker spec can be found [here](task/engines/docker.md).
 }
 ```
 
-Full S3 Publisher can be found [here](task/publishers/s3.md).
+Full S3 Publisher can be found [here](../references/jobs/job/task/publishers/s3.md).
 
 ### Local Directory Input Source
 
@@ -51,6 +51,6 @@ Full S3 Publisher can be found [here](task/publishers/s3.md).
 }
 ```
 
-Full local source can be found [here](task/sources/local.md).
+Full local source can be found [here](../references/jobs/job/task/sources/local.md).
 
 Remember, the exact keys and values in the `Params` map will vary depending on the specific requirements of the component being configured. Always refer to the individual component's documentation to understand the available parameters.

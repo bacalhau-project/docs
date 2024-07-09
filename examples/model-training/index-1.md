@@ -139,7 +139,7 @@ The dataset and the script are mounted to the TensorFlow container using an URL,
 
 ### Declarative job description[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
 
-The same job can be presented in the [declarative](../../references/jobs/task/job.md) format. In this case, the description will look like this:
+The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
 ```yaml
 name: Training ML model using tensorflow

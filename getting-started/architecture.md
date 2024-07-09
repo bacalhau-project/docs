@@ -86,13 +86,13 @@ The publisher is responsible for uploading the final results of a job to a remot
 
 ### Job preparation
 
-You can create jobs in the Bacalhau network using various [job types](../references/jobs/job-types.md) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](../references/jobs/task/job.md).
+You can create jobs in the Bacalhau network using various [job types](../references/jobs/job/job-types.md) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](../references/jobs/job/).
 
 <details>
 
 <summary>Advanced job preparation</summary>
 
-Prepare data with Bacalhau by [copying from URLs](../setting-up/data-ingestion/from-url.md), [pinning to public storage](../setting-up/data-ingestion/pin.md) or [copying from an S3 bucket](../setting-up/data-ingestion/s3.md). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](../references/jobs/task/sources/ipfs.md), [Local](../references/jobs/task/publishers/local.md), [S3](../references/jobs/task/publishers/s3.md) and [URL](../references/jobs/task/sources/url.md) Source Specifications for data source usage.
+Prepare data with Bacalhau by [copying from URLs](../setting-up/data-ingestion/from-url.md), [pinning to public storage](../setting-up/data-ingestion/pin.md) or [copying from an S3 bucket](../setting-up/data-ingestion/s3.md). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](../references/jobs/job/task/sources/ipfs.md), [Local](../references/jobs/job/task/publishers/local.md), [S3](../references/jobs/job/task/publishers/s3.md) and [URL](../references/jobs/job/task/sources/url.md) Source Specifications for data source usage.
 
 Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](workload-onboarding/docker-workload-onboarding.md) and [WebAssembly](workload-onboarding/wasm-workload-onboarding.md) workloads.
 
@@ -248,15 +248,15 @@ When a job is submitted to a requester node, it selects compute nodes that are c
 
 ### Job execution
 
-The selected compute node receives the job and starts its execution inside a container. The container can use different executors to work with the data and perform the necessary actions. A job can use the docker executor, WASM executor or a library storage volumes. Use [Docker Engine Specification](../references/jobs/task/engines/docker.md) to view the parameters to configure the Docker Engine. If you want tasks to be executed in a WebAssembly environment, pay attention to [WebAssembly Engine Specification](../references/jobs/task/engines/wasm.md).
+The selected compute node receives the job and starts its execution inside a container. The container can use different executors to work with the data and perform the necessary actions. A job can use the docker executor, WASM executor or a library storage volumes. Use [Docker Engine Specification](../references/jobs/job/task/engines/docker.md) to view the parameters to configure the Docker Engine. If you want tasks to be executed in a WebAssembly environment, pay attention to [WebAssembly Engine Specification](../references/jobs/job/task/engines/wasm.md).
 
 ### Results publishing
 
 When the Compute node completes the job, it publishes the results to **S3's remote storage**, **IPFS**.
 
-Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure. View [IPFS Publisher Specification](../references/jobs/task/publishers/ipfs.md) to get the detailed information.
+Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure. View [IPFS Publisher Specification](../references/jobs/job/task/publishers/ipfs.md) to get the detailed information.
 
-Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. View [S3 Publisher Specification](../references/jobs/task/publishers/s3.md) to get the detailed information.
+Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. View [S3 Publisher Specification](../references/jobs/job/task/publishers/s3.md) to get the detailed information.
 
 ## Chapter 3 - Returning Information
 
