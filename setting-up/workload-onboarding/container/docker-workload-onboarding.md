@@ -34,7 +34,7 @@ To help provide a safe, secure network for all users, we add the following runti
 
 1. **Limited Ingress/Egress Networking**:
 
-All ingress/egress networking is limited as described in the [networking](broken-reference/) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
+All ingress/egress networking is limited as described in the [networking](../../networking-instructions/) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
 
 2. **Data Passing with Docker Volumes**:
 
