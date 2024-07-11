@@ -16,6 +16,10 @@ For security reasons, direct access to local paths must be explicitly allowed wh
 * `:rw` - Read-Write access.
 * `:ro` - Read-Only access (default if no suffix is provided).
 
+{% hint style="warning" %}
+Check out the default settings on your server, as this may be set to `:ro` and may lead to an error, when a different access is required.
+{% endhint %}
+
 For instance:
 
 ```bash
