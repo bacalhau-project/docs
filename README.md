@@ -23,39 +23,39 @@ Bacalhau seeks to transform data processing for large-scale datasets to improve 
 
 {% tabs %}
 {% tab title="Data Scientists" %}
-* [ ] _**Scalability and Flexibility**_:
+* [x] _**Scalability and Flexibility**_:
   * **You** can run large-scale computations without relying on a single cloud provider, enhancing flexibility and potentially reducing costs.
   * Bacalhau enables distributed data processing, which can significantly speed up analysis and model training by parallelizing tasks across multiple nodes.
-* [ ] _**Reproducibility**_:
+* [x] _**Reproducibility**_:
   * By using Docker or WASM images, data scientists can ensure that their experiments and models are reproducible across different environments.
-* [ ] _**Data Privacy and Security**_:
+* [x] _**Data Privacy and Security**_:
   * Bacalhau allows data to be processed close to its source, which can help maintain data privacy and comply with regulatory requirements.
-* [ ] _**Cost Efficiency**_:
+* [x] _**Cost Efficiency**_:
   * Utilize Bacalhau’s platform to dynamically allocate resources, ensuring optimal performance while controlling costs.
 {% endtab %}
 
 {% tab title="DevOps/MLOps" %}
-* [ ] _**Automation and Orchestration**_:
+* [x] _**Automation and Orchestration**_:
   * **Seamless Integration**: Bacalhau can be integrated into CI/CD pipelines, enabling automated deployment and scaling of machine learning models and other applications.
   * **Workload Scheduling**: Efficiently schedule and manage workloads across a decentralized network, improving resource utilization and reliability.
-* [ ] _**Fault Tolerance**_:
+* [x] _**Fault Tolerance**_:
   * Decentralized infrastructure ensures high availability and resilience against failures, reducing downtime for critical applications.
-* [ ] _**Scalable Infrastructure**_:
+* [x] _**Scalable Infrastructure**_:
   * Quickly scale resources up or down based on demand, providing a responsive infrastructure for varying workloads.
-* [ ] _**Cost Management**_:
+* [x] _**Cost Management**_:
   * Utilize Bacalhau’s platform to dynamically allocate resources, ensuring optimal performance while controlling costs.
 {% endtab %}
 
 {% tab title="IT Operations" %}
-* [ ] _**Infrastructure Efficiency**_:&#x20;
+* [x] _**Infrastructure Efficiency**_:&#x20;
   * Efficiently utilize idle or underutilized compute resources within an organization, maximizing hardware investments.
-* [ ] _**Simplified Management**_:&#x20;
+* [x] _**Simplified Management**_:&#x20;
   * Manage heterogeneous compute resources through a single platform, simplifying administrative tasks and reducing complexity.
-* [ ] _**Enhanced Security**_:&#x20;
+* [x] _**Enhanced Security**_:&#x20;
   * Reduce the risk of centralized points of failure and potential security breaches by leveraging a decentralized network for data processing.
-* [ ] _**Cost Reduction**_:&#x20;
+* [x] _**Cost Reduction**_:&#x20;
   * Bacalhau’s can help drive down your compute costs by up to 72.5% for deploying your ML models and over 90% for your log processing spend.
-* [ ] _**Adaptable Infrastructure**_:&#x20;
+* [x] _**Adaptable Infrastructure**_:&#x20;
   * Easily adapt to changing business requirements by scaling infrastructure resources as needed without significant upfront investment.
 {% endtab %}
 {% endtabs %}
