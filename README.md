@@ -21,25 +21,52 @@ Bacalhau seeks to transform data processing for large-scale datasets to improve 
 
 ### Why Bacalhau?
 
+{% tabs %}
+{% tab title="Data Scientists" %}
+* [ ] _**Scalability and Flexibility**_:
+  * **You** can run large-scale computations without relying on a single cloud provider, enhancing flexibility and potentially reducing costs.
+  * Bacalhau enables distributed data processing, which can significantly speed up analysis and model training by parallelizing tasks across multiple nodes.
+* [ ] _**Reproducibility**_:
+  * By using Docker or WASM images, data scientists can ensure that their experiments and models are reproducible across different environments.
+* [ ] _**Data Privacy and Security**_:
+  * Bacalhau allows data to be processed close to its source, which can help maintain data privacy and comply with regulatory requirements.
+* [ ] _**Cost Efficiency**_:
+  * Utilize Bacalhau’s platform to dynamically allocate resources, ensuring optimal performance while controlling costs.
+{% endtab %}
+
+{% tab title="DevOps/MLOps" %}
+* [ ] _**Automation and Orchestration**_:
+  * **Seamless Integration**: Bacalhau can be integrated into CI/CD pipelines, enabling automated deployment and scaling of machine learning models and other applications.
+  * **Workload Scheduling**: Efficiently schedule and manage workloads across a decentralized network, improving resource utilization and reliability.
+* [ ] _**Fault Tolerance**_:
+  * Decentralized infrastructure ensures high availability and resilience against failures, reducing downtime for critical applications.
+* [ ] _**Scalable Infrastructure**_:
+  * Quickly scale resources up or down based on demand, providing a responsive infrastructure for varying workloads.
+* [ ] _**Cost Management**_:
+  * Utilize Bacalhau’s platform to dynamically allocate resources, ensuring optimal performance while controlling costs.
+{% endtab %}
+
+{% tab title="IT Operations" %}
+* [ ] _**Infrastructure Efficiency**_:&#x20;
+  * Efficiently utilize idle or underutilized compute resources within an organization, maximizing hardware investments.
+* [ ] _**Simplified Management**_:&#x20;
+  * Manage heterogeneous compute resources through a single platform, simplifying administrative tasks and reducing complexity.
+* [ ] _**Enhanced Security**_:&#x20;
+  * Reduce the risk of centralized points of failure and potential security breaches by leveraging a decentralized network for data processing.
+* [ ] _**Cost Reduction**_:&#x20;
+  * Bacalhau’s can help drive down your compute costs by up to 72.5% for deploying your ML models and over 90% for your log processing spend.
+* [ ] _**Adaptable Infrastructure**_:&#x20;
+  * Easily adapt to changing business requirements by scaling infrastructure resources as needed without significant upfront investment.
+{% endtab %}
+{% endtabs %}
+
+{% hint style="info" %}
 ⚡️ Bacalhau simplifies the process of managing compute jobs by providing a **unified platform** for managing jobs across different regions, clouds, and edge devices.
-
-🤝 Bacalhau provides **reliable and network-partition** resistant orchestration, ensuring that your jobs will complete even if there are network disruptions.
-
-🚨 Bacalhau provides a **complete and permanent audit log** of exactly what happened, so you can be confident that your jobs are being executed securely.
-
-🔐 You can run [private workloads](broken-reference) to **reduce the chance of leaking private information** or inadvertently sharing your data outside of your organization.
-
-💸 Bacalhau **reduces ingress/egress costs** since jobs are processed closer to the source.
-
-🤓 You can [mount your data anywhere](./#data-ingestion) on your machine, and Bacalhau will be able to run against that data.
-
-💥 You can integrate with services running on nodes to run a jobs, such as on [DuckDB](examples/data-engineering/index.md).
-
-📚 Bacalhau operates at scale over parallel jobs. You can batch process petabytes (quadrillion bytes) of data.
+{% endhint %}
 
 ### How it works
 
-Bacalhau concists of a peer-to-peer network of nodes that enables decentralized communication between computers. The network consists of two types of nodes:
+Bacalhau consists of a network of nodes that enables orchestration between every compute resource, no matter whether it is a Cloud VM, an On-premise server or Edge devices. The network consists of two types of nodes:
 
 **Requester Node:** responsible for handling user requests, discovering and ranking compute nodes, forwarding jobs to compute nodes, and monitoring the job lifecycle.
 
@@ -48,8 +75,6 @@ Bacalhau concists of a peer-to-peer network of nodes that enables decentralized 
 {% hint style="info" %}
 For a more detailed tutorial, check out our [Getting Started Tutorial](broken-reference).
 {% endhint %}
-
-The goal of the Bacalhau project is to make it easy to perform distributed computation next to where the data resides. In order to do this, first you need to ingest some data.
 
 #### Data ingestion
 
@@ -67,17 +92,13 @@ The options are not limited to the above mentioned. You can mount your data anyw
 
 All workloads run under restricted Docker or WASM permissions on the node. Additionally, you can use existing (locked down) binaries that are pre-installed through Pluggable Executors.
 
-Best practices in [12-factor apps](https://12factor.net/) is to use environment variables to store sensitive data such as access tokens, API keys, or passwords. These variables can be accessed by Bacalhau at runtime and are not visible to anyone who has access to the code or the server.
-
-Alternatively, you can pre-provision credentials to the nodes and access those on a node by node basis.
+Best practices in [12-factor apps](https://12factor.net/) is to use environment variables to store sensitive data such as access tokens, API keys, or passwords. These variables can be accessed by Bacalhau at runtime and are not visible to anyone who has access to the code or the server. Alternatively, you can pre-provision credentials to the nodes and access those on a node by node basis.
 
 Finally, endpoints (such as vaults) can also be used to provide secure access to Bacalhau. This way, the client can authenticate with Bacalhau using the token without exposing their credentials.
 
-#### Workloads Bacalhau is best suited for
+### Use Cases
 
 Bacalhau can be used for a variety of data processing workloads, including machine learning, data analytics, and scientific computing. It is well-suited for workloads that require processing large amounts of data in a distributed and parallelized manner.
-
-#### Use Cases
 
 Once you have more than 10 devices generating or storing around 100GB of data, you're likely to face challenges with processing that data efficiently. Traditional computing approaches may struggle to handle such large volumes, and that's where distributed computing solutions like Bacalhau can be extremely useful. Bacalhau can be used in various industries, including security, web serving, financial services, IoT, Edge, Fog, and multi-cloud. Bacalhau shines when it comes to data-intensive applications like [data engineering](examples/data-engineering/), [model training](examples/model-training/), [model inference](examples/model-inference/), [molecular dynamics](examples/molecular-dynamics/), etc.
 
@@ -87,11 +108,11 @@ An example on how to build your own ETL pipeline with Bacalhau and MongoDB.
 
 Here are some example tutorials on how you can process your data with Bacalhau:
 
-* [Stable Diffusion AI](examples/model-inference/index-3.md)
-* [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/index-6.md)
-* [Object Detection with YOLOv5 on Bacalhau](examples/model-inference/index-5.md)
-* [Running Genomics on Bacalhau](examples/molecular-dynamics/index-3.md)
-* [Training Pytorch Model with Bacalhau](examples/model-training/index.md)
+* [Stable Diffusion AI](examples/model-inference/index-3.md) training and deployment with Bacalhau.
+* [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/index-6.md).
+* [Object Detection with YOLOv5 on Bacalhau](examples/model-inference/index-5.md).
+* [Running Genomics on Bacalhau](examples/molecular-dynamics/index-3.md).
+* [Training Pytorch Model with Bacalhau](examples/model-training/index.md).
 
 {% hint style="info" %}
 For more tutorials, visit our [example page](broken-reference)
