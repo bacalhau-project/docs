@@ -3,7 +3,7 @@ cover: .gitbook/assets/bacalhau_banner_high_resolution.png
 coverY: 0
 ---
 
-# Welcome to Bacalhau Docs
+# Welcome to the Bacalhau Docs
 
 {% hint style="success" %}
 * Bacalhau is now using [NATS](https://nats.io/).&#x20;
@@ -80,6 +80,10 @@ Bacalhau can be used for a variety of data processing workloads, including machi
 #### Use Cases
 
 Once you have more than 10 devices generating or storing around 100GB of data, you're likely to face challenges with processing that data efficiently. Traditional computing approaches may struggle to handle such large volumes, and that's where distributed computing solutions like Bacalhau can be extremely useful. Bacalhau can be used in various industries, including security, web serving, financial services, IoT, Edge, Fog, and multi-cloud. Bacalhau shines when it comes to data-intensive applications like [data engineering](examples/data-engineering/), [model training](examples/model-training/), [model inference](examples/model-inference/), [molecular dynamics](examples/molecular-dynamics/), etc.
+
+{% embed url="https://www.youtube.com/watch?ab_channel=Expanso&t=7s&v=R5s9cZg5DOM" %}
+An example on how to build your own ETL pipeline with Bacalhau and MongoDB.
+{% endembed %}
 
 Here are some example tutorials on how you can process your data with Bacalhau:
 
