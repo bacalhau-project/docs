@@ -104,7 +104,7 @@ For node operation, refer to the [Running a Node](../setting-up/running-node/) s
 
 ### Job Submission
 
-You should use the Bacalhau client to send a task to the network. The client transmits the job information to the Bacalhau network via established protocols and interfaces. Jobs submitted via the Bacalhau CLI are forwarded to a Bacalhau network node at [http://bootstrap.production.bacalhau.org/](http://bootstrap.production.bacalhau.org/) via port `1234` by default. This Bacalhau node will act as the requester node for the duration of the job lifecycle.
+You should use the Bacalhau client to send a task to the network. The client transmits the job information to the Bacalhau network via established protocols and interfaces. Jobs submitted via the Bacalhau CLI are forwarded to a Bacalhau network node at (http://bootstrap.production.bacalhau.org/) via port `1234` by default. This Bacalhau node will act as the requester node for the duration of the job lifecycle.
 
 Bacalhau provides an interface to interact with the server via a REST API. Bacalhau uses 127.0.0.1 as the localhost and 1234 as the port by default.
 

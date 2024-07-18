@@ -25,10 +25,10 @@ bacalhau docker run \
 
 To get started, you need to install:
 
-1. Bacalhau client, see more information [here](http://localhost:3000/getting-started/installation)
-2. Whisper
-3. PyTorch
-4. pandas
+1. Bacalhau client, see more information [here](../../getting-started/installation.md).
+2. Whisper.
+3. PyTorch.
+4. Python Pandas.
 
 ## Running whisper locally[​](http://localhost:3000/examples/model-inference/Openai-Whisper/#running-whisper-locally) <a href="#running-whisper-locally" id="running-whisper-locally"></a>
 
