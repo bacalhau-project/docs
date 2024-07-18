@@ -1,7 +1,3 @@
----
-description: How to process images stored in IPFS with Bacalhau
----
-
 # Simple Image Processing
 
 ## Introduction

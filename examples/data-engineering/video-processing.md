@@ -1,7 +1,3 @@
----
-description: Parallel Video Resizing via File Sharding
----
-
 # Video Processing
 
 ## Introduction

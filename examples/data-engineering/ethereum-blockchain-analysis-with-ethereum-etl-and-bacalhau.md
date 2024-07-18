@@ -1,7 +1,3 @@
----
-description: Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau
----
-
 # Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau
 
 ## Introduction

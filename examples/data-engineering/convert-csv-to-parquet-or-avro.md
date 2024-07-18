@@ -228,7 +228,7 @@ pd.read_parquet('transactions.parquet').head()
 ## Containerize Script with Docker[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#containerize-script-with-docker) <a href="#containerize-script-with-docker" id="containerize-script-with-docker"></a>
 
 {% hint style="info" %}
-You can skip this section entirely and directly go to [Running on Bacalhau](index-2.md#running-a-bacalhau-job)
+You can skip this section entirely and directly go to [Running on Bacalhau](convert-csv-to-parquet-or-avro.md#running-a-bacalhau-job)
 {% endhint %}
 
 To build your own docker container, create a `Dockerfile`, which contains instructions to build your image.

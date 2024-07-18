@@ -150,7 +150,7 @@ ultralytics/yolov5:v6.2 \
 
 Just as in the example above, this should output a UUID, which will be stored in the environment variable `JOB_ID`. You can check the status of the job using the commands below.
 
-To check the state of the job and view job output refer to the [instructions above](index-5.md#checking-the-state-of-your-jobs).
+To check the state of the job and view job output refer to the [instructions above](object-detection-with-yolov5-on-bacalhau.md#checking-the-state-of-your-jobs).
 
 ## Support[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#support) <a href="#support" id="support"></a>
 
