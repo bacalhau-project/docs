@@ -1,6 +1,6 @@
 # Stable Diffusion Checkpoint Inference
 
-## Introduction[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction​ <a href="#introduction" id="introduction"></a>
 
 [Stable Diffusion](https://github.com/CompVis/stable-diffusion) is a state of the art text-to-image model that generates images from text and was developed as an open-source alternative to [DALL·E 2](https://openai.com/dall-e-2/). It is based on a [Diffusion Probabilistic Model](https://arxiv.org/abs/2102.09672) and uses a [Transformer](https://arxiv.org/abs/1706.03762) to generate images from text.
 
@@ -8,13 +8,13 @@ This example demonstrates how to use stable diffusion using a finetuned model an
 
 The following guide is using the fine-tuned model, which was finetuned on Bacalhau. To learn how to finetune your own stable diffusion model refer to [this guide](../model-training/stable-diffusion-dreambooth-finetuning.md).
 
-## TL;DR[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#tldr) <a href="#tldr" id="tldr"></a>
+## TL;DR​ <a href="#tldr" id="tldr"></a>
 
 1. Convert your existing model weights to the `ckpt` format and upload to the IPFS storage.
 2. Create a job using `bacalhau docker run`, relevant docker image, model weights and any prompt.
 3. Download results using `bacalhau job get` and the job id.
 
-## Prerequisite[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install:
 
@@ -23,9 +23,9 @@ To get started, you need to install:
 3. CUDA drivers
 4. NVIDIA docker
 
-## Running Locally[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#running-locally) <a href="#running-locally" id="running-locally"></a>
+## Running Locally​ <a href="#running-locally" id="running-locally"></a>
 
-### Containerize your Script using Docker[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#containerize-your-script-using-docker) <a href="#containerize-your-script-using-docker" id="containerize-your-script-using-docker"></a>
+### Containerize your Script using Docker​ <a href="#containerize-your-script-using-docker" id="containerize-your-script-using-docker"></a>
 
 {% hint style="success" %}
 This part of the guide is optional - you can skip it and proceed to the [Running a Bacalhau job](stable-diffusion-checkpoint-inference.md#running-a-bacalhau-job) if you are not going to use your own custom image.
@@ -61,7 +61,7 @@ This container is using the `pytorch/pytorch:1.13.0-cuda11.6-cudnn8-runtime` ima
 See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
 {% endhint %}
 
-### Build the container[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
+### Build the container​ <a href="#build-the-container" id="build-the-container"></a>
 
 We will run `docker build` command to build the container.
 
@@ -81,7 +81,7 @@ So in our case, the command will look like this:
 docker build -t jsacex/stable-diffusion-ckpt
 ```
 
-### Push the container[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#push-the-container) <a href="#push-the-container" id="push-the-container"></a>
+### Push the container​ <a href="#push-the-container" id="push-the-container"></a>
 
 Next, upload the image to the registry. This can be done by using the Docker hub username, repo name or tag.
 
@@ -97,7 +97,7 @@ docker push jsacex/stable-diffusion-ckpt
 
 After the repo image has been pushed to Docker Hub, you can now use the container for running on Bacalhau. But before that you need to check whether your model is a `ckpt` file or not. If your model is a `ckpt` file you can skip to the running on Bacalhau, and if not - the next section describes how to convert your model into the `ckpt` format.
 
-## Converting model weights to CKPT[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#converting-model-weights-to-ckpt) <a href="#converting-model-weights-to-ckpt" id="converting-model-weights-to-ckpt"></a>
+## Converting model weights to CKPT​ <a href="#converting-model-weights-to-ckpt" id="converting-model-weights-to-ckpt"></a>
 
 To download the convert script:
 
@@ -114,7 +114,7 @@ python3 convert_diffusers_to_original_stable_diffusion.py \
     --half
 ```
 
-## Running a Bacalhau Job[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
+## Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 To do inference on your own checkpoint on Bacalhau you need to first upload it to your public storage, which can be mounted anywhere on your machine. In this case, we will be using [NFT.Storage](https://nft.storage/) (Recommended Option). To upload your dataset using [NFTup](https://nft.storage/docs/how-to/nftup/) drag and drop your directory and it will upload it to IPFS.
 
@@ -124,7 +124,7 @@ After the checkpoint file has been uploaded copy its CID.
 Some of the jobs presented in the Examples section may require more resources than are currently available on the demo network. Consider [starting your own network](../../getting-started/create-private-network.md) or running less resource-intensive jobs on the demo network
 {% endhint %}
 
-### Structure of the command[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 Let's look closely at the command above:
 
@@ -155,7 +155,7 @@ jsacex/stable-diffusion-ckpt \
 -- conda run --no-capture-output -n ldm python scripts/txt2img.py --prompt "a photo of a person drinking coffee" --plms --ckpt ../model.ckpt --skip_grid --n_samples 1 --skip_grid --outdir ../outputs) 
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`:
 
@@ -178,8 +178,8 @@ rm -rf results && mkdir results
 bacalhau job get ${JOB_ID} --output-dir results
 ```
 
-## Viewing your Job Output[​](http://localhost:3000/examples/model-inference/Stable-Diffusion-CKPT-Inference/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 After the download has finished we can see the results in the `results/outputs` folder. We received following image for our prompt:
 
-<figure><img src="../../.gitbook/assets/index_19_0-93ca4dbcb23afc760c01faa65cac5699.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/index_19_0-93ca4dbcb23afc760c01faa65cac5699.png" alt=""><figcaption><p>The photo generated with Stable Diffusion on the basis of Checkpoint Inference with Bacalhau.</p></figcaption></figure>
