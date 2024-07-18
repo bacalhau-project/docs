@@ -10,7 +10,7 @@ This tutorial describes how to add new nodes to an existing private network. Two
 ## Pre-Prerequisites
 
 1. You should have an established private network consisting of at least one requester node. See the [Create Private Network](../../getting-started/create-private-network.md) guide to set one up.
-2. You should have a new host (physical/virtual machine, cloud instance or docker container) with [Bacalhau](../../getting-started/installation.md) installed[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-host--virtual-machine-as-a-new-node)
+2. You should have a new host (physical/virtual machine, cloud instance or docker container) with [Bacalhau](../../getting-started/installation.md) installed.[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-host--virtual-machine-as-a-new-node)
 
 ## Add Host/Virtual Machine as a New Node
 
@@ -30,7 +30,9 @@ bacalhau serve \
 ...
 ```
 
-Remember that in such example you need to replace all `127.0.0.1` and `0.0.0.0.0` addresses with the actual public IP address of your node[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-a-cloud-instance-as-a-new-node)
+{% hint style="info" %}
+Remember that in this example you need to replace all 127.0.0.1 and 0.0.0.0.0 addresses with the actual public IP address of your node.[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-a-cloud-instance-as-a-new-node)
+{% endhint %}
 
 ## Add a Cloud Instance as a New Node
 
