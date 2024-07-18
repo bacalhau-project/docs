@@ -8,7 +8,7 @@ description: In this tutorial you are setting up your own network
 
 Bacalhau allows you to create your own private network so you can securely run private workloads without the risks inherent in working on public nodes or inadvertently distributing data outside your organization.
 
-This tutorial describes the process of creating your own private network from multiple nodes, configuring the nodes and running demo jobs.[​](http://localhost:3000/getting-started/create-private-network#tldr)
+This tutorial describes the process of creating your own private network from multiple nodes, configuring the nodes and running demo jobs.​
 
 ## TLDR
 
@@ -32,7 +32,7 @@ bacalhau docker run apline echo hello
 2. [Install Bacalhau](installation.md) on each host
 3. Ensure that all nodes are connected to the same network and that the necessary ports are open for communication between them.
    1. Ensure your nodes have an internet connection in case you have to download or upload any data (docker images, input data, results)
-4. Ensure that [Docker Engine](https://docs.docker.com/engine/install/) is installed in case you are going to run Docker Workloads[​](http://localhost:3000/getting-started/create-private-network#start-initial-requester-node)
+4. Ensure that [Docker Engine](https://docs.docker.com/engine/install/) is installed in case you are going to run Docker Workloads​
 
 {% hint style="info" %}
 Bacalhau is designed to be versatile in its deployment, capable of running on various environments: physical hosts, virtual machines or cloud instances. Its resource requirements are modest, ensuring compatibility with a wide range of hardware configurations. However, for certain workloads, such as machine learning, it's advisable to consider hardware configurations optimized for computational tasks, including [GPUs](../setting-up/running-node/gpu.md).
@@ -44,7 +44,7 @@ The Bacalhau network consists of nodes of two types: compute and requester. Comp
 
 The first step is to start up the initial **Requester** node. This node will connect to nothing but will listen for connections.
 
-Start by creating a secure token. This token will be used for authentication between the orchestrator and compute nodes during their communications. Any string can be used as a token, preferably not easy to guess or brute-force. In addition, new authentication methods will be introduced in future releases.[​](http://localhost:3000/getting-started/create-private-network#create-and-set-up-a-token)
+Start by creating a secure token. This token will be used for authentication between the orchestrator and compute nodes during their communications. Any string can be used as a token, preferably not easy to guess or brute-force. In addition, new authentication methods will be introduced in future releases.​
 
 ## Create and Set Up a Token
 
@@ -92,7 +92,7 @@ Note that for security reasons, the output of the command contains the localhost
 curl https://api.ipify.org
 ```
 
-If you are using a cloud deployment, you can find your public IP through their console, e.g. [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) and [Google Cloud](https://cloud.google.com/compute/docs/instances/view-ip-address)[​](http://localhost:3000/getting-started/create-private-network#create-and-connect-compute-node)
+If you are using a cloud deployment, you can find your public IP through their console, e.g. [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) and [Google Cloud](https://cloud.google.com/compute/docs/instances/view-ip-address).​
 
 ## Create and Connect Compute Node
 
