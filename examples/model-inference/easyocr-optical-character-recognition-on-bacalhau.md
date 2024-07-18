@@ -68,7 +68,7 @@ bounds
 ## Containerize your Script using Docker[​](http://localhost:3000/examples/model-inference/EasyOCR/#containerize-your-script-using-docker) <a href="#containerize-your-script-using-docker" id="containerize-your-script-using-docker"></a>
 
 {% hint style="success" %}
-You can skip this step and go straight to running a [Bacalhau job](index.md#running-a-bacalhau-job-to-generate-easy-ocr-output)
+You can skip this step and go straight to running a [Bacalhau job](easyocr-optical-character-recognition-on-bacalhau.md#running-a-bacalhau-job-to-generate-easy-ocr-output)
 {% endhint %}
 
 We will use the `Dockerfile` that is already created in the [Easy OCR repo](https://github.com/JaidedAI/EasyOCR). Use the command below to clone the repo

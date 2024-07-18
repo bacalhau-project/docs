@@ -111,8 +111,8 @@ Here are some example tutorials on how you can process your data with Bacalhau:
 * [Stable Diffusion AI](examples/model-inference/index-3.md) training and deployment with Bacalhau.
 * [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/index-6.md).
 * [Object Detection with YOLOv5 on Bacalhau](examples/model-inference/index-5.md).
-* [Running Genomics on Bacalhau](examples/molecular-dynamics/index-3.md).
-* [Training Pytorch Model with Bacalhau](examples/model-training/index.md).
+* [Running Genomics on Bacalhau](broken-reference).
+* [Training Pytorch Model with Bacalhau](broken-reference).
 
 {% hint style="info" %}
 For more tutorials, visit our [example page](broken-reference)
