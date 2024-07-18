@@ -16,7 +16,7 @@ Lilypad serves as a verifiable, trustless, and decentralized computational netwo
 
 {% embed url="https://www.youtube.com/watch?v=yQnB2Yxia4Y" %}
 
-### Key features[​](http://localhost:3000/integration/lilypad#key-features) <a href="#key-features" id="key-features"></a>
+### Key features​ <a href="#key-features" id="key-features"></a>
 
 Some of the key features of Lilypad include:
 
@@ -92,7 +92,7 @@ Block explorer URL: (leave blank)
 
 To do this, open metamask then click on the `Network` button > `Add Network` > `Add a network manually` See the [Lilypad documentation](https://docs.lilypad.tech/lilypad/lilypad-aurora-testnet/quick-start/setting-up-metamask) for more details
 
-### Funding your wallet[​](http://localhost:3000/integration/lilypad#funding-your-wallet) <a href="#funding-your-wallet" id="funding-your-wallet"></a>
+### Funding your wallet​ <a href="#funding-your-wallet" id="funding-your-wallet"></a>
 
 To obtain funds, connect to the lilypad v2 Aurora testnet network on your wallet and head to the faucet at `http://faucet.lilypad.tech:8080` to get ETH and LP. Copy your metamask wallet address into the bar and click request.
 
