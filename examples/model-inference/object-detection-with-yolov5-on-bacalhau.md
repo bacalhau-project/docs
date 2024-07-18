@@ -1,6 +1,6 @@
 # Object Detection with YOLOv5 on Bacalhau
 
-## Introduction[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction​ <a href="#introduction" id="introduction"></a>
 
 The identification and localization of objects in images and videos is a computer vision task called object detection. Several algorithms have emerged in the past few years to tackle the problem. One of the most popular algorithms to date for real-time object detection is [YOLO (You Only Look Once)](https://towardsdatascience.com/yolo-you-only-look-once-real-time-object-detection-explained-492dc9230006), initially proposed [by Redmond et al.](https://arxiv.org/abs/1506.02640)
 
@@ -8,15 +8,15 @@ Traditionally, models like YOLO required enormous amounts of training data to yi
 
 Bacalhau is a highly scalable decentralized computing platform and is well suited to running massive object detection jobs. In this example, you can take advantage of the GPUs available on the Bacalhau Network and perform an end-to-end object detection inference, using the [YOLOv5 Docker Image developed by Ultralytics.](https://github.com/ultralytics/yolov5/wiki/Docker-Quickstart)
 
-## TL;DR[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#tldr) <a href="#tldr" id="tldr"></a>
+## TL;DR​ <a href="#tldr" id="tldr"></a>
 
 Load your dataset into S3/IPFS, specify it and pre-trained weights via the `--input` flags, choose a suitable container, specify the command and path to save the results - done!
 
-## Prerequisite[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Test Run with Sample Data[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#test-run-with-sample-data) <a href="#test-run-with-sample-data" id="test-run-with-sample-data"></a>
+## Test Run with Sample Data​ <a href="#test-run-with-sample-data" id="test-run-with-sample-data"></a>
 
 To get started, let's run a test job with a small sample dataset that is included in the YOLOv5 Docker Image. This will give you a chance to familiarise yourself with the process of running a job on Bacalhau.
 
@@ -37,7 +37,7 @@ For more container flags refer to the `yolov5/detect.py` file in the [YOLO repos
 
 One final additional hack that we have to do is move the weights file to a location with the standard name. As of writing this, Bacalhau downloads the file to a UUID-named file, which the model is not expecting. This is because GitHub 302 redirects the request to a random file in its backend.
 
-### Structure of the command[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 {% hint style="info" %}
 Some of the jobs presented in the Examples section may require more resources than are currently available on the demo network. Consider [starting your own network](../../getting-started/create-private-network.md) or running less resource-intensive jobs on the demo network
@@ -66,9 +66,9 @@ ultralytics/yolov5:v6.2 \
 
 This should output a UUID (like `59c59bfb-4ef8-45ac-9f4b-f0e9afd26e70`), which will be stored in the environment variable `JOB_ID`. This is the ID of the job that was created. You can check the status of the job using the commands below.
 
-### Declarative job description[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
-The same job can be presented in the [declarative](http://localhost:3000/setting-up/jobs/job-specification/job) format. In this case, the description will look like this:
+The same job can be presented in the [declarative](object-detection-with-yolov5-on-bacalhau.md#declarative-job-description) format. In this case, the description will look like this:
 
 ```yaml
 name: Object Detection with YOLOv5
@@ -98,7 +98,7 @@ tasks:
         Target: "/inputs"
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`:
 
@@ -121,11 +121,11 @@ rm -rf results && mkdir results
 bacalhau job get ${JOB_ID} --output-dir results
 ```
 
-### Viewing Output[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#viewing-output) <a href="#viewing-output" id="viewing-output"></a>
+### Viewing Output​ <a href="#viewing-output" id="viewing-output"></a>
 
 After the download has finished we can see the results in the `results/outputs/exp` folder.
 
-## Using Custom Images as an Input[​](http://localhost:3000/examples/model-inference/object-detection-yolo5/#using-custom-images-as-an-input) <a href="#using-custom-images-as-an-input" id="using-custom-images-as-an-input"></a>
+## Using Custom Images as an Input​ <a href="#using-custom-images-as-an-input" id="using-custom-images-as-an-input"></a>
 
 Now let's use some custom images. First, you will need to ingest your images onto IPFS or S3 storage. For more information about how to do that see the [data ingestion](../../setting-up/data-ingestion/) section.
 
@@ -152,6 +152,6 @@ Just as in the example above, this should output a UUID, which will be stored in
 
 To check the state of the job and view job output refer to the [instructions above](object-detection-with-yolov5-on-bacalhau.md#checking-the-state-of-your-jobs).
 
-## Support[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#support) <a href="#support" id="support"></a>
+## Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

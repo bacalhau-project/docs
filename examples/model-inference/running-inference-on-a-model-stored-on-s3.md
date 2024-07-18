@@ -1,19 +1,19 @@
 # Running Inference on a Model stored on S3
 
-## Introduction[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction​ <a href="#introduction" id="introduction"></a>
 
 In this example, we will demonstrate how to run inference on a model stored on Amazon S3. We will use a PyTorch model trained on the MNIST dataset.
 
-## Running Locally[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#running-locally) <a href="#running-locally" id="running-locally"></a>
+## Running Locally​ <a href="#running-locally" id="running-locally"></a>
 
-### Prerequisites[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
+### Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
 Consider using the latest versions or use the docker method listed below in the article.
 
 1. Python
 2. PyTorch
 
-### Downloading the Datasets[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#downloading-the-datasets) <a href="#downloading-the-datasets" id="downloading-the-datasets"></a>
+### Downloading the Datasets​ <a href="#downloading-the-datasets" id="downloading-the-datasets"></a>
 
 Use the following commands to download the model and test image:
 
@@ -22,7 +22,7 @@ wget https://sagemaker-sample-files.s3.amazonaws.com/datasets/image/MNIST/model/
 wget https://raw.githubusercontent.com/js-ts/mnist-test/main/digit.png
 ```
 
-### Creating the Inference Script[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#creating-the-inference-script) <a href="#creating-the-inference-script" id="creating-the-inference-script"></a>
+### Creating the Inference Script​ <a href="#creating-the-inference-script" id="creating-the-inference-script"></a>
 
 This script is designed to load a pretrained PyTorch model for MNIST digit classification from a `tar.gz` file, extract it, and use the model to perform inference on a given input image. Ensure you have all required dependencies installed:
 
@@ -106,7 +106,7 @@ print(f"Predicted class: {predicted_class}")
 
 ```
 
-### Running the Inference Script[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#running-the-inference-script) <a href="#running-the-inference-script" id="running-the-inference-script"></a>
+### Running the Inference Script​ <a href="#running-the-inference-script" id="running-the-inference-script"></a>
 
 To use this script, you need to provide the paths to the `tar.gz` file containing the pre-trained model, the output directory where the model will be extracted, and the input image file for which you want to perform inference. The script will output the predicted digit (class) for the given input image.
 
@@ -114,13 +114,13 @@ To use this script, you need to provide the paths to the `tar.gz` file containin
 python3 inference.py --tar_gz_file_path ./model.tar.gz --output_directory ./model --image_path ./digit.png
 ```
 
-## Running Inference on Bacalhau[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#running-inference-on-bacalhau) <a href="#running-inference-on-bacalhau" id="running-inference-on-bacalhau"></a>
+## Running Inference on Bacalhau​ <a href="#running-inference-on-bacalhau" id="running-inference-on-bacalhau"></a>
 
-### Prerequisite[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+### Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-### Structure of the Command[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the Command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 1. `export JOB_ID=$( ... )`: Export results of a command execution as environment variable
 2. `-w /inputs` Set the current working directory at `/inputs` in the container
@@ -147,7 +147,7 @@ pytorch/pytorch \
 
 When the job is submitted Bacalhau prints out the related job id. We store that in an environment variable `JOB_ID` so that we can reuse it later on.
 
-### Viewing the Output[​](http://localhost:3000/examples/model-inference/S3-Model-Inference/#viewing-the-output) <a href="#viewing-the-output" id="viewing-the-output"></a>
+### Viewing the Output​ <a href="#viewing-the-output" id="viewing-the-output"></a>
 
 Use the `bacalhau job logs` command to view the job output, since the script prints the result of execution to the stdout:
 

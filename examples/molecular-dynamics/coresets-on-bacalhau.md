@@ -14,11 +14,11 @@ For a deeper understanding of the core concepts, it's recommended to explore:\
 
 In this tutorial example, we will run compressed dataset with Bacalhau
 
-## Prerequisite[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Running Locally[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#running-locally) <a href="#running-locally" id="running-locally"></a>
+## Running Locally​ <a href="#running-locally" id="running-locally"></a>
 
 Clone the repo which contains the code
 
@@ -26,7 +26,7 @@ Clone the repo which contains the code
 git clone https://github.com/js-ts/Coreset
 ```
 
-### Downloading the dataset[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#downloading-the-dataset) <a href="#downloading-the-dataset" id="downloading-the-dataset"></a>
+### Downloading the dataset​ <a href="#downloading-the-dataset" id="downloading-the-dataset"></a>
 
 To download the dataset you should open Street Map, which is a public repository that aims to generate and distribute accessible geographic data for the whole world. Basically, it supplies detailed position information, including the longitude and latitude of the places around the world.
 
@@ -36,7 +36,7 @@ The dataset is a `osm.pbf` (compressed format for `.osm` file), the file can be 
 wget https://download.geofabrik.de/europe/monaco-latest.osm.pbf
 ```
 
-### Installing Dependencies[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#installing-dependencies) <a href="#installing-dependencies" id="installing-dependencies"></a>
+### Installing Dependencies​ <a href="#installing-dependencies" id="installing-dependencies"></a>
 
 The following command is installing Linux dependencies:
 
@@ -81,7 +81,7 @@ The following command is installing Python dependencies:
 pip3 install -r Coreset/requirements.txt
 ```
 
-### Running the Script[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#running-the-script) <a href="#running-the-script" id="running-the-script"></a>
+### Running the Script​ <a href="#running-the-script" id="running-the-script"></a>
 
 To run coreset locally, you need to convert from compressed `pbf` format to `geojson` format:
 
@@ -99,7 +99,7 @@ python Coreset/python/coreset.py -f monaco-latest.geojson
 `coreset.py` contains the following script [here](https://github.com/js-ts/Coreset/blob/master/Coreset/python/coreset.py)
 {% endhint %}
 
-## Containerize Script using Docker[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#containerize-script-using-docker) <a href="#containerize-script-using-docker" id="containerize-script-using-docker"></a>
+## Containerize Script using Docker​ <a href="#containerize-script-using-docker" id="containerize-script-using-docker"></a>
 
 To build your own docker container, create a `Dockerfile`, which contains instructions on how the image will be built, and what extra requirements will be included.
 
@@ -121,7 +121,7 @@ We will use the `python:3.8` image, we run the same commands for installing depe
 See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
 {% endhint %}
 
-### Build the container[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
+### Build the container​ <a href="#build-the-container" id="build-the-container"></a>
 
 We will run `docker build` command to build the container:
 
@@ -143,7 +143,7 @@ In our case:
 docker build -t jsace/coreset
 ```
 
-### Push the container[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#push-the-container) <a href="#push-the-container" id="push-the-container"></a>
+### Push the container​ <a href="#push-the-container" id="push-the-container"></a>
 
 Next, upload the image to the registry. This can be done by using the Docker hub username, repo name or tag.
 
@@ -157,7 +157,7 @@ In our case:
 docker push jsace/coreset
 ```
 
-## Running a Bacalhau Job[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
+## Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 After the repo image has been pushed to Docker Hub, we can now use the container for running on Bacalhau. We've already converted the `monaco-latest.osm.pbf` file from compressed `pbf` format to `geojson` format [here](https://github.com/js-ts/Coreset/blob/master/monaco-latest.geojson). To submit a job, run the following Bacalhau command:
 
@@ -168,7 +168,7 @@ bacalhau docker run \
     -- /bin/bash -c 'python Coreset/python/coreset.py -f monaco-latest.geojson -o outputs'
 ```
 
-### Structure of the command[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 Let's look closely at the command above:
 
@@ -187,7 +187,7 @@ Let's look closely at the command above:
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-#### Declarative job description[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+#### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -227,7 +227,7 @@ The job description should be saved in `.yaml` format, e.g. `coreset.yaml`, and 
 bacalhau job run coreset.yaml
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
 
@@ -250,7 +250,7 @@ rm -rf results && mkdir -p results
 bacalhau job get $JOB_ID --output-dir results
 ```
 
-## Viewing your Job Output[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 To view the file, run the following command:
 
@@ -304,6 +304,6 @@ cat results/outputs/coreset-weights-monaco-latest.csv | head -n 10
 1.728105655128551632e+02
 ```
 
-### Support[​](http://localhost:3000/examples/molecular-dynamics/Coreset/#support) <a href="#support" id="support"></a>
+### Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
