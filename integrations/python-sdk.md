@@ -14,7 +14,7 @@ It is a **high-level** SDK that ships the client-side logic (e.g. signing reques
 
 Please make sure to use this SDK library in your Python projects, instead of the lower level `bacalhau-apiclient`. The latter is listed as a dependency of this SDK and will be installed automatically when you follow the installation instructions below.
 
-## Features[​](http://localhost:3000/integration/python-sdk#features) <a href="#features" id="features"></a>
+## Features​ <a href="#features" id="features"></a>
 
 1. List, create and inspect Bacalhau jobs using Python objects
 2. Use the production network, or set the following environment variables to target any Bacalhau network out there:
@@ -22,7 +22,7 @@ Please make sure to use this SDK library in your Python projects, instead of the
    2. `BACALHAU_API_PORT`
 3. Generate a key pair used to sign requests stored in the path specified by the `BACALHAU_DIR` env var (default: `~/.bacalhau`)
 
-## Install[​](http://localhost:3000/integration/python-sdk#install) <a href="#install" id="install"></a>
+## Install​ <a href="#install" id="install"></a>
 
 {% tabs %}
 {% tab title="PyPi" %}
@@ -47,11 +47,11 @@ pip install .
 {% endtab %}
 {% endtabs %}
 
-## Initialize[​](http://localhost:3000/integration/python-sdk#initialize) <a href="#initialize" id="initialize"></a>
+## Initialize​ <a href="#initialize" id="initialize"></a>
 
 Likewise the Bacalhau CLI, this SDK uses a key pair to be stored in `BACALHAU_DIR` used for signing requests. If a key pair is not found there, it will create one for you.
 
-## Example Use[​](http://localhost:3000/integration/python-sdk#example-use) <a href="#example-use" id="example-use"></a>
+## Example Use​ <a href="#example-use" id="example-use"></a>
 
 Let's submit a Hello World job and then fetch its output data's CID. We start by importing this sdk, namely `bacalhau_sdk`, used to create and submit a job create request. Then we import `bacalhau_apiclient` (installed automatically with this sdk), it provides various object models that compose a job create request. These are used to populate a simple python dictionary that will be passed over to the `submit` util method.
 
@@ -150,11 +150,11 @@ DEBUG:bacalhau_sdk.config:init config done
 
 <table><thead><tr><th width="134">Function</th><th width="276">Description</th><th width="359">Input</th></tr></thead><tbody><tr><td><strong>put</strong></td><td>A request to put a job to bacalhau network. It encapsulates the job model. Once the job is successful put on bacalhau network, this returns the job details.</td><td><strong>PutJobRequest</strong></td></tr><tr><td><strong>stop</strong></td><td>Stops a certain job and takes optionally a reason why it was stopped.</td><td><strong>job_id</strong> (str), <strong>reason</strong> <em>(str=None)</em></td></tr><tr><td><strong>executions</strong></td><td>Gets Job Executions with the given parameters. Note that only job_id is required.</td><td><strong>job_id</strong> (str), <strong>namespace</strong> (str=""), <strong>next_token</strong> (str =""), <strong>limit</strong> (int = 5), <strong>reverse</strong> (bool = False), <strong>order_by</strong> (str = "")</td></tr><tr><td><strong>results</strong></td><td>Get the results of the specified job_id.</td><td><strong>job_id</strong> (str)</td></tr><tr><td><strong>get</strong></td><td>Gets Details/Specs of a Job by job_id and returns the job details.</td><td><strong>job_id</strong> (str), <strong>include</strong> (str = ""), <strong>limit</strong> (int = 10)</td></tr><tr><td><strong>history</strong></td><td>Get History of a Job by job_id and return it.</td><td><strong>job_id</strong> (str), <strong>event_type</strong> (str = "execution"), <strong>node_id</strong> (str = ""), <strong>execution_id</strong> (str = "")</td></tr><tr><td><strong>list</strong></td><td>Fetches and returns a list of all the Jobs, which abide the constraints given.</td><td><strong>limit</strong> (int = 5), <strong>next_token</strong> (str = ""), <strong>order_by</strong> (str="created_at"), <strong>reverse</strong> (bool = False)</td></tr></tbody></table>
 
-## Devstack[​](http://localhost:3000/integration/python-sdk#devstack) <a href="#devstack" id="devstack"></a>
+## Devstack​ <a href="#devstack" id="devstack"></a>
 
 You can set the environment variables `BACALHAU_API_HOST` and `BACALHAU_API_PORT` to point this SDK to your Bacalhau API local devstack.
 
-## Developers guide[​](http://localhost:3000/integration/python-sdk#developers-guide) <a href="#developers-guide" id="developers-guide"></a>
+## Developers guide​ <a href="#developers-guide" id="developers-guide"></a>
 
 We use Poetry to manage this package, take a look at [their official docs](https://python-poetry.org/docs/) to install it. Note, all targets in the Makefile use poetry as well!
 
