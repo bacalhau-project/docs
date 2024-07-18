@@ -28,7 +28,7 @@ This command initializes a requester and compute node, configured to listen on `
 
 ### Accessing the Local WebUI
 
-Once started, the WebUI is accessible at [http://127.0.0.1/](http://127.0.0.1/). This local instance allows you to interact with your local Bacalhau network setup.
+Once started, the WebUI is accessible at (`http://127.0.0.1/`). This local instance allows you to interact with your local Bacalhau network setup.
 
 ## Accessing the WebUI from the Browser
 

@@ -1,18 +1,18 @@
 # Node Onboarding
 
-## Introduction[​](http://localhost:3000/setting-up/running-node/quick-start-docker#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction
 
 This tutorial describes how to add new nodes to an existing private network. Two basic scenarios will be covered:
 
 1. Adding a [physical host / virtual machine](quick-start-docker.md#add-host--virtual-machine-as-a-new-node) as a new node
-2. Adding a [cloud instance](quick-start-docker.md#add-a-cloud-instance-as-a-new-node) as a new node
+2. Adding a [cloud instance](quick-start-docker.md#add-a-cloud-instance-as-a-new-node) as a new node[​](http://localhost:3000/setting-up/running-node/quick-start-docker#pre-prerequisites)
 
-## Pre-Prerequisites[​](http://localhost:3000/setting-up/running-node/quick-start-docker#pre-prerequisites) <a href="#pre-prerequisites" id="pre-prerequisites"></a>
+## Pre-Prerequisites
 
 1. You should have an established private network consisting of at least one requester node. See the [Create Private Network](../../getting-started/create-private-network.md) guide to set one up.
-2. You should have a new host (physical/virtual machine, cloud instance or docker container) with [Bacalhau](../../getting-started/installation.md) installed
+2. You should have a new host (physical/virtual machine, cloud instance or docker container) with [Bacalhau](../../getting-started/installation.md) installed[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-host--virtual-machine-as-a-new-node)
 
-## Add Host / Virtual Machine as a New Node[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-host--virtual-machine-as-a-new-node) <a href="#add-host--virtual-machine-as-a-new-node" id="add-host--virtual-machine-as-a-new-node"></a>
+## Add Host/Virtual Machine as a New Node
 
 Let's assume that you already have a private network with at least one requester node. In this case, the process of adding new nodes follows the [Create And Connect Compute Node](../../getting-started/create-private-network.md#create-and-connect-compute-node) section. You will need to:
 
@@ -30,9 +30,9 @@ bacalhau serve \
 ...
 ```
 
-Remember that in such example you need to replace all `127.0.0.1` and `0.0.0.0.0` addresses with the actual public IP address of your node
+Remember that in such example you need to replace all `127.0.0.1` and `0.0.0.0.0` addresses with the actual public IP address of your node[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-a-cloud-instance-as-a-new-node)
 
-## Add a Cloud Instance as a New Node[​](http://localhost:3000/setting-up/running-node/quick-start-docker#add-a-cloud-instance-as-a-new-node) <a href="#add-a-cloud-instance-as-a-new-node" id="add-a-cloud-instance-as-a-new-node"></a>
+## Add a Cloud Instance as a New Node
 
 Let's assume you already have all the necessary cloud infrastructure set up with a private network with at least one requester node. In this case, you can add new nodes manually ([AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2\_GetStarted.html), [Azure](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-cli), [GCP](https://cloud.google.com/compute/docs/machine-images/create-instance-from-machine-image)) or use a tool like [Terraform](https://developer.hashicorp.com/terraform/tutorials) to automatically create and add any number of nodes to your network. The process of adding new nodes manually follows the [Create And Connect Compute Node](../../getting-started/create-private-network.md#create-and-connect-compute-node) section.
 

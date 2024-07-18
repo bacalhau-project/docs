@@ -2,10 +2,10 @@
 
 Bacalhau has two ways to make use of external storage providers: Sources and Publishers. **Sources** storage resources consumed as inputs to jobs. And **Publishers** storage resources created with the results of jobs.
 
-## [​](http://localhost:3000/setting-up/running-node/storage-providers#sources)Sources <a href="#sources" id="sources"></a>
+## Sources
 
-### S3[​](http://localhost:3000/setting-up/running-node/storage-providers#s3) <a href="#s3" id="s3"></a>
-
+{% tabs %}
+{% tab title="S3" %}
 Bacalhau allows you to use S3 or any S3-compatible storage service as an input source. Users can specify files or entire prefixes stored in S3 buckets to be fetched and mounted directly into the job execution environment. This capability ensures that your jobs have immediate access to the necessary data. See the [S3 source specification](../../references/jobs/job/task/sources/s3.md) for more details.
 
 To use the S3 source, you will have to to specify the mandatory name of the S3 bucket and the optional parameters Key, Filter, Region, Endpoint, VersionID and ChechsumSHA256.
@@ -23,9 +23,9 @@ InputSources:
         ChecksumSHA256: "e3b0c44b542b..."
   - Target: "/data"
 ```
+{% endtab %}
 
-### IPFS[​](http://localhost:3000/setting-up/running-node/storage-providers#ipfs) <a href="#ipfs" id="ipfs"></a>
-
+{% tab title="IPFS" %}
 To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and run it locally, or you can connect to a remote IPFS server.
 
 In both cases, you should have an [IPFS multiaddress](https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html) for the IPFS server that should look something like this:
@@ -56,9 +56,9 @@ InputSources:
         CID: "QmY7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjY3fZ"
   - Target: "/data"
 ```
+{% endtab %}
 
-### Local[​](http://localhost:3000/setting-up/running-node/storage-providers#local) <a href="#local" id="local"></a>
-
+{% tab title="Local" %}
 The Local input source allows Bacalhau jobs to access files and directories that are already present on the compute node. This is especially useful for utilizing locally stored datasets, configuration files, logs, or other necessary resources without the need to fetch them from a remote source, ensuring faster job initialization and execution. See the [Local source specification](../../references/jobs/job/task/sources/local.md) for more details.
 
 To use a local data source, you will have to to:
@@ -82,9 +82,9 @@ InputSources:
         ReadWrite: true
     Target: "/config"
 ```
+{% endtab %}
 
-### URL[​](http://localhost:3000/setting-up/running-node/storage-providers#url) <a href="#url" id="url"></a>
-
+{% tab title="URL" %}
 The URL Input Source provides a straightforward method for Bacalhau jobs to access and incorporate data available over HTTP/HTTPS. By specifying a URL, users can ensure the required data, whether a single file or a web page content, is retrieved and prepared in the job's execution environment, enabling direct and efficient data utilization. See the [URL source specification](../../references/jobs/job/task/sources/url.md) for more details.
 
 To use a URL data source, you will have to to specify only URL parameter, as in the part of the declarative job description below:
@@ -97,11 +97,13 @@ InputSources:
         URL: "https://example.com/data/file.txt"
     Target: "/data"
 ```
+{% endtab %}
+{% endtabs %}
 
-## Publishers[​](http://localhost:3000/setting-up/running-node/storage-providers#publishers) <a href="#publishers" id="publishers"></a>
+## Publishers
 
-### S3[​](http://localhost:3000/setting-up/running-node/storage-providers#s3-1) <a href="#s3-1" id="s3-1"></a>
-
+{% tabs %}
+{% tab title="S3" %}
 Bacalhau's S3 Publisher provides users with a secure and efficient method to publish job results to any S3-compatible storage service. To use an S3 publisher you will have to specify required parameters **Bucket** and **Key** and optional parameters Region, Endpoint, VersionID, ChecksumSHA256. See the [S3 publisher specification](../../references/jobs/job/task/publishers/s3.md) for more details.
 
 Here’s an example of the part of the declarative job description that outlines the process of using the S3 Publisher with Bacalhau:
@@ -114,9 +116,9 @@ Publisher:
     Key: "task123/result.tar.gz"
     Endpoint: "https://s3.us-west-2.amazonaws.com"
 ```
+{% endtab %}
 
-### IPFS[​](http://localhost:3000/setting-up/running-node/storage-providers#ipfs-1) <a href="#ipfs-1" id="ipfs-1"></a>
-
+{% tab title="IPFS" %}
 The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an IPFS server running and a multiaddress for it. Then you'll pass that multiaddress using the `--ipfs-connect` argument to the `serve` command. If you are publishing to a public IPFS node, you can use `bacalhau job get` with no further arguments to download the results. However, you may experience a delay in results becoming available as indexing of new data by public nodes takes time.
 
 To use the IPFS publisher you will have to specify **CID** which can be used to access the published content. See the [IPFS publisher specification](../../references/jobs/job/task/publishers/ipfs.md) for more details.
@@ -150,9 +152,9 @@ PublishedResult:
   Params:
     CID: "QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco"
 ```
+{% endtab %}
 
-### Local[​](http://localhost:3000/setting-up/running-node/storage-providers#local-1) <a href="#local-1" id="local-1"></a>
-
+{% tab title="Local" %}
 {% hint style="warning" %}
 The Local Publisher should not be used for Production use as it is not a reliable storage option. For production use, we recommend using a more reliable option such as an S3-compatible storage service.
 {% endhint %}
@@ -169,3 +171,5 @@ PublishedResult:
   Params:
     URL: "http://192.168.0.11:6001/e-c4b80d04-ff2b-49d6-9b99-d3a8e669a6bf.tgz"
 ```
+{% endtab %}
+{% endtabs %}

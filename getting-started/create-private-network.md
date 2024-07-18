@@ -4,11 +4,11 @@ description: In this tutorial you are setting up your own network
 
 # Create Network
 
-## Introduction[​](http://localhost:3000/getting-started/create-private-network#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction
 
 Bacalhau allows you to create your own private network so you can securely run private workloads without the risks inherent in working on public nodes or inadvertently distributing data outside your organization.
 
-This tutorial describes the process of creating your own private network from multiple nodes, configuring the nodes, and running demo jobs.[​](http://localhost:3000/getting-started/create-private-network#tldr)
+This tutorial describes the process of creating your own private network from multiple nodes, configuring the nodes and running demo jobs.[​](http://localhost:3000/getting-started/create-private-network#tldr)
 
 ## TLDR
 
@@ -16,7 +16,11 @@ This tutorial describes the process of creating your own private network from mu
 2. Start the [Requester node](create-private-network.md#start-initial-requester-node): `bacalhau serve --node-type requester`
 3. Copy and paste the command it outputs under the "_To connect a compute node to this orchestrator, run the following command in your shell_" line to **other hosts**
 4. Copy and paste the environment variables it outputs under the "_To connect to this node from the client, run the following commands in your shell_" line to a **client machine**
-5. Done! Run sample hello-world command on the client machine `bacalhau docker run apline echo hello`[​](http://localhost:3000/getting-started/create-private-network#prerequisites)
+5. Done! You can run an example, like:
+
+```bash
+bacalhau docker run apline echo hello
+```
 
 ## Prerequisites
 
@@ -28,21 +32,21 @@ This tutorial describes the process of creating your own private network from mu
 2. [Install Bacalhau](installation.md) on each host
 3. Ensure that all nodes are connected to the same network and that the necessary ports are open for communication between them.
    1. Ensure your nodes have an internet connection in case you have to download or upload any data (docker images, input data, results)
-4. Ensure that [Docker Engine](https://docs.docker.com/engine/install/) is installed in case you are going to run Docker Workloads
+4. Ensure that [Docker Engine](https://docs.docker.com/engine/install/) is installed in case you are going to run Docker Workloads[​](http://localhost:3000/getting-started/create-private-network#start-initial-requester-node)
 
 {% hint style="info" %}
-Bacalhau is designed to be versatile in its deployment, capable of running on various environments: physical hosts, virtual machines or cloud instances. Its resource requirements are modest, ensuring compatibility with a wide range of hardware configurations. However, for certain workloads, such as machine learning, it's advisable to consider hardware configurations optimized for computational tasks, including [GPUs](../setting-up/running-node/gpu.md).[​](http://localhost:3000/getting-started/create-private-network#start-initial-requester-node)
+Bacalhau is designed to be versatile in its deployment, capable of running on various environments: physical hosts, virtual machines or cloud instances. Its resource requirements are modest, ensuring compatibility with a wide range of hardware configurations. However, for certain workloads, such as machine learning, it's advisable to consider hardware configurations optimized for computational tasks, including [GPUs](../setting-up/running-node/gpu.md).
 {% endhint %}
 
-## Start Initial Requestor Node <a href="#start-initial-requester-node" id="start-initial-requester-node"></a>
+## Start Initial Requestor Node
 
 The Bacalhau network consists of nodes of two types: compute and requester. Compute Node is responsible for executing jobs and producing results. Requester Node is responsible for handling user requests, forwarding jobs to compute nodes and monitoring the job lifecycle.
 
 The first step is to start up the initial **Requester** node. This node will connect to nothing but will listen for connections.
 
-Start by creating a secure token. This token will be used for authentication between the orchestrator and compute nodes during their communications. Any string can be used as a token, preferably not easy to guess or brute-force. In addition, new authentication methods will be introduced in future releases.
+Start by creating a secure token. This token will be used for authentication between the orchestrator and compute nodes during their communications. Any string can be used as a token, preferably not easy to guess or brute-force. In addition, new authentication methods will be introduced in future releases.[​](http://localhost:3000/getting-started/create-private-network#create-and-set-up-a-token)
 
-## Create and Set Up a Token[​](http://localhost:3000/getting-started/create-private-network#create-and-set-up-a-token) <a href="#create-and-set-up-a-token" id="create-and-set-up-a-token"></a>
+## Create and Set Up a Token
 
 Let's use the `uuidgen` tool to create our token, then add it to the Bacalhau configuration and run the requester node:
 
@@ -88,9 +92,9 @@ Note that for security reasons, the output of the command contains the localhost
 curl https://api.ipify.org
 ```
 
-If you are using a cloud deployment, you can find your public IP through their console, e.g. [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) and [Google Cloud](https://cloud.google.com/compute/docs/instances/view-ip-address)
+If you are using a cloud deployment, you can find your public IP through their console, e.g. [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) and [Google Cloud](https://cloud.google.com/compute/docs/instances/view-ip-address)[​](http://localhost:3000/getting-started/create-private-network#create-and-connect-compute-node)
 
-## Create and Connect Compute Node[​](http://localhost:3000/getting-started/create-private-network#create-and-connect-compute-node) <a href="#create-and-connect-compute-node" id="create-and-connect-compute-node"></a>
+## Create and Connect Compute Node
 
 Now let's move to another host from the preconditions, start a compute node on it and connect to the requester node. Here you will also need to add the same token to the configuration as on the requester.
 
@@ -133,7 +137,7 @@ bacalhau --api-host 10.0.2.15 node list
  n-b2ab8483  Requester  APPROVED  Architecture=amd64 Operating-System=linux                                                 
 ```
 
-## Submitting Jobs[​](http://localhost:3000/getting-started/create-private-network#submitting-jobs) <a href="#submitting-jobs" id="submitting-jobs"></a>
+## Submitting Jobs
 
 To connect to the requester node find the following lines in the requester node logs:
 
@@ -186,7 +190,7 @@ You will be able to see the job execution logs on the compute node:
 15:42:06.676 | INF pkg/compute/executor.go:195 > cleaning up execution [NodeID:n-550ee0db] [execution:e-f79b74aa-82c3-4fbe-ac71-476f0d596161] [job:ddbfa358-d663-4f54-804e-598c53dbb969]
 ```
 
-### Publishers and Sources Configuration[​](http://localhost:3000/getting-started/create-private-network#publishers-and-sources-configuration) <a href="#publishers-and-sources-configuration" id="publishers-and-sources-configuration"></a>
+## Publishers and Sources Configuration
 
 By default, IPFS & Local publishers and URL & IPFS sources are available on the compute node. The following describes how to configure the appropriate sources and publishers:
 
@@ -301,7 +305,7 @@ bacalhau docker run -input file:///etc/config:/config ubuntu ...
 {% endtab %}
 {% endtabs %}
 
-## Best Practices for Production Use Cases[​](http://localhost:3000/getting-started/create-private-network#best-practices-for-production-use-cases) <a href="#best-practices-for-production-use-cases" id="best-practices-for-production-use-cases"></a>
+## Best Practices for Production Use Cases
 
 Your private cluster can be quickly set up for testing packaged jobs and tweaking data processing pipelines. However, when using a private cluster in production, here are a few considerations to note.
 
