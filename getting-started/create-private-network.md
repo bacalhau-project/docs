@@ -8,17 +8,17 @@ description: In this tutorial you are setting up your own network
 
 Bacalhau allows you to create your own private network so you can securely run private workloads without the risks inherent in working on public nodes or inadvertently distributing data outside your organization.
 
-This tutorial describes the process of creating your own private network from multiple nodes, configuring the nodes, and running demo jobs.
+This tutorial describes the process of creating your own private network from multiple nodes, configuring the nodes, and running demo jobs.[​](http://localhost:3000/getting-started/create-private-network#tldr)
 
-## TL;DR[​](http://localhost:3000/getting-started/create-private-network#tldr) <a href="#tldr" id="tldr"></a>
+## TLDR
 
 1. [Install Bacalhau](installation.md) `curl -sL https://get.bacalhau.org/install.sh | bash` on every host
 2. Start the [Requester node](create-private-network.md#start-initial-requester-node): `bacalhau serve --node-type requester`
 3. Copy and paste the command it outputs under the "_To connect a compute node to this orchestrator, run the following command in your shell_" line to **other hosts**
 4. Copy and paste the environment variables it outputs under the "_To connect to this node from the client, run the following commands in your shell_" line to a **client machine**
-5. Done! Run sample hello-world command on the client machine `bacalhau docker run apline echo hello`
+5. Done! Run sample hello-world command on the client machine `bacalhau docker run apline echo hello`[​](http://localhost:3000/getting-started/create-private-network#prerequisites)
 
-## Prerequisites[​](http://localhost:3000/getting-started/create-private-network#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
+## Prerequisites
 
 1. Prepare the hosts on which the nodes are going to be set up. They could be:
    1. Physical Hosts
@@ -31,16 +31,16 @@ This tutorial describes the process of creating your own private network from mu
 4. Ensure that [Docker Engine](https://docs.docker.com/engine/install/) is installed in case you are going to run Docker Workloads
 
 {% hint style="info" %}
-Bacalhau is designed to be versatile in its deployment, capable of running on various environments: physical hosts, virtual machines or cloud instances. Its resource requirements are modest, ensuring compatibility with a wide range of hardware configurations. However, for certain workloads, such as machine learning, it's advisable to consider hardware configurations optimized for computational tasks, including [GPUs](../setting-up/running-node/gpu.md).
+Bacalhau is designed to be versatile in its deployment, capable of running on various environments: physical hosts, virtual machines or cloud instances. Its resource requirements are modest, ensuring compatibility with a wide range of hardware configurations. However, for certain workloads, such as machine learning, it's advisable to consider hardware configurations optimized for computational tasks, including [GPUs](../setting-up/running-node/gpu.md).[​](http://localhost:3000/getting-started/create-private-network#start-initial-requester-node)
 {% endhint %}
 
-## Start Initial Requester Node[​](http://localhost:3000/getting-started/create-private-network#start-initial-requester-node) <a href="#start-initial-requester-node" id="start-initial-requester-node"></a>
+## Start Initial Requestor Node <a href="#start-initial-requester-node" id="start-initial-requester-node"></a>
 
 The Bacalhau network consists of nodes of two types: compute and requester. Compute Node is responsible for executing jobs and producing results. Requester Node is responsible for handling user requests, forwarding jobs to compute nodes and monitoring the job lifecycle.
 
 The first step is to start up the initial **Requester** node. This node will connect to nothing but will listen for connections.
 
-Start by creating a secure token. This token will be used for authentication between the orchestrator and compute nodes during their communications. Any string can be used as a token, preferably not easy to guess or bruteforce. In addition, new authentication methods will be introduced in future releases.
+Start by creating a secure token. This token will be used for authentication between the orchestrator and compute nodes during their communications. Any string can be used as a token, preferably not easy to guess or brute-force. In addition, new authentication methods will be introduced in future releases.
 
 ## Create and Set Up a Token[​](http://localhost:3000/getting-started/create-private-network#create-and-set-up-a-token) <a href="#create-and-set-up-a-token" id="create-and-set-up-a-token"></a>
 
