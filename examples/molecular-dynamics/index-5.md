@@ -43,13 +43,13 @@ Expected Output
 To run the script above all we need is a Python environment with the [OpenMM library](http://docs.openmm.org/latest/userguide/application/01\_getting\_started.html) installed. This script makes sure that there are no empty cells and to filter out potential error sources from the file.
 
 ```python
-# run_openmm_simulation.py
+# Import the packages
 import os
 from openmm import *
 from openmm.app import *
 from openmm.unit import *
 
-# Input Files
+# Specify the input files
 input_path = 'inputs/2dri-processed.pdb'
 if not os.path.exists(input_path):
     raise FileNotFoundError(f"Input file not found: {input_path}")
@@ -92,7 +92,6 @@ if not os.path.exists(os.path.dirname(output_path)):
     os.makedirs(os.path.dirname(output_path))
 
 # System Configuration
-
 nonbondedMethod = PME
 nonbondedCutoff = 1.0 * nanometers
 ewaldErrorTolerance = 0.0005
@@ -102,7 +101,6 @@ constraintTolerance = 0.000001
 hydrogenMass = 1.5 * amu
 
 # Integration Options
-
 dt = 0.002 * picoseconds
 temperature = 310 * kelvin
 friction = 1.0 / picosecond
@@ -110,7 +108,6 @@ pressure = 1.0 * atmospheres
 barostatInterval = 25
 
 # Simulation Options
-
 steps = 10
 equilibrationSteps = 0
 # platform = Platform.getPlatformByName('CUDA')
@@ -125,7 +122,6 @@ dataReporter = StateDataReporter('log.txt', 1000, totalSteps=steps,
 checkpointReporter = CheckpointReporter('checkpoint.chk', 1000)
 
 # Prepare the Simulation
-
 print('Building system...')
 topology = pdb.topology
 positions = pdb.positions
@@ -139,7 +135,6 @@ simulation = Simulation(topology, system, integrator, platform, platformProperti
 simulation.context.setPositions(positions)
 
 # Minimize and Equilibrate
-
 print('Performing energy minimization...')
 simulation.minimizeEnergy()
 print('Equilibrating...')
@@ -147,7 +142,6 @@ simulation.context.setVelocitiesToTemperature(temperature)
 simulation.step(equilibrationSteps)
 
 # Simulate
-
 print('Simulating...')
 simulation.reporters.append(dcdReporter)
 simulation.reporters.append(dataReporter)
@@ -156,7 +150,6 @@ simulation.currentStep = 0
 simulation.step(steps)
 
 # Write a file with the final simulation state
-
 state = simulation.context.getState(getPositions=True, enforcePeriodicBox=system.usesPeriodicBoundaryConditions())
 with open(output_path, mode="w+") as file:
     PDBxFile.writeFile(simulation.topology, state.getPositions(), file)
@@ -168,6 +161,10 @@ print('Simulation complete, file written to disk at: {}'.format(output_path))
 ```bash
 python run_openmm_simulation.py
 ```
+
+{% hint style="info" %}
+This is only done to check whether your Python script is running. If there are no errors occurring, proceed further.
+{% endhint %}
 
 ## Uploading the Data to IPFS[​](http://localhost:3000/examples/molecular-dynamics/openmm/#uploading-the-data-to-ipfs) <a href="#uploading-the-data-to-ipfs" id="uploading-the-data-to-ipfs"></a>
 
