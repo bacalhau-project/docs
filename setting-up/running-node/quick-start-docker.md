@@ -4,8 +4,8 @@
 
 This tutorial describes how to add new nodes to an existing private network. Two basic scenarios will be covered:
 
-1. Adding a [physical host / virtual machine](quick-start-docker.md#add-host--virtual-machine-as-a-new-node) as a new node
-2. Adding a [cloud instance](quick-start-docker.md#add-a-cloud-instance-as-a-new-node) as a new node[​](http://localhost:3000/setting-up/running-node/quick-start-docker#pre-prerequisites)
+1. Adding a [physical host/virtual ](quick-start-docker.md#add-host-virtual-machine-as-a-new-node)machine as a new node
+2. Adding a [cloud instance](quick-start-docker.md#add-a-cloud-instance-as-a-new-node) as a new node.[​](http://localhost:3000/setting-up/running-node/quick-start-docker#pre-prerequisites)
 
 ## Pre-Prerequisites
 
