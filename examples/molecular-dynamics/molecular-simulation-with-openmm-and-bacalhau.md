@@ -6,13 +6,13 @@ In this tutorial example, we will showcase how to containerize an OpenMM workloa
 
 In this example tutorial, our focus will be on running OpenMM molecular simulation with Bacalhau.
 
-## Prerequisite[​](http://localhost:3000/examples/molecular-dynamics/openmm/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Running Locally[​](http://localhost:3000/examples/molecular-dynamics/openmm/#running-locally) <a href="#running-locally" id="running-locally"></a>
+## Running Locally​ <a href="#running-locally" id="running-locally"></a>
 
-#### Downloading Datasets[​](http://localhost:3000/examples/molecular-dynamics/openmm/#downloading-datasets) <a href="#downloading-datasets" id="downloading-datasets"></a>
+#### Downloading Datasets​ <a href="#downloading-datasets" id="downloading-datasets"></a>
 
 We use a processed 2DRI dataset that represents the ribose binding protein in bacterial transport and chemotaxis. The source organism is the [Escherichia coli](https://en.wikipedia.org/wiki/Escherichia\_coli) bacteria.
 
@@ -38,7 +38,7 @@ Expected Output
     ATOM      8  HB3 LYS A   1      64.435  11.867  60.372  1.00  0.00           H  
 ```
 
-### Writing the Script[​](http://localhost:3000/examples/molecular-dynamics/openmm/#writing-the-script) <a href="#writing-the-script" id="writing-the-script"></a>
+### Writing the Script​ <a href="#writing-the-script" id="writing-the-script"></a>
 
 To run the script above all we need is a Python environment with the [OpenMM library](http://docs.openmm.org/latest/userguide/application/01\_getting\_started.html) installed. This script makes sure that there are no empty cells and to filter out potential error sources from the file.
 
@@ -156,7 +156,7 @@ with open(output_path, mode="w+") as file:
 print('Simulation complete, file written to disk at: {}'.format(output_path))
 ```
 
-### Running the Script[​](http://localhost:3000/examples/molecular-dynamics/openmm/#running-the-script) <a href="#running-the-script" id="running-the-script"></a>
+### Running the Script​ <a href="#running-the-script" id="running-the-script"></a>
 
 ```bash
 python run_openmm_simulation.py
@@ -166,13 +166,13 @@ python run_openmm_simulation.py
 This is only done to check whether your Python script is running. If there are no errors occurring, proceed further.
 {% endhint %}
 
-## Uploading the Data to IPFS[​](http://localhost:3000/examples/molecular-dynamics/openmm/#uploading-the-data-to-ipfs) <a href="#uploading-the-data-to-ipfs" id="uploading-the-data-to-ipfs"></a>
+## Uploading the Data to IPFS​ <a href="#uploading-the-data-to-ipfs" id="uploading-the-data-to-ipfs"></a>
 
 The simplest way to upload the data to IPFS is to use a third-party service to "pin" data to the IPFS network, to ensure that the data exists and is available. To do this, you need an account with a pinning service like [Pinata](https://app.pinata.cloud/pinmanager) or [nft.storage](https://nft.storage/docs/how-to/nftup/). Once registered, you can use their UI or API or SDKs to upload files.
 
 When you pin your data, you'll get a CID. Copy the CID as it will be used to access your data
 
-## Containerize Script using Docker[​](http://localhost:3000/examples/molecular-dynamics/openmm/#containerize-script-using-docker) <a href="#containerize-script-using-docker" id="containerize-script-using-docker"></a>
+## Containerize Script using Docker​ <a href="#containerize-script-using-docker" id="containerize-script-using-docker"></a>
 
 To build your own docker container, create a `Dockerfile`, which contains instructions to build your image.
 
@@ -194,7 +194,7 @@ LABEL org.opencontainers.image.source https://github.com/bacalhau-project/exampl
 CMD ["python","run_openmm_simulation.py"]
 ```
 
-### Build the container[​](http://localhost:3000/examples/molecular-dynamics/openmm/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
+### Build the container​ <a href="#build-the-container" id="build-the-container"></a>
 
 We will run `docker build` command to build the container:
 
@@ -216,7 +216,7 @@ In our case, this will be:
 docker buildx build --platform linux/amd64 --push -t ghcr.io/bacalhau-project/examples/openmm:0.3 .
 ```
 
-### Push the container[​](http://localhost:3000/examples/molecular-dynamics/openmm/#push-the-container) <a href="#push-the-container" id="push-the-container"></a>
+### Push the container​ <a href="#push-the-container" id="push-the-container"></a>
 
 Next, upload the image to the registry. This can be done by using the Docker hub username, repo name, or tag.
 
@@ -224,7 +224,7 @@ Next, upload the image to the registry. This can be done by using the Docker hub
 docker push <hub-user>/<repo-name>:<tag>
 ```
 
-## Run a Bacalhau Job[​](http://localhost:3000/examples/molecular-dynamics/openmm/#run-a-bacalhau-job) <a href="#run-a-bacalhau-job" id="run-a-bacalhau-job"></a>
+## Run a Bacalhau Job​ <a href="#run-a-bacalhau-job" id="run-a-bacalhau-job"></a>
 
 Now that we have the data in IPFS and the docker image pushed, we can run a job on the Bacalhau network.
 
@@ -237,7 +237,7 @@ export JOB_ID=$(bacalhau docker run \
     -- python run_openmm_simulation.py)
 ```
 
-### Structure of the command[​](http://localhost:3000/examples/molecular-dynamics/openmm/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 Lets look closely at the command above:
 
@@ -248,7 +248,7 @@ Lets look closely at the command above:
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/molecular-dynamics/openmm/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
 
@@ -271,7 +271,7 @@ rm -rf results && mkdir -p results
 bacalhau job get ${JOB_ID} --output-dir results # Download the results
 ```
 
-## Viewing your Job Output[​](http://localhost:3000/examples/molecular-dynamics/openmm/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 To view the file, run the following command:
 
@@ -279,6 +279,6 @@ To view the file, run the following command:
 cat results/outputs/final_state.pdbx
 ```
 
-## Support[​](http://localhost:3000/examples/molecular-dynamics/openmm/#support) <a href="#support" id="support"></a>
+## Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
