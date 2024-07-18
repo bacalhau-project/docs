@@ -4,11 +4,11 @@
 
 [TensorFlow](https://www.tensorflow.org/) is an open-source machine learning software library, TensorFlow is used to train neural networks. Expressed in the form of stateful dataflow graphs, each node in the graph represents the operations performed by neural networks on multi-dimensional arrays. These multi-dimensional arrays are commonly known as “tensors”, hence the name TensorFlow. In this example, we will be training a MNIST model.
 
-## Training TensorFlow models Locally[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#training-tensorflow-models-locally) <a href="#training-tensorflow-models-locally" id="training-tensorflow-models-locally"></a>
+## Training TensorFlow models Locally​ <a href="#training-tensorflow-models-locally" id="training-tensorflow-models-locally"></a>
 
 This section is from [TensorFlow 2 quickstart for beginners](https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/quickstart/beginner.ipynb)
 
-### TensorFlow 2 quickstart for beginners[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#tensorflow-2-quickstart-for-beginners) <a href="#tensorflow-2-quickstart-for-beginners" id="tensorflow-2-quickstart-for-beginners"></a>
+### TensorFlow 2 quickstart for beginners​ <a href="#tensorflow-2-quickstart-for-beginners" id="tensorflow-2-quickstart-for-beginners"></a>
 
 This short introduction uses [Keras](https://www.tensorflow.org/guide/keras/overview) to:
 
@@ -17,7 +17,7 @@ This short introduction uses [Keras](https://www.tensorflow.org/guide/keras/over
 3. Train this neural network.
 4. Evaluate the accuracy of the model.
 
-### Set up TensorFlow[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#set-up-tensorflow) <a href="#set-up-tensorflow" id="set-up-tensorflow"></a>
+### Set up TensorFlow​ <a href="#set-up-tensorflow" id="set-up-tensorflow"></a>
 
 Import TensorFlow into your program to check whether it is installed
 
@@ -40,7 +40,7 @@ CWD = '' if os.getcwd() == '/' else os.getcwd()
 x_train, x_test = x_train / 255.0, x_test / 255.0
 ```
 
-### Build a machine-learning model[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#build-a-machine-learning-model) <a href="#build-a-machine-learning-model" id="build-a-machine-learning-model"></a>
+### Build a machine-learning model​ <a href="#build-a-machine-learning-model" id="build-a-machine-learning-model"></a>
 
 Build a `tf.keras.Sequential` model by stacking layers.
 
@@ -90,7 +90,7 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 ```
 
-### Train and evaluate your model[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#train-and-evaluate-your-model) <a href="#train-and-evaluate-your-model" id="train-and-evaluate-your-model"></a>
+### Train and evaluate your model​ <a href="#train-and-evaluate-your-model" id="train-and-evaluate-your-model"></a>
 
 Use the `Model.fit` method to adjust your model parameters and minimize the loss:
 
@@ -133,11 +133,11 @@ model.save_weights('/outputs/checkpoints/my_checkpoint')
 ls /outputs/
 ```
 
-## Running on Bacalhau[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#running-on-bacalhau) <a href="#running-on-bacalhau" id="running-on-bacalhau"></a>
+## Running on Bacalhau​ <a href="#running-on-bacalhau" id="running-on-bacalhau"></a>
 
 The dataset and the script are mounted to the TensorFlow container using an URL, we then run the script inside the container
 
-### Declarative job description[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -178,9 +178,9 @@ The job description should be saved in `.yaml` format, e.g. `tensorflow.yaml`, a
 bacalhau job run tensorflow.yaml
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-### Job status[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#job-status) <a href="#job-status" id="job-status"></a>
+### Job status​ <a href="#job-status" id="job-status"></a>
 
 You can check the status of the job using `bacalhau job list`.
 
@@ -190,7 +190,7 @@ bacalhau job list --id-filter ${JOB_ID}
 
 When it says `Completed`, that means the job is done, and we can get the results.
 
-### Job information[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#job-information) <a href="#job-information" id="job-information"></a>
+### Job information​ <a href="#job-information" id="job-information"></a>
 
 You can find out more information about your job by using `bacalhau job describe`.
 
@@ -198,7 +198,7 @@ You can find out more information about your job by using `bacalhau job describe
 bacalhau job describe ${JOB_ID}
 ```
 
-### Job download[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#job-download) <a href="#job-download" id="job-download"></a>
+### Job download​ <a href="#job-download" id="job-download"></a>
 
 You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
@@ -209,7 +209,7 @@ bacalhau job get $JOB_ID --output-dir results
 
 After the download has finished you should see the following contents in results directory
 
-## Viewing your Job Output[​](http://localhost:3000/examples/model-training/Training-Tensorflow-Model/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 Now you can find the file in the `results/outputs` folder. To view it, run the following command:
 
@@ -217,6 +217,6 @@ Now you can find the file in the `results/outputs` folder. To view it, run the f
 cat results/outputs/
 ```
 
-## Support[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#support) <a href="#support" id="support"></a>
+## Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
