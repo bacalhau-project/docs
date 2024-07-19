@@ -1,10 +1,10 @@
 # EasyOCR (Optical Character Recognition) on Bacalhau
 
-## Introduction[​](http://localhost:3000/examples/model-inference/EasyOCR/#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction​ <a href="#introduction" id="introduction"></a>
 
 In this example tutorial, we use Bacalhau and Easy OCR to digitize paper records or for recognizing characters or extract text data from images stored on IPFS, S3 or on the web. [EasyOCR](https://www.jaided.ai/) is a ready-to-use OCR with 80+ supported languages and all popular writing scripts including Latin, Chinese, Arabic, Devanagari, Cyrillic etc. With easy OCR, you use the pre-trained models or use your own fine-tuned model.
 
-## TL;DR[​](http://localhost:3000/examples/model-inference/EasyOCR/#tldr) <a href="#tldr" id="tldr"></a>
+## TL;DR​ <a href="#tldr" id="tldr"></a>
 
 ```bash
 bacalhau docker run \
@@ -21,7 +21,7 @@ bacalhau docker run \
     --  easyocr -l ch_sim  en -f ./inputs/chinese.jpg --detail=1 --gpu=True
 ```
 
-## Running Easy OCR Locally​[​](http://localhost:3000/examples/model-inference/EasyOCR/#running-easy-ocr-locally) <a href="#running-easy-ocr-locally" id="running-easy-ocr-locally"></a>
+## Running Easy OCR Locally​​ <a href="#running-easy-ocr-locally" id="running-easy-ocr-locally"></a>
 
 Install the required dependencies
 
@@ -65,7 +65,7 @@ bounds = reader.readtext('thai.jpg')
 bounds
 ```
 
-## Containerize your Script using Docker[​](http://localhost:3000/examples/model-inference/EasyOCR/#containerize-your-script-using-docker) <a href="#containerize-your-script-using-docker" id="containerize-your-script-using-docker"></a>
+## Containerize your Script using Docker​ <a href="#containerize-your-script-using-docker" id="containerize-your-script-using-docker"></a>
 
 {% hint style="success" %}
 You can skip this step and go straight to running a [Bacalhau job](easyocr-optical-character-recognition-on-bacalhau.md#running-a-bacalhau-job-to-generate-easy-ocr-output)
@@ -78,7 +78,7 @@ git clone https://github.com/JaidedAI/EasyOCR
 cd EasyOCR
 ```
 
-### Build the Container[​](http://localhost:3000/examples/model-inference/EasyOCR/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
+### Build the Container​ <a href="#build-the-container" id="build-the-container"></a>
 
 The `docker build` command builds Docker images from a Dockerfile.
 
@@ -92,7 +92,7 @@ Before running the command replace:
 2. **repo-name** with the name of the container, you can name it anything you want
 3. **tag** this is not required but you can use the latest tag
 
-### Push the container[​](http://localhost:3000/examples/model-inference/EasyOCR/#push-the-container) <a href="#push-the-container" id="push-the-container"></a>
+### Push the container​ <a href="#push-the-container" id="push-the-container"></a>
 
 Next, upload the image to the registry. This can be done by using the Docker hub username, repo name, or tag.
 
@@ -100,15 +100,15 @@ Next, upload the image to the registry. This can be done by using the Docker hub
 docker push <hub-user>/<repo-name>:<tag>
 ```
 
-## Running a Bacalhau Job to Generate Easy OCR output[​](http://localhost:3000/examples/model-inference/EasyOCR/#running-a-bacalhau-job-to-generate-easy-ocr-output) <a href="#running-a-bacalhau-job-to-generate-easy-ocr-output" id="running-a-bacalhau-job-to-generate-easy-ocr-output"></a>
+## Running a Bacalhau Job to Generate Easy OCR output​ <a href="#running-a-bacalhau-job-to-generate-easy-ocr-output" id="running-a-bacalhau-job-to-generate-easy-ocr-output"></a>
 
-### Prerequisite[​](http://localhost:3000/examples/model-inference/EasyOCR/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+### Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](http://localhost:3000/getting-started/installation)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md).
 
 Now that we have an image in the docker hub (your own or an example image from the manual), we can use the container for running on Bacalhau.
 
-### Structure of the imperative command[​](http://localhost:3000/examples/model-inference/EasyOCR/#structure-of-the-imperative-command) <a href="#structure-of-the-imperative-command" id="structure-of-the-imperative-command"></a>
+### Structure of the imperative command​ <a href="#structure-of-the-imperative-command" id="structure-of-the-imperative-command"></a>
 
 Let's look closely at the command below:
 
@@ -144,7 +144,7 @@ export JOB_ID=$(bacalhau docker run \
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-### Declarative job description[​](http://localhost:3000/examples/model-inference/EasyOCR/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -186,9 +186,9 @@ The job description should be saved in `.yaml` format, e.g. `easyocr.yaml`, and 
 bacalhau job run easyocr.yaml
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/model-inference/EasyOCR/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
-### Job status[​](http://localhost:3000/examples/model-inference/EasyOCR/#job-status) <a href="#job-status" id="job-status"></a>
+### Job status​ <a href="#job-status" id="job-status"></a>
 
 You can check the status of the job using `bacalhau job list`.
 
@@ -198,7 +198,7 @@ bacalhau job list --id-filter ${JOB_ID}
 
 When it says `Completed`, that means the job is done, and we can get the results.
 
-### Job information[​](http://localhost:3000/examples/model-inference/EasyOCR/#job-information) <a href="#job-information" id="job-information"></a>
+### Job information​ <a href="#job-information" id="job-information"></a>
 
 You can find out more information about your job by using `bacalhau job describe`.
 
@@ -206,7 +206,7 @@ You can find out more information about your job by using `bacalhau job describe
 bacalhau job describe ${JOB_ID}
 ```
 
-### Job download[​](http://localhost:3000/examples/model-inference/EasyOCR/#job-download) <a href="#job-download" id="job-download"></a>
+### Job download​ <a href="#job-download" id="job-download"></a>
 
 You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in that directory.
 
@@ -217,7 +217,7 @@ bacalhau job get $JOB_ID --output-dir results
 
 After the download has finished you should see the following contents in results directory
 
-### Viewing your Job Output[​](http://localhost:3000/examples/model-inference/EasyOCR/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+### Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 Now you can find the file in the `results/outputs` folder. You can view results by running following commands:
 

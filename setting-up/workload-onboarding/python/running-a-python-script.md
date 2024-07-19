@@ -2,11 +2,11 @@
 
 This tutorial serves as an introduction to Bacalhau. In this example, you'll be executing a simple "Hello, World!" Python script hosted on a website on Bacalhau.
 
-## Prerequisites[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
+## Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
 
-## 1. Running Python Locally[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#1-running-python-locally) <a href="#id-1-running-python-locally" id="id-1-running-python-locally"></a>
+## 1. Running Python Locally​ <a href="#id-1-running-python-locally" id="id-1-running-python-locally"></a>
 
 We'll be using a very simple Python script that displays the [traditional first greeting](https://en.wikipedia.org/wiki/%22Hello,\_World!%22\_program). Create a file called `hello-world.py`:
 
@@ -23,7 +23,7 @@ python3 hello-world.py
 
 After the script has run successfully locally we can now run it on Bacalhau.
 
-## 2. Running a Bacalhau Job[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#2-running-a-bacalhau-job) <a href="#id-2-running-a-bacalhau-job" id="id-2-running-a-bacalhau-job"></a>
+## 2. Running a Bacalhau Job​ <a href="#id-2-running-a-bacalhau-job" id="id-2-running-a-bacalhau-job"></a>
 
 To submit a workload to Bacalhau you can use the `bacalhau docker run` command. This command allows passing input data into the container using [content identifier (CID)](https://github.com/multiformats/cid) volumes, we will be using the `--input URL:path` [argument](../../../references/cli-reference/all-flags.md#docker-run) for simplicity. This results in Bacalhau mounting a _data volume_ inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
 
@@ -39,7 +39,7 @@ export JOB_ID=$(bacalhau docker run \
     -- python3 /inputs/hello-world.py)
 ```
 
-#### Structure of the command[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+#### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 1. `bacalhau docker run`: call to Bacalhau
 2. `--id-only`: specifies that only the job identifier (job\_id) will be returned after executing the container, not the entire output
@@ -50,7 +50,7 @@ export JOB_ID=$(bacalhau docker run \
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-#### Declarative job description[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+#### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -84,7 +84,7 @@ The job description should be saved in `.yaml` format, e.g. `helloworld.yaml`, a
 bacalhau job run helloworld.yaml
 ```
 
-## 3. Checking the State of your Jobs[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#3-checking-the-state-of-your-jobs) <a href="#id-3-checking-the-state-of-your-jobs" id="id-3-checking-the-state-of-your-jobs"></a>
+## 3. Checking the State of your Jobs​ <a href="#id-3-checking-the-state-of-your-jobs" id="id-3-checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
 
@@ -107,7 +107,7 @@ rm -rf results && mkdir results
 bacalhau job get ${JOB_ID} --output-dir results
 ```
 
-## 4. Viewing your Job Output[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#4-viewing-your-job-output) <a href="#id-4-viewing-your-job-output" id="id-4-viewing-your-job-output"></a>
+## 4. Viewing your Job Output​ <a href="#id-4-viewing-your-job-output" id="id-4-viewing-your-job-output"></a>
 
 To view the file, run the following command:
 
@@ -115,6 +115,6 @@ To view the file, run the following command:
 cat results/stdout
 ```
 
-### Support[​](http://localhost:3000/setting-up/workload-onboarding/Python/Python%20File#support) <a href="#support" id="support"></a>
+### Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

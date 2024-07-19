@@ -10,11 +10,11 @@ But there's still a lot of data and these types of analyses typically need repea
 
 In this tutorial example, we will run Ethereum-ETL tool on Bacalhau to extract data from an Ethereum node.
 
-## Prerequisite[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Analysing Ethereum Data Locally[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#analysing-ethereum-data-locally) <a href="#analysing-ethereum-data-locally" id="analysing-ethereum-data-locally"></a>
+## Analysing Ethereum Data Locally​ <a href="#analysing-ethereum-data-locally" id="analysing-ethereum-data-locally"></a>
 
 First let's download one of the IPFS files and inspect it locally:
 
@@ -57,7 +57,7 @@ The following code inspects the daily trading volume of Ethereum for a single ch
 
 This is all good, but we can do better. We can use the Bacalhau client to download the data from IPFS and then run the analysis on the data in the cloud. This means that we can analyze the entire Ethereum blockchain without having to download it locally.
 
-## Analysing Ethereum Data With Bacalhau[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#analysing-ethereum-data-with-bacalhau) <a href="#analysing-ethereum-data-with-bacalhau" id="analysing-ethereum-data-with-bacalhau"></a>
+## Analysing Ethereum Data With Bacalhau​ <a href="#analysing-ethereum-data-with-bacalhau" id="analysing-ethereum-data-with-bacalhau"></a>
 
 To run jobs on the Bacalhau network you need to package your code. In this example, I will package the code as a Docker image.
 
@@ -129,7 +129,7 @@ We've already pushed the container, but for posterity, the following command pus
 docker buildx build --platform linux/amd64 --push -t ghcr.io/bacalhau-project/examples/blockchain-etl:0.0.1 .
 ```
 
-### Running a Bacalhau Job[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
+### Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 To run our analysis on the Ethereum blockchain, we will use the `bacalhau docker run` command.
 
@@ -146,7 +146,7 @@ The `bacalhau docker run` command allows passing input data volume with `--input
 
 Bacalhau also mounts a data volume to store output data. The `bacalhau docker run` command creates an output data volume mounted at `/outputs`. This is a convenient location to store the results of your job.
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
 
@@ -169,7 +169,7 @@ rm -rf results && mkdir -p results # Temporary directory to store the results
 bacalhau job get ${JOB_ID} --output-dir results # Download the results
 ```
 
-## Viewing your Job Output[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 To view the file, run the following command:
 
@@ -177,7 +177,7 @@ To view the file, run the following command:
 ls -lah results/outputs
 ```
 
-#### Display the image[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#display-the-image) <a href="#display-the-image" id="display-the-image"></a>
+#### Display the image​ <a href="#display-the-image" id="display-the-image"></a>
 
 To view the images, we will use **glob** to return all file paths that match a specific pattern.
 
@@ -193,7 +193,7 @@ df.plot()
 
 <figure><img src="../../.gitbook/assets/Ethereum-Blockchain1-06aeb0d7b41288867785c4e7f39e105e.png" alt=""><figcaption></figcaption></figure>
 
-### Massive Scale Ethereum Analysis[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#massive-scale-ethereum-analysis) <a href="#massive-scale-ethereum-analysis" id="massive-scale-ethereum-analysis"></a>
+### Massive Scale Ethereum Analysis​ <a href="#massive-scale-ethereum-analysis" id="massive-scale-ethereum-analysis"></a>
 
 Ok, so that works. Let's scale this up! We can run the same analysis on the entire Ethereum blockchain (up to the point where I have uploaded the Ethereum data). To do this, we need to run the analysis on each of the chunks of data that we have stored on IPFS. We can do this by running the same job on each of the chunks.
 
@@ -248,7 +248,7 @@ done
 wait
 ```
 
-### Display the image[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#display-the-image-1) <a href="#display-the-image-1" id="display-the-image-1"></a>
+### Display the image​ <a href="#display-the-image-1" id="display-the-image-1"></a>
 
 To view the images, we will use **glob** to return all file paths that match a specific pattern.
 
@@ -281,7 +281,7 @@ That's it! There are several years of Ethereum transaction volume data.
 rm -rf results_* output_* outputs results temp # Remove temporary results
 ```
 
-## Appendix: List Ethereum Data CIDs[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#appendix-list-ethereum-data-cids) <a href="#appendix-list-ethereum-data-cids" id="appendix-list-ethereum-data-cids"></a>
+## Appendix: List Ethereum Data CIDs​ <a href="#appendix-list-ethereum-data-cids" id="appendix-list-ethereum-data-cids"></a>
 
 The following list is a list of IPFS CID's for the Ethereum data that we used in this tutorial. You can use these CID's to download the rest of the chain if you so desire. The CIDs are ordered by block number and they increase 50,000 blocks at a time. Here's a list of ordered CIDs:
 
@@ -343,6 +343,6 @@ bafybeicjzoypdmmdt6k54wzotr5xhpzwbgd3c4oqg6mj4qukgvxvdrvzye
 bafybeien55egngdpfvrsxr2jmkewdyha72ju7qaaeiydz2f5rny7drgzta
 ```
 
-## Support[​](http://localhost:3000/examples/data-engineering/blockchain-etl/#support) <a href="#support" id="support"></a>
+## Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

@@ -4,17 +4,17 @@
 
 Many data engineering workloads consist of embarrassingly parallel workloads where you want to run a simple execution on a large number of files. In this example tutorial, we will run a simple video filter on a large number of video files.
 
-## Prerequisite[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Upload the Data to IPFS[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#upload-the-data-to-ipfs) <a href="#upload-the-data-to-ipfs" id="upload-the-data-to-ipfs"></a>
+## Upload the Data to IPFS​ <a href="#upload-the-data-to-ipfs" id="upload-the-data-to-ipfs"></a>
 
 The simplest way to upload the data to IPFS is to use a third-party service to "pin" data to the IPFS network, to ensure that the data exists and is available. To do this you need an account with a pinning service like [NFT.storage](https://nft.storage/) or [Pinata](https://pinata.cloud/). Once registered you can use their UI or API or SDKs to upload files.
 
 This resulted in the IPFS CID of `Qmd9CBYpdgCLuCKRtKRRggu24H72ZUrGax5A9EYvrbC72j`.
 
-## Running a Bacalhau Job[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
+## Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 To submit a workload to Bacalhau, we will use the `bacalhau docker run` command. The command allows one to pass input data volume with a `-i ipfs://CID:path` argument just like Docker, except the left-hand side of the argument is a [content identifier (CID)](https://github.com/multiformats/cid). This results in Bacalhau mounting a _data volume_ inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
 
@@ -28,7 +28,7 @@ export JOB_ID=$(bacalhau docker run \
     -- bash -c 'find /inputs -iname "*.mp4" -printf "%f\n" | xargs -I{} ffmpeg -y -i /inputs/{} -vf "scale=-1:72,setsar=1:1" /outputs/scaled_{}' )
 ```
 
-### Structure of the command[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 Let's look closely at the command above:
 
@@ -43,7 +43,7 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 [Bacalhau overwrites the default entrypoint](https://github.com/filecoin-project/bacalhau/blob/v0.2.3/cmd/bacalhau/docker\_run.go#L64) so we must run the full command after the `--` argument. In this line you will list all of the mp4 files in the `/inputs` directory and execute `ffmpeg` against each instance.
 {% endhint %}
 
-### Declarative job description[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -83,7 +83,7 @@ The job description should be saved in `.yaml` format, e.g. `video.yaml`, and th
 bacalhau job run video.yaml
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
 
@@ -106,7 +106,7 @@ mkdir -p ./results # Temporary directory to store the results
 bacalhau job get ${JOB_ID} --output-dir ./results # Download the results
 ```
 
-## Viewing your Job Output[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 To view the results open the `results/outputs/` folder.
 
@@ -116,6 +116,6 @@ To view the results open the `results/outputs/` folder.
 
 {% file src="../../.gitbook/assets/scaled_Bird_flying_over_the_lake.mp4" %}
 
-### Support[​](http://localhost:3000/examples/data-engineering/simple-parallel-workloads/#support) <a href="#support" id="support"></a>
+### Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

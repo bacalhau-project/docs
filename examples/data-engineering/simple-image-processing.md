@@ -2,15 +2,15 @@
 
 ## Introduction
 
-In this example tutorial, we will show you how to use Bacalhau to process images on a [Landsat dataset](https://ipfs.io/ipfs/QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72/).
+In this example tutorial, we will show you how to use Bacalhau to process images on a Landsat dataset.
 
 Bacalhau has the unique capability of operating at a massive scale in a distributed environment. This is made possible because data is naturally sharded across the IPFS network amongst many providers. We can take advantage of this to process images in parallel.
 
-## Prerequisite[​](http://localhost:3000/examples/data-engineering/image-processing/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Running a Bacalhau Job[​](http://localhost:3000/examples/data-engineering/image-processing/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
+## Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 To submit a workload to Bacalhau, we will use the `bacalhau docker run` command. This command allows to pass input data volume with a `-i ipfs://CID:path` argument just like Docker, except the left-hand side of the argument is a [content identifier (CID)](https://github.com/multiformats/cid). This results in Bacalhau mounting a _data volume_ inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
 
@@ -27,7 +27,7 @@ export JOB_ID=$(bacalhau docker run \
     -- -resize 100x100 -quality 100 -path /outputs '/input_images/*.jpg')
 ```
 
-#### Structure of the command[​](http://localhost:3000/examples/data-engineering/image-processing/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+#### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 Let's look closely at the command above:
 
@@ -39,7 +39,7 @@ Let's look closely at the command above:
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-### Declarative job description[​](http://localhost:3000/examples/data-engineering/image-processing/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -79,7 +79,7 @@ The job description should be saved in `.yaml` format, e.g. `image.yaml`, and th
 bacalhau job run image.yaml
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`:
 
@@ -102,7 +102,7 @@ rm -rf results && mkdir results
 bacalhau job get ${JOB_ID} --output-dir results
 ```
 
-### Display the image[​](http://localhost:3000/examples/data-engineering/image-processing/#display-the-image) <a href="#display-the-image" id="display-the-image"></a>
+### Display the image​ <a href="#display-the-image" id="display-the-image"></a>
 
 To view the images, open the `results/outputs/` folder:
 
@@ -144,6 +144,6 @@ To view the images, open the `results/outputs/` folder:
 
 </div>
 
-### Support[​](http://localhost:3000/examples/data-engineering/image-processing/#support) <a href="#support" id="support"></a>
+### Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

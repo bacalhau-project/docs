@@ -6,13 +6,13 @@ The Surface Ocean CO₂ Atlas (SOCAT) contains measurements of the [fugacity](ht
 
 In this example tutorial, our focus will be on running the oceanography dataset with Bacalhau, where we will investigate the data and convert the workload. This will enable the execution on the Bacalhau network, allowing us to leverage its distributed storage and compute resources.
 
-## Prerequisites[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
+## Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Running Locally[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#running-locally) <a href="#running-locally" id="running-locally"></a>
+## Running Locally​ <a href="#running-locally" id="running-locally"></a>
 
-### Downloading the dataset[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#downloading-the-dataset) <a href="#downloading-the-dataset" id="downloading-the-dataset"></a>
+### Downloading the dataset​ <a href="#downloading-the-dataset" id="downloading-the-dataset"></a>
 
 For the purposes of this example we will use the [SOCATv2022](https://www.socat.info/index.php/version-2022/) dataset in the "Gridded" format from the [SOCAT website](https://www.socat.info/) and long-term global sea surface temperature data from [NOAA](https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc) - information about that dataset can be found [here](https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.highres.html).
 
@@ -22,7 +22,7 @@ curl -L --output ./inputs/SOCATv2022_tracks_gridded_monthly.nc.zip https://www.s
 curl --output ./inputs/sst.mnmean.nc https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2/sst.mnmean.nc
 ```
 
-### Installing dependencies[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#installing-dependencies) <a href="#installing-dependencies" id="installing-dependencies"></a>
+### Installing dependencies​ <a href="#installing-dependencies" id="installing-dependencies"></a>
 
 Next let's write the `requirements.txt`. This file will also be used by the Dockerfile to install the dependencies.
 
@@ -45,7 +45,7 @@ zarr>=2.0.0
 pip install -r requirements.txt > /dev/null
 ```
 
-### Reading and Viewing Data[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#reading-and-viewing-data) <a href="#reading-and-viewing-data" id="reading-and-viewing-data"></a>
+### Reading and Viewing Data​ <a href="#reading-and-viewing-data" id="reading-and-viewing-data"></a>
 
 ```python
 import fsspec # for reading remote files
@@ -70,11 +70,11 @@ We can see that the dataset contains latitude-longitude coordinates, the date, a
 
 <figure><img src="../../.gitbook/assets/Average-SST-ffb8a88c400a51315cdbc29a98e3cf19.png" alt=""><figcaption></figcaption></figure>
 
-### Data Conversion[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#data-conversion) <a href="#data-conversion" id="data-conversion"></a>
+### Data Conversion​ <a href="#data-conversion" id="data-conversion"></a>
 
 To convert the data from fugacity of CO2 (fCO2) to partial pressure of CO2 (pCO2) we will combine the measurements of the surface temperature and fugacity. The conversion is performed by the [pyseaflux](https://seaflux.readthedocs.io/en/latest/api.html?highlight=fCO2\_to\_pCO2#pyseaflux.fco2\_pco2\_conversion.fCO2\_to\_pCO2) package.
 
-### Writing the Script[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#writing-the-script) <a href="#writing-the-script" id="writing-the-script"></a>
+### Writing the Script​ <a href="#writing-the-script" id="writing-the-script"></a>
 
 Let's create a new file called `main.py` and paste the following script in it:
 
@@ -164,13 +164,13 @@ if __name__ == "__main__":
 
 This code loads and processes SST and SOCAT data, combines them, computes pCO2, and saves the results for further use.
 
-## Upload the Data to IPFS[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#upload-the-data-to-ipfs) <a href="#upload-the-data-to-ipfs" id="upload-the-data-to-ipfs"></a>
+## Upload the Data to IPFS​ <a href="#upload-the-data-to-ipfs" id="upload-the-data-to-ipfs"></a>
 
 The simplest way to upload the data to IPFS is to use a third-party service to "pin" data to the IPFS network, to ensure that the data exists and is available. To do this you need an account with a pinning service like [NFT.storage](https://nft.storage/) or [Pinata](https://pinata.cloud/). Once registered you can use their UI or API or SDKs to upload files.
 
 This resulted in the IPFS CID of `bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y`.
 
-## Setting up Docker Container[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#setting-up-docker-container) <a href="#setting-up-docker-container" id="setting-up-docker-container"></a>
+## Setting up Docker Container​ <a href="#setting-up-docker-container" id="setting-up-docker-container"></a>
 
 We will create a `Dockerfile` and add the desired configuration to the file. These commands specify how the image will be built, and what extra requirements will be included.
 
@@ -193,7 +193,7 @@ COPY ./main.py /project
 CMD ["python","main.py"]
 ```
 
-### Build the container[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
+### Build the container​ <a href="#build-the-container" id="build-the-container"></a>
 
 We will run `docker build` command to build the container:
 
@@ -209,7 +209,7 @@ Before running the command replace:
 
 **`tag`** this is not required but you can use the latest tag
 
-### Push the container[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#push-the-container) <a href="#push-the-container" id="push-the-container"></a>
+### Push the container​ <a href="#push-the-container" id="push-the-container"></a>
 
 Now you can push this repository to the registry designated by its name or tag.
 
@@ -218,10 +218,10 @@ docker push <hub-user>/<repo-name>:<tag>
 ```
 
 {% hint style="info" %}
-For more information about working with custom containers, see the [custom containers example](http://localhost:3000/setting-up/workload-onboarding/custom-containers/).
+For more information about working with custom containers, see the [custom containers example](../../setting-up/workload-onboarding/container/index-1.md).
 {% endhint %}
 
-## Running a Bacalhau Job[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
+## Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 Now that we have the data in IPFS and the Docker image pushed, next is to run a job using the `bacalhau docker run` command
 
@@ -233,7 +233,7 @@ export JOB_ID=$(bacalhau docker run \
     -- python main.py)
 ```
 
-### Structure of the command[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 Let's look closely at the command above:
 

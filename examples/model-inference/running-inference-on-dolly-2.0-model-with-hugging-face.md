@@ -2,20 +2,20 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bacalhau-project/examples/blob/main/model-inference/Huggingface-Model-Inference/index.ipynb) [![Open In Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/bacalhau-project/examples/HEAD?labpath=model-inference/Huggingface-Model-Inference/index.ipynb) [![stars - badge-generator](https://img.shields.io/github/stars/bacalhau-project/bacalhau?style=social)](https://github.com/bacalhau-project/bacalhau)
 
-## Introduction[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction​ <a href="#introduction" id="introduction"></a>
 
 Dolly 2.0, the groundbreaking, open-source, instruction-following Large Language Model (LLM) that has been fine-tuned on a human-generated instruction dataset, licensed for both research and commercial purposes. Developed using the EleutherAI Pythia model family, this 12-billion-parameter language model is built exclusively on a high-quality, human-generated instruction following dataset, contributed by Databricks employees.
 
 Dolly 2.0 package is open source, including the training code, dataset, and model weights, all available for commercial use. This unprecedented move empowers organizations to create, own, and customize robust LLMs capable of engaging in human-like interactions, without the need for API access fees or sharing data with third parties.
 
-## Running locally[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#running-locally) <a href="#running-locally" id="running-locally"></a>
+## Running locally​ <a href="#running-locally" id="running-locally"></a>
 
-### Prerequisites[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
+### Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
 1. A NVIDIA GPU
 2. Python
 
-### Installing dependencies[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#installing-dependencies) <a href="#installing-dependencies" id="installing-dependencies"></a>
+### Installing dependencies​ <a href="#installing-dependencies" id="installing-dependencies"></a>
 
 ```bash
 pip -q install git+https://github.com/huggingface/transformers # need to install from github
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
 ```
 
-## Building the container (optional)[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#building-the-container-optional) <a href="#building-the-container-optional" id="building-the-container-optional"></a>
+## Building the container (optional)​ <a href="#building-the-container-optional" id="building-the-container-optional"></a>
 
 You may want to create your own container for this kind of task. In that case, use the instructions for [creating](https://docs.docker.com/get-started/02\_our\_app/) and [publishing](https://docs.docker.com/get-started/04\_sharing\_app/) your own image in the docker hub. Use `huggingface/transformers-pytorch-deepspeed-nightly-gpu` as base image, install dependencies listed above and copy the `inference.py` into it. So your Dockerfile will look like this:
 
@@ -61,13 +61,13 @@ RUN pip -q install accelerate>=0.12.0
 COPY ./inference.py .
 ```
 
-## Running Inference on Bacalhau[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#running-inference-on-bacalhau) <a href="#running-inference-on-bacalhau" id="running-inference-on-bacalhau"></a>
+## Running Inference on Bacalhau​ <a href="#running-inference-on-bacalhau" id="running-inference-on-bacalhau"></a>
 
-### Prerequisite[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#prerequisite) <a href="#prerequisite" id="prerequisite"></a>
+### Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-### Structure of the command[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 1. `export JOB_ID=$( ... )`: Export results of a command execution as environment variable
 2. `bacalhau docker run`: Run a job using docker executor.
@@ -94,7 +94,7 @@ export JOB_ID=$(bacalhau docker run \
     -- python inference.py --prompt "Where is Earth located ?" --model_version "./databricks/dolly-v2-3b")
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`:
 
@@ -117,6 +117,6 @@ rm -rf results && mkdir results
 bacalhau job get ${JOB_ID} --output-dir results
 ```
 
-## Viewing your Job Output[​](http://localhost:3000/examples/model-inference/Huggingface-Model-Inference/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 After the download has finished, we can see the results in the `results/outputs` folder.

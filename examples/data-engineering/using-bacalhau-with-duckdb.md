@@ -114,7 +114,7 @@ Let's look closely at the command above:
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-### Declarative job description[​](http://localhost:3000/examples/data-engineering/DuckDB/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -206,7 +206,7 @@ Let's look closely at the command above:
 4. `/inputs`: path to input dataset
 5. `duckdb -s`: execute DuckDB
 
-### Declarative job description[​](http://localhost:3000/examples/data-engineering/DuckDB/#declarative-job-description-1) <a href="#declarative-job-description-1" id="declarative-job-description-1"></a>
+### Declarative job description​ <a href="#declarative-job-description-1" id="declarative-job-description-1"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 

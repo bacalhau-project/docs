@@ -1,18 +1,18 @@
 # Convert CSV To Parquet Or Avro
 
-## Introduction[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#introduction) <a href="#introduction" id="introduction"></a>
+## Introduction​ <a href="#introduction" id="introduction"></a>
 
 Converting from CSV to parquet or avro reduces the size of the file and allows for faster read and write speeds. With Bacalhau, you can convert your CSV files stored on ipfs or on the web without the need to download files and install dependencies locally.
 
 In this example tutorial we will convert a CSV file from a URL to parquet format and save the converted parquet file to IPFS
 
-## Prerequisites[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
+## Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
 To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
 
-## Running CSV to Avro or Parquet Locally​[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#running-csv-to-avro-or-parquet-locally) <a href="#running-csv-to-avro-or-parquet-locally" id="running-csv-to-avro-or-parquet-locally"></a>
+## Running CSV to Avro or Parquet Locally​​ <a href="#running-csv-to-avro-or-parquet-locally" id="running-csv-to-avro-or-parquet-locally"></a>
 
-### Downloading the CSV file[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#downloading-the-csv-file) <a href="#downloading-the-csv-file" id="downloading-the-csv-file"></a>
+### Downloading the CSV file​ <a href="#downloading-the-csv-file" id="downloading-the-csv-file"></a>
 
 Let's download the `transactions.csv` file:
 
@@ -24,7 +24,7 @@ wget https://cloudflare-ipfs.com/ipfs/QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwi
 You can use the CSV files from [here](https://github.com/datablist/sample-csv-files?tab=readme-ov-file)
 {% endhint %}
 
-### Writing the Script[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#writing-the-script) <a href="#writing-the-script" id="writing-the-script"></a>
+### Writing the Script​ <a href="#writing-the-script" id="writing-the-script"></a>
 
 Write the `converter.py` Python script, that serves as a CSV converter to Avro or Parquet formats:
 
@@ -200,13 +200,13 @@ if __name__ == '__main__':
 You can find out more information about `converter.py` [here](https://github.com/bacalhau-project/examples/blob/ef3a657336934261cdfc50b10b8981b691cbf203/data-engineering/csv-to-avro-or-parquet/csv-to-avro-parquet/README.md?plain=1#L4)
 {% endhint %}
 
-### Installing Dependencies[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#installing-dependencies) <a href="#installing-dependencies" id="installing-dependencies"></a>
+### Installing Dependencies​ <a href="#installing-dependencies" id="installing-dependencies"></a>
 
 ```bash
 pip install fastavro numpy pandas pyarrow
 ```
 
-### Converting CSV file to Parquet format[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#converting-csv-file-to-parquet-format) <a href="#converting-csv-file-to-parquet-format" id="converting-csv-file-to-parquet-format"></a>
+### Converting CSV file to Parquet format​ <a href="#converting-csv-file-to-parquet-format" id="converting-csv-file-to-parquet-format"></a>
 
 ```bash
 python converter.py <path_to_csv> <path_to_result_file> <extension>
@@ -218,14 +218,14 @@ In our case:
 python3 converter.py transactions.csv transactions.parquet parquet
 ```
 
-### Viewing the parquet file:[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#viewing-the-parquet-file) <a href="#viewing-the-parquet-file" id="viewing-the-parquet-file"></a>
+### Viewing the parquet file:​ <a href="#viewing-the-parquet-file" id="viewing-the-parquet-file"></a>
 
 ```python
 import pandas as pd
 pd.read_parquet('transactions.parquet').head()
 ```
 
-## Containerize Script with Docker[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#containerize-script-with-docker) <a href="#containerize-script-with-docker" id="containerize-script-with-docker"></a>
+## Containerize Script with Docker​ <a href="#containerize-script-with-docker" id="containerize-script-with-docker"></a>
 
 {% hint style="info" %}
 You can skip this section entirely and directly go to [Running on Bacalhau](convert-csv-to-parquet-or-avro.md#running-a-bacalhau-job)
@@ -249,7 +249,7 @@ RUN pip3 install -r requirements.txt
 See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
 {% endhint %}
 
-### Build the container[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
+### Build the container​ <a href="#build-the-container" id="build-the-container"></a>
 
 We will run the `docker build` command to build the container:
 
@@ -271,7 +271,7 @@ In our case:
 docker build -t jsacex/csv-to-arrow-or-parquet .
 ```
 
-### Push the container[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#push-the-container) <a href="#push-the-container" id="push-the-container"></a>
+### Push the container​ <a href="#push-the-container" id="push-the-container"></a>
 
 Next, upload the image to the registry. This can be done by using the Docker hub username, repo name or tag.
 
@@ -285,7 +285,7 @@ In our case:
 docker push jsacex/csv-to-arrow-or-parquet
 ```
 
-## Running a Bacalhau Job[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
+## Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
 With the command below, we are mounting the CSV file for transactions from IPFS
 
@@ -298,7 +298,7 @@ export JOB_ID=$(bacalhau docker run \
     -- python3 src/converter.py ../inputs/transactions.csv  ../outputs/transactions.parquet parquet)
 ```
 
-### Structure of the command[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#structure-of-the-command) <a href="#structure-of-the-command" id="structure-of-the-command"></a>
+### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 Let's look closely at the command above:
 
@@ -311,7 +311,7 @@ Let's look closely at the command above:
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
-### Declarative job description[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#declarative-job-description) <a href="#declarative-job-description" id="declarative-job-description"></a>
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
 The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
 
@@ -349,7 +349,7 @@ The job description should be saved in `.yaml` format, e.g. `convertcsv.yaml`, a
 bacalhau job run convertcsv.yaml
 ```
 
-## Checking the State of your Jobs[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
+## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
 
@@ -372,7 +372,7 @@ rm -rf results && mkdir -p results # Temporary directory to store the results
 bacalhau job get ${JOB_ID} --output-dir results # Download the results
 ```
 
-## Viewing your Job Output[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#viewing-your-job-output) <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
+## Viewing your Job Output​ <a href="#viewing-your-job-output" id="viewing-your-job-output"></a>
 
 To view the file, run the following command:
 
@@ -390,6 +390,6 @@ import os
 pd.read_parquet('results/outputs/transactions.parquet')
 ```
 
-## Support[​](http://localhost:3000/examples/data-engineering/csv-to-avro-or-parquet/#support) <a href="#support" id="support"></a>
+## Support​ <a href="#support" id="support"></a>
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).
