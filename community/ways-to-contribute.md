@@ -33,13 +33,13 @@ If you are interested in contributing, please email [contribute@bacalhau.org](ma
 
 This guide explains what to keep in mind when contributing to Bacalhau documentation. While the [grammar, formatting, and style guide](style-guide.md) outlines the rules to follow, this guide helps you structure your writing properly and choose the correct tone for your audience.
 
-**Walkthroughs**
+### Walkthroughs
 
 The purpose of a walkthrough is to instruct the user _how_ to do something. You do not need to convince the reader of something or explain a concept. Walkthroughs are a list of steps the reader must follow to achieve a process or function.
 
 Most of the Bacalhau documentation project documentation falls under the _Walkthrough_ category. Walkthroughs are short, have a neutral tone, and instruct the reader on achieving a particular process or function. The instructions contain steps about where to go, what to type, and the actions to perform on the User Interface. There is little to no _conceptual_ information within walkthroughs.
 
-**Components**
+#### Components
 
 The scope for some of the components in a walkthrough are as follows:
 
@@ -51,17 +51,17 @@ The scope for some of the components in a walkthrough are as follows:
 | **Tone**      | _Neutral_   | Writing contains little to no emotion.                            |
 | **Intent**    | _Instruct_  | Instruct the reader _how_ to do something.                            |
 
-**Function or process**
+#### Function or process
 
 The end goal of a walkthrough is for the reader to achieve a very particular function. _Installing Bacalhau_ is an example. Following this walkthrough doesn’t teach the reader much about working with the decentralized web or what Bacalhau is. Still, the user would have the Bacalhau Desktop application installed on the computer by the end.
 
-**Short length**
+#### Short length
 
 Walkthroughs tend to be short because they cover one particular function or process. They typically take between two and ten minutes to read. Most of the content in a walkthrough is a numbered list. Images and GIFs can help the reader understand what they should be doing.
 
 When a walkthrough is converted into a video, that video should be at most five minutes.
 
-**Walkthrough structure**
+#### Walkthrough structure
 
 Walkthroughs are split into three major sections:
 
