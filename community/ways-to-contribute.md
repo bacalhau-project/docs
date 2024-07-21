@@ -15,7 +15,7 @@ You can contribute to the Bacalhau code by opening an issue with a bug report, r
 
 ## Documentation
 
-With lots of code comes the need for lots of good documentation! If writing technical documentation is your area or you love writing, we greatly value your contribution!
+With lots of code comes the need for lots of good documentation! If writing technical documentation is your area, or you love writing, we greatly value your contribution!
 
 Before contributing to the Bacalhau documentation, please read through our [Style guide](style-guide.md) and check out the [Bacalhau documentation](https://github.com/bacalhau-project/docs).
 
