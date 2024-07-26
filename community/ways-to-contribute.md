@@ -1,74 +1,73 @@
 ---
 description: >-
-  If you want to contribute to Bacalhau and the Compute ecosystem, we have
-  provided a quick list of things we need help with and how you can get started.
+  If you want to contribute to Bacalhau and the Compute ecosystem, here is a list of things that need help and instructions for getting started.
 ---
 
-# Ways to Contribute
+# Ways to contribute
 
 {% hint style="info" %}
-We welcome your contributions ❤️. If what you want to do is not listed here or you need more guidance, do reach out to us on [Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)&#x20;
+We appreciate any help that would improve Bacalhau. If you need more guidance, reach out to us on [Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)&#x20.
 {% endhint %}
 
 ## Code
 
-You are always welcome to make code contribution to Bacalhau. This can be done by fixing open issues or opening PRs. You can start by cloning the [Bacalhau code repository](https://github.com/bacalhau-project/bacalhau).
+You can contribute to the Bacalhau code by opening an issue with a bug report, requesting a feature, suggesting changes, and others. You can also clone the [Bacalhau code repository](https://github.com/bacalhau-project/bacalhau) and submit a pull request for an open issue.
 
 ## Documentation
 
-With lots of code comes the need for lots of good documentation! If writing technical documentation is your area or you love writing, we would greatly value your contribution!
+With lots of code comes the need for lots of good documentation! If writing technical documentation is your area, or you love writing, we greatly value your contribution!
 
-Before contributing to the Bacalhau docs, please read through our [Style guide](style-guide.md) and check out the [Bacalhau documentation](https://github.com/bacalhau-project/docs) repo.
+Before contributing to the Bacalhau documentation, please read through our [Style guide](style-guide.md) and check out the [Bacalhau documentation](https://github.com/bacalhau-project/docs).
 
 ## Community
 
-For questions, give feedback or answer questions that will help other user product please use [GitHub Discussions](https://github.com/bacalhau-project/bacalhau/discussions).
+For questions, feedback, or answers to questions that help other users, use [GitHub Discussions](https://github.com/bacalhau-project/bacalhau/discussions).
 
 ### Build with Bacalhau
 
-Bacalhau has an extensive list of examples and tutorial that showcase its abilities. However this is just the tip of the iceberg, there are more use cases where Bacalhau can be implemented, if you have a specific idea you want to try out with Bacalhau, we encourage you to do that and build anything that you think is missing.
+Bacalhau has an extensive list of examples and tutorials that showcase its abilities. However, this is just the tip of the iceberg; there are more use cases where Bacalhau can be implemented. If you have a specific idea you want to try out with Bacalhau, we encourage you to do that and build anything that you think is missing.
 
-If you're interested in contributing, please reach out to [contribute@bacalhau.org](mailto:contribute@bacalhau.org) for more information. Include what your interests are so we can make sure you get to work on something fun and valuable.
+If you are interested in contributing, please email [contribute@bacalhau.org](mailto:contribute@bacalhau.org) for more information. Include your interests so we can ensure you get to work on something fun and valuable.
 
-## Writing Guide
+## Writing guide
 
-This guide explains things to keep in mind when writing for Bacalhau's documentation. While the [grammar, formatting, and style guide](style-guide.md) lets you know the rules you should follow, this guide will help you to properly structure your writing and choose the correct tone for your audience.
+This guide explains what to keep in mind when contributing to Bacalhau documentation. While the [grammar, formatting, and style guide](style-guide.md) outlines the rules to follow, this guide helps you structure your writing properly and choose the correct tone for your audience.
 
-**Walkthroughs**
+### Walkthroughs
 
-The purpose of a walkthrough is to tell the user _how_ to do something. They do not need to convince the reader of something or explain a concept. Walkthroughs are a list of steps the reader must follow to achieve a process or function.
+The purpose of a walkthrough is to instruct the user _how_ to do something. You do not need to convince the reader of something or explain a concept. Walkthroughs are a list of steps the reader must follow to achieve a process or function.
 
-Most of the documentation within the Bacalhau documentation project falls under the _Walkthrough_ category. Walkthroughs are generally quite short, have a neutral tone, and teach the reader how to achieve a particular process or function. They present the reader with concrete steps on where to go, what to type, and things they should click on. There is little to no _conceptual_ information within walkthroughs.
+Most of the Bacalhau documentation project documentation falls under the _Walkthrough_ category. Walkthroughs are short, have a neutral tone, and instruct the reader on achieving a particular process or function. The instructions contain steps about where to go, what to type, and the actions to perform on the User Interface. There is little to no _conceptual_ information within walkthroughs.
 
-**Goals**
+#### Components
 
-Use the following goals when writing walkthroughs:
+The scope for some of the components in a walkthrough are as follows:
 
-| Goal          | Keyword     | Explanation                                                       |
+| Component          | Keyword     | Scope                                                     |
 | ------------- | ----------- | ----------------------------------------------------------------- |
 | **Audience**  | _General_   | Easy for anyone to read with minimal effort.                      |
 | **Formality** | _Neutral_   | Slang is restricted, but standard casual expressions are allowed. |
-| **Domain**    | _Technical_ | Acronyms and tech-specific language is used and expected.         |
+| **Domain**    | _Technical_ | Acronyms and tech-specific language are used and expected.         |
 | **Tone**      | _Neutral_   | Writing contains little to no emotion.                            |
-| **Intent**    | _Instruct_  | Tell the reader _how_ to do something.                            |
+| **Intent**    | _Instruct_  | Instruct the reader _how_ to do something.                            |
 
-**Function or process**
+#### Function or process
 
-The end goal of a walkthrough is for the reader to achieve a very particular function. _Installing Bacalhau_ is an example. Following this walkthrough isn’t going to teach the reader much about working with the decentralized web or what Bacalhau is. Still, by the end, they’ll have the Bacalhau Desktop application installed on their computer.
+The end goal of a walkthrough is for the reader to achieve a very particular function. _Installing Bacalhau_ is an example. Following this walkthrough doesn’t teach the reader much about working with the decentralized web or what Bacalhau is. Still, the user would have the Bacalhau Desktop application installed on the computer by the end.
 
-**Short length**
+#### Short length
 
-Since walkthroughs cover one particular function or process, they tend to be quite short. The estimated reading time of a walkthrough is somewhere between 2 and 10 minutes. Most of the time, the most critical content in a walkthrough is presented in a numbered list. Images and GIFs can help the reader understand what they should be doing.
+Walkthroughs tend to be short because they cover one particular function or process. They typically take between two and ten minutes to read. Most of the content in a walkthrough is a numbered list. Images and GIFs can help the reader understand what they should be doing.
 
-If a walkthrough is converted into a video, that video should be no longer than 5 minutes.
+When a walkthrough is converted into a video, that video should be at most five minutes.
 
-**Walkthrough structure**
+#### Walkthrough structure
 
 Walkthroughs are split into three major sections:
 
-1. What we’re about to do.
-2. The steps we need to do.
-3. Summary of what we just did, and potential next steps.
+1. What you are about to do.
+2. The steps you need to do.
+3. Summary of what you just did and potential next steps.
 
 **Conceptual articles**
 
