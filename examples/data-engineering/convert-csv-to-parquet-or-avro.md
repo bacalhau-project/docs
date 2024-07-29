@@ -294,8 +294,10 @@ export JOB_ID=$(bacalhau docker run \
     -i ipfs://QmTAQMGiSv9xocaB4PUCT5nSBHrf9HZrYj21BAZ5nMTY2W  \
     --wait \
     --id-only \
+    --output outputs:\outputs \
+    --publisher ipfs \
     jsacex/csv-to-arrow-or-parquet \
-    -- python3 src/converter.py ../inputs/transactions.csv  ../outputs/transactions.parquet parquet)
+    -- python3 src/converter.py ../inputs/transactions.csv  /outputs/transactions.parquet parquet)
 ```
 
 ### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
@@ -306,7 +308,7 @@ Let's look closely at the command above:
 2. `-i ipfs://QmTAQMGiSv9xocaB4PUCT5nSBHrf9HZrYj21BAZ5nMTY2W`: CIDs to use on the job. Mounts them at '/inputs' in the execution.
 3. `jsacex/csv-to-arrow-or-parque`: the name and the tag of the docker image we are using
 4. `../inputs/transactions.csv` : path to input dataset
-5. `../outputs/transactions.parquet parquet`: path to the output
+5. `/outputs/transactions.parquet parquet`: path to the output
 6. `python3 src/converter.py`: execute the script
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
