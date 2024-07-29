@@ -146,6 +146,41 @@ The `bacalhau docker run` command allows passing input data volume with `--input
 
 Bacalhau also mounts a data volume to store output data. The `bacalhau docker run` command creates an output data volume mounted at `/outputs`. This is a convenient location to store the results of your job.
 
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
+
+The same job can be presented in the [declarative ](../../references/jobs/job/)format. In this case, the description will look like this:
+
+```
+name: Ethereum Blockchain Analysis with Ethereum-ETL
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    Engine:
+      type: docker
+      params:
+        Image: ghcr.io/bacalhau-project/examples/blockchain-etl:0.0.6
+    Publisher:
+      Type: ipfs
+    ResultPaths:
+      - Name: outputs
+        Path: /outputs
+    InputSources:
+      - Target: "/inputs/data.tar.gz"
+        Source:
+          Type: "ipfs"
+          Params:
+            CID: "bafybeifgqjvmzbtz427bne7af5tbndmvniabaex77us6l637gqtb2iwlwq"
+```
+
+The job description should be saved in `.yaml` format, e.g. `blockchain.yaml`, and then run with the command:
+
+Copy
+
+```
+bacalhau job run blockchain.yaml
+```
+
 ## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
