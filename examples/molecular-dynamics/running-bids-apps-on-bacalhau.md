@@ -80,6 +80,46 @@ Let's look closely at the command above:
 
 When a job is submitted, Bacalhau prints out the related job\_id. We store that in an environment variable so that we can reuse it later on.
 
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
+
+The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
+
+Copy
+
+```
+name: Running BIDS
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    Engine:
+      type: docker
+      params:
+        Image: nipreps/mriqc:latest
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - mriqc ../data/ds005 ../outputs participant --participant_label 01 02 03
+    Publisher:
+      Type: ipfs
+    ResultPaths:
+      - Name: outputs
+        Path: /outputs
+    InputSources:
+      - Target: "/data"
+        Source:
+          Type: "ipfs"
+          Params:
+            CID: "QmaNyzSpJCt1gMCQLd3QugihY6HzdYmA8QMEa45LDBbVPz"
+```
+
+The job description should be saved in `.yaml` format, e.g. `bids.yaml`, and then run with the command:
+
+```
+bacalhau job run bids.yaml
+```
+
 ## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
