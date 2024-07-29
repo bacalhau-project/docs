@@ -97,10 +97,8 @@ After the repo image has been pushed to Docker Hub, we can now use the container
 
 ```bash
 export JOB_ID=$(bacalhau docker run \
---workdir /inputs/ \
---wait \
---id-only \
-davidgasquez/datadex:v0.2.0 -- /bin/bash -c 'duckdb -s "select 1"')
+davidgasquez/datadex:v0.2.0 \
+--  duckdb -s "select 1")
 ```
 
 ### Structure of the command
@@ -109,8 +107,7 @@ Let's look closely at the command above:
 
 1. `bacalhau docker run`: call to bacalhau
 2. `davidgasquez/datadex:v0.2.0` : the name and the tag of the docker image we are using
-3. `/inputs/`: path to input dataset
-4. `'duckdb -s "select 1"'`: execute DuckDB
+3. `duckdb -s "select 1"`: execute DuckDB
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
