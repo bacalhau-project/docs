@@ -396,11 +396,11 @@ tasks:
         Parameters:
           - bash finetune.sh /inputs /outputs "a photo of aronchick man" "a photo of man" 3000 "/man" "/model"
     InputSources:
-      - Source:
+      - Target: "/inputs/data"
+        Source:
           Type: "ipfs"
           Params:
             CID: "QmRKnvqvpFzLjEoeeNNGHtc7H8fCn9TvNWHFnbBHkK8Mhy"
-        - Target: "/data"
     Resources:
       GPU: "1"
 ```
