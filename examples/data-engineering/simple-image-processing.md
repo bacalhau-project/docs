@@ -21,7 +21,8 @@ export JOB_ID=$(bacalhau docker run \
     --wait \
     --wait-timeout-secs 100 \
     --id-only \
-    -i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72:/input_images \
+    -i src=s3://landsat-image-processing/*,dst=/input_images,opt=region=us-east-1 \
+    --publisher ipfs \
     --entrypoint mogrify \
     dpokidov/imagemagick:7.1.0-47-ubuntu \
     -- -resize 100x100 -quality 100 -path /outputs '/input_images/*.jpg')
@@ -32,7 +33,7 @@ export JOB_ID=$(bacalhau docker run \
 Let's look closely at the command above:
 
 1. `bacalhau docker run`: call to Bacalhau
-2. `-i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72:/input_images`: Specifies the input data, which is stored in IPFS at the given CID.
+2. `-i src=s3://landsat-image-processing/*,dst=/input_images,opt=region=us-east-1`: Specifies the input data, which is stored in the S3 storage.
 3. `--entrypoint mogrify`: Overrides the default ENTRYPOINT of the image, indicating that the mogrify utility from the ImageMagick package will be used instead of the default entry.
 4. `dpokidov/imagemagick:7.1.0-47-ubuntu`: The name and the tag of the docker image we are using
 5. `-- -resize 100x100 -quality 100 -path /outputs '/input_images/*.jpg'`: These arguments are passed to mogrify and specify operations on the images: resizing to 100x100 pixels, setting quality to 100, and saving the results to the `/outputs` folder.
