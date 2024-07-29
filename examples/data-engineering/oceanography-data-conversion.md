@@ -244,6 +244,46 @@ Let's look closely at the command above:
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
+
+The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
+
+```
+name: Oceanography
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    Engine:
+      type: docker
+      params:
+        Image: ghcr.io/bacalhau-project/examples/socat:0.0.11
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - python main.py
+    Publisher:
+      Type: ipfs
+    ResultPaths:
+      - Name: outputs
+        Path: /outputs
+    InputSources:
+      - Target: "/inputs"
+        Source:
+          Type: "ipfs"
+          Params:
+            CID: "bafybeidunikexxu5qtuwc7eosjpuw6a75lxo7j5ezf3zurv52vbrmqwf6y"
+    Resources:
+        Memory: 10gb
+```
+
+The job description should be saved in `.yaml` format, e.g. ocean`yaml`, and then run with the command:
+
+```
+bacalhau job run ocean.yaml
+```
+
 ## Checking the State of your Jobs[​](http://localhost:3000/examples/data-engineering/oceanography-conversion/#checking-the-state-of-your-jobs) <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
