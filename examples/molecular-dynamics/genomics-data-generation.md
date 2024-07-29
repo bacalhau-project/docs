@@ -77,6 +77,7 @@ export JOB_ID=$(bacalhau docker run \
     --wait \
     --timeout 3600 \
     --wait-timeout-secs 3600 \
+    --publisher ipfs \
     jsacex/kipoi-veff2:py37 \
     -- kipoi_veff2_predict ./examples/input/test.vcf ./examples/input/test.fa ../outputs/output.tsv -m "DeepSEA/predict" -s "diff" -s "logit")
 ```
@@ -95,6 +96,40 @@ Let's look closely at the command above:
 8. `-s "diff" -s "logit"`: indicates using two scoring functions for comparing prediction results. In this case, the "diff" and "logit" scoring functions are used. These scoring functions can be employed to analyze differences between predictions for the reference and alternative alleles.
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
+
+### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
+
+The same job can be presented in the [declarative](../../references/jobs/job/) format. In this case, the description will look like this:
+
+```
+name: Genomics
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    Engine:
+      type: docker
+      params:
+        Image: jsacex/kipoi-veff2:py37
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - kipoi_veff2_predict ./examples/input/test.vcf ./examples/input/test.fa ../outputs/output.tsv -m "DeepSEA/predict" -s "diff" -s "logit"
+    Publisher:
+      Type: ipfs
+    ResultPaths:
+      - Name: outputs
+        Path: /outputs
+    Resources:
+      Memory: 20gb
+```
+
+The job description should be saved in `.yaml` format, e.g. `genomics.yaml`, and then run with the command:
+
+```
+bacalhau job run genomics.yaml
+```
 
 ## Checking the State of your Jobs​ <a href="#checking-the-state-of-your-jobs" id="checking-the-state-of-your-jobs"></a>
 
