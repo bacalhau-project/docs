@@ -53,6 +53,7 @@
   * [Running a Job over S3 data](setting-up/data-ingestion/s3.md)
 * [Networking Instructions](setting-up/networking-instructions/README.md)
   * [Accessing the Internet from Jobs](setting-up/networking-instructions/networking.md)
+  * [Utilizing NATS.io within Bacalhau](setting-up/networking-instructions/utilizing-nats.io-within-bacalhau.md)
 * [GPU Workloads Setup](setting-up/gpu.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
 * [Marketplace Deployments](setting-up/marketplace-deployments/README.md)
