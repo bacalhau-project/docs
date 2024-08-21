@@ -23,7 +23,6 @@
   * [Connect Storage](setting-up/running-node/storage-providers.md)
   * [Configuration Management](setting-up/running-node/configuration.md)
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
-  * [Observability](setting-up/running-node/observability.md)
   * [Limits and Timeouts](setting-up/running-node/resource-limits.md)
   * [Test Network Locally](setting-up/running-node/test-network.md)
   * [Bacalhau WebUI](setting-up/running-node/webui.md)
