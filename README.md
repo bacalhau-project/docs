@@ -3,7 +3,7 @@ cover: .gitbook/assets/bacalhau_banner_high_resolution.png
 coverY: 0
 ---
 
-# Welcome to the Bacalhau Docs
+# Welcome to the Bacalhau Documentation
 
 {% hint style="success" %}
 * Bacalhau is now using [NATS](https://nats.io/).&#x20;
@@ -15,9 +15,9 @@ For more information, check out the [release notes](help-and-faq/release-notes.m
 
 ## What is Bacalhau?
 
-Bacalhau is a platform for fast, cost efficient, and secure computation by running jobs where the data is generated and stored. With Bacalhau, you can streamline your existing workflows without the need of extensive rewriting by running arbitrary Docker containers and WebAssembly (WASM) images as tasks. This architecture is also referred to as **Compute Over Data** (or CoD). [_Bacalhau_](https://translate.google.com/?sl=pt\&tl=en\&text=bacalhau\&op=translate) _was coined from the Portuguese word for salted Cod fish_.
+Bacalhau is a platform designed for fast, cost-efficient, and secure computation by running jobs directly where the data is generated and stored. Bacalhau helps you streamline existing workflows without extensive rewriting, as it allows you to run arbitrary Docker containers and WebAssembly (WASM) images as tasks. This approach is also known as **Compute Over Data** (or CoD). The name [_Bacalhau_](https://translate.google.com/?sl=pt\&tl=en\&text=bacalhau\&op=translate) comes from the Portuguese word for salted cod fish.
 
-Bacalhau seeks to transform data processing for large-scale datasets to improve cost and efficiency, and to open up data processing to larger audiences. Our goals is to create an open, collaborative compute ecosystem that enables unparalleled collaboration. We ([Expanso.io](https://expanso.io)) offer a demo network so you can try out jobs without even installing. Give it a shot!
+Bacalhau aims to revolutionize data processing for large-scale datasets by enhancing cost-efficiency and accessibility, making data processing available to a broader audience. Our goal is to build an open, collaborative compute ecosystem that fosters unmatched collaboration. At ([Expanso.io](https://expanso.io)), we offer a demo network where you can try running jobs without any installation. Give it a try!
 
 ### Why Bacalhau?
 
