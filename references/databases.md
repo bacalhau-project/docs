@@ -1,3 +1,7 @@
+---
+icon: database
+---
+
 # Database Integration
 
 ## Requester node database (job store)

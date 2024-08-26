@@ -1,3 +1,7 @@
+---
+icon: code-merge
+---
+
 # Release Notes
 
 {% hint style="info" %}

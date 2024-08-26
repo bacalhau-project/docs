@@ -1,3 +1,7 @@
+---
+icon: house-lock
+---
+
 # Setting up Dev Environment
 
 If you are looking to develop on the project, this page will help you get started.

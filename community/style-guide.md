@@ -1,3 +1,7 @@
+---
+icon: pencil-mechanical
+---
+
 # Style Guide
 
 {% hint style="info" %}

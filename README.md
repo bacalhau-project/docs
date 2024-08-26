@@ -1,9 +1,11 @@
 ---
+description: Welcome to the Bacalhau documentation!
+icon: hand-wave
 cover: .gitbook/assets/bacalhau_banner_high_resolution.png
 coverY: 0
 ---
 
-# Welcome to the Bacalhau Docs
+# Welcome
 
 {% hint style="success" %}
 * Bacalhau is now using [NATS](https://nats.io/).&#x20;

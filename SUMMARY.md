@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Welcome to the Bacalhau Docs](README.md)
+* [Welcome](README.md)
 
 ## Getting Started
 
@@ -169,7 +169,7 @@
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
   * [Debugging Locally](references/debugging/debugging\_locally.md)
 * [Open Telemetry in Bacalhau](references/open\_telemetry\_in\_bacalhau.md)
-* [Running locally with 'devstack'](references/running-locally.md)
+* [Running locally in 'devstack'](references/running-locally.md)
 * [Setting up Dev Environment](references/setting\_up\_development.md)
 
 ## Help & FAQ
@@ -183,7 +183,7 @@
 * [Apache Airflow Provider for Bacalhau](integrations/apache-airflow.md)
 * [Lilypad](integrations/lilypad.md)
 * [Bacalhau Python SDK](integrations/python-sdk.md)
-* [Observability for WebAssembly Workloads in Bacalhau](integrations/wasm-observe.md)
+* [Observability for WebAssembly Workloads](integrations/wasm-observe.md)
 
 ## Community
 

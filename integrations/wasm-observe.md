@@ -1,4 +1,8 @@
-# Observability for WebAssembly Workloads in Bacalhau
+---
+icon: lightbulb-cfl-on
+---
+
+# Observability for WebAssembly Workloads
 
 Gain deeper insights into the WebAssembly (Wasm) jobs running on Bacalhau compute nodes using the [Observe SDK](https://dev.dylibso.com/docs/category/observe-sdk/), an open-source library that unlocks modern observability for WebAssembly. This feature supplements the [host-level observability](broken-reference) data with additional traces extracted from within the Wasm modules running on compute nodes in a Bacalhau network.
 

@@ -1,3 +1,7 @@
+---
+icon: google
+---
+
 # Google Cloud Marketplace
 
 ## Introduction

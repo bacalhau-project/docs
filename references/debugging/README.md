@@ -1,2 +1,6 @@
+---
+icon: bug-slash
+---
+
 # Debugging
 

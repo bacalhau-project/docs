@@ -1,5 +1,6 @@
 ---
 description: How to write the config.yaml file to configure your nodes
+icon: sliders-up
 ---
 
 # Write a config.yaml

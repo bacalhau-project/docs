@@ -1,3 +1,7 @@
+---
+icon: gears
+---
+
 # How Bacalhau Works
 
 In this tutorial we will go over the components and the architecture of Bacalhau. You will learn how it is built, what components are used, how you could interact and how you could use Bacalhau.

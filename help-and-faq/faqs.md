@@ -1,3 +1,7 @@
+---
+icon: comments-question-check
+---
+
 # Bacalhau FAQs
 
 ### Can I use multiple data sources in the same job?

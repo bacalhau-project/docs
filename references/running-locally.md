@@ -1,4 +1,8 @@
-# Running locally with 'devstack'
+---
+icon: location-exclamation
+---
+
+# Running locally in 'devstack'
 
 You can run a stand-alone Bacalhau and IPFS network on your computer with the following guide.
 

@@ -1,5 +1,6 @@
 ---
 description: In this tutorial you are setting up your own network
+icon: globe-wifi
 ---
 
 # Create Network

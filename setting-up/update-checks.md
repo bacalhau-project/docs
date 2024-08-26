@@ -1,3 +1,7 @@
+---
+icon: bars-progress
+---
+
 # Automatic Update Checking
 
 Bacalhau has an update checking service to automatically detect whether a newer version of the software is available.

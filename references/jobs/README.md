@@ -1,2 +1,6 @@
-# Jobs
+---
+icon: briefcase-blank
+---
+
+# Jobs Guide
 

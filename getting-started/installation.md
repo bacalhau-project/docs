@@ -1,3 +1,7 @@
+---
+icon: square-down
+---
+
 # Installation
 
 ## Install the Bacalhau CLI

@@ -1,3 +1,7 @@
+---
+icon: glasses
+---
+
 # Open Telemetry in Bacalhau
 
 ## Background
