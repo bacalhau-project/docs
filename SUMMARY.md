@@ -10,7 +10,7 @@
 * [Hardware Setup](getting-started/resources.md)
 * [Container Onboarding](getting-started/workload-onboarding/README.md)
   * [Docker Workloads](getting-started/workload-onboarding/docker-workload-onboarding.md)
-  * [WebAssembly (WASM) Workloads](getting-started/workload-onboarding/wasm-workload-onboarding.md)
+  * [WebAssembly (Wasm) Workloads](getting-started/workload-onboarding/wasm-workload-onboarding.md)
 
 ## Setting Up
 
@@ -29,7 +29,7 @@
 * [Workload Onboarding](setting-up/workload-onboarding/README.md)
   * [Container](setting-up/workload-onboarding/container/README.md)
     * [Docker Workload Onboarding](setting-up/workload-onboarding/container/docker-workload-onboarding.md)
-    * [WebAssembly (WASM) Workloads](setting-up/workload-onboarding/container/wasm-workload-onboarding.md)
+    * [WebAssembly (Wasm) Workloads](setting-up/workload-onboarding/container/wasm-workload-onboarding.md)
     * [Bacalhau Docker Image](setting-up/workload-onboarding/container/index.md)
     * [How To Work With Custom Containers in Bacalhau](setting-up/workload-onboarding/container/index-1.md)
   * [Python](setting-up/workload-onboarding/python/README.md)
