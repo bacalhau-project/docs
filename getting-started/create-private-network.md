@@ -1,6 +1,6 @@
 ---
-description: In this tutorial you are setting up your own network
 icon: globe-wifi
+description: In this tutorial you are setting up your own network
 ---
 
 # Create Network
@@ -61,7 +61,7 @@ bacalhau config set "node.network.authsecret" my_token
 
 ```bash
 #Start the Requester node
-bacalhau serve --node-type requester --peer none
+bacalhau serve --node-type requester
 ```
 
 This will produce output similar to this, indicating that the node is up and running:
@@ -74,17 +74,16 @@ This will produce output similar to this, indicating that the node is up and run
 15:10:02.81 | INF pkg/config/setters.go:84 > Writing to config file /home/username/.bacalhau/config.yaml:
 Node.Compute.ExecutionStore:    {BoltDB /home/username/.bacalhau/compute_store/executions.db}
 Node.Requester.JobStore:        {BoltDB /home/username/.bacalhau/orchestrator_store/jobs.db}
-Node.Name:      n-1134cdf3-a974-4c0b-b9c9-61858a856bda
+Node.Name:      n-1134cdf3-a974-4c0b-b9c9-61858a856bda 
 
 To connect a compute node to this orchestrator, run the following command in your shell:
-bacalhau serve --node-type=compute --network=nats --orchestrators=nats://127.0.0.1:4222 --private-internal-ipfs --ipfs-swarm-addrs=/ip4/127.0.0.1/tcp/39311/p2p/QmdUmWyEUHK3Zfnno4x3Ct89AjtQ75Tr3WGaEsgh1nGGj1 
+bacalhau serve --node-type=compute --orchestrators=nats://127.0.0.1:4222 
 
 To connect to this node from the client, run the following commands in your shell:
 export BACALHAU_NODE_CLIENTAPI_HOST=0.0.0.0
 export BACALHAU_NODE_CLIENTAPI_PORT=1234
-export BACALHAU_NODE_NETWORK_TYPE=nats
 export BACALHAU_NODE_NETWORK_ORCHESTRATORS=nats://127.0.0.1:4222
-export BACALHAU_NODE_IPFS_SWARMADDRESSES=/ip4/127.0.0.1/tcp/39311/p2p/QmdUmWyEUHK3Zfnno4x3Ct89AjtQ75Tr3WGaEsgh1nGGj1
+
 ```
 
 Note that for security reasons, the output of the command contains the localhost `127.0.0.1` address instead of your real IP. To connect to this node, you should replace it with your real public IP address yourself. The method for obtaining your public IP address may vary depending on the type of instance you're using. Windows and Linux instances can be queried for their public IP using the following command:
@@ -146,9 +145,7 @@ To connect to the requester node find the following lines in the requester node 
 To connect to this node from the client, run the following commands in your shell:
 export BACALHAU_NODE_CLIENTAPI_HOST=<Public-IP-of-the-Requester-Node>
 export BACALHAU_NODE_CLIENTAPI_PORT=1234
-export BACALHAU_NODE_NETWORK_TYPE=nats
 export BACALHAU_NODE_NETWORK_ORCHESTRATORS=nats://<Public-IP-of-the-Requester-Node>:4222
-export BACALHAU_NODE_IPFS_SWARMADDRESSES=/ip4/<Public-IP-of-the-Requester-Node>/tcp/43919/p2p/QmehkJQ9BN4QMvv7nFTzsWSBk13coaxEZh4N5YmumtJQDb
 ```
 
 {% hint style="info" %}
@@ -305,6 +302,27 @@ bacalhau docker run -input file:///etc/config:/config ubuntu ...
 ```
 {% endtab %}
 {% endtabs %}
+
+## `bacalhau serve` flags overview
+
+Optimize your private network nodes performance and functionality with these most useful flags:
+
+1. `--default-publisher`: Specify any [availabie publisher](../references/jobs/job/task/publishers/) as default for all jobs without a publisher. For example
+
+```bash
+ bacalhau serve --default-publisher ipfs
+```
+
+2. `--job-selection-accept-networked`: Allows node to accept jobs, that require [network access](../setting-up/networking-instructions/networking.md)
+3. `--labels`: Describes the node with labels in a `key=value` format. Later labels can be used by the job as conditions for choosing the node on which to run on. For example:
+
+```bash
+bacalhau serve --labels node-type=WebServer
+```
+
+4. `--node-type`: Specifies the node type, which can be `compute`, `requester` (default) or both.
+5. `--orchestrators`: Specifies list of orchestrators to connect to. Applies to compute nodes.&#x20;
+6. `--repo`: Specifies path to the Bacalhau repo. Default value is `/home/username/.bacalhau`. Can be helpful when a repo should be initialized in any but default path or when more than one node should be started on a single machine.
 
 ## Best Practices for Production Use Cases
 
