@@ -56,7 +56,7 @@ Let's use the `uuidgen` tool to create our token, then add it to the Bacalhau co
 uuidgen > my_token
 
 #Add token to the Bacalhau configuration
-bacalhau config set "node.network.authsecret" my_token
+bacalhau config set "node.network.authsecret" $(cat my_token)
 ```
 
 ```bash
