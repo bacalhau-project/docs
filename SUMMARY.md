@@ -169,7 +169,6 @@
 * [Debugging](references/debugging/README.md)
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
   * [Debugging Locally](references/debugging/debugging\_locally.md)
-* [Open Telemetry in Bacalhau](references/open\_telemetry\_in\_bacalhau.md)
 * [Running locally in 'devstack'](references/running-locally.md)
 * [Setting up Dev Environment](references/setting\_up\_development.md)
 
