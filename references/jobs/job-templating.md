@@ -6,7 +6,7 @@ description: Templating Support in Bacalhau Job Run
 
 ### Overview
 
-This documentation introduces templating support for [`bacalhau job run`](broken-reference), providing users with the ability to dynamically inject variables into their job specifications. This feature is particularly useful when running multiple jobs with varying parameters such as DuckDB query, S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually.
+This documentation introduces templating support for [`bacalhau job run`](../cli-reference/cli/job/index-7.md), providing users with the ability to dynamically inject variables into their job specifications. This feature is particularly useful when running multiple jobs with varying parameters such as DuckDB query, S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually.
 
 ### Motivation
 
@@ -147,7 +147,7 @@ Tasks:
             Region: {{.AWSRegion}}
 ```
 
-This is a `batch` job that runs on a single node. It accepts duckdb `query` variable, and four other variables to define the S3 bucket, prefix, pattern for the logs and the AWS region.
+This is a`batch` job that runs on a single node. It accepts the duckdb `query` variable, and four other variables to define the S3 bucket, prefix, and pattern for the logs and the AWS region.
 
 To run this job, you can use the following command:
 
