@@ -26,6 +26,7 @@
   * [Limits and Timeouts](setting-up/running-node/resource-limits.md)
   * [Test Network Locally](setting-up/running-node/test-network.md)
   * [Bacalhau WebUI](setting-up/running-node/webui.md)
+  * [Private IPFS Network Setup](setting-up/running-node/private-ipfs-network-setup.md)
 * [Workload Onboarding](setting-up/workload-onboarding/README.md)
   * [Container](setting-up/workload-onboarding/container/README.md)
     * [Docker Workload Onboarding](setting-up/workload-onboarding/container/docker-workload-onboarding.md)
