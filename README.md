@@ -1,6 +1,6 @@
 ---
-description: Welcome to the Bacalhau documentation!
 icon: hand-wave
+description: Welcome to the Bacalhau documentation!
 cover: .gitbook/assets/bacalhau_banner_high_resolution.png
 coverY: 0
 ---
@@ -110,11 +110,11 @@ An example on how to build your own ETL pipeline with Bacalhau and MongoDB.
 
 Here are some example tutorials on how you can process your data with Bacalhau:
 
-* [Stable Diffusion AI](broken-reference) training and deployment with Bacalhau.
-* [Generate Realistic Images using StyleGAN3 and Bacalhau](broken-reference).
-* [Object Detection with YOLOv5 on Bacalhau](broken-reference).
-* [Running Genomics on Bacalhau](broken-reference).
-* [Training Pytorch Model with Bacalhau](broken-reference).
+* [Stable Diffusion AI](examples/model-inference/stable-diffusion-checkpoint-inference.md) training and deployment with Bacalhau.
+* [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/generate-realistic-images-using-stylegan3-and-bacalhau.md).
+* [Object Detection with YOLOv5 on Bacalhau](examples/model-inference/object-detection-with-yolov5-on-bacalhau.md).
+* [Running Genomics on Bacalhau](examples/molecular-dynamics/genomics-data-generation.md).
+* [Training Pytorch Model with Bacalhau](examples/model-training/training-pytorch-model-with-bacalhau.md).
 
 {% hint style="info" %}
 For more tutorials, visit our [example page](broken-reference)
