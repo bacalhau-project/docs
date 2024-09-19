@@ -4,12 +4,12 @@ icon: lightbulb-cfl-on
 
 # Observability for WebAssembly Workloads
 
-Gain deeper insights into the WebAssembly (Wasm) jobs running on Bacalhau compute nodes using the [Observe SDK](https://dev.dylibso.com/docs/category/observe-sdk/), an open-source library that unlocks modern observability for WebAssembly. This feature supplements the [host-level observability](broken-reference) data with additional traces extracted from within the Wasm modules running on compute nodes in a Bacalhau network.
+Gain deeper insights into the WebAssembly (Wasm) jobs running on Bacalhau compute nodes using the [Observe SDK](https://dev.dylibso.com/docs/category/observe-sdk/), an open-source library that unlocks modern observability for WebAssembly. This feature supplements the host-level observability data with additional traces extracted from within the Wasm modules running on compute nodes in a Bacalhau network.
 
 ## Features
 
 1. Extract telemetry data from Wasm workloads. Currently supports tracing, with logs and metrics coming soon.
-2. Data can be sent to the [same viewing destinations](broken-reference) (ie. sinks) that are supported for the host-level data.
+2. Data can be sent to the same viewing destinations (i.e. sinks) that are supported for the host-level data.
 3. Utilizes the same Trace ID as the host-level data, allowing for seamless visibility into the end-to-end execution of the job.
 
 ## Installing the SDK
