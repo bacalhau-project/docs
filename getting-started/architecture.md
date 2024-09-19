@@ -360,7 +360,7 @@ You can use [Job Executions API Documentation](../references/api/jobs.md#job-exe
 
 ## Chapter 4 - Monitoring and Management
 
-The Bacalhau client provides the user with tools to monitor and manage the execution of jobs. You can get information about status, progress and decide on next steps. View the [Bacalhau Agent APIs](../references/api/agent.md) if you want to know the node's health, capabilities, and deployed Bacalhau version. To get information about the status and characteristics of the nodes in the cluster use [Nodes API Documentation](broken-reference).
+The Bacalhau client provides the user with tools to monitor and manage the execution of jobs. You can get information about status, progress and decide on next steps. View the [Bacalhau Agent APIs](../references/api/agent.md) if you want to know the node's health, capabilities, and deployed Bacalhau version. To get information about the status and characteristics of the nodes in the cluster use [Nodes API Documentation](../references/api/).
 
 ### Stop a Job
 
