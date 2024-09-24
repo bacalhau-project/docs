@@ -187,7 +187,7 @@ Success! We've now executed a bunch of jobs in parallel using Python. This is a 
 
 You might also be interested in the following examples:
 
-[Analysing Data with Python Pandas](broken-reference)
+[Analysing Data with Python Pandas](../../../examples/data-engineering/)
 
 ## Support
 
