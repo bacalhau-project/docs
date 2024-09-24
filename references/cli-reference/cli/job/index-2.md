@@ -2,7 +2,7 @@
 
 ## Description
 
-The `bacalhau exec` command allows for the specification of jobs to be executed from the command line, without the need for a job specification file (see [job run](broken-reference)).
+The `bacalhau exec` command allows for the specification of jobs to be executed from the command line, without the need for a job specification file (see [job run](index-7.md)).
 
 ## Usage
 
