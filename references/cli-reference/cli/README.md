@@ -1,7 +1,7 @@
 # Single CLI commands
 
 {% hint style="warning" %}
-The following commands refer to experimental bacalhau cli version `v1.1.0`. Experimental means that the commands are not stable and may change in future versions. More stable commands, with limited functionality, are documented [here](../../../all-flags/).
+The following commands refer to experimental bacalhau cli version `v1.1.0`. Experimental means that the commands are not stable and may change in future versions. More stable commands, with limited functionality, are documented [here](https://github.com/bacalhau-project/docs/blob/main/all-flags/README.md).
 {% endhint %}
 
 {% hint style="info" %}
