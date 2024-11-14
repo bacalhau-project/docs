@@ -1,7 +1,7 @@
 # Best Practices
 
 {% hint style="warning" %}
-The API changed in Bacalhau v.1.4.0, which can be seen in the [migration guide](migration-api.md) and the [release notes](../../help-and-faq/release-notes.md).
+The API changed in Bacalhau v.1.4.0, which can be seen in the [migration guide](migration-api.md) and the [release notes](../../help-and-faq/release-notes/release-notes.md).
 {% endhint %}
 
 ## Introduction

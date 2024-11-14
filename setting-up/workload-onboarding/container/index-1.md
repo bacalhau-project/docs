@@ -49,19 +49,19 @@ export JOB_ID=$(bacalhau docker run \
 
 This command also runs a container from the `docker/whalesay` image, using Bacalhau. We use the `bacalhau docker run` command to start a job in a Docker container. It contains additional flags such as `--wait` to wait for job completion and `--id-only` to return only the job identifier. Inside the container, the `bash -c 'cowsay hello web3 uber-run'` command is executed.
 
-When a job is submitted, Bacalhau prints out the related `job_id` (`7e41b9b9-a9e2-4866-9fce-17020d8ec9e0`):
+When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.
 
 ```shell
-7e41b9b9-a9e2-4866-9fce-17020d8ec9e0
+j-7e41b9b9-a9e2-4866-9fce-17020d8ec9e0
 ```
-
-We store that in an environment variable so that we can reuse it later on.
 
 You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory (`results`) and downloaded our job output to be stored in that directory.
 
 ```bash
 rm -rf results && mkdir -p results
-bacalhau job get ${JOB_ID}  --output-dir results
+bacalhau job get \
+--output-dir results \
+${JOB_ID}
 ```
 
 Viewing your job output
@@ -143,7 +143,7 @@ docker build -t ghcr.io/bacalhau-project/examples/codsay:latest . 2> /dev/null
 ```
 
 ```bash
-%%bashdocker run --rm ghcr.io/bacalhau-project/examples/codsay:latest codsay I like swimming in data
+docker run --rm ghcr.io/bacalhau-project/examples/codsay:latest codsay I like swimming in data
 ```
 
 Once your container is working as expected then you should push it to a public container registry. In this example, I'm pushing to Github's container registry, but we'll skip the step below because you probably don't have permission. Remember that the Bacalhau nodes expect your container to have a `linux/amd64` architecture.

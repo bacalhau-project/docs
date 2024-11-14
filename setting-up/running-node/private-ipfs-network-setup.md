@@ -5,12 +5,16 @@ description: Set up private IPFS network
 # Private IPFS Network Setup
 
 {% hint style="warning" %}
-Note that currently Bacalhau `v1.4.0` supports IPFS `v0.27` and below. Support for later versions of IPFS will be added in the next versions.
+Note that Bacalhau`v1.4.0` supports IPFS `v0.27` and below.&#x20;
+
+Starting from `v.1.5.0` Bacalhau supports latest IPFS versions.
+
+Consider this when selecting versions of Bacalhau and IPFS when setting up your own private network.
 {% endhint %}
 
 ## Introduction
 
-Support for the embedded [IPFS](https://ipfs.tech/) node was [discontinued](../../help-and-faq/release-notes.md#libp2p-ipfs-deprecation-and-migration-to-nats-warning) in `v1.4.0` to streamline communication and reduce overhead. Therefore, now in order to use a private IPFS network, it is necessary to create it yourself and then connect to it with nodes. This manual describes how to:
+Support for the embedded [IPFS](https://ipfs.tech/) node was [discontinued](../../help-and-faq/release-notes/release-notes.md#libp2p-ipfs-deprecation-and-migration-to-nats-warning) in `v1.4.0` to streamline communication and reduce overhead. Therefore, now in order to use a private IPFS network, it is necessary to create it yourself and then connect to it with nodes. This manual describes how to:
 
 1. Install and configure IPFS
 2. Create Private IPFS network
@@ -59,8 +63,8 @@ go version
 
 The next step is to download and install Kubo. [Select and download](https://dist.ipfs.tech/#kubo) the appropriate version for your system. It is recommended to use the latest stable version.
 
-<pre class="language-bash"><code class="lang-bash">wget https://dist.ipfs.tech/kubo/v0.29.0/kubo_v0.29.0_linux-amd64.tar.gz
-<strong>tar -xvzf kubo_v0.29.0_linux-amd64.tar.gz
+<pre class="language-bash"><code class="lang-bash">wget https://dist.ipfs.tech/kubo/v0.30.0/kubo_v0.30.0_linux-amd64.tar.gz
+<strong>tar -xvzf kubo_v0.30.0_linux-amd64.tar.gz
 </strong>sudo bash kubo/install.sh
 </code></pre>
 
@@ -78,7 +82,9 @@ Execute the `ipfs init` command to initialize an IPFS node:
 
 ```bash
 ipfs init
+```
 
+```bash
 # example output
 
 generating ED25519 keypair...done
@@ -88,15 +94,17 @@ initializing IPFS node at /home/username/.ipfs
 
 The next step is to generate the swarm key - a cryptographic key that is used to control access to an IPFS network, and export the key into a `swarm.key` file, located in the `~/ipfs` folder.
 
-<pre class="language-bash"><code class="lang-bash">echo -e "/key/swarm/psk/1.0.0/\n/base16/" > swarm.key
-ipfs key gen swarmkey >> ~/.ipfs/swarm.key
-<strong>
-</strong><strong># example swarm.key content:
-</strong>
+```bash
+echo -e "/key/swarm/psk/1.0.0/\n/base16/\n$(tr -dc 'a-f0-9' < /dev/urandom | head -c64)" > ~/.ipfs/swarm.key
+```
+
+```bash
+# example swarm.key content:
+
 /key/swarm/psk/1.0.0/
 /base16/
 k51qzi5uqu5dli3yce3powa8pme8yc2mcwc3gpfwh7hzkzrvp5c6l0um99kiw2
-</code></pre>
+```
 
 Now the default entries of bootstrap nodes should be removed. Execute the command on all nodes:
 
@@ -108,7 +116,9 @@ Check that bootstrap config does not contain default values:
 
 ```bash
 ipfs config show | grep Bootstrap
+```
 
+```bash
 # expected output:
 
   "Bootstrap": null,
@@ -141,7 +151,7 @@ ipfs init
 Apply same config as on bootstrap node and start the daemon:
 
 ```bash
-ipfs bootstrap rm — all
+ipfs bootstrap rm --all
 
 ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
 
@@ -156,7 +166,9 @@ Done! Now you can check that private IPFS network works properly:
 
 ```bash
 ipfs swarm peers
+```
 
+```bash
 # example output for single connected node
 
 /ip4/10.0.2.15/tcp/4001/p2p/12D3KooWQqr8BLHDUaZvYG59KnrfYJ1PbbzCq3pzfpQ6QrKP5yz7
@@ -172,7 +184,9 @@ echo “Hello from the private IPFS network!” > sample.txt
 ```bash
 # Pin file:
 ipfs add sample.txt
+```
 
+```bash
 # example output:
 
 added QmWQeYip3JuwhDFmkDkx9mXG3p83a3zMFfiMfhjS2Zvnms sample.txt
@@ -183,7 +197,9 @@ added QmWQeYip3JuwhDFmkDkx9mXG3p83a3zMFfiMfhjS2Zvnms sample.txt
 # Retrieve and display the content of a pinned file
 # Execute this on any node of your private network
 ipfs cat QmWQeYip3JuwhDFmkDkx9mXG3p83a3zMFfiMfhjS2Zvnms
+```
 
+```bash
 # expected output:
 
 Hello from the private IPFS network!
@@ -274,7 +290,9 @@ echo "Hello from private IPFS network!" > file.txt
 
 # pin the file
 ipfs add file.txt
+```
 
+```bash
 # example output:
 
 added QmWQK2Rz4Ng1RPFPyiHECvQGrJb5ZbSwjpLeuWpDuCZAbQ file.txt
@@ -290,24 +308,28 @@ bacalhau docker run \
 -i ipfs://QmWQK2Rz4Ng1RPFPyiHECvQGrJb5ZbSwjpLeuWpDuCZAbQ
 --publisher ipfs \
 alpine cat inputs
+```
 
+```bash
 # example output
 
-Job successfully submitted. Job ID: j-0402f760-70e3-404a-99a9-c87e200f9dde
+Job successfully submitted. Job ID: j-c6514250-2e97-4fb6-a1e6-6a5a8e8ba6aa
 Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
 
-	Communicating with the network  ................  done ✅  0.0s
-	   Creating job for submission  ................  done ✅  0.5s
-	               Job in progress  ................  done ✅  1.0s
-
+ TIME          EXEC. ID    TOPIC            EVENT         
+ 15:54:35.767              Submission       Job submitted 
+ 15:54:35.780  e-a498daaf  Scheduling       Requested execution on n-0f29f45c 
+ 15:54:35.859  e-a498daaf  Execution        Running 
+ 15:54:36.707  e-a498daaf  Execution        Completed successfully 
+                                             
 To get more details about the run, execute:
-	bacalhau job describe j-0402f760-70e3-404a-99a9-c87e200f9dde
+	bacalhau job describe j-c6514250-2e97-4fb6-a1e6-6a5a8e8ba6aa
 
 To get more details about the run executions, execute:
-	bacalhau job executions j-0402f760-70e3-404a-99a9-c87e200f9dde
+	bacalhau job executions j-c6514250-2e97-4fb6-a1e6-6a5a8e8ba6aa
 
 To download the results, execute:
-	bacalhau job get j-0402f760-70e3-404a-99a9-c87e200f9dde
+	bacalhau job get j-c6514250-2e97-4fb6-a1e6-6a5a8e8ba6aa
 ```
 
 ### View and Download Job Results
@@ -315,8 +337,10 @@ To download the results, execute:
 Use [bacalhau job describe](../../references/cli-reference/cli/job/index-1.md) command to view job execution results:
 
 ```bash
-bacalhau job describe j-0402f760-70e3-404a-99a9-c87e200f9dde        
+bacalhau job describe j-c6514250-2e97-4fb6-a1e6-6a5a8e8ba6aa
+```
 
+```bash
 # example output (was truncated for brevity)
 
 ...
@@ -327,11 +351,13 @@ Hello from private IPFS network!
 Use [bacalhau job get](../../references/cli-reference/all-flags.md#get)  command to download job results. In this particular case, `ipfs` publisher was used, so the get command will print the `CID` of the job results:
 
 ```bash
-bacalhau job get j-0402f760-70e3-404a-99a9-c87e200f9dde
+bacalhau job get j-c6514250-2e97-4fb6-a1e6-6a5a8e8ba6aa
+```
 
+```bash
 # example output
 
-Fetching results of job 'j-0402f760-70e3-404a-99a9-c87e200f9dde'...
+Fetching results of job 'j-c6514250-2e97-4fb6-a1e6-6a5a8e8ba6aa'...
 No supported downloader found for the published results. You will have to download the results differently.
 [
     {
@@ -347,7 +373,9 @@ No supported downloader found for the published results. You will have to downlo
 
 ```bash
 ipfs ls QmSskRNnbbw8rNtkLdcJrUS2uC2mhiKofVJsahKRPgbGGj
+```
 
+```bash
 # example output
 
 QmS6mcrMTFsZnT3wAptqEb8NpBPnv1H6WwZBMzEjT8SSDv 1  exitCode
@@ -359,7 +387,9 @@ Use the `ipfs cat` command to view the file content. In our case, the file of in
 
 ```bash
 ipfs cat QmWQK2Rz4Ng1RPFPyiHECvQGrJb5ZbSwjpLeuWpDuCZAbQ
+```
 
+```bash
 # example output
 
 Hello from private IPFS network!
@@ -369,9 +399,12 @@ Use the `ipfs get` command to download the file using its CID:
 
 ```bash
 ipfs get --output stdout QmWQK2Rz4Ng1RPFPyiHECvQGrJb5ZbSwjpLeuWpDuCZAbQ
-Saving file(s) to stdout
- 33 B / 33 B [===============================================] 100.00% 0s
 ```
+
+<pre class="language-bash"><code class="lang-bash"># example output
+<strong>Saving file(s) to stdout
+</strong> 33 B / 33 B [===============================================] 100.00% 0s
+</code></pre>
 
 ## Need Support?[​](http://localhost:3000/setting-up/data-ingestion/from-url#need-support) <a href="#need-support" id="need-support"></a>
 

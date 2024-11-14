@@ -49,7 +49,7 @@ You can mount your data anywhere on your machine, and Bacalhau will be able to r
 You can run a WebAssembly program on Bacalhau using the `bacalhau wasm run` command.
 
 ```shell
-$ bacalhau wasm run
+bacalhau wasm run
 ```
 
 **Run Locally Compiled Program:**
@@ -57,11 +57,13 @@ $ bacalhau wasm run
 If your program is locally compiled, specify it as an argument. For instance, running the following command will upload and execute the `main.wasm` program:
 
 ```shell
-$ bacalhau wasm run main.wasm
+bacalhau wasm run main.wasm
 ```
 
 {% hint style="warning" %}
-The program you specify will be uploaded to a Bacalhau storage node and will be publicly available.
+The program you specify will be uploaded to a Bacalhau storage node and will be publicly available if you are using the public demo network.
+
+Consider creating [your own private network](../../../getting-started/create-private-network.md).
 {% endhint %}
 
 **Alternative Program Specification:**
@@ -69,7 +71,7 @@ The program you specify will be uploaded to a Bacalhau storage node and will be 
 You can use a Content IDentifier (CID) for a specific WebAssembly program.
 
 ```shell
-$ bacalhau wasm run Qmajb9T3jBdMSp7xh2JruNrqg3hniCnM6EUVsBocARPJRQ
+bacalhau wasm run Qmajb9T3jBdMSp7xh2JruNrqg3hniCnM6EUVsBocARPJRQ
 ```
 
 **Input Data Specification:**
@@ -77,7 +79,7 @@ $ bacalhau wasm run Qmajb9T3jBdMSp7xh2JruNrqg3hniCnM6EUVsBocARPJRQ
 Make sure to specify any input data using `--input` flag.
 
 ```shell
-$ bacalhau wasm run --input http://example.com
+bacalhau wasm run --input http://example.com
 ```
 
 This ensures the necessary data is available for the program's execution.
@@ -87,13 +89,13 @@ This ensures the necessary data is available for the program's execution.
 You can give the Wasm program arguments by specifying them after the program path or CID. If the Wasm program is already compiled and located in the current directory, you can run it by adding arguments after the file name:
 
 ```shell
-$ bacalhau wasm run echo.wasm hello world
+bacalhau wasm run echo.wasm hello world
 ```
 
 For a specific WebAssembly program, run:
 
 ```shell
-$ bacalhau wasm run Qmajb9T3jBdMSp7xh2JruNrqg3hniCnM6EUVsBocARPJRQ hello world
+bacalhau wasm run Qmajb9T3jBdMSp7xh2JruNrqg3hniCnM6EUVsBocARPJRQ hello world
 ```
 
 {% hint style="info" %}
@@ -102,7 +104,7 @@ Write your program to use program arguments to specify input and output paths. T
 For example, instead of hard-coding your program to read from `/inputs/data.txt`, accept a program argument that should contain the path and then specify the path as an argument to `bacalhau wasm run`:
 
 ```shell
-$ bacalhau wasm run prog.wasm /inputs/data.txt
+bacalhau wasm run prog.wasm /inputs/data.txt
 ```
 
 Your language of choice should contain a standard way of reading program arguments that will work with WASI.&#x20;
@@ -113,7 +115,7 @@ Your language of choice should contain a standard way of reading program argumen
 You can also specify environment variables using the `-e` flag.
 
 ```shell
-$ bacalhau wasm run prog.wasm -e HELLO=world
+bacalhau wasm run prog.wasm -e HELLO=world
 ```
 
 ## Examples

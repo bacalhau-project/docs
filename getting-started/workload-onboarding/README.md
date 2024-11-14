@@ -2,5 +2,5 @@
 icon: list-check
 ---
 
-# Workload Onboarding
+# Container Onboarding
 

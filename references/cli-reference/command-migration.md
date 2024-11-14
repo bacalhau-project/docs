@@ -1,4 +1,4 @@
-# CLI Migration
+# Command Migration
 
 {% hint style="warning" %}
 Note that in version 1.4.0 the syntax for certain commands has changed. Check out the release notes and the description of the updated commands on this page.

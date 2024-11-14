@@ -2,19 +2,19 @@
 
 When running a node, you can choose which jobs you want to run by using configuration options, environment variables or flags to specify a job selection policy.
 
-| Config property                               | `serve` flag                       | Default value | Meaning                                                                                   |
-| --------------------------------------------- | ---------------------------------- | ------------- | ----------------------------------------------------------------------------------------- |
-| Node.Compute.JobSelection.Locality            | `--job-selection-data-locality`    | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").  |
-| Node.Compute.JobSelection.ProbeExec           | `--job-selection-probe-exec`       | unused        | Use the result of an external program to decide if we should take on the job.             |
-| Node.Compute.JobSelection.ProbeHttp           | `--job-selection-probe-http`       | unused        | Use the result of a HTTP POST to decide if we should take on the job.                     |
-| Node.Compute.JobSelection.RejectStatelessJobs | `--job-selection-reject-stateless` | False         | Reject jobs that don't specify any [input data](../data-ingestion/).                      |
-| Node.Compute.JobSelection.AcceptNetworkedJobs | `--job-selection-accept-networked` | False         | Accept jobs that require [network connections](../networking-instructions/networking.md). |
+| Confiuration key                        | Default value | Meaning                                                                                   |
+| --------------------------------------- | ------------- | ----------------------------------------------------------------------------------------- |
+| JobAdmissionControl.Locality            | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").  |
+| JobAdmissionControl.ProbeExec           | unused        | Use the result of an external program to decide if we should take on the job.             |
+| JobAdmissionControl.ProbeHTTP           | unused        | Use the result of a HTTP POST to decide if we should take on the job.                     |
+| JobAdmissionControl.RejectStatelessJobs | False         | Reject jobs that don't specify any [input data](../data-ingestion/).                      |
+| JobAdmissionControl.AcceptNetworkedJobs | False         | Accept jobs that require [network connections](../networking-instructions/networking.md). |
 
 ## Job selection probes
 
-If you want more control over making the decision to take on jobs, you can use the `--job-selection-probe-exec` and `--job-selection-probe-http` flags.
+If you want more control over making the decision to take on jobs, you can use the `JobAdmissionControl.ProbeExec` and `JobAdmissionControl.ProbeHTTP` configuration keys.
 
-These are external programs that are passed the following data structure so that they can make a decision about whether or not to take on a job:
+These are external programs that are passed the following data structure so that they can make a decision about whether to take on a job:
 
 ```json
 {

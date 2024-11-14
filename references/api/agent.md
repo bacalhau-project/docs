@@ -1,4 +1,4 @@
-# Agent API
+# Agent Endpoint
 
 The Bacalhau Agent APIs provide a convenient means to retrieve information about the Bacalhau node you are communicating with, whether it serves as the orchestrator or functions as a compute node. These APIs offer valuable insights into the node's health, capabilities, and deployed Bacalhau version.
 

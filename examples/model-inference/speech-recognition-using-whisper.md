@@ -281,7 +281,7 @@ docker push jsacex/whisper
 
 We will transcribe the moon landing video, which can be found here: [https://www.nasa.gov/multimedia/hd/apollo11\_hdpage.html](https://www.nasa.gov/multimedia/hd/apollo11\_hdpage.html)
 
-Since the downloaded video is in mov format we convert the video to mp4 format and then upload it to our public storage in this case IPFS. We will be using [NFT.Storage](https://nft.storage/) (Recommended Option). To upload your dataset using [NFTup](https://nft.storage/docs/how-to/nftup/) just drag and drop your directory it will upload it to IPFS.
+Since the downloaded video is in mov format we convert the video to mp4 format and then upload it to our public storage in this case IPFS. To do this, a public [IPFS](https://ipfs.tech/) network can be used, or you can create your own [private IPFS network](../../setting-up/running-node/private-ipfs-network-setup.md) and use it to pin files.
 
 After the dataset has been uploaded, copy the CID:
 

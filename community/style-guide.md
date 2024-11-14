@@ -1,5 +1,5 @@
 ---
-icon: pencil-mechanical
+icon: pen-fancy
 ---
 
 # Style Guide

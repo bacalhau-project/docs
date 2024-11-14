@@ -1,6 +1,6 @@
 ---
-icon: thumbs-up
 description: Find Bacalhau on your favorite social media platform
+icon: thumbs-up
 ---
 
 # Social Media

@@ -11,7 +11,7 @@ Here are the parameters that you can define for a Local input source:
 
 ### Allow-listing Local Paths
 
-For security reasons, direct access to local paths must be explicitly allowed when running the Bacalhau compute node. This is achieved using the `--allow-listed-local-paths` flag followed by a comma-separated list of the paths, or path patterns, that should be accessible. Each path can be suffixed with permissions as well:
+For security reasons, direct access to local paths must be explicitly allowed when running the Bacalhau compute node. This is achieved using the `Compute.AllowListedLocalPaths` configuration key followed by a comma-separated list of the paths, or path patterns, that should be accessible. Each path can be suffixed with permissions as well:
 
 * `:rw` - Read-Write access.
 * `:ro` - Read-Only access (default if no suffix is provided).
@@ -23,7 +23,7 @@ Check out the default settings on your server, as this may be set to `:ro` and m
 For instance:
 
 ```bash
-bacalhau serve --allow-listed-local-paths "/etc/config:rw,/etc/*.conf:ro"
+bacalhau config set Compute.AllowListedLocalPaths=/etc/config:rw,/etc/*.conf:ro
 ```
 
 ### Example

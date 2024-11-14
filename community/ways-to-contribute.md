@@ -2,7 +2,7 @@
 description: >-
   If you want to contribute to Bacalhau and the Compute ecosystem, here is a
   list of things that need help and instructions for getting started.
-icon: typewriter
+icon: toolbox
 ---
 
 # Ways to Contribute

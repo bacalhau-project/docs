@@ -21,7 +21,7 @@
   * [Access Management](setting-up/running-node/auth.md)
   * [Node persistence](setting-up/running-node/persistence.md)
   * [Connect Storage](setting-up/running-node/storage-providers.md)
-  * [Configuration Management](setting-up/running-node/configuration.md)
+  * [(Outdated after v1.5.0) Configuration Management](setting-up/running-node/configuration.md)
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
   * [Limits and Timeouts](setting-up/running-node/resource-limits.md)
   * [Test Network Locally](setting-up/running-node/test-network.md)
@@ -61,6 +61,7 @@
 
 ## Guides
 
+* [(Updated) Configuration Management](guides/updated-configuration-management.md)
 * [Write a config.yaml](guides/write-a-config.yaml.md)
 * [Write a SpecConfig](guides/spec-config.md)
 
@@ -169,14 +170,16 @@
 * [Debugging](references/debugging/README.md)
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
   * [Debugging Locally](references/debugging/debugging\_locally.md)
-* [Running locally in 'devstack'](references/running-locally.md)
+* [Running Locally In Devstack](references/running-locally.md)
 * [Setting up Dev Environment](references/setting\_up\_development.md)
 
 ## Help & FAQ
 
 * [Bacalhau FAQs](help-and-faq/faqs.md)
-* [Release Notes](help-and-faq/release-notes.md)
 * [Glossary](help-and-faq/glossary.md)
+* [Release Notes](help-and-faq/release-notes/README.md)
+  * [v1.5.0 Release Notes](help-and-faq/release-notes/v1.5.0-release-notes.md)
+  * [v1.4.0 Release Notes](help-and-faq/release-notes/release-notes.md)
 
 ## Integrations
 

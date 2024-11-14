@@ -1,21 +1,29 @@
 # Limits and Timeouts
 
+{% hint style="warning" %}
+Note that in version `v1.5.0` the configuration management approach was completely changed and certain limits were deprecated.
+
+Check out the [release notes](https://docs.bacalhau.org/guides/updated-configuration-management) to learn about all the changes in configuration management: CLI commands syntax and configuration files management.
+{% endhint %}
+
 ## Resource Limits <a href="#resource-limits" id="resource-limits"></a>
 
-These are the flags that control the capacity of the Bacalhau node, and the limits for jobs that might be run.
+These are the configuration keys that control the capacity of the Bacalhau node, and the limits for jobs that might be run.
+
+| Configuration key                | Description                                                                                                                                                                                                                                                                                      |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Compute.AllocatedCapacity.CPU    | <p>Specifies the amount of CPU a compute node allocates for running jobs. It<br>can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string</p>                                                                                                                    |
+| Compute.AllocatedCapacity.Disk   | <p>Specifies the amount of Disk space a compute node allocates for running<br>jobs. It can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string (e.g., <code>10Gi</code>)</p>                                                                                   |
+| Compute.AllocatedCapacity.GPU    | <p>Specifies the amount of GPU a compute node allocates for running jobs. It can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string (e.g., <code>1</code>). </p><p>Note: When using percentages, the result is always rounded up to the nearest whole GPU</p> |
+| Compute.AllocatedCapacity.Memory | Specifies the amount of Memory a compute node allocates for running jobs. It can be expressed as a percentage (e.g., `85%`) or a Kubernetes resource  string (e.g., `1Gi`)                                                                                                                       |
+
+It is also possible to additionally specify the number of resources to be allocated to each job by default, if the required number of resources is not specified in the job itself. `JobDefaults.<`[`Job type`](../../references/jobs/job/job-types.md)`>.Task.Resources.<Resource Type>` configuration keys are used for this purpose. E.g. to provide each [Ops](../../references/jobs/job/job-types.md#ops-jobs) job with 2Gb of RAM the following key is used: `JobDefaults.Ops.Task.Resources.Memory`:
 
 ```bash
-  --limit-job-cpu string                 Job CPU core limit for single job (e.g. 500m, 2, 8).
-  --limit-job-gpu string                 Job GPU limit for single job (e.g. 1, 2, or 8).
-  --limit-job-memory string              Job Memory limit for single job  (e.g. 500Mb, 2Gb, 8Gb).
-  --limit-total-cpu string               Total CPU core limit to run all jobs (e.g. 500m, 2, 8).
-  --limit-total-gpu string               Total GPU limit to run all jobs (e.g. 1, 2, or 8).
-  --limit-total-memory string            Total Memory limit to run all jobs  (e.g. 500Mb, 2Gb, 8Gb).
+bacalhau config set JobDefaults.Ops.Task.Resources.Memory=2Gi
 ```
 
-The `--limit-total-*` flags control the total system resources you want to give to the network. If left blank, the system will attempt to detect these values automatically.
-
-The `--limit-job-*` flags control the maximum amount of resources a single job can consume for it to be selected for execution.
+See the complete [configuration keys list](../../guides/write-a-config.yaml.md) for more details.
 
 Resource limits are not supported for Docker jobs running on Windows. Resource limits will be applied at the job bid stage based on reported job requirements but will be silently unenforced. Jobs will be able to access as many resources as requested at runtime.[​](http://localhost:3000/setting-up/running-node/resource-limits#windows-support)
 
@@ -43,16 +51,16 @@ The timeout can also be added to an existing job spec by adding the `Timeout` pr
 {% endtab %}
 
 {% tab title="Node" %}
-Node operators can pass the `--max-job-execution-timeout` flag to `bacalhau serve` to configure the maximum job time limit. The supplied value should be a numeric value followed by a time unit (one of `s` for seconds, `m` for minutes or `h` for hours).
+Node operators can use configuration keys to specify default and maximum job execution time limits. The supplied values should be a numeric value followed by a time unit (one of `s` for seconds, `m` for minutes or `h` for hours).
 
-Node operators can also use configuration properties to configure execution limits.
+Here is a list of the relevant properties:
 
-Compute nodes will use the properties:
+| JobDefaults.**Batch**.Task.Timeouts.**ExecutionTimeout** | Default value for batch job execution timeouts on your current compute node. It will be assigned to batch jobs with no timeout requirement defined  |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| JobDefaults.**Ops**.Task.Timeouts**.ExecutionTimeout**   | Default value for ops job execution timeouts on your current compute node. It will be assigned to ops jobs with no timeout requirement defined      |
+| JobDefaults.**Batch.**Task.Timeouts.**TotalTimeout**     | Default value for the maximum execution timeout this compute node supports for batch jobs. Jobs with higher timeout requirements will not be bid on |
+| JobDefaults.**Ops.**Task.Timeouts.**TotalTimeout**       | Default value for the maximum execution timeout this compute node supports for ops jobs. Jobs with higher timeout requirements will not be bid on   |
 
-<table><thead><tr><th width="370">Config property</th><th>Meaning</th></tr></thead><tbody><tr><td><code>Node.Compute.JobTimeouts.MinJobExecutionTimeout</code></td><td>The minimum acceptable value for a job timeout. A job will only be accepted if it is submitted with a timeout of longer than this value.</td></tr><tr><td><code>Node.Compute.JobTimeouts.MaxJobExecutionTimeout</code></td><td>The maximum acceptable value for a job timeout. A job will only be accepted if it is submitted with a timeout of shorter than this value.</td></tr><tr><td><code>Node.Compute.JobTimeouts.DefaultJobExecutionTimeout</code></td><td>The job timeout that will be applied to jobs that are submitted without a timeout value.</td></tr></tbody></table>
-
-Requester nodes will use the properties:
-
-<table><thead><tr><th width="374">Config property</th><th>Meaning</th></tr></thead><tbody><tr><td><code>Node.Requester.Timeouts.MinJobExecutionTimeout</code></td><td>If a job is submitted with a timeout less than this value, the default job execution timeout will be used instead.</td></tr><tr><td><code>Node.Requester.Timeouts.DefaultJobExecutionTimeout</code></td><td>The timeout to use in the job if a timeout is missing or too small.</td></tr></tbody></table>
+Note, that timeouts can not be configured for Daemon and Service jobs.
 {% endtab %}
 {% endtabs %}

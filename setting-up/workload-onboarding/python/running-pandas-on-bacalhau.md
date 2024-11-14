@@ -1,7 +1,5 @@
 # Running Pandas on Bacalhau
 
-[![stars - badge-generator](https://camo.githubusercontent.com/d36cf6e63d7879c81bbb14c407e4fc205542189b61b546272816c711ead2a8cd/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f73746172732f626163616c6861752d70726f6a6563742f626163616c6861753f7374796c653d736f6369616c)](https://github.com/bacalhau-project/bacalhau)
-
 ## Introduction
 
 Pandas is a Python package that provides fast, flexible, and expressive data structures designed to make working with data both easy and intuitive. It aims to be the fundamental high-level building block for doing practical, real-world data analysis in Python. Additionally, it has the broader goal of becoming the most powerful and flexible open-source data analysis/manipulation tool available in any language. It is already well on its way towards this goal.
@@ -61,7 +59,7 @@ To run Pandas on Bacalhau you must store your assets in a location that Bacalhau
 
 If you are interested in finding out more about how to ingest your data into IPFS, please see the [data ingestion guide](../../data-ingestion/).
 
-We've already uploaded the script and data to IPFS to the following CID: `QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz`. You can look at this by browsing to one of the HTTP IPFS proxies like [ipfs.io](https://cloudflare-ipfs.com/ipfs/QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz/) or [w3s.link](https://github.com/web3-storage/w3link).
+We've already uploaded the script and data to IPFS to the following CID: `QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz`. You can look at this by browsing to one of the HTTP IPFS proxies like [ipfs.tech](https://ipfs.tech/) or [w3s.link](https://github.com/web3-storage/w3link).
 
 ## 3. Running a Bacalhau Job
 

@@ -63,45 +63,52 @@ If you're wondering which server is being used, the Bacalhau Project has a demo 
 
 ### Step 2 - Submit a Hello World job
 
-To submit a job in Bacalhau, we will use the `bacalhau docker run` command. The command runs a job using the Docker executor on the node. Let's take a quick look at its syntax:
+To submit a job in Bacalhau, we will use the [`bacalhau docker run`](../references/cli-reference/all-flags.md#docker-run) command. The command runs a job using the Docker executor on the node. Let's take a quick look at its syntax:
 
 ```shell
-bacalhau docker run [FLAGS] IMAGE[:TAG] [COMMAND]
+bacalhau docker run [flags] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
 ```
+
+To run the job, you will need to connect to a public demo network or set up your own [private network](create-private-network.md). In the following example, we will use the public demo network by using the `--configuration` flag.
 
 {% tabs %}
 {% tab title="CLI" %}
 ```bash
-bacalhau docker run ubuntu echo Hello World
+bacalhau docker run \
+--config api.host=bootstrap.production.bacalhau.org \
+alpine echo helloWorld
 ```
 
-We will use the command to submit a Hello World job that runs an [echo](https://en.wikipedia.org/wiki/Echo\_\(command\)) program within an [Ubuntu container](https://hub.docker.com/\_/ubuntu).
+We will use the command to submit a Hello World job that runs an [echo](https://en.wikipedia.org/wiki/Echo\_\(command\)) program within an [Alpine container](https://hub.docker.com/\_/alpine).
 
 Let's take a look at the results of the command execution in the terminal:
 
 ```bash
-Job successfully submitted. Job ID: f8e7789d-8e76-4e6c-8e71-436e2d76c72e
+Job successfully submitted. Job ID: j-de72aeff-0f18-4f70-a07c-1366a0edcb64
 Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
 
-    Communicating with the network  ................  done ✅  0.2s
-       Creating job for submission  ................  done ✅  0.7s
-                   Job in progress  ................  done ✅  2.1s
-
-To download the results, execute:
-    bacalhau job get f8e7789d-8e76-4e6c-8e71-436e2d76c72e
-
+ TIME          EXEC. ID    TOPIC            EVENT         
+ 15:32:50.323              Submission       Job submitted 
+ 15:32:50.332  e-6e4f2db9  Scheduling       Requested execution on n-f1c579e2 
+ 15:32:50.410  e-6e4f2db9  Execution        Running 
+ 15:32:50.986  e-6e4f2db9  Execution        Completed successfully 
+                                             
 To get more details about the run, execute:
-    bacalhau job describe f8e7789d-8e76-4e6c-8e71-436e2d76c72e
+	bacalhau job describe j-de72aeff-0f18-4f70-a07c-1366a0edcb64
+
+To get more details about the run executions, execute:
+	bacalhau job executions j-de72aeff-0f18-4f70-a07c-1366a0edcb64
+
 ```
 
-After the above command is run, the job is submitted to the public network, which processes the job and Bacalhau prints out the related job id:
+After the above command is run, the job is submitted to the selected network, which processes the job and Bacalhau prints out the related job id:
 
 ```bash
-Job successfully submitted. Job ID: 9d20bbad-c3fc-48f8-907b-1da61c927fbd
+Job successfully submitted. Job ID: j-de72aeff-0f18-4f70-a07c-1366a0edcb64
 Checking job status...
 ```
 
-The `job_id` above is shown in its full form. For convenience, you can use the shortened version, in this case: `9d20bbad`.
+The `job_id` above is shown in its full form. For convenience, you can use the shortened version, in this case: `j-de72aeff`.
 
 {% hint style="info" %}
 While this command is designed to resemble Docker's run command which you may be familiar with, Bacalhau introduces a whole new set of [flags](../references/cli-reference/all-flags.md#docker-run) to support its computing model.
@@ -131,79 +138,66 @@ Let's take a look at the results of the command execution in the terminal:
 
 After having deployed the job, we now can use the CLI for the interaction with the network. The jobs were sent to the public demo network, where it was processed and we can call the following functions. The `job_id` will differ for every submission.
 
-#### Step 3.1 - Job status:
+#### Step 3.1 - Job information:
 
-You can check the status of the job using `bacalhau job list` command adding the `--id-filter` flag and specifying your job id.
+You can find out more information about your job by using [`bacalhau job describe`](../references/cli-reference/cli/job/index-1.md).
 
 ```shell
-bacalhau job list --id-filter 9d20bbad
+bacalhau job describe j-de72aeff
 ```
 
 Let's take a look at the results of the command execution in the terminal:
 
 ```shell
-CREATED   ID          JOB                                       STATE      PUBLISHED
-15:24:31  0ed7617d    Type:"docker",Params:"map[Entrypoint:<ni  Completed
-                       l> EnvironmentVariables:[] Image:ubuntu:
-                       latest Parameters:[sh -c uname -a && ech
-                       o "Hello from Docker Bacalhau!"] Working
-                       Directory:]"
-```
+ID            = j-de72aeff-0f18-4f70-a07c-1366a0edcb64
+Name          = j-de72aeff-0f18-4f70-a07c-1366a0edcb64
+Namespace     = default
+Type          = batch
+State         = Completed
+Count         = 1
+Created Time  = 2024-10-07 13:32:50
+Modified Time = 2024-10-07 13:32:50
+Version       = 0
 
-When it says `Completed`, that means the job is done, and we can get the results.
+Summary
+Completed = 1
 
-{% hint style="info" %}
-For a comprehensive list of flags you can pass to the list command check out [the related CLI Reference page](../references/cli-reference/all-flags.md)
-{% endhint %}
+Job History
+ TIME                 TOPIC         EVENT         
+ 2024-10-07 15:32:50  Submission    Job submitted 
+ 2024-10-07 15:32:50  State Update  Running       
+ 2024-10-07 15:32:50  State Update  Completed     
 
-#### Step 3.2 - Job information:
+Executions
+ ID          NODE ID     STATE      DESIRED  REV.  CREATED    MODIFIED   COMMENT 
+ e-6e4f2db9  n-f1c579e2  Completed  Stopped  6     4m18s ago  4m17s ago          
 
-You can find out more information about your job by using `bacalhau job describe`.
+Execution e-6e4f2db9 History
+ TIME                 TOPIC       EVENT                             
+ 2024-10-07 15:32:50  Scheduling  Requested execution on n-f1c579e2 
+ 2024-10-07 15:32:50  Execution   Running                           
+ 2024-10-07 15:32:50  Execution   Completed successfully            
 
-```shell
-bacalhau job describe 9d20bbad
-```
-
-Let's take a look at the results of the command execution in the terminal:
-
-```shell
-Job:
-    APIVersion: V1beta2
-    Metadata:
-        ClientID: 0ff57b2521334a92e9ddab4b2f8202c887b1eaa35d2aa945ab0e247d3bc0aa88
-        CreatedAt: "2023-12-21T15:24:31.750306239Z"
-        ID: 0ed7617d-d5ff-40f7-8411-89830b3f3058
-        Requester:
-        RequesterNodeID: QmbxGSsM6saCTyKkiWSxhJCt6Fgj7M9cns1vzYtfDbB5Ws
-        RequesterPublicKey: CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDEHTUAD1JzO0130W9vsaDGhU0PVgpcNjG3fYlE0sJ1BiBWENFuP4jx3Q9alcjNGhdRFdju0Mb/fidTOtJcPhxTdb+H6JxFP6HsADGes9jU4ylBU2SL2vfdb0KXzKdXjNHGGf4BuCGTcH07Oqxp209diK/cT7takL2fLjcgs1tM+6PzlfGzFqCPxvh9Sa0ek34mdmHjcp1XH8yjF1OKOuHvD+pYphqvOBL/2LEN+EBC4fz/QUnhUajCmKYO83MJcNUXSGxb4AN6K3DpVV+cJph7fj9ADdP7i996o2S4Gkz8W4Wpt/jICaPpkUjmyU3Jgcw7MHkZaYEzWxnnO2J936+pAgMBAAE=
-    Spec:
-    ...
+Standard Output
+helloWorld
 ```
 
 This outputs all information about the job, including stdout, stderr, where the job was scheduled, and so on.
 
-#### Step 3.3 - Job download:
+#### Step 3.2 - Job download:
 
-You can download your job results directly by using `bacalhau job get`.
+You can download your job results directly by using [`bacalhau job get`](../references/cli-reference/all-flags.md#get).
 
 ```shell
-bacalhau job get 9d20bbad
+bacalhau job get j-de72aeff
 ```
 
-This results in
+Depending on selected [publisher](../references/jobs/job/task/publishers/), this may result in:
 
 ```shell
-Fetching results of job '0ed7617d'...
-Results for job '0ed7617d' have been written to...
-/Users/test/job-0ed7617d
-```
-
-In the command below, we created a directory called `myfolder` and download our job output to be stored in that directory.
-
-```shell
-Fetching results of job '0ed7617d'...
-Results for job '0ed7617d' have been written to...
-/myfolder
+Fetching results of job 'j-de72aeff'...
+Results for job 'j-de72aeff' have been written to...
+/home/username/.bacalhau/job-j-de72aeff
 ```
 
 {% hint style="info" %}
@@ -212,24 +206,23 @@ While executing this command, you may encounter warnings regarding receive and s
 
 After the download has finished you should see the following contents in the results directory.
 
-```shell
-job-0ed7617d
-├── exitCode
+<pre class="language-shell"><code class="lang-shell"><strong>job-j-de72aeff
+</strong>├── exitCode
 ├── outputs
 ├── stderr
 └── stdout
-```
+</code></pre>
 
 ### Step 4 - Viewing your Job Output
 
 ```shell
-cat job-9d20bbad/stdout
+cat j-de72aeff/stdout
 ```
 
-That should print out the string `Hello World`.
+That should print out the string `helloWorld`.
 
 ```shell
-Hello world
+helloWorld
 ```
 
 With that, you have just successfully run a job on Bacalhau! :fish:
