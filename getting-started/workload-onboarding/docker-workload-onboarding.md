@@ -23,7 +23,7 @@ Here are few things to note before getting started:
 3. **Input Flags**: The `--input ipfs://...` flag supports only **directories** and does not support CID subpaths. The `--input https://...` flag supports only **single files** and does not support URL directories. The `--input s3://...` flag supports S3 keys and prefixes. For example, `s3://bucket/logs-2023-04*` includes all logs for April 2023.
 
 {% hint style="info" %}
-You can check to see a [list of example public containers](https://github.com/orgs/bacalhau-project/packages?repo\_name=examples) used by the Bacalhau team
+You can check to see a [list of example public containers](https://github.com/orgs/bacalhau-project/packages?repo_name=examples) used by the Bacalhau team
 
 **Note**: Only about a third of examples have their containers here. If you can't find one, feel free to contact the team.
 {% endhint %}

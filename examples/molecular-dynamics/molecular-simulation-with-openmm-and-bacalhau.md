@@ -14,7 +14,7 @@ To get started, you need to install the Bacalhau client, see more information [h
 
 #### Downloading Datasets​ <a href="#downloading-datasets" id="downloading-datasets"></a>
 
-We use a processed 2DRI dataset that represents the ribose binding protein in bacterial transport and chemotaxis. The source organism is the [Escherichia coli](https://en.wikipedia.org/wiki/Escherichia\_coli) bacteria.
+We use a processed 2DRI dataset that represents the ribose binding protein in bacterial transport and chemotaxis. The source organism is the [Escherichia coli](https://en.wikipedia.org/wiki/Escherichia_coli) bacteria.
 
 <figure><img src="../../.gitbook/assets/2dri-image-b62b408d1846f383eaa00790f8599299.png" alt=""><figcaption></figcaption></figure>
 
@@ -40,7 +40,7 @@ Expected Output
 
 ### Writing the Script​ <a href="#writing-the-script" id="writing-the-script"></a>
 
-To run the script above all we need is a Python environment with the [OpenMM library](http://docs.openmm.org/latest/userguide/application/01\_getting\_started.html) installed. This script makes sure that there are no empty cells and to filter out potential error sources from the file.
+To run the script above all we need is a Python environment with the [OpenMM library](http://docs.openmm.org/latest/userguide/application/01_getting_started.html) installed. This script makes sure that there are no empty cells and to filter out potential error sources from the file.
 
 ```python
 # Import the packages
@@ -177,7 +177,7 @@ When you pin your data, you'll get a CID. Copy the CID as it will be used to acc
 To build your own docker container, create a `Dockerfile`, which contains instructions to build your image.
 
 {% hint style="info" %}
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
 {% endhint %}
 
 ```docker

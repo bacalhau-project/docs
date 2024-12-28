@@ -8,13 +8,7 @@ coverY: 0
 # Welcome
 
 {% hint style="success" %}
-In Bacalhau v.1.5.0 a couple of things changed.
-
-* Bacalhau has updated configurations. Please check out [the guide](guides/updated-configuration-management.md).
-* There is no [default endpoint](help-and-faq/release-notes/v1.5.0-release-notes.md) anymore to give users even more control over their network from the start.
-* There is now a built-in WebUI.
-
-For more information, check out the [release notes](help-and-faq/release-notes/v1.5.0-release-notes.md).
+In Bacalhau v.1.6.0 a couple of things changed. For more information, check out the [release notes](help-and-faq/release-notes/v1.5.0-release-notes.md).
 {% endhint %}
 
 ## What is Bacalhau?

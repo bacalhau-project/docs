@@ -107,43 +107,7 @@ bacalhau job get ${JOB_ID} --output-dir results
 
 To view the images, open the `results/outputs/` folder:
 
-<div>
-
-<figure><img src="../../.gitbook/assets/index_21_0 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_1 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_2 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_3 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_4 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_5 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_6 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_7 (1).jpg" alt=""><figcaption></figcaption></figure>
-
- 
-
-<figure><img src="../../.gitbook/assets/index_21_8 (1).jpg" alt=""><figcaption></figcaption></figure>
-
-</div>
+<div><figure><img src="../../.gitbook/assets/index_21_0 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_1 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_2 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_3 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_4 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_5 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_6 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_7 (1).jpg" alt=""><figcaption></figcaption></figure> <figure><img src="../../.gitbook/assets/index_21_8 (1).jpg" alt=""><figcaption></figcaption></figure></div>
 
 ### Support​ <a href="#support" id="support"></a>
 

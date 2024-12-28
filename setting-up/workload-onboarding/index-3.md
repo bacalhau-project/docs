@@ -19,7 +19,7 @@ cargo init my-program
 
 We can then write a Rust program. Rust programs that run on Bacalhau can read and write files, access a simple clock, and make use of pseudo-random numbers. They cannot memory-map files or run code on multiple threads.
 
-The program below will use the Rust `imageproc` crate to resize an image through seam carving, based on [an example from their repository](https://github.com/image-rs/imageproc/blob/master/examples/seam\_carving.rs).
+The program below will use the Rust `imageproc` crate to resize an image through seam carving, based on [an example from their repository](https://github.com/image-rs/imageproc/blob/master/examples/seam_carving.rs).
 
 ```rust
 // ./my-program/src/main.rs
@@ -159,18 +159,18 @@ When we view the files, we can see the original image, the resulting shrunk imag
 ./wasm_results/outputs/original.png
 ```
 
-![png](<../../.gitbook/assets/index\_18\_0 (1).png>)
+![png](<../../.gitbook/assets/index_18_0 (1).png>)
 
 ```python
 ./wasm_results/outputs/annotated_gradients.png
 ```
 
-![png](<../../.gitbook/assets/index\_19\_0 (1).png>)
+![png](<../../.gitbook/assets/index_19_0 (1).png>)
 
 <pre class="language-python"><code class="lang-python"><strong>./wasm_results/outputs/shrunk.png
 </strong></code></pre>
 
-![png](../../.gitbook/assets/index\_20\_0.png)
+![png](../../.gitbook/assets/index_20_0.png)
 
 ## Support
 

@@ -79,7 +79,7 @@ bacalhau docker run \
 alpine echo helloWorld
 ```
 
-We will use the command to submit a Hello World job that runs an [echo](https://en.wikipedia.org/wiki/Echo\_\(command\)) program within an [Alpine container](https://hub.docker.com/\_/alpine).
+We will use the command to submit a Hello World job that runs an [echo](https://en.wikipedia.org/wiki/Echo_\(command\)) program within an [Alpine container](https://hub.docker.com/_/alpine).
 
 Let's take a look at the results of the command execution in the terminal:
 

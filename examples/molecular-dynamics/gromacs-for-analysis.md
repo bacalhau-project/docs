@@ -65,7 +65,7 @@ Lets look closely at the command above:
 7. `-water` Water model to use. In this case we use `spc`
 
 {% hint style="info" %}
-For a similar tutorial that you can try yourself, check out [KALP-15 in DPPC - GROMACS Tutorial](http://www.mdtutorials.com/gmx/membrane\_protein/01\_pdb2gmx.html)
+For a similar tutorial that you can try yourself, check out [KALP-15 in DPPC - GROMACS Tutorial](http://www.mdtutorials.com/gmx/membrane_protein/01_pdb2gmx.html)
 {% endhint %}
 
 When a job is submitted, Bacalhau prints out the related `job_id`. We store that in an environment variable so that we can reuse it later on.

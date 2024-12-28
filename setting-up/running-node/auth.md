@@ -95,7 +95,7 @@ package bacalhau.authn
 token := "anything"
 ```
 
-A more realistic example that returns a signed JWT is in [challenge\_ns\_anon.rego](https://raw.githubusercontent.com/bacalhau-project/bacalhau/main/pkg/authn/challenge/challenge\_ns\_no\_anon.rego).
+A more realistic example that returns a signed JWT is in [challenge\_ns\_anon.rego](https://raw.githubusercontent.com/bacalhau-project/bacalhau/main/pkg/authn/challenge/challenge_ns_no_anon.rego).
 
 #### `ask` authentication
 
@@ -121,7 +121,7 @@ schema := {}
 token := "anything"
 ```
 
-A more realistic example that returns a signed JWT is in [ask\_ns\_example.rego](https://raw.githubusercontent.com/bacalhau-project/bacalhau/main/pkg/authn/ask/ask\_ns\_example.rego).
+A more realistic example that returns a signed JWT is in [ask\_ns\_example.rego](https://raw.githubusercontent.com/bacalhau-project/bacalhau/main/pkg/authn/ask/ask_ns_example.rego).
 
 ### Custom authorization policies
 
@@ -159,4 +159,4 @@ allow := true
 token_valid := true
 ```
 
-A more realistic example (which is the Bacalhau "anonymous mode" default) is in [policy\_ns\_anon.rego](https://raw.githubusercontent.com/bacalhau-project/bacalhau/main/pkg/authz/policies/policy\_ns\_anon.rego).
+A more realistic example (which is the Bacalhau "anonymous mode" default) is in [policy\_ns\_anon.rego](https://raw.githubusercontent.com/bacalhau-project/bacalhau/main/pkg/authz/policies/policy_ns_anon.rego).

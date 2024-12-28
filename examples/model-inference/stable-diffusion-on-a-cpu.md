@@ -21,7 +21,7 @@ bacalhau docker run ghcr.io/bacalhau-project/examples/stable-diffusion-cpu:0.0.1
 
 The [original](https://github.com/CompVis/stable-diffusion) text-to-image stable diffusion model was trained on a fleet of GPU machines, at great cost. To use this trained model for inference, you also need to run it on a GPU.
 
-However, this isn't always desired or possible. One alternative is to use a project called [OpenVINO](https://docs.openvino.ai/latest/index.html) from Intel that allows you to convert and optimize models from a variety of frameworks (and ONNX if your framework isn't directly supported) to run on a [supported](https://docs.openvino.ai/latest/openvino\_docs\_OV\_UG\_Working\_with\_devices.html) Intel CPU. This is what we will do in this example.
+However, this isn't always desired or possible. One alternative is to use a project called [OpenVINO](https://docs.openvino.ai/latest/index.html) from Intel that allows you to convert and optimize models from a variety of frameworks (and ONNX if your framework isn't directly supported) to run on a [supported](https://docs.openvino.ai/latest/openvino_docs_OV_UG_Working_with_devices.html) Intel CPU. This is what we will do in this example.
 
 {% hint style="info" %}
 Heads up! This example takes about 10 minutes to generate an image on an average CPU. Whilst this demonstrates it is possible, it might not be practical.
@@ -36,11 +36,11 @@ In order to run this example you need:
 
 ### Converting Stable Diffusion to a CPU Model Using OpenVINO​ <a href="#converting-stable-diffusion-to-a-cpu-model-using-openvino" id="converting-stable-diffusion-to-a-cpu-model-using-openvino"></a>
 
-First we convert the trained stable diffusion models so that they work efficiently on a CPU with OpenVINO. Choose the fine tuned version of Stable Diffusion you want to use. The example is quite complex, so we have created a [separate repository](https://github.com/js-ts/stable\_diffusion.openvino) to host the code. This is a fork from this [Github repository](https://github.com/bes-dev/stable\_diffusion.openvino).
+First we convert the trained stable diffusion models so that they work efficiently on a CPU with OpenVINO. Choose the fine tuned version of Stable Diffusion you want to use. The example is quite complex, so we have created a [separate repository](https://github.com/js-ts/stable_diffusion.openvino) to host the code. This is a fork from this [Github repository](https://github.com/bes-dev/stable_diffusion.openvino).
 
 In summary, the code downloads a [pre-optimized OpenVINO version](https://huggingface.co/bes-dev/stable-diffusion-v1-4-openvino) of the [original](https://huggingface.co/CompVis/stable-diffusion-v1-4) pre-trained stable diffusion model. This model leverages OpenAI's [CLIP transformer](https://huggingface.co/openai/clip-vit-large-patch14) and is wrapped inside an OpenVINO runtime, which executes the model.
 
-The core code representing these tasks can be found [in the stable\_diffusion\_engine.py file](https://github.com/js-ts/stable\_diffusion.openvino/blob/master/stable\_diffusion\_engine.py). This is a mashup that creates a pipeline necessary to tokenize the text and run the stable diffusion model. This boilerplate could be simplified by leveraging the more recent version of the [diffusers library](https://github.com/huggingface/diffusers). But let's continue.
+The core code representing these tasks can be found [in the stable\_diffusion\_engine.py file](https://github.com/js-ts/stable_diffusion.openvino/blob/master/stable_diffusion_engine.py). This is a mashup that creates a pipeline necessary to tokenize the text and run the stable diffusion model. This boilerplate could be simplified by leveraging the more recent version of the [diffusers library](https://github.com/huggingface/diffusers). But let's continue.
 
 ### Install Dependencies​ <a href="#install-dependencies" id="install-dependencies"></a>
 
@@ -94,7 +94,7 @@ cd stable_diffusion.openvino && \
 
 Now we have a working example, we can convert it into a format that allows us to perform inference in a distributed environment.
 
-First we will create a `Dockerfile` to containerize the inference code. The Dockerfile [can be found in the repository](https://github.com/js-ts/stable\_diffusion.openvino/blob/master/Dockerfile), but is presented here to aid understanding.
+First we will create a `Dockerfile` to containerize the inference code. The Dockerfile [can be found in the repository](https://github.com/js-ts/stable_diffusion.openvino/blob/master/Dockerfile), but is presented here to aid understanding.
 
 ```docker
 FROM python:3.9.9-bullseye

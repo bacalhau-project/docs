@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
 ## Building the container (optional)​ <a href="#building-the-container-optional" id="building-the-container-optional"></a>
 
-You may want to create your own container for this kind of task. In that case, use the instructions for [creating](https://docs.docker.com/get-started/02\_our\_app/) and [publishing](https://docs.docker.com/get-started/04\_sharing\_app/) your own image in the docker hub. Use `huggingface/transformers-pytorch-deepspeed-nightly-gpu` as base image, install dependencies listed above and copy the `inference.py` into it. So your Dockerfile will look like this:
+You may want to create your own container for this kind of task. In that case, use the instructions for [creating](https://docs.docker.com/get-started/02_our_app/) and [publishing](https://docs.docker.com/get-started/04_sharing_app/) your own image in the docker hub. Use `huggingface/transformers-pytorch-deepspeed-nightly-gpu` as base image, install dependencies listed above and copy the `inference.py` into it. So your Dockerfile will look like this:
 
 ```docker
 FROM huggingface/transformers-pytorch-deepspeed-nightly-gpu

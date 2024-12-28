@@ -8,7 +8,7 @@ To get started, you need to install the Bacalhau client, see more information [h
 
 ## 1. Running Python Locally​ <a href="#id-1-running-python-locally" id="id-1-running-python-locally"></a>
 
-We'll be using a very simple Python script that displays the [traditional first greeting](https://en.wikipedia.org/wiki/%22Hello,\_World!%22\_program). Create a file called `hello-world.py`:
+We'll be using a very simple Python script that displays the [traditional first greeting](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program). Create a file called `hello-world.py`:
 
 ```python
 # hello-world.py
@@ -28,7 +28,7 @@ After the script has run successfully locally we can now run it on Bacalhau.
 To submit a workload to Bacalhau you can use the `bacalhau docker run` command. This command allows passing input data into the container using [content identifier (CID)](https://github.com/multiformats/cid) volumes, we will be using the `--input URL:path` [argument](../../../references/cli-reference/all-flags.md#docker-run) for simplicity. This results in Bacalhau mounting a _data volume_ inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
 
 {% hint style="info" %}
-[Bacalhau overwrites the default entrypoint](https://github.com/bacalhau-project/bacalhau/blob/v0.2.3/cmd/bacalhau/docker\_run.go#L64), so we must run the full command after the `--` argument.
+[Bacalhau overwrites the default entrypoint](https://github.com/bacalhau-project/bacalhau/blob/v0.2.3/cmd/bacalhau/docker_run.go#L64), so we must run the full command after the `--` argument.
 {% endhint %}
 
 ```bash

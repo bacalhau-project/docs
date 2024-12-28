@@ -86,13 +86,13 @@ To view the images, download the job results and open the folder:
 results/outputs/S2-16D_V1_075086_20180218_B04_TCI.jpg
 ```
 
-![.png image](../../.gitbook/assets/index\_19\_1.png)
+![.png image](../../.gitbook/assets/index_19_1.png)
 
 ```
 results/outputs/B04_TCI.jpg
 ```
 
-![.jpg image](../../.gitbook/assets/index\_19\_3.png)
+![.jpg image](../../.gitbook/assets/index_19_3.png)
 
 ## Support
 

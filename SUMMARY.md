@@ -58,6 +58,7 @@
 * [Automatic Update Checking](setting-up/update-checks.md)
 * [Marketplace Deployments](setting-up/marketplace-deployments/README.md)
   * [Google Cloud Marketplace](setting-up/marketplace-deployments/google-cloud-marketplace.md)
+* [Inter-Nodes TLS](setting-up/inter-nodes-tls.md)
 
 ## Guides
 
@@ -164,14 +165,14 @@
   * [Agent Endpoint](references/api/agent.md)
   * [Orchestrator Endpoint](references/api/jobs.md)
   * [Migration API](references/api/migration-api.md)
-* [Node Management](references/node\_management.md)
-* [Authentication & Authorization](references/auth\_flow.md)
+* [Node Management](references/node_management.md)
+* [Authentication & Authorization](references/auth_flow.md)
 * [Database Integration](references/databases.md)
 * [Debugging](references/debugging/README.md)
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
-  * [Debugging Locally](references/debugging/debugging\_locally.md)
+  * [Debugging Locally](references/debugging/debugging_locally.md)
 * [Running Locally In Devstack](references/running-locally.md)
-* [Setting up Dev Environment](references/setting\_up\_development.md)
+* [Setting up Dev Environment](references/setting_up_development.md)
 
 ## Help & FAQ
 

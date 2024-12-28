@@ -58,7 +58,7 @@ RUN apt-get install ffmpeg libsm6 libxext6 libxrender-dev  -y
 This container is using the `pytorch/pytorch:1.13.0-cuda11.6-cudnn8-runtime` image and the working directory is set. Next the Dockerfile installs required dependencies. Then we add our custom code and pull the dependent repositories.
 
 {% hint style="info" %}
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
 {% endhint %}
 
 ### Build the container​ <a href="#build-the-container" id="build-the-container"></a>

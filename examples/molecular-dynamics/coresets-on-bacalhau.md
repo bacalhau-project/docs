@@ -9,7 +9,7 @@ We construct a small coreset for arbitrary shapes of numerical data with a decen
 {% hint style="info" %}
 For a deeper understanding of the core concepts, it's recommended to explore:\
 1\. [Coresets for Ordered Weighted Clustering](http://proceedings.mlr.press/v97/braverman19a/braverman19a.pdf)\
-2\. [Efficient Implementation of Coreset-based K-Means Methods](https://aaltodoc.aalto.fi/bitstream/handle/123456789/108293/master\_Wu\_Xiaobo\_2021.pdf?sequence=2)
+2\. [Efficient Implementation of Coreset-based K-Means Methods](https://aaltodoc.aalto.fi/bitstream/handle/123456789/108293/master_Wu_Xiaobo_2021.pdf?sequence=2)
 {% endhint %}
 
 In this tutorial example, we will run compressed dataset with Bacalhau
@@ -118,7 +118,7 @@ RUN cd Coreset && pip3 install -r requirements.txt
 We will use the `python:3.8` image, we run the same commands for installing dependencies that we used locally.
 
 {% hint style="info" %}
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
 {% endhint %}
 
 ### Build the container​ <a href="#build-the-container" id="build-the-container"></a>

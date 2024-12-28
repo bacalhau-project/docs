@@ -52,7 +52,7 @@ WORKDIR /workspaces/datadex
 ```
 
 {% hint style="info" %}
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
 {% endhint %}
 
 ### Build the container

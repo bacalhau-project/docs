@@ -66,7 +66,7 @@ export AIRFLOW_HOME=~/airflow
 $ airflow db init
 ```
 
-Then, we need to point Airflow to the absolute path of the folder where your pipelines live. To do that we edit the `dags_folder` field in `${AIRFLOW_HOME}/airflow.cfg` file. In this example I'm going to use [the `hello_world.py` DAG shipped with this repository](https://github.com/bacalhau-project/bacalhau/tree/main/integration/airflow/example\_dags); for the sake of completeness, the next section will walk you through the actual code.
+Then, we need to point Airflow to the absolute path of the folder where your pipelines live. To do that we edit the `dags_folder` field in `${AIRFLOW_HOME}/airflow.cfg` file. In this example I'm going to use [the `hello_world.py` DAG shipped with this repository](https://github.com/bacalhau-project/bacalhau/tree/main/integration/airflow/example_dags); for the sake of completeness, the next section will walk you through the actual code.
 
 My config file looks like what follows:
 
@@ -146,21 +146,21 @@ with DAG("bacalhau-helloworld-dag", start_date=datetime(2023, 3, 1)) as dag:
 
 Now that we understand what the example DAG is supposed to do, let's just run it! Head over to http://0.0.0.0:8080, where Airflow UI is being served. The screenshot below shows our hello world has been loaded correctly.
 
-![](../.gitbook/assets/airflow\_01.png)
+![](../.gitbook/assets/airflow_01.png)
 
 When you inspect a DAG, Airflow will render a graph depicting a color-coded topology (see image below). For active (i.e. running) pipelines, this will be useful to oversee the status of each task.
 
 To trigger a DAG please enable the toggle shown below.
 
-![](../.gitbook/assets/airflow\_02.png)
+![](../.gitbook/assets/airflow_02.png)
 
 When all tasks have been completed, we want to fetch the output of our pipeline. To do so we need to retrieve the job-id of the last task. Click on a green box in the `task_2` line and then open the XCom tab.
 
-![](../.gitbook/assets/airflow\_03.png)
+![](../.gitbook/assets/airflow_03.png)
 
 Here we find the `bacalhau_job_id`. Select that value and copy it into your clipboard.
 
-![](../.gitbook/assets/airflow\_04.png)
+![](../.gitbook/assets/airflow_04.png)
 
 Lastly, we can use the bacalhau cli `get` command to fetch the output data as follows:
 

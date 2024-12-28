@@ -55,11 +55,11 @@ Node operators can use configuration keys to specify default and maximum job exe
 
 Here is a list of the relevant properties:
 
-| JobDefaults.**Batch**.Task.Timeouts.**ExecutionTimeout** | Default value for batch job execution timeouts on your current compute node. It will be assigned to batch jobs with no timeout requirement defined  |
-| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JobDefaults.**Ops**.Task.Timeouts**.ExecutionTimeout**   | Default value for ops job execution timeouts on your current compute node. It will be assigned to ops jobs with no timeout requirement defined      |
-| JobDefaults.**Batch.**Task.Timeouts.**TotalTimeout**     | Default value for the maximum execution timeout this compute node supports for batch jobs. Jobs with higher timeout requirements will not be bid on |
-| JobDefaults.**Ops.**Task.Timeouts.**TotalTimeout**       | Default value for the maximum execution timeout this compute node supports for ops jobs. Jobs with higher timeout requirements will not be bid on   |
+| JobDefaults.**Batch**.Task.Timeouts.**ExecutionTimeout**    | Default value for batch job execution timeouts on your current compute node. It will be assigned to batch jobs with no timeout requirement defined  |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| JobDefaults.**Ops**.Task.Timeout&#x73;**.ExecutionTimeout** | Default value for ops job execution timeouts on your current compute node. It will be assigned to ops jobs with no timeout requirement defined      |
+| JobDefaults.**Batch.**&#x54;ask.Timeouts.**TotalTimeout**   | Default value for the maximum execution timeout this compute node supports for batch jobs. Jobs with higher timeout requirements will not be bid on |
+| JobDefaults.**Ops.**&#x54;ask.Timeouts.**TotalTimeout**     | Default value for the maximum execution timeout this compute node supports for ops jobs. Jobs with higher timeout requirements will not be bid on   |
 
 Note, that timeouts can not be configured for Daemon and Service jobs.
 {% endtab %}

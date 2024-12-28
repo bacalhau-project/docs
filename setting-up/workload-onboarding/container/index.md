@@ -151,7 +151,7 @@ bacalhau job get ${JOB_ID} --output-dir result
 
 After the download has finished, you should see the following contents in the results directory.
 
-![png](../../../.gitbook/assets/index\_25\_0.png)
+![png](../../../.gitbook/assets/index_25_0.png)
 
 ## Support
 

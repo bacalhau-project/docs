@@ -151,7 +151,7 @@ plt.show()
 
 We’ll get a handy graph showing us all of our nodes, and which Requester Nodes our Compute Nodes are connected to!
 
-![](https://lh7-us.googleusercontent.com/docsz/AD\_4nXdkz1sAezJbE\_8zhXFSDAp5gFpywQCLByFipWAtc5JekstQffUfyOV5XkBGT5B\_GLJOTYLGQ06ti-kRr1xNzlBwFtLZ1eNm1TbGfHUxYvpbVJwgcqIsEos-cD2PoMZOxH9H1M7wtqJkAZuxjz9GFWyqOmNR?key=eQtgieaWn09rIZB-GzdWCg)&#x20;
+![](https://lh7-us.googleusercontent.com/docsz/AD_4nXdkz1sAezJbE_8zhXFSDAp5gFpywQCLByFipWAtc5JekstQffUfyOV5XkBGT5B_GLJOTYLGQ06ti-kRr1xNzlBwFtLZ1eNm1TbGfHUxYvpbVJwgcqIsEos-cD2PoMZOxH9H1M7wtqJkAZuxjz9GFWyqOmNR?key=eQtgieaWn09rIZB-GzdWCg)&#x20;
 
 #### Creating a Job
 

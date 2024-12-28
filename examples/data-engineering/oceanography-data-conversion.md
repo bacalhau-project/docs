@@ -72,7 +72,7 @@ We can see that the dataset contains latitude-longitude coordinates, the date, a
 
 ### Data Conversion​ <a href="#data-conversion" id="data-conversion"></a>
 
-To convert the data from fugacity of CO2 (fCO2) to partial pressure of CO2 (pCO2) we will combine the measurements of the surface temperature and fugacity. The conversion is performed by the [pyseaflux](https://seaflux.readthedocs.io/en/latest/api.html?highlight=fCO2\_to\_pCO2#pyseaflux.fco2\_pco2\_conversion.fCO2\_to\_pCO2) package.
+To convert the data from fugacity of CO2 (fCO2) to partial pressure of CO2 (pCO2) we will combine the measurements of the surface temperature and fugacity. The conversion is performed by the [pyseaflux](https://seaflux.readthedocs.io/en/latest/api.html?highlight=fCO2_to_pCO2#pyseaflux.fco2_pco2_conversion.fCO2_to_pCO2) package.
 
 ### Writing the Script​ <a href="#writing-the-script" id="writing-the-script"></a>
 

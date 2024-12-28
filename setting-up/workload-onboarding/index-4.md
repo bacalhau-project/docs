@@ -73,7 +73,7 @@ RUN pip3 install -r requirements.txt
 These commands specify how the image will be built, and what extra requirements will be included. We use `python:3.8` as the base image, install `git`, clone the `Sparkov_Data_Generation` repository from GitHub, set the working directory inside the container to `/Sparkov_Data_Generation/`, and install Python dependencies listed in the `requirements.txt` file."
 
 {% hint style="info" %}
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
 {% endhint %}
 
 ### Build the container

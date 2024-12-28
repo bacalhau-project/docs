@@ -77,7 +77,7 @@ export JOB_ID=$(bacalhau docker run \
 3. The `--gpu 1` flag is set to specify hardware requirements, a GPU is needed to run such a job
 4. `pytorch/pytorch`: Using the official pytorch Docker image
 5. The `-i ipfs://QmdeQjz1HQQd.....`: flag is used to mount the uploaded dataset
-6. The `-i https://raw.githubusercontent.com/py..........`: flag is used to mount our training script. We will use the URL to this [Pytorch example](https://github.com/pytorch/examples/blob/main/mnist\_rnn/main.py)
+6. The `-i https://raw.githubusercontent.com/py..........`: flag is used to mount our training script. We will use the URL to this [Pytorch example](https://github.com/pytorch/examples/blob/main/mnist_rnn/main.py)
 7. `-w /outputs:` Our working directory is /outputs. This is the folder where we will save the model as it will automatically get uploaded to IPFS as outputs
 8. `python ../inputs/main.py --save-model`: URL script gets mounted to the `/inputs` folder in the container
 

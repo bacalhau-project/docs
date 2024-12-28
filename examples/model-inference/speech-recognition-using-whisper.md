@@ -240,7 +240,7 @@ We choose `pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime` as our base image.
 And then install all the dependencies, after that we will add the test audio file and our openai-whisper script to the container, we will also run a test command to check whether our script works inside the container and if the container builds successfully
 
 {% hint style="info" %}
-See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02\_our\_app/)
+See more information on how to containerize your script/app [here](https://docs.docker.com/get-started/02_our_app/)
 {% endhint %}
 
 ### Build the container[​](http://localhost:3000/examples/model-inference/Openai-Whisper/#build-the-container) <a href="#build-the-container" id="build-the-container"></a>
@@ -279,7 +279,7 @@ docker push jsacex/whisper
 
 ## Running a Bacalhau Job[​](http://localhost:3000/examples/model-inference/Openai-Whisper/#running-a-bacalhau-job) <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 
-We will transcribe the moon landing video, which can be found here: [https://www.nasa.gov/multimedia/hd/apollo11\_hdpage.html](https://www.nasa.gov/multimedia/hd/apollo11\_hdpage.html)
+We will transcribe the moon landing video, which can be found here: [https://www.nasa.gov/multimedia/hd/apollo11\_hdpage.html](https://www.nasa.gov/multimedia/hd/apollo11_hdpage.html)
 
 Since the downloaded video is in mov format we convert the video to mp4 format and then upload it to our public storage in this case IPFS. To do this, a public [IPFS](https://ipfs.tech/) network can be used, or you can create your own [private IPFS network](../../setting-up/running-node/private-ipfs-network-setup.md) and use it to pin files.
 
