@@ -95,6 +95,8 @@
   * [Genomics Data Generation](examples/molecular-dynamics/genomics-data-generation.md)
   * [Gromacs for Analysis](examples/molecular-dynamics/gromacs-for-analysis.md)
   * [Molecular Simulation with OpenMM and Bacalhau](examples/molecular-dynamics/molecular-simulation-with-openmm-and-bacalhau.md)
+* [Systems Engineering](examples/systems-engineering/README.md)
+  * [Ad-hoc log query using DuckDB](examples/systems-engineering/ad-hoc-log-query-using-duckdb.md)
 
 ## References
 
