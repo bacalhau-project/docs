@@ -6,7 +6,7 @@
 
 * [How Bacalhau Works](getting-started/architecture.md)
 * [Installation](getting-started/installation.md)
-* [Create Network](getting-started/create-private-network.md)
+* [Create Your Bacalhau Network](getting-started/create-private-network.md)
 * [Hardware Setup](getting-started/resources.md)
 * [Container Onboarding](getting-started/workload-onboarding/README.md)
   * [Docker Workloads](getting-started/workload-onboarding/docker-workload-onboarding.md)
