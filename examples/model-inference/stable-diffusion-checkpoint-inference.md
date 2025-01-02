@@ -121,7 +121,7 @@ To do inference on your own checkpoint on Bacalhau you need to first upload it t
 After the checkpoint file has been uploaded copy its CID.
 
 {% hint style="warning" %}
-Some of the jobs presented in the Examples section may require more resources than are currently available on the demo network. Consider [starting your own network](../../getting-started/create-private-network.md) or running less resource-intensive jobs on the demo network
+Some of the jobs presented in the Examples section may require more resources than are currently available on the demo network. Consider [starting your own network](../../getting-started/create-private-network/) or running less resource-intensive jobs on the demo network
 {% endhint %}
 
 ### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>

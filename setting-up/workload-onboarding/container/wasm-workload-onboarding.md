@@ -63,7 +63,7 @@ bacalhau wasm run main.wasm
 {% hint style="warning" %}
 The program you specify will be uploaded to a Bacalhau storage node and will be publicly available if you are using the public demo network.
 
-Consider creating [your own private network](../../../getting-started/create-private-network.md).
+Consider creating [your own private network](../../../getting-started/create-private-network/).
 {% endhint %}
 
 **Alternative Program Specification:**
