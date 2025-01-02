@@ -6,8 +6,9 @@
 
 * [How Bacalhau Works](getting-started/architecture.md)
 * [Installation](getting-started/installation.md)
-* [Create Your Bacalhau Network](getting-started/create-private-network/README.md)
+* [Create Your Bacalhau Network](getting-started/create-private-network.md)
   * [Setting Up a Cluster on Amazon Web Services (AWS) with Terraform](getting-started/create-private-network/setting-up-a-cluster-on-amazon-web-services-aws-with-terraform.md)
+  * [Setting Up a Cluster on Google Cloud Platform (GCP) With Terraform](getting-started/create-private-network/setting-up-a-cluster-on-google-cloud-platform-gcp-with-terraform.md)
 * [Hardware Setup](getting-started/resources.md)
 * [Container Onboarding](getting-started/workload-onboarding/README.md)
   * [Docker Workloads](getting-started/workload-onboarding/docker-workload-onboarding.md)
