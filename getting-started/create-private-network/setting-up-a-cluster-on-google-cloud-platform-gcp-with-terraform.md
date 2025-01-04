@@ -13,10 +13,13 @@ Think of this as building your own distributed supercomputer! Your cluster will 
 You'll need a few things ready:
 
 * Terraform (version 1.0.0 or newer)
+* A running Bacalhau orchestrator node
 * Google Cloud SDK installed and set up
 * An active GCP billing account
 * Your organization ID handy
 * An SSH key pair for securely accessing your nodes
+
+{% include "../../.gitbook/includes/we-recommend-using-expanso-... (1).md" %}
 
 ### Quick Setup Guide
 
@@ -33,12 +36,22 @@ cd setting-up-bacalhau-cluster/setting-up-bacalhau-with-terraform-on-GC
     cp env.json.example env.json
     ```
 2. Open up `env.json` and fill in your GCP details (more on this below!)
-3.  Let Terraform get everything ready:
+3.  Update your `config/config.yaml` with your orchestrator information. Specifically, these lines:
+
+    ```
+      Orchestrators:
+        - nats://EXAMPLE-7a02-4083-bf08-bcc2f5fbc025.us1.dev-cloud.expanso.dev:4222
+      Auth:
+        Token: "EXAMPLE-aEEFukWVffnf5jb9QkpNnwfiBWEk3475csM7ysudpbFTzYBap5c7sWr6"
+    ```
+
+    1. L
+4.  Let Terraform get everything ready:
 
     ```bash
     terraform init --env-file env.json
     ```
-4.  Launch your cluster:
+5.  Launch your cluster:
 
     ```bash
     terraform apply --env-file env.json
