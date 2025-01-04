@@ -10,7 +10,7 @@ Getting started with Bacalhau is super straight forward! Below we lay out the st
 
 1. [Install the Bacalhau Command Line Interface (CLI)](step-1-install-the-bacalhau-cli.md)
 2. [Run a job on the public demo Bacalhau network](step-2-running-your-own-job.md)
-3. Get information about your Bacalhau job
+3. [Get information about your Bacalhau job](step-3-checking-on-the-status-of-your-job.md)
 
 That's it!
 
