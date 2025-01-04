@@ -4,7 +4,7 @@
 
 ## Getting Started
 
-* [Getting Started](getting-started/architecture.md)
+* [How Bacalhau Works](getting-started/architecture.md)
 * [Getting Started](getting-started/installation/README.md)
   * [Step 1: Install the Bacalhau CLI](getting-started/installation/step-1-install-the-bacalhau-cli.md)
   * [Step 2: Running Your Own Job](getting-started/installation/step-2-running-your-own-job.md)
