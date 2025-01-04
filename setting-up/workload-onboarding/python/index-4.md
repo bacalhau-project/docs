@@ -6,7 +6,7 @@ This example demonstrates a simple Python script that is able to orchestrate the
 
 ### Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ## Executing Bacalhau Jobs with Python Scripts
 

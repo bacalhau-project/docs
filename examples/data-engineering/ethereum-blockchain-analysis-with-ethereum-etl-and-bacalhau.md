@@ -12,7 +12,7 @@ In this tutorial example, we will run Ethereum-ETL tool on Bacalhau to extract d
 
 ## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Analysing Ethereum Data Locally​ <a href="#analysing-ethereum-data-locally" id="analysing-ethereum-data-locally"></a>
 

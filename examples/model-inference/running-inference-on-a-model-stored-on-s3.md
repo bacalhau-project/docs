@@ -118,7 +118,7 @@ python3 inference.py --tar_gz_file_path ./model.tar.gz --output_directory ./mode
 
 ### Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ### Structure of the Command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 

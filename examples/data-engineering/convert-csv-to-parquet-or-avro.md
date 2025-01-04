@@ -8,7 +8,7 @@ In this example tutorial we will convert a CSV file from a URL to parquet format
 
 ## Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Running CSV to Avro or Parquet Locally​​ <a href="#running-csv-to-avro-or-parquet-locally" id="running-csv-to-avro-or-parquet-locally"></a>
 

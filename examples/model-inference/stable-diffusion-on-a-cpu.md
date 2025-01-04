@@ -131,7 +131,7 @@ docker buildx build --platform linux/amd64 --push -t ghcr.io/bacalhau-project/ex
 
 ### Prerequisites​ <a href="#prerequisites-1" id="prerequisites-1"></a>
 
-To run this example you will need [Bacalhau](../../getting-started/installation.md) installed and running
+To run this example you will need [Bacalhau](../../getting-started/installation/) installed and running
 
 ### Generating an Image Using Stable Diffusion on Bacalhau​ <a href="#generating-an-image-using-stable-diffusion-on-bacalhau" id="generating-an-image-using-stable-diffusion-on-bacalhau"></a>
 

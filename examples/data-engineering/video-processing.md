@@ -6,7 +6,7 @@ Many data engineering workloads consist of embarrassingly parallel workloads whe
 
 ## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Upload the Data to IPFS​ <a href="#upload-the-data-to-ipfs" id="upload-the-data-to-ipfs"></a>
 

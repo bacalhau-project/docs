@@ -10,7 +10,7 @@ This tutorial is a quick guide on how to run a hello world script on Bacalhau.
 
 ## Prerequisites
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## 1. Running Locally​
 

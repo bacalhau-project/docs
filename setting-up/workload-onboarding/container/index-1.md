@@ -6,7 +6,7 @@ Bacalhau operates by executing jobs within containers. This example shows you ho
 
 ### Prerequisite
 
-1. To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+1. To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 2. This example requires Docker. If you don't have Docker installed, you can install it from [here](https://docs.docker.com/install/). Docker commands will not work on hosted notebooks like Google Colab, but the Bacalhau commands will.
 
 ## 1. Running Containers

@@ -13,7 +13,7 @@ In the following sections, we will explore two examples of executing Jupyter Not
 
 ### Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ## 1. Executing a Simple Hello World Notebook
 
@@ -132,7 +132,7 @@ Again, replace "your-dockerhub-username" with your actual DockerHub username. Th
 
 #### Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ```bash
 export JOB_ID=$(bacalhau docker run \

@@ -104,7 +104,7 @@ docker push <hub-user>/<repo-name>:<tag>
 
 ### Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md).
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/).
 
 Now that we have an image in the docker hub (your own or an example image from the manual), we can use the container for running on Bacalhau.
 

@@ -32,7 +32,7 @@ It defines S3 object as input to the job:
 
 ### Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## 1. Running the job on multiple buckets with multiple objects
 

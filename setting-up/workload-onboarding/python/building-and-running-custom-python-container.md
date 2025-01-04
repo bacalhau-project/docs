@@ -8,7 +8,7 @@ In this tutorial example, we will walk you through building your own Python cont
 
 ### Prerequisites
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ## 1. Sample Recommendation Dataset
 

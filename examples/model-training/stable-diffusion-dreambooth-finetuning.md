@@ -43,7 +43,7 @@ Output:
 
 ## Prerequisites[​](http://localhost:3000/examples/model-training/Stable-Diffusion-Dreambooth/#prerequisites) <a href="#prerequisites" id="prerequisites"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ### Setting up Docker Container[​](http://localhost:3000/examples/model-training/Stable-Diffusion-Dreambooth/#setting-up-docker-container) <a href="#setting-up-docker-container" id="setting-up-docker-container"></a>
 

@@ -8,7 +8,7 @@ In this example tutorial, our focus will be on running the oceanography dataset 
 
 ## Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Running Locally​ <a href="#running-locally" id="running-locally"></a>
 

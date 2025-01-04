@@ -6,7 +6,7 @@ In this tutorial example, we will run a "hello world" R script on Bacalhau.
 
 ### Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ### 1. Running an R Script Locally​ <a href="#id-1-running-an-r-script-locally" id="id-1-running-an-r-script-locally"></a>
 

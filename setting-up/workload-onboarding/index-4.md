@@ -10,7 +10,7 @@ In this example, we will learn how to run Bacalhau on a synthetic dataset. We wi
 
 ### Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## 1. Running Sparkov Locally​
 

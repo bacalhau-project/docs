@@ -6,7 +6,7 @@ In this example tutorial, we will look at how to run BIDS App on Bacalhau. BIDS 
 
 ## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Downloading datasets​ <a href="#downloading-datasets" id="downloading-datasets"></a>
 

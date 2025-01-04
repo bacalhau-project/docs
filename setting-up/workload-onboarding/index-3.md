@@ -6,7 +6,7 @@ Bacalhau supports running jobs as a [WebAssembly (WASM)](https://webassembly.org
 
 ### Prerequisites
 
-1. To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md).
+1. To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/).
 2. A working Rust installation with the `wasm32-wasi` target. For example, you can use [`rustup`](https://rustup.rs/) to install Rust and configure it to build WASM targets. For those using the notebook, these are installed in hidden cells below.
 
 ## 1. Develop a Rust Program Locally

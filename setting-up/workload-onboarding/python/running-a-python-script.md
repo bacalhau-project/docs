@@ -4,7 +4,7 @@ This tutorial serves as an introduction to Bacalhau. In this example, you'll be 
 
 ## Prerequisites​ <a href="#prerequisites" id="prerequisites"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ## 1. Running Python Locally​ <a href="#id-1-running-python-locally" id="id-1-running-python-locally"></a>
 

@@ -25,7 +25,7 @@ bacalhau docker run \
 
 To get started, you need to install:
 
-1. Bacalhau client, see more information [here](../../getting-started/installation.md).
+1. Bacalhau client, see more information [here](../../getting-started/installation/).
 2. Whisper.
 3. PyTorch.
 4. Python Pandas.

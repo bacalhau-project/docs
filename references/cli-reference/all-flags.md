@@ -8,7 +8,7 @@ hidden: true
 Note that in version 1.4.0 the syntax for certain commands has changed. Check out the release notes and the description of the updated commands on this page.
 {% endhint %}
 
-The following commands refer to bacalhau cli version `v1.4.0`. For installing or upgrading a client, follow the instructions in the [installation page](../../getting-started/installation.md). Run `bacalhau version` in a terminal to check what version you have.
+The following commands refer to bacalhau cli version `v1.4.0`. For installing or upgrading a client, follow the instructions in the [installation page](../../getting-started/installation/). Run `bacalhau version` in a terminal to check what version you have.
 
 Let’s run the `bacalhau help` command in the terminal to find out information about available commands and flags:
 

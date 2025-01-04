@@ -14,7 +14,7 @@ Load your dataset into S3/IPFS, specify it and pre-trained weights via the `--in
 
 ## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Test Run with Sample Data​ <a href="#test-run-with-sample-data" id="test-run-with-sample-data"></a>
 

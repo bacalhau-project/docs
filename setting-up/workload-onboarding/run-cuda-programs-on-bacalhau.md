@@ -14,7 +14,7 @@ Computations like matrix multiplication could be done much faster on GPU than on
 
 ## Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## 1. Running CUDA locally
 

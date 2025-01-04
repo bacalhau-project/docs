@@ -8,7 +8,7 @@ In this tutorial example, we will run Pandas script on Bacalhau.
 
 ### Prerequisite
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ## 1. Running Pandas Locally
 

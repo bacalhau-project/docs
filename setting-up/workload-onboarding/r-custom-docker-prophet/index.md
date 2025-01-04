@@ -19,7 +19,7 @@ bacalhau docker run \
 
 ## Prerequisites
 
-To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../../getting-started/installation/)
 
 ## 1. Running Prophet in R Locally
 

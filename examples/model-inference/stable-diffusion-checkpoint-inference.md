@@ -18,7 +18,7 @@ The following guide is using the fine-tuned model, which was finetuned on Bacalh
 
 To get started, you need to install:
 
-1. Bacalhau client, see more information [here](../../getting-started/installation.md)
+1. Bacalhau client, see more information [here](../../getting-started/installation/)
 2. NVIDIA GPU
 3. CUDA drivers
 4. NVIDIA docker

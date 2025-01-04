@@ -8,7 +8,7 @@ This documentation explains how to use the Bacalhau Docker image to run tasks an
 
 ## Prerequisites
 
-To get started, you need to install the Bacalhau client (see more information [here](../../../getting-started/installation.md)) and Docker.
+To get started, you need to install the Bacalhau client (see more information [here](../../../getting-started/installation/)) and Docker.
 
 ## 1. Pull the Bacalhau Docker image
 

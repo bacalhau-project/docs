@@ -8,7 +8,7 @@ Bacalhau has the unique capability of operating at a massive scale in a distribu
 
 ## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Running a Bacalhau Job​ <a href="#running-a-bacalhau-job" id="running-a-bacalhau-job"></a>
 

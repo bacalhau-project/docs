@@ -4,8 +4,10 @@
 
 ## Getting Started
 
-* [How Bacalhau Works](getting-started/architecture.md)
-* [Installation](getting-started/installation.md)
+* [Getting Started](getting-started/architecture.md)
+* [Getting Started](getting-started/installation/README.md)
+  * [Step 1: Install the Bacalhau CLI](getting-started/installation/step-1-install-the-bacalhau-cli.md)
+  * [Step 2: Running Your Own Job](getting-started/installation/step-2-running-your-own-job.md)
 * [Create Your Bacalhau Network](getting-started/create-private-network.md)
   * [Setting Up a Cluster on Amazon Web Services (AWS) with Terraform](getting-started/create-private-network/setting-up-a-cluster-on-amazon-web-services-aws-with-terraform.md)
   * [Setting Up a Cluster on Google Cloud Platform (GCP) With Terraform](getting-started/create-private-network/setting-up-a-cluster-on-google-cloud-platform-gcp-with-terraform.md)

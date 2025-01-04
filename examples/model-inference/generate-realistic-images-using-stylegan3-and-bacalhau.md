@@ -19,7 +19,7 @@ bacalhau docker run \
 
 ## Prerequisite​ <a href="#prerequisite" id="prerequisite"></a>
 
-To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation.md)
+To get started, you need to install the Bacalhau client, see more information [here](../../getting-started/installation/)
 
 ## Running StyleGAN3 locally​ <a href="#running-stylegan3-locally" id="running-stylegan3-locally"></a>
 

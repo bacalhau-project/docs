@@ -1,6 +1,6 @@
 ---
-description: How to run a Bacalhau devstack locally
 icon: location-exclamation
+description: How to run a Bacalhau devstack locally
 ---
 
 # Running Locally In Devstack
@@ -16,7 +16,7 @@ This is useful to kick the tires and/or developing on the codebase. It's also th
 1. `x86_64` or `ARM64` architecture
    1. Ubuntu 20.0+ has most often been used for development and testing
 2. [Docker Engine](https://docs.docker.com/get-docker/)
-3. [Latest Bacalhau release](../getting-started/installation.md)
+3. [Latest Bacalhau release](../getting-started/installation/)
 
 ## Install Bacalhau
 
@@ -26,7 +26,7 @@ You can install the Bacalhau CLI by running this command in a terminal:
 curl -sL https://get.bacalhau.org/install.sh | bash
 ```
 
-See the [installation guide](../getting-started/installation.md) for more installation options.
+See the [installation guide](../getting-started/installation/) for more installation options.
 
 ## Start the cluster
 

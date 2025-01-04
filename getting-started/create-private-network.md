@@ -1,8 +1,8 @@
 ---
+icon: globe
 description: >-
   This tutorial takes you through creating a full Bacalhau cluster if you have
   your own machines.
-icon: globe
 ---
 
 # Create Your Bacalhau Network
@@ -49,7 +49,7 @@ bacalhau docker run apline echo hello --api-host <ORCHESTRATOR_IP>
    2. Cloud VMs ([AWS](https://aws.amazon.com/ec2/), [GCP](https://cloud.google.com/products/compute), [Azure](https://azure.microsoft.com/en-us/products/virtual-machines) or any other provider)
    3. Local Hypervisor VMs
    4. An executor (Bash, [Docker Containers](../setting-up/running-node/quick-start-docker.md), [WASM](https://webassembly.org/), etc)&#x20;
-2. [Install Bacalhau](installation.md) on each host
+2. [Install Bacalhau](installation/) on each host
 3. Ensure that all nodes are connected to the same network and that the necessary ports are open for communication between them. This will require bidirectional communication on port 4222 between all nodes, and port 1234 to the orchestrator node.
 
 {% hint style="info" %}
