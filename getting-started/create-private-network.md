@@ -1,35 +1,28 @@
 ---
 icon: globe
-description: >-
-  This tutorial takes you through creating a full Bacalhau cluster if you have
-  your own machines.
 ---
 
-# Create Your Bacalhau Network
-
-If you would like to use other tools to create and run a Bacalhau cluster, we have a number of startup guides as well:
-
-
+# Creating Your Own Bacalhau Network
 
 ## Introduction
 
 While we ([Expanso](https://expanso.io)) offer a public network for testing out Bacalhau workloads, your best bet is to  create your own private network so you can securely run private workloads.
 
 {% hint style="success" %}
-If you are familiar with running clusters with other clustered orchestration systems (Kubernetes, Mesosphere, DataBricks/Spark, Cloudera/Hadoop, Nomad, etc), we think you will be plesantly surprised how easy it is to set up your first Bacalhau cluster!
+If you are familiar with running clusters with other clustered orchestration systems (Kubernetes, Mesosphere, DataBricks/Spark, Cloudera/Hadoop, Nomad, etc), we think you will be pleasantly surprised how easy it is to set up your first Bacalhau cluster!
 {% endhint %}
 
 This tutorial describes the process of creating your own private network from multiple nodes, configuring the nodes and running demo jobs.​
 
 ## TLDR
 
-1. [Get your own personalized URL](https://www.expanso.io/sign-up/) for setting up a Bacalhau cluster. You can sign up to get this here.
-2. Start the [Requester node](create-private-network.md#start-initial-requester-node):&#x20;
+1. [Download the CLI](https://www.expanso.io/sign-up/) for setting up a Bacalhau cluster. Hang onto this URL, you'll need it for all the nodes you set up (both orchestrator and compute nodes).
+2. Start the [Orchestrator node](create-private-network.md#start-initial-requester-node):&#x20;
 
 <pre class="language-bash"><code class="lang-bash"><strong>bacalhau serve --orchestrator 
 </strong></code></pre>
 
-1. Install Bacalhau on each node you want to run your compute on (use the same URL as above)
+1. Install Bacalhau on each node you want to run your compute on (use the same URL)
 2. Run the server on the [Compute node](create-private-network.md#create-and-connect-compute-node)
 
 ```bash
@@ -58,30 +51,31 @@ Ensure your nodes have an internet connection in case you have to download or up
 
 1. If you want to run [Docker](https://docker.io) workloads, ensure that [Docker Engine](https://docs.docker.com/engine/install/) is installed.​
 
-{% hint style="info" %}
-Bacalhau is designed to be versatile in its deployment, capable of running on various environments: physical hosts, virtual machines or cloud instances. However, the nature of the jobs that you may wish to run can vary significantly - you will need to make sure the machines are capable of running the workloads (Bacalhau does not verify this).
-{% endhint %}
-
 ## Start Initial Orchestrator Node
 
 The Bacalhau network consists of nodes of two types: compute and orchestrator. Compute Node is responsible for executing jobs and producing results. Orchestrator Node is responsible for handling user requests, forwarding jobs to compute nodes and monitoring the job lifecycle.
 
 The first step is to start up the initial **Orchestrator** node. This node will connect to nothing but will listen for connections.
 
-## OPTIONAL (but recommended) Create and Set Up a Token
+## Create and Set Up a Token
 
-When you set up a network for the first time, any compute node can join. This can be dangereous - malicious nodes could join your network and "see" jobs being executed, bid on jobs to try to capture them, etc. We don't recommend this!
+When you set up a network for the first time, any compute node can join. This can be dangerous - malicious nodes could join your network and "see" jobs being executed, bid on jobs to try to capture them, etc. We don't recommend this!
 
-A better pattern is to add a Compute Token to the orchestrator. This will mean only nodes that join the network WITH the token will be allowed to join. We'll take you through those steps right now.
+We recommend adding a Compute Token to the orchestrator. This will mean only nodes that join the network with the token will be allowed to join.&#x20;
 
-Let's use the `uuidgen` tool to create our token, then add it to the Bacalhau configuration and run the requester node:
+{% hint style="warning" %}
+While it is not REQUIRED to run with a compute token to join, we highly recommend it!
+{% endhint %}
+
+Let's use the `uuidgen` tool to create our token, then add it to the Bacalhau configuration and run the orchestrator node:
 
 ```bash
 # Create token and write it into the 'my_token' file
-uuidgen > my_token
+$ uuidgen
+2EE91AD9-89B5-46CC-86B6-B0E76A3F763F
 
 # On the orchestrator machine, add token to the Bacalhau configuration
-bacalhau config set orchestrator.auth.token=$(cat my_token)
+bacalhau config set orchestrator.auth.token="2EE91AD9-89B5-46CC-86B6-B0E76A3F763F"
 ```
 
 Now start (or restart) your orchestrator node like usual.
@@ -108,13 +102,13 @@ Now let's start a compute node on it and connect to the orchestrator node. You'l
 
 ```bash
 #Add token to the Bacalhau configuration
-bacalhau config set compute.auth.token=$(cat my_token)
+bacalhau config set compute.auth.token="2EE91AD9-89B5-46CC-86B6-B0E76A3F763F"
 ```
 
-Then execute the `serve` command to connect to the requester node:you created earlier, but add it to a different configuration setting.
+Then execute the `serve` command to connect to the orchestrator node:you created earlier, but add it to a different configuration setting.
 
 ```bash
-bacalhau serve --сompute --orchestrators=<IP-of-Requester-Node>
+bacalhau serve --сompute -c API.Host=<IP-of-Orchestrator> 
 ```
 
 This will produce output similar to this, indicating that the node is up and running:
@@ -132,7 +126,7 @@ This will produce output similar to this, indicating that the node is up and run
 To ensure that the nodes are connected to the network, run the following command, specifying the public IP of the orchestrator node:
 
 ```bash
-bacalhau --api-host IP-of-Requester-Node> node list
+bacalhau -c API.Host=<IP-of-Orchestrator> node list
 ```
 
 This will produce output similar to this, indicating that the nodes belong to the same network:
@@ -150,7 +144,7 @@ You have your first network up and running!
 You can submit your jobs using the `bacalhau docker run`, `bacalhau wasm run` and `bacalhau job run` commands. For example submit a hello-world job:
 
 ```bash
-bacalhau docker run alpine echo hello --api-host IP-of-Requester-Node> 
+bacalhau docker run alpine echo hello -c API.Host=<IP-of-Orchestrator> 
 ```
 
 ```bash
@@ -172,7 +166,7 @@ To get more details about the run executions, execute:
 ```
 
 {% hint style="info" %}
-If you would like to avoid adding the `'api-host'`  you can configure your client's default by  either setting an environment variable:
+If you would like to avoid adding the `API.Host`  you can configure your client's default by  either setting an environment variable:
 
 `export BACALHAU_API_HOST=<IP-address-of-orchestrator>`
 
@@ -185,8 +179,9 @@ Or adding it to your config:
 
 By default only `local` publisher and `URL` & `local` sources are available on the compute node. Out of the box Bacalhau also supports:
 
-* S3 (and S3 compatible) object storage - this includes [AWS S3](https://aws.amazon.com/s3/), [GCP storage](https://cloud.google.com/storage/docs/interoperability), [Azure Blob](https://learn.microsoft.com/en-us/azure/architecture/aws-professional/storage), [Oracle Cloud](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/s3compatibleapi.htm), and many others.
-* IPFS
+{% hint style="info" %}
+Though S3 is typically associated with Amazon Web Services, the S3 publisher is compatible with any S3 compatible blob store service. This includes [AWS S3](https://aws.amazon.com/s3/), [GCP storage](https://cloud.google.com/storage/docs/interoperability), [Azure Blob](https://learn.microsoft.com/en-us/azure/architecture/aws-professional/storage), [Oracle Cloud](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/s3compatibleapi.htm), and many others.&#x20;
+{% endhint %}
 
 &#x20;The following describes how to configure the appropriate sources and publishers:
 
@@ -301,18 +296,14 @@ bacalhau docker run --input file:///etc/config:/config ubuntu ...
 {% endtab %}
 {% endtabs %}
 
-```bash
-bacalhau config set DataDir=/path/to/new/directory
-```
-
 ## Best Practices for Production Use Cases
 
 When using a private cluster in production, here are a few considerations to note.
 
-1. Ensure you are running the Bacalhau process from a dedicated system user with limited permissions. This enhances security and reduces the risk of unauthorized access to critical system resources. If you are using an orchestrator such as [Terraform](https://www.terraform.io/), utilize a service file to manage the Bacalhau process, ensuring the correct user is specified and consistently used. Here’s a [sample service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/marketplace-tf/modules/instance_files/bacalhau.service)
-2. Create an authentication file for your clients. A [dedicated authentication file or policy](../references/auth_flow.md) can ease the process of maintaining secure data transmission within your network. With this, clients can authenticate themselves, and you can limit the Bacalhau API endpoints unauthorized users have access to.
-3. Consistency is a key consideration when deploying decentralized tools such as Bacalhau. You can use an [installation script](https://github.com/bacalhau-project/bacalhau/blob/main/ops/marketplace-tf/modules/instance_files/install-bacalhau.sh#L5) to affix a specific version of Bacalhau or specify deployment actions, ensuring that each host instance has all the necessary resources for efficient operations.
-4. Ensure separation of concerns in your cloud deployments by mounting the Bacalhau repository on a separate non-boot disk. This prevents instability on shutdown or restarts and improves performance within your host instances.
+1. Ensure you are running the Bacalhau agents with limited permissions. This enhances security and reduces the risk of unauthorized access to critical system resources.
+2. Utilize a service file to manage the Bacalhau process, ensuring the correct user is specified and consistently used. Here’s a [sample service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/marketplace-tf/modules/instance_files/bacalhau.service)
+3. Create an authentication file for your clients. A [dedicated authentication file or policy](../references/auth_flow.md) can ease the process of maintaining secure data transmission within your network. With this, clients can authenticate themselves, and you can limit the Bacalhau API endpoints unauthorized users have access to.
+4. Ensure separation of concerns in your cloud deployments by mounting the Bacalhau repository on a non-boot disk. This prevents instability on shutdown or restarts and improves performance within your host instances.
 
 For many other common questions, we recommend checking out the [Bacalhau FAQ](../help-and-faq/faqs.md).
 
