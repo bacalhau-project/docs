@@ -53,9 +53,3 @@ docker run -it ghcr.io/bacalhau-project/bacalhau:latest version
 {% endtabs %}
 
 If you're wondering which server is being used, the Bacalhau Project has a demo network that's shared with the community. This network allows you to familiarize with Bacalhau's capabilities and launch jobs from your computer without maintaining a compute cluster on your own.
-
-### Step 5 - Where to go next?
-
-Here are few resources that provide a deeper dive into running jobs with Bacalhau:
-
-[How Bacalhau works](../architecture.md), [Create your Private Network](../create-private-network.md), [Examples & Use Cases](broken-reference)
