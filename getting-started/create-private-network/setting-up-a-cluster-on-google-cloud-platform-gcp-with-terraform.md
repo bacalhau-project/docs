@@ -21,6 +21,15 @@ You'll need a few things ready:
 
 ### Quick Setup Guide
 
+1. Make sure you are logged in with GCP. This could involve both of the following commands:
+
+```
+gcloud auth login
+gcloud auth application-default login
+```
+
+
+
 1. Clone the examples repo to your machine and go into the GCP directory.&#x20;
 
 ```
