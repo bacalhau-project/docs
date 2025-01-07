@@ -1,6 +1,4 @@
-# Setting Up a Cluster on Google Cloud Platform (GCP) With Terraform
-
-## Setting Up Your Bacalhau Multi-Region Cluster on GCP 🚀
+# Setting Up a Cluster on Google Cloud Platform (GCP) With Terraform 🚀
 
 Welcome to the guide for setting up your own Bacalhau cluster across multiple Google Cloud Platform (GCP) regions! This guide will walk you through creating a robust, distributed compute cluster that's perfect for running your Bacalhau workloads.
 
@@ -40,7 +38,7 @@ cd setting-up-bacalhau-cluster/setting-up-bacalhau-with-terraform-on-GC
 
     ```
       Orchestrators:
-        - nats://EXAMPLE-7a02-4083-bf08-bcc2f5fbc025.us1.dev-cloud.expanso.dev:4222
+        - nats://EXAMPLE-7a02-4083-bf08-bcc2f5fbc025.us1.cloud.expanso.dev:4222
       Auth:
         Token: "EXAMPLE-aEEFukWVffnf5jb9QkpNnwfiBWEk3475csM7ysudpbFTzYBap5c7sWr6"
     ```

@@ -1,6 +1,4 @@
-# Setting Up a Cluster on Amazon Web Services (AWS) with Terraform
-
-## Setting Up Your Bacalhau Multi-Region Cluster on AWS 🚀
+# Setting Up a Cluster on Amazon Web Services (AWS) with Terraform 🚀
 
 Welcome to the guide for setting up your own Bacalhau cluster across multiple AWS regions! This guide will walk you through creating a robust, distributed compute cluster that's perfect for running your Bacalhau workloads.
 
