@@ -17,6 +17,9 @@ You'll need a few things ready:
 * An active AWS account with appropriate permissions
 * Your AWS credentials configured
 * An SSH key pair for securely accessing your nodes
+* A Bacalhau network
+
+{% include "../../.gitbook/includes/we-recommend-using-expanso-... (1).md" %}
 
 ### Quick Setup Guide
 
@@ -71,6 +74,26 @@ aws ec2 describe-images \
 --query 'sort_by(Images, &CreationDate)[-10:].{AMI:ImageId, Name:Name, CreationDate:CreationDate}' \
 --output table \
 --no-cli-pager
+```
+
+1. Update your Bacalhau config/config.yaml (the defaults are mostly fine, just update the Orchestrator, and Token lines):
+
+```
+NameProvider: puuid
+API:
+  Port: 1234
+Compute:
+  Enabled: true
+  Orchestrators:
+    - nats://EXAMPLE-6ed7-4d95-8871-b46153007057.us1.cloud.expanso.dev:4222
+  Auth:
+    Token: "EXAMPLE.EFukWVffnf5jb9QkpNnwfiBWEk3475csM7ysudpbFTzYBap5c7sWr6"
+  TLS:
+    RequireTLS: true
+  AllowListedLocalPaths:
+    - /bacalhau_data:rw
+JobAdmissionControl:
+  AcceptNetworkedJobs: true
 ```
 
 1.  Deploy your cluster using the Python deployment script:
