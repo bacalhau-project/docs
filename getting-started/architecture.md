@@ -96,7 +96,7 @@ You can create jobs in the Bacalhau network using various [job types](../referen
 
 <summary>Advanced job preparation</summary>
 
-Prepare data with Bacalhau by [copying from URLs](../setting-up/data-ingestion/from-url.md), [pinning to public storage](../setting-up/data-ingestion/pin.md) or [copying from an S3 bucket](../setting-up/data-ingestion/s3.md). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](../references/jobs/job/task/sources/ipfs.md), [Local](../references/jobs/job/task/publishers/local.md), [S3](../references/jobs/job/task/publishers/s3.md) and [URL](../references/jobs/job/task/sources/url.md) Source Specifications for data source usage.
+Prepare data with Bacalhau by [copying from URLs](../examples/data-ingestion/from-url.md), [pinning to public storage](../examples/data-ingestion/pin.md) or [copying from an S3 bucket](../examples/data-ingestion/s3.md). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](../references/jobs/job/task/sources/ipfs.md), [Local](../references/jobs/job/task/publishers/local.md), [S3](../references/jobs/job/task/publishers/s3.md) and [URL](../references/jobs/job/task/sources/url.md) Source Specifications for data source usage.
 
 Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](workload-onboarding/docker-workload-onboarding.md) and [WebAssembly](workload-onboarding/wasm-workload-onboarding.md) workloads.
 

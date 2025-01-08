@@ -36,7 +36,7 @@ bacalhau devstack
 
 This will start a 4 node Bacalhau cluster.
 
-You can use [your own IPFS node](../setting-up/running-node/private-ipfs-network-setup.md) and connect it to the devstack by setting the IPFS endpoints via [configuration keys](../guides/updated-configuration-management.md): `InputSources.Types.IPFS.Endpoint` and `Publishers.Types.IPFS.Endpoint`
+You can use [your own IPFS node](../setting-up/running-node/private-ipfs-network-setup.md) and connect it to the devstack by setting the IPFS endpoints via [configuration keys](../guides/configuration-management.md): `InputSources.Types.IPFS.Endpoint` and `Publishers.Types.IPFS.Endpoint`
 
 ```bash
 bacalhau devstack \

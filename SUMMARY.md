@@ -53,10 +53,6 @@
   * [Reading Data from Multiple S3 Buckets using Bacalhau](setting-up/workload-onboarding/index-2.md)
   * [Running Rust programs as WebAssembly (WASM)](setting-up/workload-onboarding/index-3.md)
   * [Generate Synthetic Data using Sparkov Data Generation technique](setting-up/workload-onboarding/index-4.md)
-* [Data Ingestion](setting-up/data-ingestion/README.md)
-  * [Copy Data from URL to Public Storage](setting-up/data-ingestion/from-url.md)
-  * [Pinning Data](setting-up/data-ingestion/pin.md)
-  * [Running a Job over S3 data](setting-up/data-ingestion/s3.md)
 * [Networking Instructions](setting-up/networking-instructions/README.md)
   * [Accessing the Internet from Jobs](setting-up/networking-instructions/networking.md)
   * [Utilizing NATS.io within Bacalhau](setting-up/networking-instructions/utilizing-nats.io-within-bacalhau.md)
@@ -68,12 +64,13 @@
 
 ## Guides
 
-* [(Updated) Configuration Management](guides/updated-configuration-management.md)
+* [Configuration Management](guides/configuration-management.md)
 * [Write a config.yaml](guides/write-a-config.yaml.md)
 * [Write a SpecConfig](guides/spec-config.md)
 
 ## Examples
 
+* [Table of Contents for Bacalhau Examples](examples/table-of-contents-for-bacalhau-examples.md)
 * [Data Engineering](examples/data-engineering/README.md)
   * [Using Bacalhau with DuckDB](examples/data-engineering/using-bacalhau-with-duckdb.md)
   * [Ethereum Blockchain Analysis with Ethereum-ETL and Bacalhau](examples/data-engineering/ethereum-blockchain-analysis-with-ethereum-etl-and-bacalhau.md)
@@ -81,6 +78,10 @@
   * [Simple Image Processing](examples/data-engineering/simple-image-processing.md)
   * [Oceanography - Data Conversion](examples/data-engineering/oceanography-data-conversion.md)
   * [Video Processing](examples/data-engineering/video-processing.md)
+* [Data Ingestion](examples/data-ingestion/README.md)
+  * [Copy Data from URL to Public Storage](examples/data-ingestion/from-url.md)
+  * [Pinning Data](examples/data-ingestion/pin.md)
+  * [Running a Job over S3 data](examples/data-ingestion/s3.md)
 * [Model Inference](examples/model-inference/README.md)
   * [EasyOCR (Optical Character Recognition) on Bacalhau](examples/model-inference/easyocr-optical-character-recognition-on-bacalhau.md)
   * [Running Inference on Dolly 2.0 Model with Hugging Face](examples/model-inference/running-inference-on-dolly-2.0-model-with-hugging-face.md)

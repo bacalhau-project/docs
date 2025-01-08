@@ -2,28 +2,21 @@
 icon: gear
 ---
 
-# (Updated) Configuration Management
+# Configuration Management
 
-## Introduction
+## Intro to Bacalhau Configuration Management
 
-There have been some changes made to how Bacalhau handles configuration:
+To view the configuration that bacalhau will receive when a command is executed against it, users can run the [bacalhau config list](../references/cli-reference/cli/config/list.md) command. Users who wish to see Bacalhau’s config represented as YAML may run `bacalhau config list --output=yaml`.
 
-1. The bacalhau repo `~/.bacalhau` no longer contains a config file.
-2. Bacalhau no longer looks in the repo `~/.bacalhau` for a config file.
-3. Bacalhau never writes a config file to disk unless instructed by a user to do so.
-4. A config file is not required to operate Bacalhau.
-5. Bacalhau searches for a default config file. The location is OS-dependent:&#x20;
+{% hint style="info" %}
+In Bacalhau v1.5.0, there have been changes to how Bacalhau handles configuration:
+
+1. The bacalhau repo `~/.bacalhau` is not the default for the Bacalhau config file.
+2. Bacalhau searches for a default config file. The location is OS-dependent:&#x20;
    1. Linux: `~/.config/bacalhau/config.yaml`
    2. OSX: `~/.config/Application\ Support/bacalhau/config.yaml`
    3. Windows: `$AppData\bacalhau\config.yaml`. Usually, this is something like `C:\Users\username\bacalhau\config.yaml`
-
-#### Summary
-
-Bacalhau no longer relies on the `~/.bacalhau` directory for configuration and only creates a config file when instructed. While not required, it will look for a default config file in OS-specific locations.
-
-## Inspecting the Current Configuration of Bacalhau
-
-To view the configuration that bacalhau will receive when a command is executed against it, users can run the [bacalhau config list](../references/cli-reference/cli/config/list.md) command. Users who wish to see Bacalhau’s config represented as YAML may run `bacalhau config list --output=yaml`.
+{% endhint %}
 
 ## Making Changes to the Default Config File
 
@@ -34,7 +27,7 @@ To view the configuration that bacalhau will receive when a command is executed 
 
 ## Using a Non-Default Config File.&#x20;
 
-The `--config` (or `-c` ) flag allows flexible configuration of bacalhau through various methods. You can use this flag multiple times to combine different configuration sources. To specify a config file to bacalhau, users may use the `--config` flag, passing a path to a config file for bacalhau to use. When this flag is provided bacalhau **will not** search for a default config, and will instead use the configuration provided to it by the [`--config` flag](updated-configuration-management.md#using-keys-with-config-set-config-list-and-config).
+The `--config` (or `-c` ) flag allows flexible configuration of bacalhau through various methods. You can use this flag multiple times to combine different configuration sources. To specify a config file to bacalhau, users may use the `--config` flag, passing a path to a config file for bacalhau to use. When this flag is provided bacalhau **will not** search for a default config, and will instead use the configuration provided to it by the [`--config` flag](configuration-management.md#using-keys-with-config-set-config-list-and-config).
 
 ## Bacalhau Configuration Keys
 

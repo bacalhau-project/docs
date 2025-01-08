@@ -127,7 +127,7 @@ After the download has finished we can see the results in the `results/outputs/e
 
 ## Using Custom Images as an Input​ <a href="#using-custom-images-as-an-input" id="using-custom-images-as-an-input"></a>
 
-Now let's use some custom images. First, you will need to ingest your images onto IPFS or S3 storage. For more information about how to do that see the [data ingestion](../../setting-up/data-ingestion/) section.
+Now let's use some custom images. First, you will need to ingest your images onto IPFS or S3 storage. For more information about how to do that see the [data ingestion](../data-ingestion/) section.
 
 This example will use the [Cyclist Dataset for Object Detection | Kaggle](https://www.kaggle.com/datasets/f445f341fc5e3ab58757efa983a38d6dc709de82abd1444c8817785ecd42a1ac) dataset.
 

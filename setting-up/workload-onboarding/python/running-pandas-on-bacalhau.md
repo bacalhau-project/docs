@@ -57,7 +57,7 @@ python3 read_csv.py
 
 To run Pandas on Bacalhau you must store your assets in a location that Bacalhau has access to. We usually default to storing data on IPFS and code in a container, but you can also easily upload your script to IPFS too.
 
-If you are interested in finding out more about how to ingest your data into IPFS, please see the [data ingestion guide](../../data-ingestion/).
+If you are interested in finding out more about how to ingest your data into IPFS, please see the [data ingestion guide](../../../examples/data-ingestion/).
 
 We've already uploaded the script and data to IPFS to the following CID: `QmfKJT13h5k1b23ja3ZCVg5nFL9oKz2bVXc8oXgtwiwhjz`. You can look at this by browsing to one of the HTTP IPFS proxies like [ipfs.tech](https://ipfs.tech/) or [w3s.link](https://github.com/web3-storage/w3link).
 

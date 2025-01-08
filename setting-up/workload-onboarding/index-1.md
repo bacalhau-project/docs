@@ -61,7 +61,7 @@ ipfs add helloworld.pl
 
 This command outputs the CID. Copy the CID of the file, which in our case is `QmYq9ipYf3vsj7iLv5C67BXZcpLHxZbvFAJbtj7aKN5qii`
 
-Since the data uploaded to IPFS isn’t pinned, we will need to do that manually. Check this information on how to pin your [data](../data-ingestion/pin.md) We recommend using [NFT.Storage](https://nft.storage/).
+Since the data uploaded to IPFS isn’t pinned, we will need to do that manually. Check this information on how to pin your [data](../../examples/data-ingestion/pin.md) We recommend using [NFT.Storage](https://nft.storage/).
 
 ## 2. Running a Bacalhau Job
 
