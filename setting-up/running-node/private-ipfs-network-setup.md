@@ -18,7 +18,7 @@ Support for the embedded [IPFS](https://ipfs.tech/) node was [discontinued](../.
 
 1. Install and configure IPFS
 2. Create Private IPFS network
-3. Configure your [Bacalhau network](../../getting-started/create-private-network.md) to use the private IPFS network
+3. Configure your [Bacalhau network](../../getting-started/create-private-network/) to use the private IPFS network
 4. Pin your data to private IPFS network
 
 ## TL;DR

@@ -14,7 +14,7 @@ Getting started with Bacalhau is super straight forward! Below we lay out the st
 
 That's it!
 
-For more advanced users, you can create your own Bacalhau network, which [we walk through here](../create-private-network.md).
+For more advanced users, you can create your own Bacalhau network, which [we walk through here](../create-private-network/).
 
 ### Support
 

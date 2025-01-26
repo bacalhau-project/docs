@@ -86,7 +86,7 @@ export JOB_ID=$(bacalhau docker run \
 {% hint style="warning" %}
 In this example, a model from `github.com` is downloaded during the job execution. In order to do this, use the [`--network full`](../../setting-up/networking-instructions/networking.md#specifying-jobs-to-access-the-internet) flag when describing the job, and `--job-selection-accept-networked` when starting the compute node on which the job will be executed.&#x20;
 
-Note, that in the demo network, nodes do not accept jobs that require `full` network access. Consider creating your own [private network](../../getting-started/create-private-network.md).
+Note, that in the demo network, nodes do not accept jobs that require `full` network access. Consider creating your own [private network](../../getting-started/create-private-network/).
 {% endhint %}
 
 ### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>

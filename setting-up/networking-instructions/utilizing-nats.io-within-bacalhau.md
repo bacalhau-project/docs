@@ -26,7 +26,7 @@ The aim of integrating NATS into Bacalhau is to keep user experience with Bacalh
 
 ### **1. Generate an Authentication Token:**
 
-Start by [creating a secure](../../getting-started/create-private-network.md#create-and-set-up-a-token) token. This token will be used for authentication between the orchestrator and compute nodes during their communications:
+Start by [creating a secure](../../getting-started/create-private-network/#create-and-set-up-a-token) token. This token will be used for authentication between the orchestrator and compute nodes during their communications:
 
 ```bash
 bacalhau config set Compute.Auth.Token=<your_secure_token>

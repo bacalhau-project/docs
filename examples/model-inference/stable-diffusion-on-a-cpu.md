@@ -148,7 +148,7 @@ Furthermore, the container itself is about 15GB, so it might take a while to dow
 ### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
 {% hint style="warning" %}
-Some of the jobs presented in the Examples section may require more resources than are currently available on the demo network. Consider [starting your own network](../../getting-started/create-private-network.md) or running less resource-intensive jobs on the demo network
+Some of the jobs presented in the Examples section may require more resources than are currently available on the demo network. Consider [starting your own network](../../getting-started/create-private-network/) or running less resource-intensive jobs on the demo network
 {% endhint %}
 
 1. `export JOB_ID=$( ... )`: Export results of a command execution as environment variable

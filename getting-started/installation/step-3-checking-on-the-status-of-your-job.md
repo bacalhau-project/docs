@@ -78,8 +78,8 @@ Each of these files contain the following information:
 * **`stderr`** - the output of the [standard error](https://www.gnu.org/software/libc/manual/html_node/Standard-Streams.html) stream of the job.
 * **`stdout`** - the output of the [standard out](https://www.gnu.org/software/libc/manual/html_node/Standard-Streams.html) stream of the job.
 
-And that's it! If you'd like to go to the next level, you can [create your own Bacalhau network](../create-private-network.md) - it's super easy too!
+And that's it! If you'd like to go to the next level, you can [create your own Bacalhau network](../create-private-network/) - it's super easy too!
 
 Here are few resources that provide a deeper dive into running jobs with Bacalhau:
 
-[How Bacalhau works](../architecture.md), [Creating your Private Network](../create-private-network.md), [Examples & Use Cases](broken-reference)
+[How Bacalhau works](../architecture.md), [Creating your Private Network](../create-private-network/), [Examples & Use Cases](broken-reference)
