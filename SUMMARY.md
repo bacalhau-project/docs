@@ -78,6 +78,7 @@
   * [Simple Image Processing](examples/data-engineering/simple-image-processing.md)
   * [Oceanography - Data Conversion](examples/data-engineering/oceanography-data-conversion.md)
   * [Video Processing](examples/data-engineering/video-processing.md)
+  * [Bacalhau and BigQuery](examples/data-engineering/bacalhau-and-bigquery.md)
 * [Data Ingestion](examples/data-ingestion/README.md)
   * [Copy Data from URL to Public Storage](examples/data-ingestion/from-url.md)
   * [Pinning Data](examples/data-ingestion/pin.md)
