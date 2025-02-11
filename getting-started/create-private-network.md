@@ -17,23 +17,26 @@ This tutorial describes the process of creating your own private network from mu
 ## TLDR
 
 1. [Download the CLI](https://www.expanso.io/sign-up/) for setting up a Bacalhau cluster. Hang onto this URL, you'll need it for all the nodes you set up (both orchestrator and compute nodes).
+
 2. Start the [Orchestrator node](create-private-network.md#start-initial-requester-node):&#x20;
 
 <pre class="language-bash"><code class="lang-bash"><strong>bacalhau serve --orchestrator 
 </strong></code></pre>
 
-1. Install Bacalhau on each node you want to run your compute on (use the same URL)
-2. Run the server on the [Compute node](create-private-network.md#create-and-connect-compute-node)
+3. Install Bacalhau on each node you want to run your compute on (use the same URL)
+
+4. Run the server on the [Compute node](create-private-network.md#create-and-connect-compute-node)
 
 ```bash
 bacalhau serve --compue --api-host <ORCHESTRATOR_IP>
 ```
 
-1. Done! You can run an example, like:
+5. Done! Now, in another terminal session, you can run an example, like:
 
 ```bash
 bacalhau docker run apline echo hello --api-host <ORCHESTRATOR_IP>
 ```
+This ensures the orchestrator and compute nodes continue running while you execute Bacalhau jobs.
 
 ## Prerequisites
 
