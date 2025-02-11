@@ -207,7 +207,7 @@ bacalhau job list --id-filter $JOB_ID
 sleep 5
 
 bacalhau job list --id-filter $JOB_ID
-bacalhau get $JOB_ID
+bacalhau job get $JOB_ID
 
 ls shards
 ```
