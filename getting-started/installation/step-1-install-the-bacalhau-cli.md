@@ -27,7 +27,7 @@ Windows users can download the [latest release tarball from Github](https://gith
 
 {% tab title="Docker" %}
 ```bash
-docker pull docker.io/bacalhauproject/bacalhau:latest
+docker pull ghcr.io/bacalhau-project/bacalhau:latest
 ```
 
 To run a specific version of Bacalhau using Docker, use the command `docker run -it docker.io/bacalhauproject/bacalhau:vX.Y.Z`, where `vX.Y.Z` is the version you want to run.
