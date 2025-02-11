@@ -84,10 +84,16 @@ We have provided some utility scripts to help you set up your BigQuery project a
 ./utility_scripts/setup.py -i
 ```
 
-```bash
-./utility_scripts/sample_tables.sh # Creates sample tables in BigQuery for testing.
+* Creates sample tables in BigQuery for testing.
 
-./utility_scripts/check_permissions.sh # Checks the permissions of the service account specified in log_uploader_credentials.json to ensure it has the necessary permissions to write to BigQuery tables from the Bacalhau nodes.
+```bash
+./utility_scripts/sample_tables.sh 
+```
+
+* Checks the permissions of the service account specified in log\_uploader\_credentials.json to ensure it has the necessary permissions to write to BigQuery tables from the Bacalhau nodes.
+
+```bash
+./utility_scripts/check_permissions.sh 
 ```
 
 * Confirms your BigQuery project and dataset, and creates the tables if they don't exist with the correct schema. This will also zero out the tables if they already exist, so be careful! (Useful for debugging)
