@@ -1,12 +1,14 @@
 ---
 description: >-
-  If you want to contribute to Bacalhau and the Compute ecosystem, here is a list of things that need help and instructions for getting started.
+  If you want to contribute to Bacalhau and the Compute ecosystem, here is a
+  list of things that need help and instructions for getting started.
+icon: toolbox
 ---
 
-# Ways to contribute
+# Ways to Contribute
 
 {% hint style="info" %}
-We appreciate any help that would improve Bacalhau. If you need more guidance, reach out to us on [Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)&#x20.
+We appreciate any help that would improve Bacalhau. If you need more guidance, reach out to us on [Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)\&#x20.
 {% endhint %}
 
 ## Code
@@ -37,19 +39,19 @@ This guide explains what to keep in mind when contributing to Bacalhau documenta
 
 The purpose of a walkthrough is to instruct the user _how_ to do something. You do not need to convince the reader of something or explain a concept. Walkthroughs are a list of steps the reader must follow to achieve a process or function.
 
-Most of the Bacalhau documentation project documentation falls under the _Walkthrough_ category. Walkthroughs are short, have a neutral tone, and instruct the reader on achieving a particular process or function. The instructions contain steps about where to go, what to type, and the actions to perform on the User Interface. There is little to no _conceptual_ information within walkthroughs.
+Most of the Bacalhau documentation project documentation falls under the _Walkthrough_ category. Walkthroughs are short, have a neutral tone, and instruct the reader on achieving a particular process or function. The instructions contain steps about where to go, what to type, and the actions to perform on the User Interface. There is little to no _conceptual_ information within walkthroughs.
 
 #### Components
 
 The scope for some of the components in a walkthrough are as follows:
 
-| Component          | Keyword     | Scope                                                     |
+| Component     | Keyword     | Scope                                                             |
 | ------------- | ----------- | ----------------------------------------------------------------- |
 | **Audience**  | _General_   | Easy for anyone to read with minimal effort.                      |
 | **Formality** | _Neutral_   | Slang is restricted, but standard casual expressions are allowed. |
-| **Domain**    | _Technical_ | Acronyms and tech-specific language are used and expected.         |
+| **Domain**    | _Technical_ | Acronyms and tech-specific language are used and expected.        |
 | **Tone**      | _Neutral_   | Writing contains little to no emotion.                            |
-| **Intent**    | _Instruct_  | Instruct the reader _how_ to do something.                            |
+| **Intent**    | _Instruct_  | Instruct the reader _how_ to do something.                        |
 
 #### Function or process
 
@@ -137,7 +139,7 @@ In a list of three or more items, follow each item except the last with a comma 
 
 As a proper noun, the name “Bacalhau” (capitalized) should be used only to refer to the overarching project, to the protocol, or to the project’s canonical network:
 
-> Bacalhau has attracted contributors from around the globe!&#x20;
+> Bacalhau has attracted contributors from around the globe!
 
 > The Bacalhau ecosystem is thriving! I love contributing to Bacalhau's documentation!
 
@@ -145,7 +147,7 @@ Consistency in the usage of these terms helps keep these various concepts distin
 
 **Acronyms**
 
-If you have to use an acronym, spell the full phrase first and include the acronym in parentheses `()` the first time it is used in each document.&#x20;
+If you have to use an acronym, spell the full phrase first and include the acronym in parentheses `()` the first time it is used in each document.
 
 > Virtual Machine (VM), Compute over Data (CoD).
 

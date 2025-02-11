@@ -1,3 +1,7 @@
+---
+icon: bolt-auto
+---
+
 # Automatic Update Checking
 
 Bacalhau has an update checking service to automatically detect whether a newer version of the software is available.
@@ -10,13 +14,14 @@ Bacalhau will run an update check regularly when client commands are executed. I
 
 To force a manual update check, run the `bacalhau version` command, which will explicitly list the latest software release alongside the server and client versions.
 
-```shell
-bacalhau version
-
-Expected Output
- CLIENT  SERVER  LATEST  UPDATE MESSAGE
- v1.2.0  v1.2.0  v1.2.0
-```
+<pre class="language-shell"><code class="lang-shell">bacalhau version
+<strong>
+</strong><strong># expected output
+</strong><strong># might show client version only if client is not connected to any orchestrator
+</strong><strong>
+</strong><strong>CLIENT  SERVER  LATEST  UPDATE MESSAGE 
+</strong> v1.5.1  v1.5.1  1.5.1
+</code></pre>
 
 ## For node operators
 
@@ -28,11 +33,9 @@ If an update is available, an INFO level message will be printed to the log.
 
 Bacalhau has some configuration options for controlling how often checks are performed. By default, an update check will run no more than once every 24 hours. Users can opt out of automatic update checks using the configuration described below.
 
-| Config property       | Environment variable             | Default value              | Meaning                                                                                                                            |
-| --------------------- | -------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Update.SkipChecks     | `BACALHAU_UPDATE_SKIPCHECKS`     | False                      | If true, no update checks will be performed. As an environment variable, set to `"1"`, `"t"` or `"true"`.                          |
-| Update.CheckFrequency | `BACALHAU_UPDATE_CHECKFREQUENCY` | 24 hours                   | The minimum amount of time between automated update checks. Set as any duration of hours, minutes or seconds, e.g. `24h` or `10m`. |
-| Update.CheckStatePath | `BACALHAU_UPDATE_CHECKSTATEPATH` | $BACALHAU\_DIR/update.json | An absolute path where Bacalhau should store the date and time of the last check.                                                  |
+| Config property       | Environment variable             | Default value | Meaning                                                                                                                                                                                                          |
+| --------------------- | -------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UpdateConfig.Interval | `BACALHAU_UPDATE_CHECKFREQUENCY` | `24h0m0s`     | <p>The minimum amount of time between automated update checks. Set as any duration of hours, minutes or seconds, e.g. <code>24h</code> or <code>10m</code>. When set to 0 update checks<br>are not performed</p> |
 
 {% hint style="info" %}
 It's important to note that disabling the automatic update checks may lead to potential issues, arising from mismatched versions of different actors within Bacalhau.
@@ -41,12 +44,10 @@ It's important to note that disabling the automatic update checks may lead to po
 To output update check config, run `bacalhau config list`:
 
 ```shell
-bacalhau config list
-
-Expected Output
-...
-update.checkfrequency                                           24h0m0s
-update.checkstatepath                                           /home/user/.bacalhau/update.json
-update.skipchecks                                               false
-...
+bacalhau config list | grep UpdateConfig
+ UpdateConfig.Interval   24h0m0s   Interval specifies the time between update checks, when set to 0 update checks are not performed.
 ```
+
+## Support <a href="#support" id="support"></a>
+
+If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

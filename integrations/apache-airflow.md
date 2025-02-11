@@ -1,3 +1,7 @@
+---
+icon: lightbulb-cfl-on
+---
+
 # Apache Airflow Provider for Bacalhau
 
 This is `bacalhau-airflow`, a Python package that integrates [Bacalhau](https://github.com/bacalhau-project/bacalhau) with [Apache Airflow](https://github.com/apache/airflow). The benefit is twofold. First, thanks to this package you can now write complex pipelines for Bacalhau. For instance, jobs can communicate their output's CIDs to downstream jobs, that can use those as inputs. Second, Apache Airflow provides a solid solution to reliably orchestrate your DAGs.

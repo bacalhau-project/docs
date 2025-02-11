@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Welcome to the Bacalhau Docs](README.md)
+* [Welcome](README.md)
 
 ## Getting Started
 
@@ -8,9 +8,9 @@
 * [Installation](getting-started/installation.md)
 * [Create Network](getting-started/create-private-network.md)
 * [Hardware Setup](getting-started/resources.md)
-* [Workload Onboarding](getting-started/workload-onboarding/README.md)
+* [Container Onboarding](getting-started/workload-onboarding/README.md)
   * [Docker Workloads](getting-started/workload-onboarding/docker-workload-onboarding.md)
-  * [WebAssembly (WASM) Workloads](getting-started/workload-onboarding/wasm-workload-onboarding.md)
+  * [WebAssembly (Wasm) Workloads](getting-started/workload-onboarding/wasm-workload-onboarding.md)
 
 ## Setting Up
 
@@ -21,15 +21,16 @@
   * [Access Management](setting-up/running-node/auth.md)
   * [Node persistence](setting-up/running-node/persistence.md)
   * [Connect Storage](setting-up/running-node/storage-providers.md)
-  * [Configuration Management](setting-up/running-node/configuration.md)
+  * [(Outdated after v1.5.0) Configuration Management](setting-up/running-node/configuration.md)
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
   * [Limits and Timeouts](setting-up/running-node/resource-limits.md)
   * [Test Network Locally](setting-up/running-node/test-network.md)
   * [Bacalhau WebUI](setting-up/running-node/webui.md)
+  * [Private IPFS Network Setup](setting-up/running-node/private-ipfs-network-setup.md)
 * [Workload Onboarding](setting-up/workload-onboarding/README.md)
   * [Container](setting-up/workload-onboarding/container/README.md)
     * [Docker Workload Onboarding](setting-up/workload-onboarding/container/docker-workload-onboarding.md)
-    * [WebAssembly (WASM) Workloads](setting-up/workload-onboarding/container/wasm-workload-onboarding.md)
+    * [WebAssembly (Wasm) Workloads](setting-up/workload-onboarding/container/wasm-workload-onboarding.md)
     * [Bacalhau Docker Image](setting-up/workload-onboarding/container/index.md)
     * [How To Work With Custom Containers in Bacalhau](setting-up/workload-onboarding/container/index-1.md)
   * [Python](setting-up/workload-onboarding/python/README.md)
@@ -60,6 +61,7 @@
 
 ## Guides
 
+* [(Updated) Configuration Management](guides/updated-configuration-management.md)
 * [Write a config.yaml](guides/write-a-config.yaml.md)
 * [Write a SpecConfig](guides/spec-config.md)
 
@@ -168,22 +170,23 @@
 * [Debugging](references/debugging/README.md)
   * [Debugging Failed Jobs](references/debugging/debugging-general.md)
   * [Debugging Locally](references/debugging/debugging\_locally.md)
-* [Open Telemetry in Bacalhau](references/open\_telemetry\_in\_bacalhau.md)
-* [Running locally with 'devstack'](references/running-locally.md)
+* [Running Locally In Devstack](references/running-locally.md)
 * [Setting up Dev Environment](references/setting\_up\_development.md)
 
 ## Help & FAQ
 
 * [Bacalhau FAQs](help-and-faq/faqs.md)
-* [Release Notes](help-and-faq/release-notes.md)
 * [Glossary](help-and-faq/glossary.md)
+* [Release Notes](help-and-faq/release-notes/README.md)
+  * [v1.5.0 Release Notes](help-and-faq/release-notes/v1.5.0-release-notes.md)
+  * [v1.4.0 Release Notes](help-and-faq/release-notes/release-notes.md)
 
 ## Integrations
 
 * [Apache Airflow Provider for Bacalhau](integrations/apache-airflow.md)
 * [Lilypad](integrations/lilypad.md)
 * [Bacalhau Python SDK](integrations/python-sdk.md)
-* [Observability for WebAssembly Workloads in Bacalhau](integrations/wasm-observe.md)
+* [Observability for WebAssembly Workloads](integrations/wasm-observe.md)
 
 ## Community
 

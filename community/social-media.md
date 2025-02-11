@@ -1,5 +1,6 @@
 ---
 description: Find Bacalhau on your favorite social media platform
+icon: thumbs-up
 ---
 
 # Social Media
@@ -8,21 +9,23 @@ Bacalhau has a presence on all major social media networks, so you can follow us
 
 ## YouTube
 
-The [Bacalhau YouTube channel](https://www.youtube.com/channel/UC45IQagLzNR3wdNCUn4vi0A) is home to a wealth of information about the Bacalhau project — everything from developer demos, educational videos, events, etc. You can explore and learn more about Bacalhau.
+The [Bacalhau](https://www.youtube.com/@bacalhauproject) and [Expanso](https://www.youtube.com/@ExpansoIO) YouTube channels are home to a wealth of information about the Bacalhau project — everything from developer demos, educational videos, events, etc. You can explore and learn more about Bacalhau.
 
-## Blog and Newsletter
+## Blog
 
-Subscribe to the [Bacalhau newsletter](https://bacalhau.substack.com/) for official project updates sent straight to your inbox.
+Our blog contains product updates, company news, and educational content on how you can leverage Bacalhau and the Compute over Data ecosystem [Bacalhau Blog](https://bacalhau.substack.com/). Also, you can subscribe to our blog and receive the latest news straight to your inbox.
 
-Also, our blog contains product updates, company news, and educational content on how you can leverage Bacalhau and the Compute over Data ecosystem [Bacalhau Blog](https://bacalhau.substack.com/).
+## X (Formerly Twitter)
 
-## Twitter
+You can follow our X accounts [@BacalhauProject](https://x.com/BacalhauProject) and [@ExpansoIO](https://x.com/ExpansoIO) to get Bacalhau news, product updates, etc in tweet-sized bites.
 
-You can follow our twitter account [@Project Bacalhau](https://twitter.com/BacalhauProject) to get Bacalhau news, product updates, etc in tweet-sized bites.
+## LinkedIn
+
+Connect with us on [LinkedIn](https://www.linkedin.com/company/expanso-io) to stay informed about the latest news, industry trends, and exclusive job opportunities!
 
 ## Need Support?
 
-If have questions or need support or guidance, please reach out to the [Bacalhau team via Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)
+If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack (#bacalhau channel)](https://bit.ly/bacalhau-project-slack)
 
 ## Contributing
 

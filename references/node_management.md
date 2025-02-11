@@ -1,3 +1,7 @@
+---
+icon: bars-progress
+---
+
 # Node Management
 
 Bacalhau clusters are composed of requester nodes, and compute nodes. The requester nodes are responsible for managing the compute nodes that make up the cluster. This functionality is only currently available when using NATS for the network transport.

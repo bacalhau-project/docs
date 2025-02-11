@@ -4,34 +4,54 @@ description: How to run the WebUI.
 
 # Bacalhau WebUI
 
+{% hint style="warning" %}
+Note that in version `v1.5.0` the WebUI was completely reworked.
+
+Check out the [release notes](../../help-and-faq/release-notes/v1.5.0-release-notes.md) to learn about all the changes to WebUI and more.
+{% endhint %}
+
 ## Overview
 
-The Bacalhau WebUI offers an intuitive interface for interacting with the Bacalhau network. This guide provides comprehensive instructions for setting up, deploying, and utilizing the WebUI.
+The Bacalhau WebUI offers an intuitive interface for interacting with the Bacalhau network. This guide provides comprehensive instructions for setting up and utilizing the WebUI.
 
 For contributing to the WebUI's development, please refer to the [Bacalhau WebUI GitHub Repository](https://github.com/bacalhau-project/bacalhau/tree/main/webui).
 
-## Spinning Up the WebUI Locally
+## WebUI Setup
 
 ### Prerequisites
 
-* Ensure you have a Bacalhau v1.1.7 or later installed.
+* Ensure you have a Bacalhau `v1.5.0` or later installed.
 
-### Running the WebUI
+### Configuration
 
-To launch the WebUI locally, execute the following command:
+To enable the WebUI, use the `WebUI.Enabled` configuration key:
 
 ```bash
-bacalhau serve --node-type=requester,compute --web-ui
+bacalhau config set webui.enabled=true
 ```
 
-This command initializes a requester and compute node, configured to listen on `HOST=0.0.0.0` and `PORT=1234`.
+By default, WebUI uses `host=0.0.0.0` and `port=8438`. This can be configured via `WebUI.Listen` configuration key:
 
-### Accessing the Local WebUI
+```bash
+bacalhau config set webui.listen=<ip-address>:<port>
+```
 
-Once started, the WebUI is accessible at (`http://127.0.0.1/`). This local instance allows you to interact with your local Bacalhau network setup.
+### Accessing the WebUI
 
-## Accessing the WebUI from the Browser
+Once started, the WebUI is accessible at the specified address, `localhost:8438` by default.&#x20;
 
-For observational purposes, a development version of the WebUI is available at [bootstrap.development.bacalhau.org](http://bootstrap.development.bacalhau.org). This instance displays jobs from the development server.
+<figure><img src="../../.gitbook/assets/2024-10-11_19h25_04 (1).png" alt=""><figcaption></figcaption></figure>
 
-N.b. The development version of the WebUI is for observation only and may not reflect the latest changes or features available in the local setup.
+## WebUI Features
+
+### Jobs
+
+The updated WebUI allows you to view a list of jobs, including job status, run time, type, and a message in case the job failed.
+
+Clicking on the id of a job in the list opens the job details page, where you can see the history of events related to the job, the list of nodes on which the job was executed and the real-time logs of the job.
+
+### Nodes
+
+On the Nodes page you can see a list of nodes connected to your network, including node type, membership and connection statuses, amount of resources - total and currently available, and a list of labels of  the node.
+
+Clicking on the node id opens the node details page, where you can see the status and settings of the node, the number of running and scheduled jobs.

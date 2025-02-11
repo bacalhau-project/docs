@@ -16,23 +16,9 @@ This tutorial describes how to add new nodes to an existing private network. Two
 
 Let's assume that you already have a private network with at least one requester node. In this case, the process of adding new nodes follows the [Create And Connect Compute Node](../../getting-started/create-private-network.md#create-and-connect-compute-node) section. You will need to:
 
-1. Set the token in the `node.network.authsecret` parameter
-2. Execute `bacalhau serve` specifying the `node type` and `orchestrator` address via flags. You can find an example of such a command in the logs of the requester node, here is how it might look like:
-
-```bash
-...
-To connect a compute node to this orchestrator, run the following command in your shell:
-bacalhau serve \
-    --node-type=compute \
-    --network=nats --orchestrators=nats://127.0.0.0.1:4222 \
-    --private-internal-ipfs \
-    --ipfs-swarm-addrs=/ip4/127.0.0.0.1/tcp/46169/p2p/QmdbBc3BKkVCEuUBnAJm85gaPn6cKnFEEi96khwJSEaLFe 
-...
-```
-
-{% hint style="info" %}
-Remember that in this example you need to replace all 127.0.0.1 and 0.0.0.0.0 addresses with the actual public IP address of your node. ​
-{% endhint %}
+1. Set the token in the `Compute.Auth.Token` configuration key
+2. Set the orchestrators IP address in the `Compute.Orchestrators` configuration key
+3. Execute `bacalhau serve` specifying the node type via `--orchestrator` flag
 
 ## Add a Cloud Instance as a New Node
 

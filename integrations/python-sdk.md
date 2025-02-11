@@ -1,5 +1,6 @@
 ---
 description: This is the official Python SDK for Bacalhau, named bacalhau-sdk.
+icon: lightbulb-cfl-on
 ---
 
 # Bacalhau Python SDK

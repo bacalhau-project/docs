@@ -4,6 +4,10 @@ description: NATS.io networking fundamentals in Bacalhau
 
 # Utilizing NATS.io within Bacalhau
 
+{% hint style="warning" %}
+Support of the `libp2p` was discontinued in version `v1.5.0`
+{% endhint %}
+
 Starting from the `v.1.3.0` to communicate with other nodes on the network Bacalhau uses [NATS.io](https://nats.io/), a powerful open-source messaging system designed to streamline communication across complex network environments.
 
 Our initial NATS integration focuses on simplifying communication between orchestrator and compute nodes. By embedding NATS within orchestrators, we streamline the network. Now, compute nodes need only connect to one or a few orchestrators and dynamically discover others at runtime, dramatically cutting down on configuration complexity.
@@ -18,26 +22,6 @@ Our initial NATS integration focuses on simplifying communication between orches
 
 The aim of integrating NATS into Bacalhau is to keep user experience with Bacalhau's HTTP APIs and CLIs for job submission and queries consistent. This ensures a smooth transition, allowing you to continue your work without any disruptions.
 
-<details>
-
-<summary><strong>For users, already running Bacalhau networks</strong></summary>
-
-NATS now serves as the primary network protocol, simplifying setup and centralizing public access requirements to orchestrator nodes. This change not only simplifies network configurations but also enhances the overall security and efficiency of Bacalhau deployments.
-
-We understand that adapting to new technologies takes time. Therefore, we’ll keep supporting libp2p as an alternative during the transition, giving you the flexibility to migrate at your own pace:
-
-To maintain use of libp2p, simply launch your network with the **-network** option set to **libp2p**.
-
-```
-bacalhau serve --network libp2p
-```
-
-This approach provides a bridge, giving you the necessary time and flexibility to adjust your workflows to NATS, all while continuing to benefit from the ongoing support and enhancements within the Bacalhau ecosystem.
-
-This approach provides a bridge, giving you the necessary time and flexibility to adjust your workflows to NATS, all while continuing to benefit from the ongoing support and enhancements within the Bacalhau ecosystem.
-
-</details>
-
 ## **Getting Started with NATS**
 
 ### **1. Generate an Authentication Token:**
@@ -45,7 +29,8 @@ This approach provides a bridge, giving you the necessary time and flexibility t
 Start by [creating a secure](../../getting-started/create-private-network.md#create-and-set-up-a-token) token. This token will be used for authentication between the orchestrator and compute nodes during their communications:
 
 ```bash
-bacalhau config set "node.network.authsecret" your_secure_token
+bacalhau config set Compute.Auth.Token=<your_secure_token>
+bacalhau config set Orchestrator.Auth.Token=<your_secure_token>
 ```
 
 Make sure to securely store this token and share it only with authorized parties in your network.
@@ -55,10 +40,10 @@ Make sure to securely store this token and share it only with authorized parties
 With the authentication token set, launch your orchestrator node as follows:
 
 ```bash
-bacalhau serve --node-type=requester
+bacalhau serve --orchestrator
 ```
 
-This command sets up an orchestrator node with an embedded NATS server, using the given auth token to secure communications. It defaults to port 4222, but you can customize this using the --network-port flag if needed.
+This command sets up an orchestrator node with an embedded NATS server, using the given auth token to secure communications. It defaults to port `4222`, but you can customize this using the `Orchestrator.Port` configuration key if needed.
 
 ### **3. Initiating Compute Nodes with Authentication:**
 
@@ -67,18 +52,20 @@ Compute nodes can authenticate using one of the following methods, depending on 
 #### **Option 1: Read** `authsecret` **from the Config:**
 
 ```bash
-bacalhau serve --node-type=compute --orchestrators=<HOST>
+bacalhau serve --compute --config Compute.Orchestrators=<HOST>
 ```
 
-This method assumes the `authsecret` is already configured in the Bacalhau settings on the compute node, allowing for a seamless authentication process.
+This method assumes the `Compute.Auth.Token` is already configured on the compute node, allowing for a seamless authentication process.
 
-#### **Option 2: Pass** `authsecret` **Directly in the Orchestrator URI:**
+#### **Option 2: Pass** `Auth.Token`  Value **Directly in the Orchestrator URI:**
 
 ```bash
-bacalhau serve --node-type=compute --orchestrators=your_secure_token@<HOST>
+bacalhau serve \
+--compute \
+--Compute.Orchestrators=<your_secure_token>@<HOST>
 ```
 
-Here, the **`authsecret`** is directly included in the command line, providing an alternative for instances where it's preferable to specify the token explicitly rather than rely on the configuration file.
+Here, the `Auth.Token` is directly included in the command line, providing an alternative for instances where it's preferable to specify the token explicitly rather than rely on the configuration file.
 
 Both methods ensure that compute nodes, acting as NATS clients, securely authenticate with the orchestrator node(s), establishing a trusted communication channel within your Bacalhau network.
 

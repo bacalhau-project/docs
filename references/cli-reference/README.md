@@ -1,2 +1,6 @@
-# CLI
+---
+icon: laptop-code
+---
+
+# CLI Guide
 

@@ -78,9 +78,16 @@ export JOB_ID=$(bacalhau docker run \
     --timeout 3600 \
     --wait-timeout-secs 3600 \
     --publisher ipfs \
+    --network full \
     jsacex/kipoi-veff2:py37 \
     -- kipoi_veff2_predict ./examples/input/test.vcf ./examples/input/test.fa ../outputs/output.tsv -m "DeepSEA/predict" -s "diff" -s "logit")
 ```
+
+{% hint style="warning" %}
+In this example, a model from `github.com` is downloaded during the job execution. In order to do this, use the [`--network full`](../../setting-up/networking-instructions/networking.md#specifying-jobs-to-access-the-internet) flag when describing the job, and `--job-selection-accept-networked` when starting the compute node on which the job will be executed.&#x20;
+
+Note, that in the demo network, nodes do not accept jobs that require `full` network access. Consider creating your own [private network](../../getting-started/create-private-network.md).
+{% endhint %}
 
 ### Structure of the command​ <a href="#structure-of-the-command" id="structure-of-the-command"></a>
 
@@ -118,6 +125,8 @@ tasks:
           - kipoi_veff2_predict ./examples/input/test.vcf ./examples/input/test.fa ../outputs/output.tsv -m "DeepSEA/predict" -s "diff" -s "logit"
     Publisher:
       Type: ipfs
+    Network:
+      Type: full
     ResultPaths:
       - Name: outputs
         Path: /outputs

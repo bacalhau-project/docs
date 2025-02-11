@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # CLI Commands Overview
 
 {% hint style="warning" %}

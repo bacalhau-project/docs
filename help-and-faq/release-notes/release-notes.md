@@ -1,8 +1,4 @@
----
-icon: code-merge
----
-
-# Release Notes
+# v1.4.0 Release Notes
 
 {% hint style="info" %}
 Release Notes for Bacalhau v.1.4.0

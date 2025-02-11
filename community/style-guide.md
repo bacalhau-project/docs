@@ -1,3 +1,7 @@
+---
+icon: pen-fancy
+---
+
 # Style Guide
 
 {% hint style="info" %}

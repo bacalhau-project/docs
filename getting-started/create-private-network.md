@@ -1,5 +1,6 @@
 ---
 description: In this tutorial you are setting up your own network
+icon: globe
 ---
 
 # Create Network
@@ -13,10 +14,11 @@ This tutorial describes the process of creating your own private network from mu
 ## TLDR
 
 1. [Install Bacalhau](installation.md) `curl -sL https://get.bacalhau.org/install.sh | bash` on every host
-2. Start the [Requester node](create-private-network.md#start-initial-requester-node): `bacalhau serve --node-type requester`
-3. Copy and paste the command it outputs under the "_To connect a compute node to this orchestrator, run the following command in your shell_" line to **other hosts**
-4. Copy and paste the environment variables it outputs under the "_To connect to this node from the client, run the following commands in your shell_" line to a **client machine**
-5. Done! You can run an example, like:
+2. Create and apply auth token
+3. Start the [Requester node](create-private-network.md#start-initial-requester-node): `bacalhau serve --orchestrator`
+4. Configure auth token and orchestrators list line on the **other hosts**
+5. Copy and paste the environment variables it outputs under the "_To connect to this node from the client, run the following commands in your shell_" line to a **client machine**
+6. Done! You can run an example, like:
 
 ```bash
 bacalhau docker run apline echo hello
@@ -55,35 +57,28 @@ Let's use the `uuidgen` tool to create our token, then add it to the Bacalhau co
 uuidgen > my_token
 
 #Add token to the Bacalhau configuration
-bacalhau config set "node.network.authsecret" my_token
+bacalhau config set orchestrator.auth.token=$(cat my_token)
 ```
 
 ```bash
 #Start the Requester node
-bacalhau serve --node-type requester --peer none
+bacalhau serve --orchestrator
 ```
 
 This will produce output similar to this, indicating that the node is up and running:
 
 ```bash
-15:09:58.711 | INF pkg/nats/logger.go:47 > Starting nats-server [Server:n-1134cdf3-a974-4c0b-b9c9-61858a856bda]
-...
-15:09:58.719 | INF pkg/nats/logger.go:47 > Server is ready [Server:n-1134cdf3-a974-4c0b-b9c9-61858a856bda]
-15:09:58.739 | INF pkg/nats/server.go:48 > NATS server NAN464RLFLYVA7GYZ6QN3RSH6UAKFJHMQWON4K4VVIRE3O3C7RKU3V7D listening on nats://0.0.0.0:4222 [NodeID:n-1134cdf3]
-15:10:02.81 | INF pkg/config/setters.go:84 > Writing to config file /home/username/.bacalhau/config.yaml:
-Node.Compute.ExecutionStore:    {BoltDB /home/username/.bacalhau/compute_store/executions.db}
-Node.Requester.JobStore:        {BoltDB /home/username/.bacalhau/orchestrator_store/jobs.db}
-Node.Name:      n-1134cdf3-a974-4c0b-b9c9-61858a856bda
+17:27:42.273 | INF cmd/cli/serve/serve.go:102 > Config loaded from: [/home/username/.bacalhau/config.yaml], and with data-dir /home/username/.bacalhau
+17:27:42.322 | INF cmd/cli/serve/serve.go:228 > Starting bacalhau...
+17:27:42.405 | WRN pkg/nats/logger.go:49 > Filestore [KV_node_v1] Stream state too short (0 bytes) [Server:n-0f29f45c-c894-4f8f-8a0a-8f2f1f64d96d]
+17:27:42.479 | INF cmd/cli/serve/serve.go:300 > bacalhau node running [address:0.0.0.0:1234] [compute_enabled:false] [name:n-0f29f45c-c894-4f8f-8a0a-8f2f1f64d96d] [orchestrator_address:0.0.0.0:4222] [orchestrator_enabled:true] [webui_enabled:true]
 
-To connect a compute node to this orchestrator, run the following command in your shell:
-bacalhau serve --node-type=compute --network=nats --orchestrators=nats://127.0.0.1:4222 --private-internal-ipfs --ipfs-swarm-addrs=/ip4/127.0.0.1/tcp/39311/p2p/QmdUmWyEUHK3Zfnno4x3Ct89AjtQ75Tr3WGaEsgh1nGGj1 
+To connect to this node from the local client, run the following commands in your shell:
+export BACALHAU_API_HOST=127.0.0.1
+export BACALHAU_API_PORT=1234
 
-To connect to this node from the client, run the following commands in your shell:
-export BACALHAU_NODE_CLIENTAPI_HOST=0.0.0.0
-export BACALHAU_NODE_CLIENTAPI_PORT=1234
-export BACALHAU_NODE_NETWORK_TYPE=nats
-export BACALHAU_NODE_NETWORK_ORCHESTRATORS=nats://127.0.0.1:4222
-export BACALHAU_NODE_IPFS_SWARMADDRESSES=/ip4/127.0.0.1/tcp/39311/p2p/QmdUmWyEUHK3Zfnno4x3Ct89AjtQ75Tr3WGaEsgh1nGGj1
+17:27:42.479 | INF webui/webui.go:65 > Starting UI server [listen:0.0.0.0:8438]
+A copy of these variables have been written to: /home/username/.bacalhau/bacalhau.run
 ```
 
 Note that for security reasons, the output of the command contains the localhost `127.0.0.1` address instead of your real IP. To connect to this node, you should replace it with your real public IP address yourself. The method for obtaining your public IP address may vary depending on the type of instance you're using. Windows and Linux instances can be queried for their public IP using the following command:
@@ -100,26 +95,26 @@ Now let's move to another host from the preconditions, start a compute node on i
 
 ```bash
 #Add token to the Bacalhau configuration
-bacalhau config set "node.network.authsecret" my_token
+bacalhau config set compute.auth.token=$(cat my_token)
 ```
 
 Then execute the `serve` command to connect to the requester node:
 
 ```bash
-bacalhau serve --node-type=compute --orchestrators=<Public-IP-of-Requester-Node>
+bacalhau serve --сompute --orchestrators=<Public-IP-of-Requester-Node>
 ```
 
 This will produce output similar to this, indicating that the node is up and running:
 
-```bash
-15:51:02.534 | INF pkg/publisher/local/server.go:52 > Running local publishing server on 0.0.0.0:6001 [NodeID:n-ef98aa76]
-
-To connect to this node from the client, run the following commands in your shell:
-export BACALHAU_NODE_CLIENTAPI_HOST=0.0.0.0
-export BACALHAU_NODE_CLIENTAPI_PORT=1234
-
-A copy of these variables have been written to: /home/username/.bacalhau/bacalhau.run
-```
+<pre class="language-bash"><code class="lang-bash"><strong># formatting has been adjusted for better readability
+</strong><strong>16:23:33.386 | INF cmd/cli/serve/serve.go:256 > bacalhau node running 
+</strong>[address:0.0.0.0:1235] 
+[capacity:"{CPU: 1.40, Memory: 2.9 GB, Disk: 13 GB, GPU: 0}"]
+[compute_enabled:true] [engines:["docker","wasm"]]
+[name:n-7a510a5b-86de-41db-846f-8c6a24b67482] [orchestrator_enabled:false]
+[orchestrators:["127.0.0.1","0.0.0.0"]] [publishers:["local","noop"]]
+[storages:["urldownload","inline"]] [webui_enabled:false]
+</code></pre>
 
 To ensure that the nodes are connected to the network, run the following command, specifying the public IP of the requester node:
 
@@ -132,7 +127,7 @@ This will produce output similar to this, indicating that the nodes belong to th
 ```bash
 bacalhau --api-host 10.0.2.15 node list
  ID          TYPE       STATUS    LABELS                                              CPU     MEMORY      DISK         GPU  
- n-550ee0db  Compute              Architecture=amd64 Operating-System=linux           0.8 /   1.5 GB /    12.3 GB /    0 /  
+ n-7a510a5b  Compute              Architecture=amd64 Operating-System=linux           0.8 /   1.5 GB /    12.3 GB /    0 /  
                                   git-lfs=true                                        0.8     1.5 GB      12.3 GB      0    
  n-b2ab8483  Requester  APPROVED  Architecture=amd64 Operating-System=linux                                                 
 ```
@@ -142,12 +137,9 @@ bacalhau --api-host 10.0.2.15 node list
 To connect to the requester node find the following lines in the requester node logs:
 
 ```bash
-To connect to this node from the client, run the following commands in your shell:
-export BACALHAU_NODE_CLIENTAPI_HOST=<Public-IP-of-the-Requester-Node>
-export BACALHAU_NODE_CLIENTAPI_PORT=1234
-export BACALHAU_NODE_NETWORK_TYPE=nats
-export BACALHAU_NODE_NETWORK_ORCHESTRATORS=nats://<Public-IP-of-the-Requester-Node>:4222
-export BACALHAU_NODE_IPFS_SWARMADDRESSES=/ip4/<Public-IP-of-the-Requester-Node>/tcp/43919/p2p/QmehkJQ9BN4QMvv7nFTzsWSBk13coaxEZh4N5YmumtJQDb
+To connect to this node from the local client, run the following commands in your shell:
+export BACALHAU_API_HOST=<Public-IP-of-the-Requester-Node>
+export BACALHAU_API_PORT=1234
 ```
 
 {% hint style="info" %}
@@ -158,41 +150,44 @@ The exact commands list will be different for each node and is outputted by the 
 Note that by default such command contains `127.0.0.1` or `0.0.0.0` instead of actual public IP. Make sure to replace it before executing the command.
 {% endhint %}
 
-Now you can submit your jobs using the `bacalhau docker run`, `bacalhau wasm run` and `bacalhau job run` commands. For example submit a hello-world job `bacalhau docker run alpine echo hello`:
+Now you can submit your jobs using the `bacalhau docker run`, `bacalhau wasm run` and `bacalhau job run` commands. For example submit a hello-world job:
 
 ```bash
 bacalhau docker run alpine echo hello
+```
 
-Using default tag: latest. Please specify a tag/digest for better reproducibility. 
-Job successfully submitted. Job ID: ddbfa358-d663-4f54-804e-598c53dbb969
-
+```bash
+Job successfully submitted. Job ID: j-5be2a5b2-567e-4f57-ac9e-8816e47ebeff
 Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
 
-        Communicating with the network  ................  done ✅  0.0s
-           Creating job for submission  ................  done ✅  0.5s
-                       Job in progress  ................  done ✅  0.0s
+ TIME          EXEC. ID    TOPIC            EVENT         
+ 16:34:16.467              Submission       Job submitted 
+ 16:34:16.484  e-1e9dca31  Scheduling       Requested execution on n-d41eeae7 
+ 16:34:16.550  e-1e9dca31  Execution        Running 
+ 16:34:17.506  e-1e9dca31  Execution        Completed successfully 
+                                             
+To get more details about the run, execute:
+	bacalhau job describe j-5be2a5b2-567e-4f57-ac9e-8816e47ebeff
 
-To download the results, execute:
-        bacalhau job get ddbfa358-d663-4f54-804e-598c53dbb969
-        
-To get more details about the run, execute: 
-        bacalhau job describe ddbfa358-d663-4f54-804e-598c53dbb969 
+To get more details about the run executions, execute:
+	bacalhau job executions j-5be2a5b2-567e-4f57-ac9e-8816e47ebeff
+
 ```
 
 You will be able to see the job execution logs on the compute node:
 
 ```bash
-15:42:06.32 | INF pkg/executor/docker/executor.go:116 > starting execution [NodeID:n-550ee0db] [execution:e-f79b74aa-82c3-4fbe-ac71-476f0d596161] [executionID:e-f79b74aa-82c3-4fbe-ac71-476f0d596161] [job:ddbfa358-d663-4f54-804e-598c53dbb969] [jobID:ddbfa358-d663-4f54-804e-598c53dbb969]
+16:34:16.571 | INF pkg/executor/docker/executor.go:119 > starting execution [NodeID:n-d41eeae7] [execution:e-1e9dca31-7089-4cbf-a2f6-a584930bbae5] [executionID:e-1e9dca31-7089-4cbf-a2f6-a584930bbae5] [job:j-5be2a5b2-567e-4f57-ac9e-8816e47ebeff] [jobID:j-5be2a5b2-567e-4f57-ac9e-8816e47ebeff]
 
 ...
 
-15:42:06.665 | INF pkg/executor/docker/executor.go:217 > received results from execution [executionID:e-f79b74aa-82c3-4fbe-ac71-476f0d596161]
-15:42:06.676 | INF pkg/compute/executor.go:195 > cleaning up execution [NodeID:n-550ee0db] [execution:e-f79b74aa-82c3-4fbe-ac71-476f0d596161] [job:ddbfa358-d663-4f54-804e-598c53dbb969]
+16:34:17.496 | INF pkg/executor/docker/executor.go:221 > received results from execution [executionID:e-1e9dca31-7089-4cbf-a2f6-a584930bbae5]
+16:34:17.505 | INF pkg/compute/executor.go:196 > cleaning up execution [NodeID:n-d41eeae7] [execution:e-1e9dca31-7089-4cbf-a2f6-a584930bbae5] [job:j-5be2a5b2-567e-4f57-ac9e-8816e47ebeff]
 ```
 
 ## Publishers and Sources Configuration
 
-By default, IPFS & Local publishers and URL & IPFS sources are available on the compute node. The following describes how to configure the appropriate sources and publishers:
+By default only `local` publisher and `URL` & `local` sources are available on the compute node. The following describes how to configure the appropriate sources and publishers:
 
 {% tabs %}
 {% tab title="S3" %}
@@ -230,7 +225,7 @@ InputSources:
 {% endtab %}
 
 {% tab title="IPFS" %}
-By default, bacalhau creates its own in-process IPFS node that will attempt to discover other IPFS nodes, including public nodes, on its own. If you specify the `--private-internal-ipfs` flag when starting the node, the node will not attempt to discover other nodes. Note, that such an IPFS node exists only with the compute node and will be shut down along with it. Alternatively, you can create your own private IPFS network and connect to it using the [appropriate flags](../references/cli-reference/all-flags.md#serve).
+By default, bacalhau does not connect or create its own IPFS network. Consider creating your [own private IPFS](../setting-up/running-node/private-ipfs-network-setup.md) network and connect to it using the [appropriate flags](../references/cli-reference/all-flags.md#serve).
 
 [IPFS publisher](../references/jobs/job/task/publishers/ipfs.md) can be set for your Bacalhau compute nodes declaratively or imperatively using either configuration yaml file:
 
@@ -279,10 +274,10 @@ Or within your imperative job execution commands:
 bacalhau docker run --publisher local ubuntu ...
 ```
 
-The [Local input source](../references/jobs/job/task/sources/local.md) allows Bacalhau jobs to access files and directories that are already present on the compute node. To allow jobs to access local files when starting a node, the `--allow-listed-local-paths` flag should be used, specifying the path to the data and access mode `:rw` for Read-Write access or `:ro` for Read-Only (used by default). For example:
+The [Local input source](../references/jobs/job/task/sources/local.md) allows Bacalhau jobs to access files and directories that are already present on the compute node. To allow jobs to access local files when starting a node, the `Compute.AllowListedLocalPaths` configuration key should be used, specifying the path to the data and access mode `:rw` for Read-Write access or `:ro` for Read-Only (used by default). For example:
 
 ```bash
-bacalhau serve --allow-listed-local-paths "/etc/config:rw,/etc/*.conf:ro"
+bacalhau config set Compute.AllowListedLocalPaths=/etc/config:rw,/etc/*.conf:ro
 ```
 
 Further, the path to local data in declarative or imperative form must be specified in the job. Declarative example of the local input source:
@@ -300,10 +295,44 @@ InputSources:
 Imperative example of the local input source:
 
 ```bash
-bacalhau docker run -input file:///etc/config:/config ubuntu ...
+bacalhau docker run --input file:///etc/config:/config ubuntu ...
 ```
 {% endtab %}
 {% endtabs %}
+
+## Bacalhau Configuration Keys Overview
+
+Optimize your private network nodes performance and functionality with these most useful [configuration keys](../guides/updated-configuration-management.md), related to the node management:
+
+1. `JobAdmissionControl.AcceptNetworkedJobs`: Allows node to accept jobs, that require [network access](../setting-up/networking-instructions/networking.md)
+
+```bash
+bacalhau config set JobAdmissionControl.AcceptNetworkedJobs=true
+```
+
+2. `Labels`: Describes the node with labels in a `key=value` format. Later labels can be used by the job as conditions for choosing the node on which to run on. For example:
+
+```bash
+bacalhau config set Labels=NodeType=WebServer
+```
+
+3. `Compute.Orchestrators`: Specifies list of orchestrators to connect to. Applies to compute nodes.&#x20;
+
+```bash
+bacalhau config set Compute.Orchestrators=127.0.0.1
+```
+
+4. `DataDir`: Specifies path to the directory where the Bacalhau node will maintain its state. Default value is `/home/username/.bacalhau`. Can be helpful when a repo should be initialized in any but default path or when more than one node should be started on a single machine.
+
+```bash
+bacalhau config set DataDir=/path/to/new/directory
+```
+
+5. `Webui.Enabled`: Enables a WebUI, allowing to get up-to-date and demonstrative information about the jobs and nodes on your network
+
+```
+bacalhau config set WebUI.Enabled=true
+```
 
 ## Best Practices for Production Use Cases
 

@@ -2,7 +2,7 @@
 
 ## Description
 
-The `bacalhau exec` command allows for the specification of jobs to be executed from the command line, without the need for a job specification file (see [job run](broken-reference)).
+The `bacalhau exec` command allows for the specification of jobs to be executed from the command line without the need for a job specification file (see [job run](index-7.md)).
 
 ## Usage
 
@@ -15,7 +15,7 @@ bacalhau exec [flags] [job-type] arguments
 1. `-h`, `--help`:
    * Description: Displays help information for the `exec` sub-command.
 2. `--code`:
-   * Includes the specified code in the job. This can be a single file, or a directory containing many files. There is a limit of 10Mb on the size of the uploaded code.
+   * Includes the specified code in the job. This can be a single file or a directory containing many files. There is a limit of 10Mb on the size of the uploaded code.
 3. `-f`, `--follow`:
    * Description: If provided, the command will continuously display the output from the job as it runs.
 4. `--wait`

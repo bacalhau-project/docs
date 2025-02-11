@@ -1,3 +1,7 @@
+---
+icon: screwdriver-wrench
+---
+
 # Write a SpecConfig
 
 `SpecConfig` provides a unified structure to specify configurations for various components in Bacalhau, including engines, publishers, and input sources. Its flexible design allows seamless integration with multiple systems like Docker, WebAssembly (Wasm), AWS S3, and local directories, among others.

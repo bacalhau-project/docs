@@ -1,4 +1,8 @@
-# Authentication & authorization
+---
+icon: key
+---
+
+# Authentication & Authorization
 
 ## Authorization and authentication flow
 

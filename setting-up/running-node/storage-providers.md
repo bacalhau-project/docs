@@ -1,6 +1,6 @@
 # Connect Storage
 
-Bacalhau has two ways to make use of external storage providers: Sources and Publishers. **Sources** storage resources consumed as inputs to jobs. And **Publishers** storage resources created with the results of jobs.
+Bacalhau has two ways to make use of external storage providers: Sources and Publishers. **Sources** are storage resources consumed as inputs to jobs. And **Publishers** are storage resources created with the results of jobs.
 
 ## Sources
 
@@ -26,7 +26,7 @@ InputSources:
 {% endtab %}
 
 {% tab title="IPFS" %}
-To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and run it locally, or you can connect to a remote IPFS server.
+To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and [run it locally](private-ipfs-network-setup.md), or you can connect to a remote IPFS server.
 
 In both cases, you should have an [IPFS multiaddress](https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html) for the IPFS server that should look something like this:
 
@@ -38,13 +38,13 @@ export IPFS_CONNECT=/ip4/10.1.10.10/tcp/80/p2p/QmVcSqVEsvm5RR9mBLjwpb2XjFVn5bPdP
 The multiaddress above is just an example - you'll need to get the multiaddress of the IPFS server you want to connect to.
 {% endhint %}
 
-You can then configure your Bacalhau node to use this IPFS server by passing the `--ipfs-connect` argument to the `serve` command:
+You can then configure your Bacalhau node to use this IPFS server by adding the address to the `InputSources.Types.IPFS.Endpoint` configuration key:
 
-```
-bacalhau serve --ipfs-connect $IPFS_CONNECT
+```bash
+bacalhau config set InputSources.Types.IPFS.Endpoint=/ip4/10.1.10.10/tcp/80/p2p/QmVcSqVEsvm5RR9mBLjwpb2XjFVn5bPdPL69mL8PH45pPC
 ```
 
-Or, set the `Node.IPFS.Connect` property in the Bacalhau configuration file. See the [IPFS input source specification](../../references/jobs/job/task/sources/ipfs.md) for more details.
+See the [IPFS input source specification](../../references/jobs/job/task/sources/ipfs.md) for more details.
 
 Below is an example of how to define an IPFS input source in YAML format:
 
@@ -63,10 +63,10 @@ The Local input source allows Bacalhau jobs to access files and directories that
 
 To use a local data source, you will have to to:
 
-1. Enable the use of local data when configuring the node itself by using the `--allow-listed-local-paths` flag for bacalhau serve, specifying the file path and access mode. For example
+1. Enable the use of local data when configuring the node itself by using the `Compute.AllowListedLocalPaths` configuration key, specifying the file path and access mode. For example
 
 ```
-bacalhau serve --allow-listed-local-paths "/etc/config:rw,/etc/*.conf:ro".
+bacalhau config set Compute.AllowListedLocalPaths="/etc/config:rw,/etc/*.conf:ro".
 ```
 
 2. In the job description specify parameters **SourcePath** - the absolute path on the compute node where your data is located and **ReadWrite** - the access mode.
@@ -119,28 +119,9 @@ Publisher:
 {% endtab %}
 
 {% tab title="IPFS" %}
-The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an IPFS server running and a multiaddress for it. Then you'll pass that multiaddress using the `--ipfs-connect` argument to the `serve` command. If you are publishing to a public IPFS node, you can use `bacalhau job get` with no further arguments to download the results. However, you may experience a delay in results becoming available as indexing of new data by public nodes takes time.
+The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an [IPFS server running](private-ipfs-network-setup.md) and a multiaddress for it. Then you'll configure that multiaddress using the `InputSources.Types.IPFS.Endpoint` configuration key. Then you can use `bacalhau job get <job-ID>` with no further arguments to download the results.&#x20;
 
 To use the IPFS publisher you will have to specify **CID** which can be used to access the published content. See the [IPFS publisher specification](../../references/jobs/job/task/publishers/ipfs.md) for more details.
-
-To speed up the download or to retrieve results from a private IPFS node, pass the swarm multiaddress to `bacalhau job get` to download results.
-
-```
-# Set the below environment variable, use the --ipfs-swarm-addrs flag,
-# or set the Node.IPFS.SwarmAddresses config property.
-export BACALHAU_IPFS_SWARM_ADDRESSES=/ip4/.../tcp/5001/p2p/Qmy...
-
-bacalhau job get $JOB_ID
-```
-
-Pass the swarm key to `bacalhau job get` if the IPFS swarm is a private swarm.
-
-<pre><code># Set the below environment variable, use the --ipfs-swarm-key flag,
-# or set the Node.IPFS.SwarmKeyPath config property.
-<strong>export BACALHAU_IPFS_SWARM_KEY=./path/to/swarm.key
-</strong>
-bacalhau job get $JOB_ID
-</code></pre>
 
 And part of the declarative job description with an IPFS publisher will look like this:
 

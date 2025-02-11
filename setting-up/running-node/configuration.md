@@ -1,8 +1,15 @@
 ---
 description: How to configure your Bacalhau node.
+hidden: true
 ---
 
-# Configuration Management
+# (Outdated after v1.5.0) Configuration Management
+
+{% hint style="warning" %}
+Note that in version v1.5.0 the configuration management approach was completely changed.
+
+Check out the [release notes](../../guides/updated-configuration-management.md) to learn about all the changes in configuration management: CLI commands syntax and configuration files management.
+{% endhint %}
 
 Bacalhau employs the [viper](https://github.com/spf13/viper) and [cobra](https://github.com/spf13/cobra) libraries for configuration management. Users can configure their Bacalhau node through a combination of command-line flags, environment variables, and the dedicated configuration file.
 
