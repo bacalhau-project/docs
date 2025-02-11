@@ -8,7 +8,7 @@ Bacalhau has two ways to make use of external storage providers: Sources and Pub
 {% tab title="S3" %}
 Bacalhau allows you to use S3 or any S3-compatible storage service as an input source. Users can specify files or entire prefixes stored in S3 buckets to be fetched and mounted directly into the job execution environment. This capability ensures that your jobs have immediate access to the necessary data. See the [S3 source specification](../../references/jobs/job/task/sources/s3.md) for more details.
 
-To use the S3 source, you will have to to specify the mandatory name of the S3 bucket and the optional parameters Key, Filter, Region, Endpoint, VersionID and ChechsumSHA256.
+To use the S3 source, you will have to specify the mandatory name of the S3 bucket and the optional parameters Key, Filter, Region, Endpoint, VersionID and ChechsumSHA256.
 
 Below is an example of how to define an S3 input source in YAML format:
 
@@ -61,7 +61,7 @@ InputSources:
 {% tab title="Local" %}
 The Local input source allows Bacalhau jobs to access files and directories that are already present on the compute node. This is especially useful for utilizing locally stored datasets, configuration files, logs, or other necessary resources without the need to fetch them from a remote source, ensuring faster job initialization and execution. See the [Local source specification](../../references/jobs/job/task/sources/local.md) for more details.
 
-To use a local data source, you will have to to:
+To use a local data source, you will have to:
 
 1. Enable the use of local data when configuring the node itself by using the `Compute.AllowListedLocalPaths` configuration key, specifying the file path and access mode. For example
 
@@ -87,7 +87,7 @@ InputSources:
 {% tab title="URL" %}
 The URL Input Source provides a straightforward method for Bacalhau jobs to access and incorporate data available over HTTP/HTTPS. By specifying a URL, users can ensure the required data, whether a single file or a web page content, is retrieved and prepared in the job's execution environment, enabling direct and efficient data utilization. See the [URL source specification](../../references/jobs/job/task/sources/url.md) for more details.
 
-To use a URL data source, you will have to to specify only URL parameter, as in the part of the declarative job description below:
+To use a URL data source, you will have to specify only URL parameter, as in the part of the declarative job description below:
 
 ```
 InputSources:
