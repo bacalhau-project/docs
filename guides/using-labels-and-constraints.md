@@ -65,6 +65,8 @@ Bacalhau supports various operators for precise node selection:
 
 #### Basic Constraint Usage
 
+Here are common patterns for submitting jobs with constraints:
+
 ```bash
 # Single constraint
 bacalhau docker run --constraints "env=prod" alpine
@@ -73,10 +75,48 @@ bacalhau docker run --constraints "env=prod" alpine
 bacalhau docker run \
   --constraints "env=prod" \
   --constraints "gpu=true" \
-  nvidia/cuda:11.0-base
+  nvidia/cuda:11.0-base nvidia-smi
+
+# Data processing with specific architecture requirements
+bacalhau docker run \
+  --constraints "arch in (x64,arm64)" \
+  --constraints "mem-gb gt 16" \
+  --constraints "storage-tier!=hdd" \
+  my-data-processing-job
+
+# Common failure scenarios
+bacalhau docker run --constraints "disk=ssd" alpine echo "failed"  # No SSD nodes
+bacalhau docker run --constraints "cpu-cores gt 64" alpine echo "failed"  # Insufficient CPU
 ```
 
-#### Advanced Constraint Patterns
+#### Environment-Specific Patterns
+
+````bash
+# Production workloads
+bacalhau run --constraints "env=prod,data-tier=hot" spark-job
+
+# Development/testing
+bacalhau run --constraints "env=dev" test-runner
+
+# Geographic requirements
+bacalhau run --constraints "region=eu,compliance=gdpr" data-processor
+
+# Multi-zone deployments
+bacalhau run --constraints "zone in (us-east-1a,us-east-1b)" ha-service
+
+### Hardware-Specific Patterns
+
+```bash
+# GPU workloads
+bacalhau run \
+  --constraints "gpu-model=a100" \
+  --constraints "gpu-count gt 1" \
+  llm-training
+
+# High-memory workloads
+bacalhau run --constraints "mem-gb gt 64" in-memory-db
+
+### Advanced Resource Patterns
 
 ```bash
 # Resource requirements
@@ -91,7 +131,7 @@ bacalhau docker run \
   --constraints "region=eu-west" \
   --constraints "zone in (a,b,c)" \
   geo-specific-job
-```
+````
 
 ### Label Management Best Practices
 
@@ -123,13 +163,46 @@ bacalhau serve -c Labels="tier=core,env=prod"
 bacalhau serve -c Labels="tier=edge,env=prod,gpu=true"
 ```
 
+### Label Inheritance and Templates
+
+#### Dynamic Label Assignment
+
+```bash
+# Timestamped labels for rotation
+bacalhau serve -c Labels="deploy-group=$(date +%Y-%m)"
+
+# Environment-based inheritance
+bacalhau serve -c Labels="infra-tier=core,env=prod"
+bacalhau serve -c Labels="infra-tier=edge,env=prod,gpu=true"
+```
+
+#### Constraint Composition
+
+```bash
+# AND logic (all must match)
+bacalhau run \
+  --constraints "storage=ssd" \
+  --constraints "cpu-arch=x64" \
+  high-performance-job
+
+# OR logic with value lists
+bacalhau run \
+  --constraints "zone in (us-east1,us-west2)" \
+  multi-region-job
+
+# Exclusion patterns
+bacalhau run \
+  --constraints "maintenance!=true" \
+  time-sensitive-job
+```
+
 ### Maintenance and Operations
 
 #### Node Updates
 
 ```bash
-# Exclude nodes labeled for maintenance nodes
-bacalhau job run --constraints "!maintenance" critical-job.yaml
+# Exclude maintenance nodes
+bacalhau run --constraints "!maintenance" critical-job
 ```
 
 #### Monitoring and Troubleshooting
@@ -150,7 +223,7 @@ bacalhau job describe JOB_ID --include-events
 # Ensure compliance requirements
 bacalhau run \
   --constraints "security=hipaa" \
-  --constraints "keypair-present=abc-key-pair" \
+  --constraints "encryption=enabled" \
   sensitive-data-job
 
 # Network isolation
@@ -162,7 +235,23 @@ bacalhau run \
 
 ### Advanced Use Cases
 
-#### Resource Optimization
+#### Multi-Dimensional Constraints
+
+````bash
+# Complex GPU requirements
+bacalhau run \
+  --constraints "gpu-brand=nvidia" \
+  --constraints "gpu-mem-gb gt 24" \
+  --constraints "gpu-count >= 2" \
+  rendering-job
+
+# Security-hardened environments
+bacalhau run \
+  --constraints "security-profile=hipaa" \
+  --constraints "encryption=on" \
+  sensitive-data-job
+
+### Resource Optimization
 
 ```bash
 # Cost-optimized scheduling
@@ -176,9 +265,24 @@ bacalhau run \
   --constraints "storage-type=nvme" \
   --constraints "network-speed gt 10" \
   latency-sensitive-job
-```
+````
 
 #### Multi-team Coordination
+
+````bash
+# Label deprecation management
+bacalhau serve -c Labels="legacy-system=phase-out,retirement-date=2025-Q1"
+
+# Team resource allocation
+bacalhau run \
+  --constraints "team=(data,research)" \
+  --constraints "project=genomics-2024" \
+  shared-resource-job
+
+# Validation workflows
+bacalhau job validate --constraints "gpu-type=a100" job-spec.yaml
+
+### Capacity Planning
 
 ```bash
 # Shared resource access
@@ -186,7 +290,7 @@ bacalhau run \
   --constraints "team in (research,engineering)" \
   --constraints "project=genomics-2024" \
   shared-resource-job
-```
+````
 
 ### Troubleshooting Common Issues
 
