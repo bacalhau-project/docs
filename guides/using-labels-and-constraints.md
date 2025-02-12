@@ -1,3 +1,7 @@
+---
+icon: tags
+---
+
 # Using Labels and Constraints
 
 This guide provides a comprehensive overview of Bacalhau's label and constraint system, which enables fine-grained control over job scheduling and resource allocation.
