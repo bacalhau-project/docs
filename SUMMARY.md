@@ -26,7 +26,7 @@
   * [Job selection policy](setting-up/running-node/job-selection.md)
   * [Access Management](setting-up/running-node/auth.md)
   * [Node persistence](setting-up/running-node/persistence.md)
-  * [Connect Storage](setting-up/running-node/storage-providers.md)
+  * [Configuring Your Input Sources](setting-up/running-node/storage-providers.md)
   * [(Outdated after v1.5.0) Configuration Management](setting-up/running-node/configuration.md)
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
   * [Limits and Timeouts](setting-up/running-node/resource-limits.md)
