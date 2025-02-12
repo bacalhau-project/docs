@@ -67,6 +67,7 @@
 * [Configuration Management](guides/configuration-management.md)
 * [Write a config.yaml](guides/write-a-config.yaml.md)
 * [Write a SpecConfig](guides/spec-config.md)
+* [Using Labels and Constraints](guides/using-labels-and-constraints.md)
 
 ## Examples
 
