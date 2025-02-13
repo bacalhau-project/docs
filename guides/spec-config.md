@@ -8,63 +8,6 @@ icon: screwdriver-wrench
 
 A job specification defines how Bacalhau should execute your workload. This guide provides a complete reference of all supported options, configurations, and their valid values.
 
-### Supported Values
-
-#### Job Types
-
-* `batch`: Run once and complete
-* `service`: Run continuously with specified replica count
-* `daemon`: Run continuously on all matching nodes
-* `ops`: Run once on all matching nodes
-
-#### Engine Types
-
-* `docker`: Docker container execution
-* `wasm`: WebAssembly module execution
-
-#### Storage Types
-
-* `ipfs`: IPFS content
-* `s3`: Amazon S3 storage
-* `local`: Local filesystem
-* `urlDownload`: HTTP/HTTPS URLs
-* `s3PreSigned`: Pre-signed S3 URLs
-* `inline`: Inline content
-
-#### Network Types
-
-* `none`: No network access (default)
-* `http`: Limited HTTP/HTTPS access
-* `full`: Unrestricted network access
-
-#### Publisher Types
-
-* `ipfs`: Publish to IPFS
-* `s3`: Upload to S3
-* `local`: Store locally
-* `noop`: Discard results
-
-#### Result Types
-
-* `file`: Single file output
-* `directory`: Directory of files
-* `stdout`: Standard output
-* `stderr`: Standard error
-* `exitCode`: Process exit code
-
-#### Compression Types
-
-* `none`: No compression
-* `gzip`: GZIP compression
-* `zstd`: Zstandard compression
-
-#### Format Types
-
-* `raw`: Binary data
-* `text`: Plain text
-* `json`: JSON data
-* `csv`: CSV data
-
 ### Basic Structure
 
 A job specification is a JSON document with the following structure:
@@ -94,25 +37,16 @@ A job specification is a JSON document with the following structure:
 
 #### Job Level Fields
 
-| Field       | Type    | Required | Default   | Valid Values                        |
-| ----------- | ------- | -------- | --------- | ----------------------------------- |
-| `Name`      | string  | Yes      | -         | Alphanumeric with `-` and `_`       |
-| `Type`      | string  | Yes      | `batch`   | `batch`, `service`, `daemon`, `ops` |
-| `Count`     | integer | No       | 1         | 1 or greater                        |
-| `Priority`  | integer | No       | 0         | 0-100                               |
-| `Namespace` | string  | No       | `default` | Valid DNS label                     |
-| `Labels`    | object  | No       | `{}`      | Key-value string pairs              |
-| `Meta`      | object  | No       | `{}`      | Key-value string pairs              |
-| `Tasks`     | array   | Yes      | -         | Array of task objects               |
+<table><thead><tr><th>Field</th><th>Type</th><th width="113">Required</th><th width="173">Default</th><th>Valid Values</th></tr></thead><tbody><tr><td><code>Name</code></td><td>string</td><td>Yes</td><td>-</td><td>Alphanumeric with <code>-</code> and <code>_</code></td></tr><tr><td><code>Type</code></td><td>string</td><td>Yes</td><td><code>batch</code></td><td><code>batch</code>, <code>service</code>, <code>daemon</code>, <code>ops</code></td></tr><tr><td><code>Count</code></td><td>integer</td><td>No</td><td>1</td><td>1 or greater</td></tr><tr><td><code>Priority</code></td><td>integer</td><td>No</td><td>0</td><td>0-100</td></tr><tr><td><code>Namespace</code></td><td>string</td><td>No</td><td><code>default</code></td><td>Valid DNS label</td></tr><tr><td><code>Labels</code></td><td>object</td><td>No</td><td><code>{}</code></td><td>Key-value string pairs</td></tr><tr><td><code>Tasks</code></td><td>array</td><td>Yes</td><td>-</td><td>Array of task objects</td></tr></tbody></table>
 
-#### Task Level Fields
+#### Types
 
-| Field   | Required | Description                         | Edge Cases                                                                              |
-| ------- | -------- | ----------------------------------- | --------------------------------------------------------------------------------------- |
-| `Name`  | Yes      | Job identifier                      | Must be unique within namespace. Avoid spaces and special characters except `-` and `_` |
-| `Type`  | Yes      | Job type (batch/service/daemon/ops) | Services without proper health checks may restart continuously                          |
-| `Count` | No       | Number of replicas                  | For batch jobs, each replica runs once. For services, maintains Count running replicas  |
-| `Tasks` | Yes      | Array of task definitions           | Order matters for multi-task jobs. First task failure stops subsequent tasks            |
+These are the types of jobs:
+
+* `batch`: Run once and complete
+* `service`: Run continuously with specified replica count
+* `daemon`: Run continuously on all matching nodes
+* `ops`: Run once on all matching nodes
 
 ### Task Configuration
 
@@ -122,32 +56,24 @@ Tasks define the actual work to be performed. Each task requires:
 2. Resource requirements (what it needs)
 3. Data handling (inputs/outputs)
 
+Inside tasks, there are a number of fields.&#x20;
+
 #### Task Level Fields
 
-| Field          | Type   | Required | Default            | Valid Values                  |
-| -------------- | ------ | -------- | ------------------ | ----------------------------- |
-| `Name`         | string | Yes      | -                  | Alphanumeric with `-` and `_` |
-| `Engine`       | object | Yes      | -                  | Engine configuration          |
-| `Resources`    | object | Yes      | -                  | Resource requirements         |
-| `InputSources` | array  | No       | `[]`               | Array of input sources        |
-| `ResultPaths`  | array  | No       | `[]`               | Array of result paths         |
-| `Network`      | object | No       | `{"Type": "none"}` | Network configuration         |
-| `Timeouts`     | object | No       | -                  | Timeout settings              |
-| `Env`          | object | No       | `{}`               | Key-value string pairs        |
-| `Meta`         | object | No       | `{}`               | Key-value string pairs        |
+<table><thead><tr><th width="178">Field</th><th>Type</th><th>Required</th><th>Default</th><th>Valid Values</th></tr></thead><tbody><tr><td><code>Name</code></td><td>string</td><td>Yes</td><td>-</td><td>Alphanumeric with <code>-</code> and <code>_</code></td></tr><tr><td><code>Engine</code></td><td>object</td><td>Yes</td><td>-</td><td>Engine configuration</td></tr><tr><td><code>Resources</code></td><td>object</td><td>Yes</td><td>-</td><td>Resource requirements</td></tr><tr><td><code>InputSources</code></td><td>array</td><td>No</td><td><code>[]</code></td><td>Array of input sources</td></tr><tr><td><code>ResultPaths</code></td><td>array</td><td>No</td><td><code>[]</code></td><td>Array of result paths</td></tr><tr><td><code>Network</code></td><td>object</td><td>No</td><td><code>{"Type": "none"}</code></td><td>Network configuration</td></tr><tr><td><code>Timeouts</code></td><td>object</td><td>No</td><td>-</td><td>Timeout settings</td></tr><tr><td><code>Env</code></td><td>object</td><td>No</td><td><code>{}</code></td><td>Key-value string pairs</td></tr><tr><td><code>Meta</code></td><td>object</td><td>No</td><td><code>{}</code></td><td>Key-value string pairs</td></tr></tbody></table>
+
+Additionally, there are sub-fields to fill in.
+
+#### Engine Types
+
+* `docker`: Docker container execution
+* `wasm`: WebAssembly module execution
 
 #### Engine Configuration
 
 **Docker Engine Parameters**
 
-| Parameter              | Type   | Required | Description           |
-| ---------------------- | ------ | -------- | --------------------- |
-| `Image`                | string | Yes      | Docker image name     |
-| `Entrypoint`           | array  | No       | Container entrypoint  |
-| `Parameters`           | array  | No       | Command parameters    |
-| `WorkingDirectory`     | string | No       | Working directory     |
-| `EnvironmentVariables` | object | No       | Environment variables |
-| `Ports`                | array  | No       | Port mappings         |
+<table><thead><tr><th width="262">Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>Image</code></td><td>string</td><td>Yes</td><td>Docker image name</td></tr><tr><td><code>Entrypoint</code></td><td>array</td><td>No</td><td>Container entrypoint</td></tr><tr><td><code>Parameters</code></td><td>array</td><td>No</td><td>Command parameters</td></tr><tr><td><code>WorkingDirectory</code></td><td>string</td><td>No</td><td>Working directory</td></tr><tr><td><code>EnvironmentVariables</code></td><td>object</td><td>No</td><td>Environment variables</td></tr><tr><td><code>Ports</code></td><td>array</td><td>No</td><td>Port mappings</td></tr></tbody></table>
 
 Example:
 
@@ -175,12 +101,7 @@ Common Edge Cases:
 
 **WASM Engine Parameters**
 
-| Parameter              | Type   | Required | Description            |
-| ---------------------- | ------ | -------- | ---------------------- |
-| `EntryModule`          | string | Yes      | WASM module path       |
-| `EntryPoint`           | string | Yes      | Exported function name |
-| `Parameters`           | array  | No       | Function arguments     |
-| `EnvironmentVariables` | object | No       | Environment variables  |
+<table><thead><tr><th width="257">Parameter</th><th>Type</th><th width="81">Required</th><th>Description</th></tr></thead><tbody><tr><td><code>EntryModule</code></td><td>string</td><td>Yes</td><td>WASM module path</td></tr><tr><td><code>EntryPoint</code></td><td>string</td><td>Yes</td><td>Exported function name</td></tr><tr><td><code>Parameters</code></td><td>array</td><td>No</td><td>Function arguments</td></tr><tr><td><code>EnvironmentVariables</code></td><td>object</td><td>No</td><td>Environment variables</td></tr></tbody></table>
 
 Example:
 
@@ -198,28 +119,32 @@ Example:
 }
 ```
 
-Common Edge Cases:
+#### Storage Types
 
-* WASM modules must explicitly export entry point function
-* Memory limits must be within node capabilities
-* Binary data handling requires careful type conversion
+* `ipfs`: IPFS content (you must provide your own IPFS endpoint)
+* `s3`: Amazon S3 storage
+* `local`: Local filesystem
+* `urlDownload`: HTTP/HTTPS URLs
+* `s3PreSigned`: Pre-signed S3 URLs
+
+#### Network Types
+
+* `none`: No network access (default)
+* `http`: Limited HTTP/HTTPS access
+* `full`: Unrestricted network access
+
+#### Publisher Types
+
+* `ipfs`: Publish to IPFS
+* `s3`: Upload to S3
+* `local`: Store locally
+* `noop`: Discard results
 
 #### Resource Requirements
 
 **Resource Fields**
 
-| Field    | Type   | Required | Format      | Range            |
-| -------- | ------ | -------- | ----------- | ---------------- |
-| `CPU`    | string | Yes      | Decimal     | 0.1 to 128.0     |
-| `Memory` | string | Yes      | Size + Unit | 1MB to node max  |
-| `Disk`   | string | Yes      | Size + Unit | 10MB to node max |
-| `GPU`    | string | No       | Integer     | 0 to node max    |
-
-Units:
-
-* Memory/Disk: B, KB, MB, GB, TB
-* CPU: Decimal cores (e.g., "0.5", "2.0")
-* GPU: Whole numbers only
+<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Format</th><th width="179">Range</th></tr></thead><tbody><tr><td><code>CPU</code></td><td>string</td><td>Yes</td><td>Decimal</td><td>0.1 to node max</td></tr><tr><td><code>Memory</code></td><td>string</td><td>Yes</td><td>Size + Unit</td><td>1MB to node max</td></tr><tr><td><code>Disk</code></td><td>string</td><td>Yes</td><td>Size + Unit</td><td>10MB to node max</td></tr><tr><td><code>GPU</code></td><td>string</td><td>No</td><td>Integer</td><td>0 to node max</td></tr></tbody></table>
 
 Example:
 
@@ -232,42 +157,11 @@ Example:
 }
 ```
 
-* CPU can be fractional (e.g., "0.1" to "128.0")
-* Memory/Disk require units (B, KB, MB, GB, TB)
-* GPU allocation is integer-only
-* Over-requesting resources reduces node availability
-
-Edge Cases:
-
-1.  Minimum Allocations
-
-    ```json
-    "Resources": {
-      "CPU": "0.1",    // Minimum CPU allocation
-      "Memory": "1MB",  // Minimum memory allocation
-      "Disk": "10MB"   // Minimum disk allocation
-    }
-    ```
-2.  Maximum Values
-
-    ```json
-    "Resources": {
-      "CPU": "128",      // Maximum varies by node
-      "Memory": "256GB",  // Node dependent
-      "GPU": "8"         // Must match node capacity
-    }
-    ```
-
 #### Data Handling
 
 **Input Source Fields**
 
-| Field           | Type   | Required | Description                                               |
-| --------------- | ------ | -------- | --------------------------------------------------------- |
-| `Source.Type`   | string | Yes      | One of: ipfs, s3, local, urlDownload, s3PreSigned, inline |
-| `Source.Params` | object | Yes      | Source-specific parameters                                |
-| `Target`        | string | Yes      | Absolute mount path                                       |
-| `Alias`         | string | No       | Friendly identifier                                       |
+<table><thead><tr><th>Field</th><th width="94">Type</th><th width="108">Required</th><th>Description</th></tr></thead><tbody><tr><td><code>Source.Type</code></td><td>string</td><td>Yes</td><td>One of: ipfs, s3, local, urlDownload, s3PreSigned, inline</td></tr><tr><td><code>Source.Params</code></td><td>object</td><td>Yes</td><td>Source-specific parameters</td></tr><tr><td><code>Target</code></td><td>string</td><td>Yes</td><td>Absolute mount path</td></tr><tr><td><code>Alias</code></td><td>string</td><td>No</td><td>Friendly identifier</td></tr></tbody></table>
 
 **Source Type Parameters**
 
@@ -329,159 +223,20 @@ Example:
 ]
 ```
 
-Common Pitfalls:
-
-* Target paths must be absolute
-* Parent directories must exist
-* Path collisions between sources
-* Missing access permissions
-
-Edge Cases:
-
-1.  Multiple Source Types
-
-    ```json
-    "InputSources": [
-      {
-        "Source": {"Type": "ipfs", ...},
-        "Target": "/inputs/data1"
-      },
-      {
-        "Source": {"Type": "s3", ...},
-        "Target": "/inputs/data2"
-      }
-    ]
-    ```
-2.  Inline Content with Special Characters
-
-    ```json
-    "Source": {
-      "Type": "inline",
-      "Params": {
-        "Content": "#!/bin/bash\necho \"Special chars: $PATH\""
-      }
-    }
-    ```
-
-**Result Path Fields**
-
-| Field              | Type    | Required | Description                                       |
-| ------------------ | ------- | -------- | ------------------------------------------------- |
-| `Name`             | string  | Yes      | Result identifier                                 |
-| `Path`             | string  | Yes      | Absolute path                                     |
-| `Type`             | string  | Yes      | One of: file, directory, stdout, stderr, exitCode |
-| `Format`           | string  | No       | One of: raw, text, json, csv                      |
-| `Compression`      | string  | No       | One of: none, gzip, zstd                          |
-| `CompressionLevel` | integer | No       | Compression level (1-9)                           |
-
-Example:
+This can accept multiple sources - for example:
 
 ```json
-"ResultPaths": [
+"InputSources": [
   {
-    "Name": "output",
-    "Path": "/outputs/results",
-    "Type": "directory",
-    "Format": "raw",
-    "Compression": "zstd",
-    "CompressionLevel": 3
+    "Source": {"Type": "ipfs", ...},
+    "Target": "/inputs/data1"
+  },
+  {
+    "Source": {"Type": "s3", ...},
+    "Target": "/inputs/data2"
   }
 ]
 ```
-
-Important Considerations:
-
-* Missing output paths fail the job
-* Large outputs need compression
-* Some formats require specific file extensions
-* Path patterns support wildcards
-
-Edge Cases:
-
-1.  Special File Types
-
-    ```json
-    "ResultPaths": [
-      {
-        "Name": "stdout",
-        "Path": "/stdout",
-        "Type": "file"
-      },
-      {
-        "Name": "core",
-        "Path": "/core.*",
-        "Type": "file"
-      }
-    ]
-    ```
-2.  Compression Levels
-
-    ```json
-    "ResultPaths": [
-      {
-        "Name": "data",
-        "Path": "/data",
-        "Type": "directory",
-        "Compression": "zstd",
-        "CompressionLevel": 3
-      }
-    ]
-    ```
-
-### Advanced Configurations
-
-#### Job Types and Behaviors
-
-1.  Batch Jobs
-
-    ```json
-    {
-      "Type": "batch",
-      "Count": 5,
-      "ExecutionPlan": "parallel"
-    }
-    ```
-
-    Edge Cases:
-
-    * Partial completion handling
-    * Resource competition
-    * Output collisions
-2.  Service Jobs
-
-    ```json
-    {
-      "Type": "service",
-      "Count": 3,
-      "UpdateStrategy": {
-        "Type": "rolling",
-        "MaxUnavailable": 1
-      }
-    }
-    ```
-
-    Edge Cases:
-
-    * Network port conflicts
-    * State persistence
-    * Update coordination
-3.  Daemon Jobs
-
-    ```json
-    {
-      "Type": "daemon",
-      "RestartPolicy": {
-        "Mode": "always",
-        "MaxAttempts": 5
-      }
-    }
-    ```
-
-    Edge Cases:
-
-    * Node failure handling
-    * Resource cleanup
-    * State recovery
 
 #### Network Configuration
 
@@ -499,35 +254,6 @@ Edge Cases:
 }
 ```
 
-Edge Cases:
-
-1. Domain Resolution
-   * Wildcards and subdomains
-   * IP address ranges
-   * Internal service discovery
-2.  Network Isolation
-
-    ```json
-    "Network": {
-      "Type": "none",
-      "AllowLoopback": true
-    }
-    ```
-3.  Complex Routing
-
-    ```json
-    "Network": {
-      "Type": "http",
-      "Domains": ["*.service.local"],
-      "Routes": [
-        {
-          "Match": "service.local",
-          "Target": "internal.svc.cluster"
-        }
-      ]
-    }
-    ```
-
 #### Timeout Configuration
 
 ```json
@@ -538,120 +264,23 @@ Edge Cases:
 }
 ```
 
-Edge Cases:
-
-1.  Long-Running Jobs
-
-    ```json
-    "Timeouts": {
-     "ExecutionTimeout": 0,     // No timeout
-     "QueueTimeout": 3600,      // 1 hour queue
-     "TotalTimeout": 2592000    // 30 days total
-    }
-    ```
-2.  Quick-Fail Jobs
-
-    ```json
-    "Timeouts": {
-     "ExecutionTimeout": 60,    // 1 minute execution
-     "QueueTimeout": 10,        // 10 seconds queue
-     "TotalTimeout": 70         // 70 seconds total
-    }
-    ```
-
-### Common Patterns and Anti-Patterns
-
-#### Good Patterns
-
-1.  Resource Gradual Scaling
-
-    ```json
-    {
-      "Name": "gradual-scale",
-      "Type": "batch",
-      "Count": 1,
-      "Tasks": [{
-        "Resources": {
-          "CPU": "0.5",
-          "Memory": "512MB"
-        },
-        "Timeouts": {
-          "ExecutionTimeout": 300
-        }
-      }]
-    }
-    ```
-2.  Proper Error Handling
-
-    ```json
-    {
-      "Name": "robust-job",
-      "Type": "batch",
-      "ErrorHandling": {
-        "MaxAttempts": 3,
-        "OnFailure": "retry",
-        "BackoffStrategy": "exponential"
-      }
-    }
-    ```
-
-#### Anti-Patterns
-
-1.  Over-Provisioning
-
-    ```json
-    // Bad: Requesting more than needed
-    "Resources": {
-      "CPU": "8",
-      "Memory": "16GB",
-      "GPU": "1"
-    }
-    ```
-2.  Insufficient Timeouts
-
-    ```json
-    // Bad: Too tight timeouts
-    "Timeouts": {
-      "ExecutionTimeout": 60,
-      "QueueTimeout": 10
-    }
-    ```
-
 ### Validation and Testing
 
 #### Pre-Submission Validation
+
+You can test your job schema by running the `validate`command. E.g.
 
 ```bash
 bacalhau validate job.json
 ```
 
-Common Issues:
-
-1. Schema Validation
-   * Missing required fields
-   * Invalid field types
-   * Unknown properties
-2. Resource Validation
-   * Invalid resource quantities
-   * Incompatible combinations
-   * Exceeded limits
-3. Network Validation
-   * Invalid domain patterns
-   * Port conflicts
-   * Policy violations
-
 #### Test Runs
+
+Bacalhau also supports `--dry-run`for testing, though this is only done locally. It does not test against the network.
 
 ```bash
 bacalhau run --dry-run job.json
 ```
-
-This helps catch:
-
-* Resource availability issues
-* Network access problems
-* Input source validity
-* Publisher configuration errors
 
 ### Troubleshooting Guide
 
@@ -678,21 +307,3 @@ This helps catch:
     ```
 
     Solution: Adjust timeouts or optimize job
-
-#### Debug Techniques
-
-1.  Resource Monitoring
-
-    ```bash
-    bacalhau job inspect <job-id> --resources
-    ```
-2.  Network Diagnostics
-
-    ```bash
-    bacalhau job logs <job-id> --network
-    ```
-3.  State Inspection
-
-    ```bash
-    bacalhau job describe <job-id> --events
-    ```
