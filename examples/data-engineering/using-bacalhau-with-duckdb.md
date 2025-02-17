@@ -19,11 +19,7 @@ To get started, you need to install the Bacalhau client, see more information [h
 
 We will be using Bacalhau setup with the standard [setting up Bacalhau network](https://docs.bacalhau.org/getting-started/create-private-network).
 
-{% include "../../.gitbook/includes/we-recommend-using-expanso-... (1).md" %}
-
 We will also need to have a server with some data to run the query on. In this example, we will use a server with the Yellow Taxi Trips dataset.
-
-
 
 {% hint style="info" %}
 If you do not already have this data on your server, you can download it using the scripts in the `prep_data` directory. The command to download the data is `./prep_data/run_download_jobs.sh` - and you must have the `/bacalhau_data` directory on your server.&#x20;

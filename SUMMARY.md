@@ -154,7 +154,6 @@
     * [Job](references/cli-reference/cli/job/README.md)
       * [Job Overview](references/cli-reference/cli/job/index.md)
       * [Job Describe](references/cli-reference/cli/job/index-1.md)
-      * [Job Exec](references/cli-reference/cli/job/index-2.md)
       * [Job Executions](references/cli-reference/cli/job/index-3.md)
       * [Job History](references/cli-reference/cli/job/index-4.md)
       * [Job List](references/cli-reference/cli/job/index-5.md)

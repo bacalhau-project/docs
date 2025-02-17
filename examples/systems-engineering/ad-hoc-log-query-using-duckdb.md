@@ -32,8 +32,6 @@ JobAdmissionControl:
   AcceptNetworkedJobs: true
 ```
 
-{% include "../../.gitbook/includes/we-recommend-using-expanso-... (1).md" %}
-
 ***
 
 ### 1. Run a DuckDB job on Bacalhau

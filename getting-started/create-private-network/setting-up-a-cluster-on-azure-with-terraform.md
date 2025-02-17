@@ -17,8 +17,6 @@ You'll need a few things ready:
 * Your subscription ID handy
 * An SSH key pair for securely accessing your nodes
 
-{% include "../../.gitbook/includes/we-recommend-using-expanso-... (1).md" %}
-
 ### Quick Setup Guide
 
 1.  First, create a `terraform.tfvars.json` file with your Azure details:

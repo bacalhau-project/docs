@@ -41,8 +41,6 @@ JobAdmissionControl:
   AcceptNetworkedJobs: true
 ```
 
-{% include "../../.gitbook/includes/we-recommend-using-expanso-... (1).md" %}
-
 ### Components
 
 1. **DuckDB Processing**: Process and analyze data using DuckDB's SQL capabilities

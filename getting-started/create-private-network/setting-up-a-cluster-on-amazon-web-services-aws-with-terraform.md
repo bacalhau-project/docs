@@ -17,8 +17,6 @@ You'll need a few things ready:
 * An SSH key pair for securely accessing your nodes
 * A Bacalhau network
 
-{% include "../../.gitbook/includes/we-recommend-using-expanso-... (1).md" %}
-
 ### Quick Setup Guide
 
 1. First, set up an orchestrator node. We recommend using [Expanso Cloud](https://cloud.expanso.io/) for this! But you can always set up your own - follow the instructions [here](https://docs.bacalhau.org/getting-started/create-private-network#start-initial-orchestrator-node).
