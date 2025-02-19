@@ -1,11 +1,10 @@
 ---
-description: How to use the Bacalhau Docker image
+description: How to use Bacalhau Docker Image for task management
 ---
 
 # Bacalhau Docker Image
 
-This documentation explains how to use the Bacalhau Docker image to run tasks and manage them using the Bacalhau client.
-
+This documentation explains how to use the Bacalhau Docker image for task management with Bacalhau client.
 ## Prerequisites
 
 To get started, you need to install the Bacalhau client (see more information [here](../../../getting-started/installation/)) and Docker.
@@ -31,37 +30,30 @@ ghcr.io/bacalhau-project/bacalhau:latest
 
 You can also pull a specific version of the image, e.g.:
 
-```bash
-docker pull ghcr.io/bacalhau-project/bacalhau:v0.3.16
+```
+docker pull ghcr.io/bacalhau-project/bacalhau:v1.6.0
 ```
 
-{% hint style="warning" %}
-Remember that the "latest" tag is just a string. It doesn't refer to the latest version of the Bacalhau client, it refers to an image that has the "latest" tag. Therefore, if your machine has already downloaded the "latest" image, it won't download it again. To force a download, you can use the `--no-cache` flag.
-{% endhint %}
-
-## 2. Check version
-
-To check the version of the Bacalhau client, run:
+## 1. Check the version of Bacalhau client
 
 ```bash
 docker run -t ghcr.io/bacalhau-project/bacalhau:latest version
 ```
 
-Expected Output:
+The output is similar to:
 
 ```shell
-13:38:54.518 | INF pkg/repo/fs.go:81 > Initializing repo at '/root/.bacalhau' for environment 'production'
-CLIENT  SERVER  UPDATE MESSAGE
-v1.2.0  v1.2.0
+12:00:32.427 | INF pkg/repo/fs.go:93 > Initializing repo at '/root/.bacalhau' for environment 'production'
+CLIENT  SERVER  UPDATE MESSAGE 
+v1.3.0  v1.4.0                 
 ```
 
-## 3. Running a Bacalhau Job
+## 2. Run a Bacalhau Job
 
-In the example below, an Ubuntu-based job runs to print the message 'Hello from Docker Bacalhau':
+For example to run an Ubuntu-based job that prints the message 'Hello from Docker Bacalhau':
 
 ```shell
-docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
-    docker run \
+bacalhau docker run \
         --id-only \
         --wait \
         ubuntu:latest \
@@ -70,47 +62,75 @@ docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
 
 ### Structure of the command
 
-1. `ghcr.io/bacalhau-project/bacalhau:latest` : Name of the Bacalhau Docker image
-2. `--id-only`: Output only the job id
-3. `--wait`: Wait for the job to finish
-4. `ubuntu:latest.` Ubuntu container
-5. `--`: Separate Bacalhau parameters from the command to be executed inside the container
-6. `sh -c 'uname -a && echo "Hello from Docker Bacalhau!"'`: The command executed inside the container
+1. `--id-only`: Output only the job id
+2. `--wait`: Wait for the job to finish
+3. `ubuntu:latest.` Ubuntu container
+4. `--`: Separate Bacalhau parameters from the command to be executed inside the container
+5. `sh -c 'uname -a && echo "Hello from Docker Bacalhau!"'`: The command executed inside the container
 
-Let's have a look at the command execution in the terminal:
-
-```shell
-13:53:46.478 | INF pkg/repo/fs.go:81 > Initializing repo at '/root/.bacalhau' for environment 'production'
-ab95a5cc-e6b7-40f1-957d-596b02251a66
-```
-
-The output you're seeing is in two parts: **The first line:** `13:53:46.478 | INF pkg/repo/fs.go:81 > Initializing repo at '/root/.bacalhau' for environment 'production'` is an informational message indicating the initialization of a repository at the specified directory `('/root/.bacalhau')` for the `production` environment. **The second line:** `ab95a5cc-e6b7-40f1-957d-596b02251a66` is a `job ID`, which represents the result of executing a command inside a Docker container. It can be used to obtain additional information about the executed job or to access the job's results. We store that in an environment variable so that we can reuse it later on (env: `JOB_ID=ab95a5cc-e6b7-40f1-957d-596b02251a66`)
-
-To print out the **content of the Job ID**, run the following command:
-
-```
-docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
-    describe ab95a5cc-e6b7-40f1-957d-596b02251a66 \
-        | grep -A 2 "stdout: |"
-```
-
-Expected Output:
+The command execution in the terminal is similar to:
 
 ```shell
-stdout: |
-        Linux fff680719453 6.2.0-1019-gcp #21~22.04.1-Ubuntu SMP Thu Nov 16 18:18:34 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
-        Hello from Docker Bacalhau!
+j-6ffd54b8-e992-498f-9ee9-766ab09d5daa
 ```
 
-## 4. Submit a Job With Output Files
+`j-6ffd54b8-e992-498f-9ee9-766ab09d5daa` is a `job ID`, which represents the result of executing a command inside a Docker container. It can be used to obtain additional information about the executed job or to access the job's results. We store that in an environment variable so that we can reuse it later on (env: `JOB_ID=j-6ffd54b8-e992-498f-9ee9-766ab09d5daa`)
 
-One inconvenience that you'll see is that you'll need to mount directories into the container to access files. This is because the container is running in a separate environment from your host machine. Let's take a look at the example below:
+To print the **content of the Job ID**, execute the following command:
 
-The first part of the example should look familiar, except for the Docker commands.
+```
+bacalhau job describe j-6ffd54b8-e992-498f-9ee9-766ab09d5daa
+```
+
+The output is similar to:
 
 ```shell
-docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
-    docker run \
+ID            = j-6ffd54b8-e992-498f-9ee9-766ab09d5daa
+Name          = j-6ffd54b8-e992-498f-9ee9-766ab09d5daa
+Namespace     = default
+Type          = batch
+State         = Completed
+Count         = 1
+Created Time  = 2024-09-08 14:33:19
+Modified Time = 2024-09-08 14:33:20
+Version       = 0
+
+Summary
+Completed = 1
+
+Job History
+ TIME                 REV.  STATE      TOPIC       EVENT         
+ 2024-09-08 14:33:19  1     Pending    Submission  Job submitted 
+ 2024-09-08 14:33:19  2     Running                              
+ 2024-09-08 14:33:20  3     Completed                            
+
+Executions
+ ID          NODE ID     STATE      DESIRED  REV.  CREATED     MODIFIED    COMMENT      
+ e-bd5746b8  n-e002001e  Completed  Stopped  6     27m21s ago  27m21s ago  Accepted job 
+
+Execution e-bd5746b8 History
+ TIME                 REV.  STATE              TOPIC            EVENT        
+ 2024-09-08 14:33:19  1     New                                              
+ 2024-09-08 14:33:19  2     AskForBid                                        
+ 2024-09-08 14:33:19  3     AskForBidAccepted  Requesting Node  Accepted job 
+ 2024-09-08 14:33:19  4     AskForBidAccepted                                
+ 2024-09-08 14:33:19  5     BidAccepted                                      
+ 2024-09-08 14:33:20  6     Completed                                        
+
+Standard Output
+Linux 7d5c3dcc7fc2 6.5.0-1024-gcp #26~22.04.1-Ubuntu SMP Fri Jun 14 18:48:45 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+Hello from Docker Bacalhau!
+
+```
+
+## 3. Submit a Job With Output Files
+
+You always need to mount directories into the container to access files. This is because the container is running in a separate environment from your host machine.
+
+The first part of this example should look familiar, except for the Docker commands.
+
+```shell
+bacalhau docker run \                                   
         --id-only \
         --wait \
         --gpu 1 \
@@ -118,29 +138,26 @@ docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
             python main.py --o ./outputs --p "A Docker whale and a cod having a conversation about the state of the ocean"
 ```
 
-When a job is submitted, Bacalhau prints out the related `job_id` (`a46a9aa9-63ef-486a-a2f8-6457d7bafd2e`):
+When a job is submitted, Bacalhau prints the related `job_id` (`j-da29a804-3960-4667-b6e5-73f05e120117`):
 
 ```shell
-09:05:58.434 | INF pkg/repo/fs.go:81 > Initializing repo at '/root/.bacalhau' for environment 'production'
-a46a9aa9-63ef-486a-a2f8-6457d7bafd2e
+j-da29a804-3960-4667-b6e5-73f05e120117
 ```
 
-## 5. Checking the State of your Jobs
+## 4. Check the State of your Jobs
 
 **Job status**: You can check the status of the job using `bacalhau job list`.
 
 ```bash
-docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
-    list $JOB_ID \
+bacalhau job list
 ```
 
-When it says `Completed`, that means the job is done, and we can get the results.
+When it reads `Completed`, that means the job is done, and you can get the results.
 
 **Job information**: You can find out more information about your job by using `bacalhau job describe`.
 
 ```bash
-docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
-    describe $JOB_ID \
+bacalhau job describe j-da29a804-3960-4667-b6e5-73f05e120117
 ```
 
 **Job download**: You can download your job results directly by using `bacalhau job get`. Alternatively, you can choose to create a directory to store your results. In the command below, we created a directory and downloaded our job output to be stored in the `result` directory.
@@ -149,7 +166,7 @@ docker run -t ghcr.io/bacalhau-project/bacalhau:latest \
 bacalhau job get ${JOB_ID} --output-dir result
 ```
 
-After the download has finished, you should see the following contents in the results directory.
+After the download is complete, you should see the following contents in the results directory.
 
 ![png](../../../.gitbook/assets/index_25_0.png)
 
