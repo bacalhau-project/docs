@@ -27,3 +27,5 @@ env.*
 .env
 
 ./job-[a-zA-Z0-9]*
+
+chunked
