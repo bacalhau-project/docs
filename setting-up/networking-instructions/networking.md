@@ -23,10 +23,10 @@ To run Docker jobs on Bacalhau to access the internet, you'll need to specify on
 3. **none**: no networking at all, the default `--network=none`
 
 {% hint style="info" %}
-Specifying `none` will still allow Bacalhau to download and upload data before and after the job.
+Specifying `none` will still allow Bacalhau to download and upload data before and after the job using a Publisher.
 {% endhint %}
 
-Jobs using `http` must specify the domains they want to access when the job is submitted. When the job runs, only HTTP requests to those domains will be possible, and data transfer will be rate-limited to 10Mbit/sec in either direction to prevent DDOS.
+Jobs using `http` must specify the domains they want to access when the job is submitted.
 
 Jobs will be provided with [`http_proxy` and `https_proxy` environment variables](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/) which contain a TCP address of an HTTP proxy to connect through. Most tools and libraries will use these environment variables by default. If not, they must be used by user code to configure HTTP proxy usage.
 
@@ -36,12 +36,13 @@ The required networking can be specified using the `--network` flag. For `http` 
 Bacalhau jobs are explicitly prevented from starting other Bacalhau jobs, even if a Bacalhau requester node is specified on the HTTP allowlist.
 {% endhint %}
 
-## Support for networked jobs on the public network
-
-Bacalhau has support for _describing_ jobs that can access the internet during job execution. The ability for compute nodes to run jobs that require internet access depends on what compute nodes are currently part of the network.
-
-Compute nodes that join the Bacalhau network do not accept networked jobs by default (i.e. they only accept jobs that specify `--network=none`, which is also the default).
-
-The public compute nodes provided by the Bacalhau network will accept jobs that require HTTP networking as long as the domains are from [this allowlist](https://github.com/bacalhau-project/bacalhau/blob/main/ops/terraform/remote_files/scripts/http-domain-allowlist.txt).
-
-If you need to access a domain that isn't on the allowlist, you can make a request to the [Bacalhau Project team](https://github.com/bacalhau-project/bacalhau/discussions) to include your required domains. You can also set up your own compute node that implements the allowlist you need.
+### Setting Up Your Nodes
+Submitting a job is the first part, the second part is ensuring your network can handle networking. You can set nodes up to accept jobs using an Admission Controller setting in the node config. For example:
+```yaml
+Compute:
+  Enabled: true
+  TLS:
+    RequireTLS: true
+JobAdmissionControl:
+  AcceptNetworkedJobs: true
+```
