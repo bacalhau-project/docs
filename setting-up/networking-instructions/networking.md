@@ -2,8 +2,6 @@
 
 By default, Bacalhau jobs do not have any access to the internet. This is to keep both compute providers and users safe from malicious activities.
 
-However, by using data volumes, you can read and access your data from within jobs and write back results.
-
 ## Specifying Jobs to Access the Internet
 
 To run Docker jobs on Bacalhau to access the internet, you'll need to specify one of the following:
