@@ -4,16 +4,6 @@ By default, Bacalhau jobs do not have any access to the internet. This is to kee
 
 However, by using data volumes, you can read and access your data from within jobs and write back results.
 
-## Using Data Volumes
-
-When you submit a Bacalhau job, you must specify the internet locations from which to download data and write results. Both [Docker](../workload-onboarding/container/docker-workload-onboarding.md) and [WebAssembly](../workload-onboarding/container/wasm-workload-onboarding.md) jobs support these features.
-
-When submitting a Bacalhau job, you can specify the CID (Content IDentifier) or HTTP(S) URL from which to download data. The data will be retrieved before the job starts and made available to the job as a directory on the filesystem. When running Bacalhau jobs, you can specify as many CIDs or URLs as needed using `--input` which is accepted by both `bacalhau docker run` and `bacalhau wasm run`. See [command line flags](../../references/cli-reference/all-flags.md) for more information.
-
-You can write back results from your Bacalhau jobs to your public storage location. By default, jobs will write results to the storage provider using the `--publisher` command line flag. See [command line flags](../../references/cli-reference/all-flags.md) on how to configure this.
-
-To use these features, the data to be downloaded has to be known before the job starts. For some workloads, the required data is computed as part of the job if the purpose of the job is to process web results. In these cases, networking may be possible during job execution.
-
 ## Specifying Jobs to Access the Internet
 
 To run Docker jobs on Bacalhau to access the internet, you'll need to specify one of the following:
