@@ -5,11 +5,7 @@ cover: .gitbook/assets/bacalhau_banner_high_resolution.png
 coverY: 0
 ---
 
-# Welcome to the Bacalhau Documentation
-
-{% hint style="success" %}
-In Bacalhau v.1.6.0 a couple of things changed. For more information, check out the [release notes](help-and-faq/release-notes/v1.5.0-release-notes.md).
-{% endhint %}
+# Welcome
 
 ## What is Bacalhau?
 
@@ -41,11 +37,11 @@ Bacalhau aims to revolutionize data processing for large-scale datasets by enhan
 {% endtab %}
 
 {% tab title="IT Operations" %}
-* [x] **Infrastructure Efficiency**:&#x20;
+* [x] **Infrastructure Efficiency**:
   * Efficiently utilize idle or underutilized compute resources within an organization, maximizing hardware investments.
-* [x] **Simplified Management**:&#x20;
+* [x] **Simplified Management**:
   * Manage heterogeneous compute resources through a single platform, simplifying administrative tasks and reducing complexity.
-* [x] **Cost Reduction**:&#x20;
+* [x] **Cost Reduction**:
   * Bacalhau’s can help drive down your compute costs by up to 72.5% for deploying your ML models and over 90% for your log processing spend.
 {% endtab %}
 {% endtabs %}
@@ -63,7 +59,7 @@ Bacalhau consists of a network of nodes that enables orchestration between every
 **Compute Node:** responsible for executing jobs and producing results. Different compute nodes can be used for different types of jobs, depending on their capabilities and resources.
 
 {% hint style="info" %}
-For a more detailed tutorial, check out our [Getting Started Tutorial](broken-reference).
+For a more detailed tutorial, check out our [Getting Started Tutorial](broken-reference/).
 {% endhint %}
 
 #### Data ingestion
@@ -105,7 +101,7 @@ Here are some example tutorials on how you can process your data with Bacalhau:
 * [Training Pytorch Model with Bacalhau](examples/model-training/training-pytorch-model-with-bacalhau.md).
 
 {% hint style="info" %}
-For more tutorials, visit our [example page](broken-reference)
+For more tutorials, visit our [example page](broken-reference/)
 {% endhint %}
 
 ### Community
@@ -118,6 +114,6 @@ Bacalhau has a very friendly community and we are always happy to help you get s
 
 ### Next Steps
 
-👉 Continue with Bacalhau's [Getting Started guide](broken-reference) to learn how to install and run a job with the Bacalhau client.
+👉 Continue with Bacalhau's [Getting Started guide](broken-reference/) to learn how to install and run a job with the Bacalhau client.
 
-👉 Or jump directly to try out the different [Examples](broken-reference) that showcase Bacalhau's abilities.
+👉 Or jump directly to try out the different [Examples](broken-reference/) that showcase Bacalhau's abilities.
