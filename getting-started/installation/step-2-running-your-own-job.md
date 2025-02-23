@@ -4,7 +4,7 @@ Now that you have the Bacalhau CLI installed, what can you do with it? Just abou
 
 ### Submit a Hello World job
 
-To submit a job in Bacalhau, we will use the [`bacalhau docker run`](../../references/cli-reference/all-flags.md#docker-run) command. The command runs a job using the Docker executor on the node. Let's take a quick look at its syntax:
+To submit a job in Bacalhau, we will use the [`bacalhau docker run`](broken-reference) command. The command runs a job using the Docker executor on the node. Let's take a quick look at its syntax:
 
 ```shell
 bacalhau docker run [flags] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]

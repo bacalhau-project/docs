@@ -11,7 +11,7 @@ Bacalhau executes jobs by running them within containers. Bacalhau employs a syn
 This section describes how to migrate a workload based on a Docker container into a format that will work with the Bacalhau client.
 
 {% hint style="info" %}
-You can check out this example tutorial on [how to work with custom containers in Bacalhau](../../setting-up/workload-onboarding/container/index-1.md) to see how we used all these steps together.
+You can check out this example tutorial on [how to work with custom containers in Bacalhau](broken-reference) to see how we used all these steps together.
 {% endhint %}
 
 ### Requirements
@@ -34,7 +34,7 @@ To help provide a safe, secure network for all users, we add the following runti
 
 1. **Limited Ingress/Egress Networking**:
 
-All ingress/egress networking is limited as described in the [networking](../../setting-up/networking-instructions/) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
+All ingress/egress networking is limited as described in the [networking](broken-reference) documentation. You won't be able to pull `data/code/weights/` etc. from an external source.
 
 2. **Data Passing with Docker Volumes**:
 
@@ -63,7 +63,7 @@ If you need to pass data into your container you will do this through a Docker v
 We make the assumption that you are reading from a directory called `/inputs`, which is set as the default.
 
 {% hint style="info" %}
-You can specify which directory the data is written to with the [`--input`](../../references/cli-reference/all-flags.md) CLI flag.
+You can specify which directory the data is written to with the [`--input`](broken-reference) CLI flag.
 {% endhint %}
 
 #### Step 2 - Write Data to the Your Directory
@@ -73,7 +73,7 @@ If you need to return data from your container you will do this through a Docker
 We make the assumption that you are writing to a directory called `/outputs`, which is set as the default.
 
 {% hint style="info" %}
-You can specify which directory the data is written to with the [`--output-volumes`](../../references/cli-reference/all-flags.md) CLI flag.
+You can specify which directory the data is written to with the [`--output-volumes`](broken-reference) CLI flag.
 {% endhint %}
 
 #### Step 3 - Build and Push Your Image To a Registry
@@ -164,9 +164,9 @@ Data is identified by its content identifier (CID) and can be accessed by anyone
 
 You can choose to
 
-* [Copy data from a URL to public storage](../../examples/data-ingestion/from-url.md)
-* [Pin Data to public storage](../../examples/data-ingestion/pin.md)
-* [Copy Data from S3 Bucket to public storage](../../examples/data-ingestion/s3.md).
+* [Copy data from a URL to public storage](broken-reference)
+* [Pin Data to public storage](broken-reference)
+* [Copy Data from S3 Bucket to public storage](broken-reference).
 
 {% hint style="info" %}
 You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data

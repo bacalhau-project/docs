@@ -41,7 +41,7 @@ bacalhau docker run apline echo hello --api-host <ORCHESTRATOR_IP>
    1. Physical Hosts
    2. Cloud VMs ([AWS](https://aws.amazon.com/ec2/), [GCP](https://cloud.google.com/products/compute), [Azure](https://azure.microsoft.com/en-us/products/virtual-machines) or any other provider)
    3. Local Hypervisor VMs
-   4. An executor (Bash, [Docker Containers](../../setting-up/running-node/quick-start-docker.md), [WASM](https://webassembly.org/), etc)&#x20;
+   4. An executor (Bash, [Docker Containers](broken-reference), [WASM](https://webassembly.org/), etc)&#x20;
 2. [Install Bacalhau](../installation/) on each host
 3. Ensure that all nodes are connected to the same network and that the necessary ports are open for communication between them. This will require bidirectional communication on port 4222 between all nodes, and port 1234 to the orchestrator node.
 
@@ -187,7 +187,7 @@ Though S3 is typically associated with Amazon Web Services, the S3 publisher is 
 
 {% tabs %}
 {% tab title="S3" %}
-To set up [S3 publisher](../../references/jobs/job/task/publishers/s3.md) you need to specify environment variables such as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, populating a credentials file to be located on your compute node, i.e. `~/.aws/credentials`, or creating an [IAM role](https://aws.amazon.com/iam/) for your compute nodes if you are utilizing cloud instances.
+To set up [S3 publisher](broken-reference) you need to specify environment variables such as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, populating a credentials file to be located on your compute node, i.e. `~/.aws/credentials`, or creating an [IAM role](https://aws.amazon.com/iam/) for your compute nodes if you are utilizing cloud instances.
 
 Your chosen publisher can be set for your Bacalhau compute nodes declaratively or imperatively using either configuration yaml file:
 
@@ -206,7 +206,7 @@ Or within your imperative job execution commands:
 bacalhau docker run -p s3://bucket/key,opt=endpoint=http://s3.example.com,opt=region=us-east-1 ubuntu …
 ```
 
-S3 compatible publishers can also be used as [input sources](../../references/jobs/job/task/sources/s3.md) for your jobs, with a similar configuration.
+S3 compatible publishers can also be used as [input sources](broken-reference) for your jobs, with a similar configuration.
 
 ```yaml
 InputSources:
@@ -221,9 +221,9 @@ InputSources:
 {% endtab %}
 
 {% tab title="IPFS" %}
-By default, bacalhau does not connect or create its own IPFS network. Consider creating your [own private IPFS](../../setting-up/running-node/private-ipfs-network-setup.md) network and connect to it using the [appropriate flags](../../references/cli-reference/all-flags.md#serve).
+By default, bacalhau does not connect or create its own IPFS network. Consider creating your [own private IPFS](broken-reference) network and connect to it using the [appropriate flags](broken-reference).
 
-[IPFS publisher](../../references/jobs/job/task/publishers/ipfs.md) can be set for your Bacalhau compute nodes declaratively or imperatively using either configuration yaml file:
+[IPFS publisher](broken-reference) can be set for your Bacalhau compute nodes declaratively or imperatively using either configuration yaml file:
 
 ```bash
 Publisher:
@@ -236,7 +236,7 @@ Or within your imperative job execution commands:
 bacalhau docker run --publisher ipfs ubuntu ...
 ```
 
-Data pinned to the IPFS network can be used as [input source](../../references/jobs/job/task/sources/ipfs.md). To do this, you will need to specify the CID in declarative:
+Data pinned to the IPFS network can be used as [input source](broken-reference). To do this, you will need to specify the CID in declarative:
 
 ```bash
 InputSources:
@@ -257,7 +257,7 @@ bacalhau docker run --input QmY7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjY3fZ:/data
 {% tab title="Local" %}
 Bacalhau allows to publish job results directly to the compute node. Please note that this method is not a reliable storage option and is recommended to be used mainly for introductory purposes.
 
-[Local publisher](../../references/jobs/job/task/publishers/local.md) can be set for your Bacalhau compute nodes declaratively or imperatively using configuration yaml file:
+[Local publisher](broken-reference) can be set for your Bacalhau compute nodes declaratively or imperatively using configuration yaml file:
 
 ```bash
 Publisher:
@@ -270,7 +270,7 @@ Or within your imperative job execution commands:
 bacalhau docker run --publisher local ubuntu ...
 ```
 
-The [Local input source](../../references/jobs/job/task/sources/local.md) allows Bacalhau jobs to access files and directories that are already present on the compute node. To allow jobs to access local files when starting a node, the `Compute.AllowListedLocalPaths` configuration key should be used, specifying the path to the data and access mode `:rw` for Read-Write access or `:ro` for Read-Only (used by default). For example:
+The [Local input source](broken-reference) allows Bacalhau jobs to access files and directories that are already present on the compute node. To allow jobs to access local files when starting a node, the `Compute.AllowListedLocalPaths` configuration key should be used, specifying the path to the data and access mode `:rw` for Read-Write access or `:ro` for Read-Only (used by default). For example:
 
 ```bash
 bacalhau config set Compute.AllowListedLocalPaths=/etc/config:rw,/etc/*.conf:ro
@@ -302,9 +302,9 @@ When using a private cluster in production, here are a few considerations to not
 
 1. Ensure you are running the Bacalhau agents with limited permissions. This enhances security and reduces the risk of unauthorized access to critical system resources.
 2. Utilize a service file to manage the Bacalhau process, ensuring the correct user is specified and consistently used. Here’s a [sample service file](https://github.com/bacalhau-project/bacalhau/blob/main/ops/marketplace-tf/modules/instance_files/bacalhau.service)
-3. Create an authentication file for your clients. A [dedicated authentication file or policy](../../references/auth_flow.md) can ease the process of maintaining secure data transmission within your network. With this, clients can authenticate themselves, and you can limit the Bacalhau API endpoints unauthorized users have access to.
+3. Create an authentication file for your clients. A [dedicated authentication file or policy](broken-reference) can ease the process of maintaining secure data transmission within your network. With this, clients can authenticate themselves, and you can limit the Bacalhau API endpoints unauthorized users have access to.
 4. Ensure separation of concerns in your cloud deployments by mounting the Bacalhau repository on a non-boot disk. This prevents instability on shutdown or restarts and improves performance within your host instances.
 
-For many other common questions, we recommend checking out the [Bacalhau FAQ](../../help-and-faq/faqs.md).
+For many other common questions, we recommend checking out the [Bacalhau FAQ](broken-reference).
 
 That's all folks! 🎉 Please contact us on [Slack](https://bacalhauproject.slack.com/) `#bacalhau` channel for questions and feedback!

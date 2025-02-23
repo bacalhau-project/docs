@@ -1,6 +1,0 @@
----
-icon: database
----
-
-# Data Ingestion
-
