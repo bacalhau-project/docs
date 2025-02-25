@@ -56,3 +56,5 @@
   * [Local](specifications/sources/local.md)
   * [S3](specifications/sources/s3.md)
   * [URL](specifications/sources/url.md)
+* [Other Specifications](specifications/other/README.md)
+  * [State](specifications/other/state.md)
