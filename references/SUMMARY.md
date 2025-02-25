@@ -52,26 +52,19 @@
 
 ## Guides
 
+* [Jobs Guide](guides/jobs/README.md)
+  * [Job Queuing](guides/jobs/job-queuing.md)
+  * [Using Labels and Constraints](guides/jobs/using-labels-and-constraints.md)
 * [Configuration Management](guides/configuration-management.md)
 * [Write a config.yaml](guides/write-a-config.yaml.md)
 * [Write a SpecConfig](guides/spec-config.md)
-* [Using Labels and Constraints](guides/using-labels-and-constraints.md)
 
 ## References <a href="#ref" id="ref"></a>
 
-* [Jobs Guide](ref/jobs/README.md)
-  * [Queuing & Timeouts](ref/jobs/queuing-and-timeouts/README.md)
-    * [Job Queuing](ref/jobs/queuing-and-timeouts/job-queuing.md)
-  * [Job Results](ref/jobs/job-results/README.md)
-    * [State](ref/jobs/job-results/state.md)
 * [Node Management](ref/node_management.md)
 * [Authentication & Authorization](ref/auth_flow.md)
 * [Database Integration](ref/databases.md)
-* [Debugging](ref/debugging/README.md)
-  * [Debugging Failed Jobs](ref/debugging/debugging-general.md)
-  * [Debugging Locally](ref/debugging/debugging_locally.md)
 * [Running Locally In Devstack](ref/running-locally.md)
-* [Setting up Dev Environment](ref/setting_up_development.md)
 
 ## Help & FAQ
 
