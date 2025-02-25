@@ -10,7 +10,7 @@ To submit a job in Bacalhau, we will use the [`bacalhau docker run`](broken-refe
 bacalhau docker run [flags] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
 ```
 
-To run the job, you will need to connect to a public demo network or set up your own [private network](../create-private-network/). In the following example, we will use the public demo network by using the `--configuration` flag.
+To run the job, you will need to connect to a public demo network or set up your own [private network](broken-reference). In the following example, we will use the public demo network by using the `--configuration` flag.
 
 {% tabs %}
 {% tab title="CLI" %}

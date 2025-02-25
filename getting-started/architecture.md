@@ -102,7 +102,7 @@ Optimize workflows without completely redesigning them. Run arbitrary tasks usin
 
 Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](broken-reference) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](broken-reference).
 
-For node operation, refer to the [Running a Node](broken-reference) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](create-private-network/) for performing tasks without connecting to the main Bacalhau network.
+For node operation, refer to the [Running a Node](broken-reference) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](broken-reference) for performing tasks without connecting to the main Bacalhau network.
 
 </details>
 
