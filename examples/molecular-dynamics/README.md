@@ -1,6 +1,0 @@
----
-icon: dna
----
-
-# Molecular Dynamics
-

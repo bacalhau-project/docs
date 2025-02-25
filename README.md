@@ -1,21 +1,11 @@
 ---
-description: Welcome to the Bacalhau documentation!
 icon: hand-wave
+description: Welcome to the Bacalhau documentation!
 cover: .gitbook/assets/bacalhau_banner_high_resolution.png
 coverY: 0
 ---
 
-# Welcome to the Bacalhau Documentation
-
-{% hint style="success" %}
-In Bacalhau v.1.5.0 a couple of things changed.
-
-* Bacalhau has updated configurations. Please check out [the guide](guides/updated-configuration-management.md).
-* There is no [default endpoint](help-and-faq/release-notes/v1.5.0-release-notes.md) anymore to give users even more control over their network from the start.
-* There is now a built-in WebUI.
-
-For more information, check out the [release notes](help-and-faq/release-notes/v1.5.0-release-notes.md).
-{% endhint %}
+# Welcome
 
 ## What is Bacalhau?
 
@@ -47,11 +37,11 @@ Bacalhau aims to revolutionize data processing for large-scale datasets by enhan
 {% endtab %}
 
 {% tab title="IT Operations" %}
-* [x] **Infrastructure Efficiency**:&#x20;
+* [x] **Infrastructure Efficiency**:
   * Efficiently utilize idle or underutilized compute resources within an organization, maximizing hardware investments.
-* [x] **Simplified Management**:&#x20;
+* [x] **Simplified Management**:
   * Manage heterogeneous compute resources through a single platform, simplifying administrative tasks and reducing complexity.
-* [x] **Cost Reduction**:&#x20;
+* [x] **Cost Reduction**:
   * Bacalhau’s can help drive down your compute costs by up to 72.5% for deploying your ML models and over 90% for your log processing spend.
 {% endtab %}
 {% endtabs %}
@@ -69,16 +59,16 @@ Bacalhau consists of a network of nodes that enables orchestration between every
 **Compute Node:** responsible for executing jobs and producing results. Different compute nodes can be used for different types of jobs, depending on their capabilities and resources.
 
 {% hint style="info" %}
-For a more detailed tutorial, check out our [Getting Started Tutorial](broken-reference).
+For a more detailed tutorial, check out our [Getting Started Tutorial](broken-reference/).
 {% endhint %}
 
 #### Data ingestion
 
 Data is identified by its content identifier (CID) and can be accessed by anyone who knows the CID. Here are some options that can help you mount your data:
 
-* [Copy data from a URL to public storage](setting-up/data-ingestion/from-url.md)
-* [Pin Data to public storage](setting-up/data-ingestion/pin.md)
-* [Copy Data from S3 Bucket to public storage](setting-up/data-ingestion/s3.md)
+* [Copy data from a URL to public storage](broken-reference)
+* [Pin Data to public storage](broken-reference)
+* [Copy Data from S3 Bucket to public storage](broken-reference)
 
 {% hint style="info" %}
 The options are not limited to the above-mentioned. You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
@@ -96,7 +86,7 @@ Finally, endpoints (such as vaults) can also be used to provide secure access to
 
 Bacalhau can be used for a variety of data processing workloads, including machine learning, data analytics, and scientific computing. It is well-suited for workloads that require processing large amounts of data in a distributed and parallelized manner.
 
-Once you have more than 10 devices generating or storing around 100GB of data, you're likely to face challenges with processing that data efficiently. Traditional computing approaches may struggle to handle such large volumes, and that's where distributed computing solutions like Bacalhau can be extremely useful. Bacalhau can be used in various industries, including security, web serving, financial services, IoT, Edge, Fog, and multi-cloud. Bacalhau shines when it comes to data-intensive applications like [data engineering](examples/data-engineering/), [model training](examples/model-training/), [model inference](examples/model-inference/), [molecular dynamics](examples/molecular-dynamics/), etc.
+Once you have more than 10 devices generating or storing around 100GB of data, you're likely to face challenges with processing that data efficiently. Traditional computing approaches may struggle to handle such large volumes, and that's where distributed computing solutions like Bacalhau can be extremely useful. Bacalhau can be used in various industries, including security, web serving, financial services, IoT, Edge, Fog, and multi-cloud. Bacalhau shines when it comes to data-intensive applications like [data engineering](broken-reference), [model training](broken-reference), [model inference](broken-reference), [molecular dynamics](broken-reference), etc.
 
 {% embed url="https://www.youtube.com/watch?ab_channel=Expanso&t=7s&v=R5s9cZg5DOM" %}
 An example on how to build your own ETL pipeline with Bacalhau and MongoDB.
@@ -104,14 +94,14 @@ An example on how to build your own ETL pipeline with Bacalhau and MongoDB.
 
 Here are some example tutorials on how you can process your data with Bacalhau:
 
-* [Stable Diffusion AI](examples/model-inference/stable-diffusion-checkpoint-inference.md) training and deployment with Bacalhau.
-* [Generate Realistic Images using StyleGAN3 and Bacalhau](examples/model-inference/generate-realistic-images-using-stylegan3-and-bacalhau.md).
-* [Object Detection with YOLOv5 on Bacalhau](examples/model-inference/object-detection-with-yolov5-on-bacalhau.md).
-* [Running Genomics on Bacalhau](examples/molecular-dynamics/genomics-data-generation.md).
-* [Training Pytorch Model with Bacalhau](examples/model-training/training-pytorch-model-with-bacalhau.md).
+* [Stable Diffusion AI](broken-reference) training and deployment with Bacalhau.
+* [Generate Realistic Images using StyleGAN3 and Bacalhau](broken-reference).
+* [Object Detection with YOLOv5 on Bacalhau](broken-reference).
+* [Running Genomics on Bacalhau](broken-reference).
+* [Training Pytorch Model with Bacalhau](broken-reference).
 
 {% hint style="info" %}
-For more tutorials, visit our [example page](broken-reference)
+For more tutorials, visit our [example page](broken-reference/)
 {% endhint %}
 
 ### Community
@@ -120,10 +110,10 @@ Bacalhau has a very friendly community and we are always happy to help you get s
 
 * [GitHub Discussions](https://github.com/bacalhau-project/bacalhau/discussions) – ask anything about the project, give feedback, or answer questions that will help other users.
 * [Join the Slack Community](https://bit.ly/bacalhau-project-slack) and go to **#bacalhau** channel – it is the easiest way to engage with other members in the community and get help.
-* [Contributing](community/ways-to-contribute.md) – learn how to contribute to the Bacalhau project.
+* [Contributing](broken-reference) – learn how to contribute to the Bacalhau project.
 
 ### Next Steps
 
-👉 Continue with Bacalhau's [Getting Started guide](broken-reference) to learn how to install and run a job with the Bacalhau client.
+👉 Continue with Bacalhau's [Getting Started guide](broken-reference/) to learn how to install and run a job with the Bacalhau client.
 
-👉 Or jump directly to try out the different [Examples](broken-reference) that showcase Bacalhau's abilities.
+👉 Or jump directly to try out the different [Examples](broken-reference/) that showcase Bacalhau's abilities.
