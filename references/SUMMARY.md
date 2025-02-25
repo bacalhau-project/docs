@@ -78,5 +78,6 @@
 * [Bacalhau FAQs](help-and-faq/faqs.md)
 * [Glossary](help-and-faq/glossary.md)
 * [Release Notes](help-and-faq/release-notes/README.md)
+  * [v1.6.0 Release Notes](help-and-faq/release-notes/v1.6.0-release-notes.md)
   * [v1.5.0 Release Notes](help-and-faq/release-notes/v1.5.0-release-notes.md)
   * [v1.4.0 Release Notes](help-and-faq/release-notes/release-notes.md)
