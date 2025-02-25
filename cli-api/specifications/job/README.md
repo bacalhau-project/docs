@@ -27,13 +27,13 @@ Tasks:
 
 * **Name** `(string : <optional>)`: A logical name to refer to the job. Defaults to job ID.
 * **Namespace** `(string: "default")`: The namespace in which the job is running. `ClientID` is used as a namespace in the public demo network.
-* **Type** `(string: <required>)`: The type of the job, such as `batch`, `ops`, `daemon` or `service`. You can learn more about the supported jobs types in the [Job Types](job-types.md) guide.
+* **Type** `(string: <required>)`: The type of the job, such as `batch`, `ops`, `daemon` or `service`. You can learn more about the supported jobs types in the [Job Types](type.md) guide.
 * **Priority** `(int: 0`): Determines the scheduling priority.
 * **Count** `(int: <required)`: Number of replicas to be scheduled. This is only applicable for jobs of type `batch` and `service`.
 * **Meta** `(`[`Meta`](meta.md) `: nil)`: Arbitrary metadata associated with the job.
 * **Labels** `(`[`Label`](label.md)`[] : nil)`: Arbitrary labels associated with the job for filtering purposes.
 * **Constraints** `(`[`Constraint`](constraint.md)`[] : nil)`: These are selectors which must be true for a compute node to run this job.
-* **Tasks** `(`[`Task`](task/)`[] : <required>)`:: Task associated with the job, which defines a unit of work within the job. Today we are only supporting single task per job, but with future plans to extend this.
+* **Tasks** `(`[`Task`](task.md)`[] : <required>)`:: Task associated with the job, which defines a unit of work within the job. Today we are only supporting single task per job, but with future plans to extend this.
 
 ## Server-Generated Parameters
 

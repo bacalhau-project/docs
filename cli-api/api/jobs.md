@@ -18,7 +18,7 @@ Retrieve the specification and current status of a particular job.
 
 **Response**:
 
-**Job**: Specification for the requested [job](../specs/job/).
+**Job**: Specification for the requested [job](../specifications/job/).
 
 **Example**:
 
@@ -108,7 +108,7 @@ Retrieve a list of jobs.
 
 **Response**:
 
-* [**Jobs**](../specs/job/): List of matching jobs.
+* [**Jobs**](../specifications/job/): List of matching jobs.
 * **NextToken** `(string)`: Pagination token.
 
 **Example**:
@@ -150,7 +150,7 @@ Submit a new job for execution.
 
 **Request Body**:
 
-* [**Job**](../specs/job/): JSON definition of the job.
+* [**Job**](../specifications/job/): JSON definition of the job.
 
 **Response**:
 
@@ -500,7 +500,7 @@ Fetch results published by all executions for the defined job. Applicable only f
 
 **Example**:
 
-Result of a job that used the [S3 Publisher](../specs/job/task/publishers/s3.md):
+Result of a job that used the [S3 Publisher](../specifications/publishers/s3.md):
 
 ```bash
 curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-479d160f-f9ab-4e32-aec9-a45554126450/results
