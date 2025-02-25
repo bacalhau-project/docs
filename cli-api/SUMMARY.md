@@ -44,7 +44,6 @@
   * [Task](specifications/job/task.md)
   * [Timeouts](specifications/job/timeouts.md)
   * [Type](specifications/job/type.md)
-  * [Job Templates](specifications/job/job-templating.md)
 * [Engines](specifications/engines/README.md)
   * [Docker](specifications/engines/docker.md)
   * [WebAssembly (WASM) ](specifications/engines/wasm.md)

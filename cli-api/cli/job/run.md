@@ -18,16 +18,10 @@ bacalhau job run [flags]
   * Description: If provided, the command will continuously display the output from the job as it runs.
 * `--id-only`:
   * Description: On successful job submission, only the Job ID will be printed.
-* `--no-template`:
-  * Disable the templating feature. When this flag is set, the job spec will be used as-is, without any placeholder replacements
 * `--node-details`:
   * Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
 * `--show-warnings`:
   * Description: Shows any warnings that occur during the job submission.
-* `-E`, `--template-envs`:
-  * Specify a regular expression pattern for selecting environment variables to be included as template variables in the job spec. e.g. `--template-envs ".*"` will include all environment variables.
-* `-V`, `--template-vars`:
-  * Replace a placeholder in the job spec with a value. e.g. `--template-vars foo=bar`
 * `--wait`:
   * Description: Waits for the job to finish execution. To set this to false, use --wait=false
   * Default: `true`
@@ -212,6 +206,164 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
      bacalhau job executions j-d8625929-83f4-411a-b9aa-7bcfecb27a8b
     ```
 
-## Templating
+## Job Templating
 
-`bacalhau job run` providing users with the ability to dynamically inject variables into their job specifications. This feature is particularly useful when running multiple jobs with varying parameters such as S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually. You can find more information about templating [here](../../specifications/job/job-templating.md).
+The `bacalhau job run` command also supports templating, which allows users to dynamically inject variables into their job specifications. Additional flags related to templating include:
+
+* `--no-template`:
+  * Description: Disable the templating feature. When this flag is set, the job spec will be used as-is, without any placeholder replacements.
+* `-E, --template-envs`:
+  * Description: Specify a regular expression pattern for selecting environment variables to be included as template variables in the job spec. e.g. `--template-envs ".*"` will include all environment variables.
+* `-V, --template-vars`:
+  * Description: Replace a placeholder in the job spec with a value. e.g. `--template-vars foo=bar`
+
+### Overview
+
+Templating is particularly useful when running multiple jobs with varying parameters such as DuckDB query, S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually.
+
+### Templating Implementation
+
+The templating functionality in Bacalhau is built upon the Go text/template package. This powerful library offers a wide range of features for manipulating and formatting text based on template definitions and input variables.
+
+For more detailed information about the Go text/template library and its syntax, please refer to the official documentation: [Go text/template Package](https://golang.org/pkg/text/template/).
+
+### Basic Templating Example
+
+**Sample Job Spec with Templating Variables**:
+
+```yaml
+Name: docker job
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ubuntu:latest
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - echo {{.greeting}} {{.name}}
+```
+
+**Running with Templating**:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello,name=World"
+```
+
+**Defining Flag Multiple Times**:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello" --template-vars "name=World"
+```
+
+**Disabling Templating**:
+
+```
+bacalhau job run job.yaml --no-template
+```
+
+### Using Environment Variables for Templates
+
+You can also use environment variables for templating:
+
+```
+export greeting=Hello
+export name=World
+bacalhau job run job.yaml --template-envs "*"
+```
+
+**Passing A Subset of Environment Variables**:
+
+```
+bacalhau job run job.yaml --template-envs "greeting|name"
+```
+
+### Dry Run to Preview Templated Spec
+
+To preview the final templated job spec without actually submitting the job, you can use the `--dry-run` flag:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello,name=World" --dry-run
+```
+
+This will output the processed job specification, showing you how the placeholders have been replaced with the provided values.
+
+### Advanced Templating Examples
+
+#### Query Live Logs
+
+```yaml
+Name: Live logs processing
+Type: ops
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: expanso/nginx-access-log-processor:1.0.0
+        Parameters:
+          - --query
+          - {{.query}}
+          - --start-time
+          - {{or (index . "start-time") ""}}
+          - --end-time
+          - {{or (index . "end-time") ""}}
+    InputSources:
+      - Target: /logs
+        Source:
+          Type: localDirectory
+          Params:
+            SourcePath: /data/log-orchestration/logs
+```
+
+This is an ops job that runs on all nodes that match the job selection criteria. It accepts duckdb query variable, and two optional start-time and end-time variables to define the time range for the query.
+
+To run this job, you can use the following command:
+
+```
+bacalhau job run job.yaml \
+  -V "query=SELECT status FROM logs WHERE status LIKE '5__'" \
+  -V "start-time=-5m"
+```
+
+#### Query S3 Logs
+
+```yaml
+Name: S3 logs processing
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: expanso/nginx-access-log-processor:1.0.0
+        Parameters:
+          - --query
+          - {{.query}}
+    InputSources:
+      - Target: /logs
+        Source:
+          Type: s3
+          Params:
+            Bucket: {{.AccessLogBucket}}
+            Key: {{.AccessLogPrefix}}
+            Filter: {{or (index . "AccessLogPattern") ".*"}}
+            Region: {{.AWSRegion}}
+```
+
+This is a batch job that runs on a single node. It accepts the duckdb query variable, and four other variables to define the S3 bucket, prefix, and pattern for the logs and the AWS region.
+
+To run this job, you can use the following command:
+
+```
+bacalhau job run job.yaml  \
+    -V "AccessLogBucket=my-bucket" \
+    -V "AWSRegion=us-east-1" \
+    -V "AccessLogPrefix=2023-11-19-*"  \
+    -V "AccessLogPattern=^[10-12].*"
+```
