@@ -1,2 +1,0 @@
-# Sparkov-Data-Generation
-
