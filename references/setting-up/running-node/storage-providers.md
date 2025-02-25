@@ -26,7 +26,7 @@ InputSources:
 {% endtab %}
 
 {% tab title="IPFS" %}
-To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and [run it locally](private-ipfs-network-setup.md), or you can connect to a remote IPFS server.
+To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and [run it locally](broken-reference), or you can connect to a remote IPFS server.
 
 In both cases, you should have an [IPFS multiaddress](https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html) for the IPFS server that should look something like this:
 
@@ -119,7 +119,7 @@ Publisher:
 {% endtab %}
 
 {% tab title="IPFS" %}
-The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an [IPFS server running](private-ipfs-network-setup.md) and a multiaddress for it. Then you'll configure that multiaddress using the `InputSources.Types.IPFS.Endpoint` configuration key. Then you can use `bacalhau job get <job-ID>` with no further arguments to download the results.
+The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an [IPFS server running](broken-reference) and a multiaddress for it. Then you'll configure that multiaddress using the `InputSources.Types.IPFS.Endpoint` configuration key. Then you can use `bacalhau job get <job-ID>` with no further arguments to download the results.
 
 To use the IPFS publisher you will have to specify **CID** which can be used to access the published content. See the [IPFS publisher specification](broken-reference) for more details.
 

@@ -23,7 +23,7 @@ It is also possible to additionally specify the number of resources to be alloca
 bacalhau config set JobDefaults.Ops.Task.Resources.Memory=2Gi
 ```
 
-See the complete [configuration keys list](../../guides/write-a-config.yaml.md) for more details.
+See the complete [configuration keys list](../../guides/configuration-management/write-a-config.yaml.md) for more details.
 
 Resource limits are not supported for Docker jobs running on Windows. Resource limits will be applied at the job bid stage based on reported job requirements but will be silently unenforced. Jobs will be able to access as many resources as requested at runtime.[​](http://localhost:3000/setting-up/running-node/resource-limits#windows-support)
 

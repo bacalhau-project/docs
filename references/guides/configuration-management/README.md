@@ -27,7 +27,7 @@ In Bacalhau v1.5.0, there have been changes to how Bacalhau handles configuratio
 
 ## Using a Non-Default Config File.&#x20;
 
-The `--config` (or `-c` ) flag allows flexible configuration of bacalhau through various methods. You can use this flag multiple times to combine different configuration sources. To specify a config file to bacalhau, users may use the `--config` flag, passing a path to a config file for bacalhau to use. When this flag is provided bacalhau **will not** search for a default config, and will instead use the configuration provided to it by the [`--config` flag](configuration-management.md#using-keys-with-config-set-config-list-and-config).
+The `--config` (or `-c` ) flag allows flexible configuration of bacalhau through various methods. You can use this flag multiple times to combine different configuration sources. To specify a config file to bacalhau, users may use the `--config` flag, passing a path to a config file for bacalhau to use. When this flag is provided bacalhau **will not** search for a default config, and will instead use the configuration provided to it by the [`--config` flag](./#using-keys-with-config-set-config-list-and-config).
 
 ## Bacalhau Configuration Keys
 

@@ -1,6 +1,6 @@
 ---
-description: How to run a Bacalhau devstack locally
 icon: location-exclamation
+description: How to run a Bacalhau devstack locally
 ---
 
 # Running Locally In Devstack
@@ -35,14 +35,6 @@ bacalhau devstack
 ```
 
 This will start a 4 node Bacalhau cluster.
-
-You can use [your own IPFS node](../setting-up/running-node/private-ipfs-network-setup.md) and connect it to the devstack by setting the IPFS endpoints via [configuration keys](../guides/configuration-management.md): `InputSources.Types.IPFS.Endpoint` and `Publishers.Types.IPFS.Endpoint`
-
-```bash
-bacalhau devstack \
---config InputSources.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001 \
---config Publishers.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001
-```
 
 Once everything has started up - you will see output like the following:
 

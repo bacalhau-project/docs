@@ -6,6 +6,8 @@
   * [Setting Up a Cluster on Amazon Web Services (AWS) with Terraform 🚀](operations/deployment-guide/setting-up-a-cluster-on-amazon-web-services-aws-with-terraform.md)
   * [Setting Up a Cluster on Google Cloud Platform (GCP) With Terraform 🚀](operations/deployment-guide/setting-up-a-cluster-on-google-cloud-platform-gcp-with-terraform.md)
   * [Setting Up a Cluster on Azure with Terraform 🚀](operations/deployment-guide/setting-up-a-cluster-on-azure-with-terraform.md)
+  * [Marketplace Deployments](operations/deployment-guide/marketplace-deployments/README.md)
+    * [Google Cloud Marketplace](operations/deployment-guide/marketplace-deployments/google-cloud-marketplace.md)
 
 ## Setting Up
 
@@ -14,13 +16,11 @@
   * [GPU Installation](setting-up/running-node/gpu.md)
   * [Job selection policy](setting-up/running-node/job-selection.md)
   * [Access Management](setting-up/running-node/auth.md)
-  * [Node persistence](setting-up/running-node/persistence.md)
+  * [Persistent State](setting-up/running-node/databases.md)
   * [Configuring Your Input Sources](setting-up/running-node/storage-providers.md)
-  * [(Outdated after v1.5.0) Configuration Management](setting-up/running-node/configuration.md)
   * [Configuring Transport Level Security](setting-up/running-node/configuring-tls.md)
   * [Limits and Timeouts](setting-up/running-node/resource-limits.md)
   * [Bacalhau WebUI](setting-up/running-node/webui.md)
-  * [Private IPFS Network Setup](setting-up/running-node/private-ipfs-network-setup.md)
 * [Workload Onboarding](setting-up/workload-onboarding/README.md)
   * [Container](setting-up/workload-onboarding/container/README.md)
     * [Docker Workload Onboarding](setting-up/workload-onboarding/container/docker-workload-onboarding.md)
@@ -46,25 +46,21 @@
   * [Utilizing NATS.io within Bacalhau](setting-up/networking-instructions/utilizing-nats.io-within-bacalhau.md)
 * [GPU Workloads Setup](setting-up/gpu.md)
 * [Automatic Update Checking](setting-up/update-checks.md)
-* [Marketplace Deployments](setting-up/marketplace-deployments/README.md)
-  * [Google Cloud Marketplace](setting-up/marketplace-deployments/google-cloud-marketplace.md)
+* [Node Management](setting-up/node_management.md)
+* [Authentication & Authorization](setting-up/auth_flow.md)
 * [Inter-Nodes TLS](setting-up/inter-nodes-tls.md)
+
+## Developer Resources <a href="#developers" id="developers"></a>
+
+* [Running Locally In Devstack](developers/running-locally.md)
 
 ## Guides
 
 * [Jobs Guide](guides/jobs/README.md)
-  * [Job Queuing](guides/jobs/job-queuing.md)
-  * [Using Labels and Constraints](guides/jobs/using-labels-and-constraints.md)
-* [Configuration Management](guides/configuration-management.md)
-* [Write a config.yaml](guides/write-a-config.yaml.md)
-* [Write a SpecConfig](guides/spec-config.md)
-
-## References <a href="#ref" id="ref"></a>
-
-* [Node Management](ref/node_management.md)
-* [Authentication & Authorization](ref/auth_flow.md)
-* [Database Integration](ref/databases.md)
-* [Running Locally In Devstack](ref/running-locally.md)
+  * [Queuing](guides/jobs/job-queuing.md)
+  * [Labels and Constraints](guides/jobs/using-labels-and-constraints.md)
+* [Configuration Management](guides/configuration-management/README.md)
+  * [Write a config.yaml](guides/configuration-management/write-a-config.yaml.md)
 
 ## Help & FAQ
 
