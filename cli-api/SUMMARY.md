@@ -26,11 +26,10 @@
 
 ## API
 
-* [Bacalhau API overview](api/index.md)
-* [Orchestrator Endpoint](api/jobs.md)
-* [Agent Endpoint](api/agent.md)
-* [Best Practices](api/best-practices.md)
-* [Migration API](api/migration-api.md)
+* [Overview](api/overview.md)
+* [Jobs](api/jobs.md)
+* [Agent](api/agent.md)
+* [Nodes](api/nodes.md)
 
 ## Specifications <a href="#specs" id="specs"></a>
 
