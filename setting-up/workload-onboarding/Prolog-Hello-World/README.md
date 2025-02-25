@@ -1,2 +1,0 @@
-# Prolog-Hello-World
-
