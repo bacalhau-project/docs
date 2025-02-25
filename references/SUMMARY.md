@@ -57,21 +57,21 @@
 * [Write a SpecConfig](guides/spec-config.md)
 * [Using Labels and Constraints](guides/using-labels-and-constraints.md)
 
-## References
+## References <a href="#ref" id="ref"></a>
 
-* [Jobs Guide](references/jobs/README.md)
-  * [Queuing & Timeouts](references/jobs/queuing-and-timeouts/README.md)
-    * [Job Queuing](references/jobs/queuing-and-timeouts/job-queuing.md)
-  * [Job Results](references/jobs/job-results/README.md)
-    * [State](references/jobs/job-results/state.md)
-* [Node Management](references/node_management.md)
-* [Authentication & Authorization](references/auth_flow.md)
-* [Database Integration](references/databases.md)
-* [Debugging](references/debugging/README.md)
-  * [Debugging Failed Jobs](references/debugging/debugging-general.md)
-  * [Debugging Locally](references/debugging/debugging_locally.md)
-* [Running Locally In Devstack](references/running-locally.md)
-* [Setting up Dev Environment](references/setting_up_development.md)
+* [Jobs Guide](ref/jobs/README.md)
+  * [Queuing & Timeouts](ref/jobs/queuing-and-timeouts/README.md)
+    * [Job Queuing](ref/jobs/queuing-and-timeouts/job-queuing.md)
+  * [Job Results](ref/jobs/job-results/README.md)
+    * [State](ref/jobs/job-results/state.md)
+* [Node Management](ref/node_management.md)
+* [Authentication & Authorization](ref/auth_flow.md)
+* [Database Integration](ref/databases.md)
+* [Debugging](ref/debugging/README.md)
+  * [Debugging Failed Jobs](ref/debugging/debugging-general.md)
+  * [Debugging Locally](ref/debugging/debugging_locally.md)
+* [Running Locally In Devstack](ref/running-locally.md)
+* [Setting up Dev Environment](ref/setting_up_development.md)
 
 ## Help & FAQ
 
