@@ -58,10 +58,6 @@ Bacalhau consists of a network of nodes that enables orchestration between every
 
 **Compute Node:** responsible for executing jobs and producing results. Different compute nodes can be used for different types of jobs, depending on their capabilities and resources.
 
-{% hint style="info" %}
-For a more detailed tutorial, check out our [Getting Started Tutorial](https://github.com/bacalhau-project/docs/blob/gitbook/broken-reference/README.md).
-{% endhint %}
-
 
 
 ### Use Cases
@@ -84,6 +80,4 @@ Bacalhau has a very friendly community and we are always happy to help you get s
 
 ### Next Steps
 
-👉 Continue with Bacalhau's [Getting Started guide](https://github.com/bacalhau-project/docs/blob/gitbook/broken-reference/README.md) to learn how to install and run a job with the Bacalhau client.
-
-👉 Or jump directly to try out the different [Examples](https://github.com/bacalhau-project/docs/blob/gitbook/broken-reference/README.md) that showcase Bacalhau's abilities.
+👉 Continue with Bacalhau's [Getting Started guide](getting-started/installation/) to learn how to install and run a job with the Bacalhau client.
