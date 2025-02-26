@@ -7,7 +7,7 @@ description: How to run the WebUI.
 {% hint style="warning" %}
 Note that in version `v1.5.0` the WebUI was completely reworked.
 
-Check out the [release notes](../../help-and-faq/release-notes/v1.5.0-release-notes.md) to learn about all the changes to WebUI and more.
+Check out the [release notes](broken-reference) to learn about all the changes to WebUI and more.
 {% endhint %}
 
 ## Overview

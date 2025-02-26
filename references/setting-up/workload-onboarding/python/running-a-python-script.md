@@ -52,7 +52,7 @@ When a job is submitted, Bacalhau prints out the related `job_id`. We store that
 
 #### Declarative job description​ <a href="#declarative-job-description" id="declarative-job-description"></a>
 
-The same job can be presented in the [declarative](broken-reference) format. In this case, the description will look like this:
+The same job can be presented in the declarative format. In this case, the description will look like this:
 
 ```yaml
 name: Running Trivial Python
