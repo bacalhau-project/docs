@@ -126,7 +126,7 @@ You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEK
 Endpoint: `PUT /api/v1/orchestrator/jobs` 
 ```
 
-You can use [Create Job API Documentation](broken-reference) to submit a new job for execution.
+You can use [Create Job API Documentation](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/jobs#create-job) to submit a new job for execution.
 {% endtab %}
 {% endtabs %}
 
@@ -310,7 +310,7 @@ You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEK
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID`
 ```
 
-You can use [describe Job API Documentation](broken-reference) to retrieve the specification and current status of a particular job.
+You can use [describe Job API Documentation](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/jobs#describe-job) to retrieve the specification and current status of a particular job.
 {% endtab %}
 {% endtabs %}
 
@@ -332,7 +332,7 @@ You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEK
 Endpoint: `GET /api/v1/orchestrator/jobs`
 ```
 
-You can use [List Jobs API Documentation](broken-reference) to retrieve a list of jobs.
+You can use [List Jobs API Documentation](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/jobs#list-jobs) to retrieve a list of jobs.
 {% endtab %}
 {% endtabs %}
 
@@ -354,7 +354,7 @@ You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEK
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID/executions`
 ```
 
-You can use [Job Executions API Documentation](broken-reference) to retrieve all executions for a particular job.
+You can use [Job Executions API Documentation](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/jobs#job-executions) to retrieve all executions for a particular job.
 {% endtab %}
 {% endtabs %}
 
@@ -378,7 +378,7 @@ You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEK
 Endpoint: `DELETE /api/v1/orchestrator/jobs/:jobID`
 ```
 
-You can use [Stop Job API Documentation](broken-reference) to terminate a specific job asynchronously.
+You can use [Stop Job API Documentation](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/jobs#stop-job) to terminate a specific job asynchronously.
 {% endtab %}
 {% endtabs %}
 
@@ -398,7 +398,7 @@ You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEK
 Endpoint: `GET /api/v1/orchestrator/jobs/:jobID/history`
 ```
 
-You can use [Job History API Documentation](broken-reference) to retrieve historical events for a specific job.
+You can use [Job History API Documentation](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/jobs#job-history) to retrieve historical events for a specific job.
 {% endtab %}
 {% endtabs %}
 
