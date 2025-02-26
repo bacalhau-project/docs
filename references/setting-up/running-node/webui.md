@@ -4,12 +4,6 @@ description: How to run the WebUI.
 
 # Bacalhau WebUI
 
-{% hint style="warning" %}
-Note that in version `v1.5.0` the WebUI was completely reworked.
-
-Check out the [release notes](broken-reference) to learn about all the changes to WebUI and more.
-{% endhint %}
-
 ## Overview
 
 The Bacalhau WebUI offers an intuitive interface for interacting with the Bacalhau network. This guide provides comprehensive instructions for setting up and utilizing the WebUI.
