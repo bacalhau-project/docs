@@ -2,7 +2,7 @@
 description: The different job types available in Bacalhau
 ---
 
-# Job Types
+# Type
 
 Bacalhau has recently introduced different job types in v1.1, providing more control and flexibility over the orchestration and scheduling of those jobs - depending on their type.
 
@@ -14,7 +14,7 @@ Despite the differences in job types, all jobs benefit from core functionalities
 
 ### Batch Jobs
 
-Batch jobs are executed on demand, running on a specified number of Bacalhau nodes. These jobs either run until completion or until they reach a timeout. They are designed to carry out a single, discrete task before finishing. This is the only [queueable](broken-reference) job type.
+Batch jobs are executed on demand, running on a specified number of Bacalhau nodes. These jobs either run until completion or until they reach a timeout. They are designed to carry out a single, discrete task before finishing. This is the only [queueable](https://app.gitbook.com/s/6P82bTsk0U7YoGty7i8i/guides/jobs/job-queuing) job type.
 
 Ideal for intermittent yet intensive data dives, for instance performing computation over large datasets before publishing the response. This approach eliminates the continuous processing overhead, focusing on specific, in-depth investigations and computation.
 

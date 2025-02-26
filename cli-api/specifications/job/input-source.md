@@ -6,7 +6,7 @@ Bacalhau's `InputSource` natively supports fetching data from remote sources lik
 
 ## `InputSource` Parameters:
 
-* **Source** `(`[`SpecConfig`](broken-reference) `: <required>)`: Specifies the origin of the artifact, which could be a URL, an S3 bucket, or other locations.
+* **Source** `(`[`SpecConfig`](../other/specconfig.md) `: <required>)`: Specifies the origin of the artifact, which could be a URL, an S3 bucket, or other locations.
 * **Alias** `(string: <optional>)`: An optional identifier for this input source. It's particularly useful for dynamic operations within a task, such as dynamically importing data in WebAssembly using an alias.
 * **Target** `(string: <required>)`: Defines the path inside the task's environment where the retrieved artifact should be mounted or stored. This ensures that the task can access the data during its execution.
 
