@@ -6,7 +6,7 @@ Bacalhau has two ways to make use of external storage providers: Sources and Pub
 
 {% tabs %}
 {% tab title="S3" %}
-Bacalhau allows you to use S3 or any S3-compatible storage service as an input source. Users can specify files or entire prefixes stored in S3 buckets to be fetched and mounted directly into the job execution environment. This capability ensures that your jobs have immediate access to the necessary data. See the [S3 source specification](broken-reference) for more details.
+Bacalhau allows you to use S3 or any S3-compatible storage service as an input source. Users can specify files or entire prefixes stored in S3 buckets to be fetched and mounted directly into the job execution environment. This capability ensures that your jobs have immediate access to the necessary data. See the [S3 source specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/sources/s3) for more details.
 
 To use the S3 source, you will have to specify the mandatory name of the S3 bucket and the optional parameters Key, Filter, Region, Endpoint, VersionID and ChechsumSHA256.
 
@@ -26,7 +26,7 @@ InputSources:
 {% endtab %}
 
 {% tab title="IPFS" %}
-To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and [run it locally](broken-reference), or you can connect to a remote IPFS server.
+To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and run it locally, or you can connect to a remote IPFS server.
 
 In both cases, you should have an [IPFS multiaddress](https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html) for the IPFS server that should look something like this:
 
@@ -44,7 +44,7 @@ You can then configure your Bacalhau node to use this IPFS server by adding the 
 bacalhau config set InputSources.Types.IPFS.Endpoint=/ip4/10.1.10.10/tcp/80/p2p/QmVcSqVEsvm5RR9mBLjwpb2XjFVn5bPdPL69mL8PH45pPC
 ```
 
-See the [IPFS input source specification](broken-reference) for more details.
+See the [IPFS input source specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/sources/ipfs) for more details.
 
 Below is an example of how to define an IPFS input source in YAML format:
 
@@ -59,7 +59,7 @@ InputSources:
 {% endtab %}
 
 {% tab title="Local" %}
-The Local input source allows Bacalhau jobs to access files and directories that are already present on the compute node. This is especially useful for utilizing locally stored datasets, configuration files, logs, or other necessary resources without the need to fetch them from a remote source, ensuring faster job initialization and execution. See the [Local source specification](broken-reference) for more details.
+The Local input source allows Bacalhau jobs to access files and directories that are already present on the compute node. This is especially useful for utilizing locally stored datasets, configuration files, logs, or other necessary resources without the need to fetch them from a remote source, ensuring faster job initialization and execution. See the [Local source specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/sources/local) for more details.
 
 To use a local data source, you will have to:
 
@@ -85,7 +85,7 @@ InputSources:
 {% endtab %}
 
 {% tab title="URL" %}
-The URL Input Source provides a straightforward method for Bacalhau jobs to access and incorporate data available over HTTP/HTTPS. By specifying a URL, users can ensure the required data, whether a single file or a web page content, is retrieved and prepared in the job's execution environment, enabling direct and efficient data utilization. See the [URL source specification](broken-reference) for more details.
+The URL Input Source provides a straightforward method for Bacalhau jobs to access and incorporate data available over HTTP/HTTPS. By specifying a URL, users can ensure the required data, whether a single file or a web page content, is retrieved and prepared in the job's execution environment, enabling direct and efficient data utilization. See the [URL source specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/sources/url) for more details.
 
 To use a URL data source, you will have to specify only URL parameter, as in the part of the declarative job description below:
 
@@ -104,7 +104,7 @@ InputSources:
 
 {% tabs %}
 {% tab title="S3" %}
-Bacalhau's S3 Publisher provides users with a secure and efficient method to publish job results to any S3-compatible storage service. To use an S3 publisher you will have to specify required parameters **Bucket** and **Key** and optional parameters Region, Endpoint, VersionID, ChecksumSHA256. See the [S3 publisher specification](broken-reference) for more details.
+Bacalhau's S3 Publisher provides users with a secure and efficient method to publish job results to any S3-compatible storage service. To use an S3 publisher you will have to specify required parameters **Bucket** and **Key** and optional parameters Region, Endpoint, VersionID, ChecksumSHA256. See the [S3 publisher specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers/s3) for more details.
 
 Here’s an example of the part of the declarative job description that outlines the process of using the S3 Publisher with Bacalhau:
 
@@ -140,7 +140,7 @@ PublishedResult:
 The Local Publisher should not be used for Production use as it is not a reliable storage option. For production use, we recommend using a more reliable option such as an S3-compatible storage service.
 {% endhint %}
 
-Another possibility to store the results of a job execution is on a compute node. In such case the results will be published to the local compute node, and stored as compressed tar file, which can be accessed and retrieved over HTTP from the command line using the get command. To use the Local publisher you will have to specify the only **URL** parameter with a HTTP URL to the location where you would like to save the result. See the [Local publisher specification](broken-reference) for more details.
+Another possibility to store the results of a job execution is on a compute node. In such case the results will be published to the local compute node, and stored as compressed tar file, which can be accessed and retrieved over HTTP from the command line using the get command. To use the Local publisher you will have to specify the only **URL** parameter with a HTTP URL to the location where you would like to save the result. See the [Local publisher specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers/local) for more details.
 
 Here is an example of part of the declarative job description with a local publisher:
 
