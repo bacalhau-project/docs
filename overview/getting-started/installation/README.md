@@ -14,7 +14,7 @@ Getting started with Bacalhau is super straight forward! Below we lay out the st
 
 That's it!
 
-For more advanced users, you can create your own Bacalhau network, which [we walk through here](broken-reference).
+For more advanced users, you can create your own Bacalhau network, which [we walk through here](https://app.gitbook.com/o/HOJ2mjuVnRnkv8e25LqS/s/6P82bTsk0U7YoGty7i8i/).
 
 ### Support
 
