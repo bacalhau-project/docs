@@ -19,7 +19,7 @@ You'll need a few things ready:
 
 ### Quick Setup Guide
 
-1. First, set up an orchestrator node. We recommend using [Expanso Cloud](https://cloud.expanso.io/) for this! But you can always set up your own - follow the instructions [here](https://docs.bacalhau.org/getting-started/create-private-network#start-initial-orchestrator-node).
+1. First, set up an orchestrator node. We recommend using [Expanso Cloud](https://cloud.expanso.io/) for this! But you can always set up your own&#x20;
 2.  Create your environment configuration file:
 
     ```bash
