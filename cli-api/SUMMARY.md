@@ -57,5 +57,5 @@
   * [S3](specifications/sources/s3.md)
   * [URL](specifications/sources/url.md)
 * [Other Specifications](specifications/other/README.md)
-  * [State](specifications/other/state.md)
   * [SpecConfig](specifications/other/specconfig.md)
+  * [State](specifications/other/state.md)
