@@ -119,7 +119,7 @@ Publisher:
 {% endtab %}
 
 {% tab title="IPFS" %}
-The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an [IPFS server running](broken-reference) and a multiaddress for it. Then you'll configure that multiaddress using the `InputSources.Types.IPFS.Endpoint` configuration key. Then you can use `bacalhau job get <job-ID>` with no further arguments to download the results.
+The IPFS publisher works using the same setup as [above](storage-providers.md#ipfs) - you'll need to have an IPFS server running and a multiaddress for it. Then you'll configure that multiaddress using the `InputSources.Types.IPFS.Endpoint` configuration key. Then you can use `bacalhau job get <job-ID>` with no further arguments to download the results.
 
 To use the IPFS publisher you will have to specify **CID** which can be used to access the published content. See the [IPFS publisher specification](broken-reference) for more details.
 

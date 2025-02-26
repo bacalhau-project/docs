@@ -16,7 +16,7 @@ This is useful to kick the tires and/or developing on the codebase. It's also th
 1. `x86_64` or `ARM64` architecture
    1. Ubuntu 20.0+ has most often been used for development and testing
 2. [Docker Engine](https://docs.docker.com/get-docker/)
-3. [Latest Bacalhau release](broken-reference)
+3. Latest Bacalhau release
 
 ## Install Bacalhau
 
@@ -26,7 +26,7 @@ You can install the Bacalhau CLI by running this command in a terminal:
 curl -sL https://get.bacalhau.org/install.sh | bash
 ```
 
-See the [installation guide](broken-reference) for more installation options.
+See the [installation guide](running-locally.md#install-bacalhau) for more installation options.
 
 ## Start the cluster
 
@@ -107,7 +107,7 @@ To download the results, execute:
 
 ```
 
-Use [bacalhau job describe](broken-reference) command to view results:
+Use [bacalhau job describe](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/describe) command to view results:
 
 ```bash
 bacalhau job describe j-5b0ee6dd-6080-4277-99ce-fdf179907b25
@@ -149,7 +149,7 @@ Standard Output
 hello devstack test
 ```
 
-Use [bacalhau job get](broken-reference) command to download job results:
+Use bacalhau job get command to download job results:
 
 ```bash
 bacalhau job get j-5b0ee6dd-6080-4277-99ce-fdf179907b25
