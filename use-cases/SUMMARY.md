@@ -9,5 +9,5 @@
 
 ## Integrations
 
-* [DuckDB](integrations/using-bacalhau-with-duckdb.md)
+* [DuckDB](integrations/duckdb.md)
 * [Lilypad](integrations/lilypad.md)
