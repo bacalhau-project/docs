@@ -76,7 +76,7 @@ Bacalhau has a very friendly community and we are always happy to help you get s
 
 * [GitHub Discussions](https://github.com/bacalhau-project/bacalhau/discussions) – ask anything about the project, give feedback, or answer questions that will help other users.
 * [Join the Slack Community](https://bit.ly/bacalhau-project-slack) and go to **#bacalhau** channel – it is the easiest way to engage with other members in the community and get help.
-* [Contributing](broken-reference) – learn how to contribute to the Bacalhau project.
+* [Contributing](./#community) – learn how to contribute to the Bacalhau project.
 
 ### Next Steps
 
