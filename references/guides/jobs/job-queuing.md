@@ -16,7 +16,7 @@ Job Queuing allows to deal with the situation when there are no suitable nodes a
 
 ## Configuring Job Queuing in your Network&#x20;
 
-The job queuing feature is not automatically enabled, and it needs to be explicitly set in your [Job specification](broken-reference) or requester node using the `QueueTimeout` parameter. This parameter activates the queuing feature and defines the amount of time your job should wait for available nodes in the network.&#x20;
+The job queuing feature is not automatically enabled, and it needs to be explicitly set in your [Job specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job) or requester node using the `QueueTimeout` parameter. This parameter activates the queuing feature and defines the amount of time your job should wait for available nodes in the network.&#x20;
 
 Node availability in your network is determined by capacity as well as job constraints such as label selectors, engines or publishers. For example, jobs will be queued if all nodes are currently busy, as well as if idle nodes do not match parameters in your job specification.
 

@@ -49,7 +49,7 @@ export BACALHAU_API_HOST=0.0.0.0
 export BACALHAU_API_PORT=34217
 ```
 
-The message above contains the environment variables you need for a new terminal window. You can paste these into a new terminal so that `bacalhau` will use your local devstack. Execute the [bacalhau node list](broken-reference) command to see the devstack cluster structure:
+The message above contains the environment variables you need for a new terminal window. You can paste these into a new terminal so that `bacalhau` will use your local devstack. Execute the [bacalhau node list](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/node/list) command to see the devstack cluster structure:
 
 ```bash
 bacalhau node list

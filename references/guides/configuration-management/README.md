@@ -6,7 +6,7 @@ icon: gear
 
 ## Intro to Bacalhau Configuration Management
 
-To view the configuration that bacalhau will receive when a command is executed against it, users can run the [bacalhau config list](broken-reference) command. Users who wish to see Bacalhau’s config represented as YAML may run `bacalhau config list --output=yaml`.
+To view the configuration that bacalhau will receive when a command is executed against it, users can run the [bacalhau config list](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/config) command. Users who wish to see Bacalhau’s config represented as YAML may run `bacalhau config list --output=yaml`.
 
 {% hint style="info" %}
 In Bacalhau v1.5.0, there have been changes to how Bacalhau handles configuration:
@@ -23,7 +23,7 @@ In Bacalhau v1.5.0, there have been changes to how Bacalhau handles configuratio
 &#x20;As described above, bacalhau still has the concept of a default config file, which, for the sake of simplicity, we’ll say lives in `~/.config/bacalhau/config.yaml`. There are two ways this file can be modified:
 
 1. A text editor `vim ~/.config/bacalhau/config.yaml`.
-2. The [bacalhau config set](broken-reference) command.
+2. The [bacalhau config set](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/config) command.
 
 ## Using a Non-Default Config File.&#x20;
 

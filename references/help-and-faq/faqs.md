@@ -127,7 +127,7 @@ Type the following:
 bacalhau job describe b4491a4a-7b55-4fa7-a5af-80f3c99bc379
 ```
 
-If your job writes to stdout, or stderr, while it is running, you can also view the output with the [logs](broken-reference) command.
+If your job writes to stdout, or stderr, while it is running, you can also view the output with the [logs](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/logs) command.
 
 ## How can I download and query SQLite when it complains about being in read-only directory?
 
@@ -137,4 +137,4 @@ If you run your command with the `immutable` setting set to 1, then it will work
 
 ## Can I stop a running job?
 
-Yes. Given a valid `job ID`, you can use the [cancel command](broken-reference) to cancel the job, and stop it from running.
+Yes. Given a valid `job ID`, you can use the [stop command](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/stop) to cancel the job, and stop it from running.

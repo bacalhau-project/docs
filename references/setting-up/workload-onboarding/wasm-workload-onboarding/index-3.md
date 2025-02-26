@@ -6,7 +6,7 @@ Bacalhau supports running jobs as a [WebAssembly (WASM)](https://webassembly.org
 
 ### Prerequisites
 
-1. To get started, you need to install the Bacalhau client, see more information [here](broken-reference).
+1. To get started, you need to install the Bacalhau client, see more information [here](https://app.gitbook.com/s/c5oFaD28JCN1axzUG8eJ/getting-started/installation).
 2. A working Rust installation with the `wasm32-wasi` target. For example, you can use [`rustup`](https://rustup.rs/) to install Rust and configure it to build WASM targets. For those using the notebook, these are installed in hidden cells below.
 
 ## 1. Develop a Rust Program Locally
@@ -159,18 +159,18 @@ When we view the files, we can see the original image, the resulting shrunk imag
 ./wasm_results/outputs/original.png
 ```
 
-![png](<../../.gitbook/assets/index_18_0 (1).png>)
+![png](<../../../.gitbook/assets/index_18_0 (1).png>)
 
 ```python
 ./wasm_results/outputs/annotated_gradients.png
 ```
 
-![png](<../../.gitbook/assets/index_19_0 (1).png>)
+![png](<../../../.gitbook/assets/index_19_0 (1).png>)
 
 <pre class="language-python"><code class="lang-python"><strong>./wasm_results/outputs/shrunk.png
 </strong></code></pre>
 
-![png](../../.gitbook/assets/index_20_0.png)
+![png](../../../.gitbook/assets/index_20_0.png)
 
 ## Support
 

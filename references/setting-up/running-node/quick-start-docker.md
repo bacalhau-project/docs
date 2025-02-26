@@ -9,8 +9,8 @@ This tutorial describes how to add new nodes to an existing private network. Two
 
 ## Pre-Prerequisites
 
-1. You should have an established private network consisting of at least one requester node. See the [Create Private Network](broken-reference) guide to set one up.
-2. You should have a new host (physical/virtual machine, cloud instance or docker container) with [Bacalhau](broken-reference) installed.​
+1. You should have an established private network consisting of at least one requester node.
+2. You should have a new host (physical/virtual machine, cloud instance or docker container) with [Bacalhau](https://app.gitbook.com/s/c5oFaD28JCN1axzUG8eJ/getting-started/installation) installed.​
 
 ## Add Host/Virtual Machine as a New Node
 

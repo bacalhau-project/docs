@@ -25,7 +25,7 @@ After the script has run successfully locally we can now run it on Bacalhau.
 
 ## 2. Running a Bacalhau Job​ <a href="#id-2-running-a-bacalhau-job" id="id-2-running-a-bacalhau-job"></a>
 
-To submit a workload to Bacalhau you can use the `bacalhau docker run` command. This command allows passing input data into the container using [content identifier (CID)](https://github.com/multiformats/cid) volumes, we will be using the `--input URL:path` [argument](broken-reference) for simplicity. This results in Bacalhau mounting a _data volume_ inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
+To submit a workload to Bacalhau you can use the `bacalhau docker run` command. This command allows passing input data into the container using [content identifier (CID)](https://github.com/multiformats/cid) volumes, we will be using the `--input URL:path` argument for simplicity. This results in Bacalhau mounting a _data volume_ inside the container. By default, Bacalhau mounts the input volume at the path `/inputs` inside the container.
 
 {% hint style="info" %}
 [Bacalhau overwrites the default entrypoint](https://github.com/bacalhau-project/bacalhau/blob/v0.2.3/cmd/bacalhau/docker_run.go#L64), so we must run the full command after the `--` argument.

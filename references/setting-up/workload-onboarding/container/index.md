@@ -8,7 +8,7 @@ This documentation explains how to use the Bacalhau Docker image for task manage
 
 ## Prerequisites
 
-To get started, you need to install the Bacalhau client (see more information [here](broken-reference)) and Docker.
+To get started, you need to install the Bacalhau client (see more information [here](https://app.gitbook.com/s/c5oFaD28JCN1axzUG8eJ/getting-started/installation)) and Docker.
 
 ## 1. Pull the Bacalhau Docker image
 
