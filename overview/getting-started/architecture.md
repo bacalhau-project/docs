@@ -98,7 +98,7 @@ You can create jobs in the Bacalhau network using various [job types](broken-ref
 
 Prepare data with Bacalhau by [copying from URLs](broken-reference), [pinning to public storage](broken-reference) or [copying from an S3 bucket](broken-reference). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](broken-reference), [Local](broken-reference), [S3](broken-reference) and [URL](broken-reference) Source Specifications for data source usage.
 
-Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](workload-onboarding/docker-workload-onboarding.md) and [WebAssembly](workload-onboarding/wasm-workload-onboarding.md) workloads.
+Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](broken-reference) and [WebAssembly](broken-reference) workloads.
 
 Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](broken-reference) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](broken-reference).
 
