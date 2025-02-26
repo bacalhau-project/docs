@@ -1,4 +1,8 @@
-# Using Bacalhau with DuckDB
+---
+icon: lightbulb-cfl-on
+---
+
+# DuckDB
 
 ## Introduction
 
