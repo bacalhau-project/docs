@@ -2,7 +2,7 @@
 
 After having deployed the job, we now can use the CLI for the interaction with the network. The jobs were sent to the public demo network, where it was processed and we can call the following functions. The `job_id` will differ for every submission.
 
-You can find out more information about your job by using [`bacalhau job describe`](broken-reference).
+You can find out more information about your job by using [`bacalhau job describe`](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/describe).
 
 ```shell
 bacalhau job describe j-de72aeff
@@ -48,13 +48,13 @@ This outputs all information about the job, including stdout, stderr, where the 
 
 ### Job Results Download
 
-After the job runs, if it produces any output, the output will be stored according to the [publisher](broken-reference) setting for your job. You can download your job results directly by using [`bacalhau job get`](broken-reference).
+After the job runs, if it produces any output, the output will be stored according to the [publisher](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers) setting for your job. You can download your job results directly by using `bacalhau job get`.
 
 ```shell
 bacalhau job get j-de72aeff
 ```
 
-Depending on selected [publisher](broken-reference), this may result in:
+Depending on selected publisher, this may result in:
 
 ```shell
 \Fetching results of job 'j-de72aeff'...
@@ -74,12 +74,7 @@ After the download has finished you should see the following contents in the res
 Each of these files contain the following information:
 
 * **`exitCode`** - the numeric exit code after your job ran (just like if you ran looked at the exit code on your local machine)
-* **`outputs`** - a directory of everything you wrote in the job (if using [LocalPublisher](broken-reference)).
+* **`outputs`** - a directory of everything you wrote in the job (if using [LocalPublisher](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers/local)).
 * **`stderr`** - the output of the [standard error](https://www.gnu.org/software/libc/manual/html_node/Standard-Streams.html) stream of the job.
 * **`stdout`** - the output of the [standard out](https://www.gnu.org/software/libc/manual/html_node/Standard-Streams.html) stream of the job.
 
-And that's it! If you'd like to go to the next level, you can [create your own Bacalhau network](broken-reference) - it's super easy too!
-
-Here are few resources that provide a deeper dive into running jobs with Bacalhau:
-
-[How Bacalhau works](../architecture.md), [Creating your Private Network](broken-reference), [Examples & Use Cases](broken-reference)
