@@ -49,6 +49,7 @@
 * [Node Management](setting-up/node_management.md)
 * [Authentication & Authorization](setting-up/auth_flow.md)
 * [Inter-Nodes TLS](setting-up/inter-nodes-tls.md)
+* [Hardware Setup](setting-up/hardware-setup.md)
 
 ## Developer Resources <a href="#developers" id="developers"></a>
 
