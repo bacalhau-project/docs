@@ -92,20 +92,6 @@ The publisher is responsible for uploading the final results of a job to a remot
 
 You can create jobs in the Bacalhau network using various [job types](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job/type) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job).
 
-<details>
-
-<summary>Advanced job preparation</summary>
-
-Prepare data with Bacalhau by [copying from URLs](broken-reference), [pinning to public storage](broken-reference) or [copying from an S3 bucket](broken-reference). Mount data anywhere for Bacalhau to run against. Refer to [IPFS](broken-reference), [Local](broken-reference), [S3](broken-reference) and [URL](broken-reference) Source Specifications for data source usage.
-
-Optimize workflows without completely redesigning them. Run arbitrary tasks using Docker containers and WebAssembly images. Follow the Onboarding guides for [Docker](broken-reference) and [WebAssembly](broken-reference) workloads.
-
-Explore GPU workload support with Bacalhau. Learn how to run [GPU workloads](broken-reference) using the Bacalhau client in the GPU Workloads section. Integrate Python applications with Bacalhau using the [Bacalhau Python SDK](broken-reference).
-
-For node operation, refer to the [Running a Node](broken-reference) section for configuring and running a Bacalhau node. If you prefer an isolated environment, explore the [Private Cluster](broken-reference) for performing tasks without connecting to the main Bacalhau network.
-
-</details>
-
 ### Job Submission
 
 You should use the Bacalhau client to send a task to the network. The client transmits the job information to the Bacalhau network via established protocols and interfaces. Jobs submitted via the Bacalhau CLI are forwarded to a Bacalhau network node at (http://bootstrap.production.bacalhau.org/) via port `1234` by default. This Bacalhau node will act as the requester node for the duration of the job lifecycle.
@@ -258,7 +244,7 @@ The selected compute node receives the job and starts its execution inside a con
 
 When the Compute node completes the job, it publishes the results to **S3's remote storage**, **IPFS**.
 
-Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure. View [IPFS Publisher Specification](broken-reference) to get the detailed information.
+Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure. View [IPFS Publisher Specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers/ipfs) to get the detailed information.
 
 Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. View [S3 Publisher Specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers/s3) to get the detailed information.
 
