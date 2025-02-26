@@ -495,7 +495,7 @@ Fetch results published by all executions for the defined job. Applicable only f
 
 **Response**:
 
-* [**Results**](broken-reference): List of all published results.
+* **Results**: List of all published results.
 * **NextToken** `(string)`: Pagination token.
 
 **Example**:
