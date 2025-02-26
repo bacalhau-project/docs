@@ -16,8 +16,7 @@ To run the job, you will need to connect to a public demo network or set up your
 {% tab title="CLI" %}
 ```bash
 bacalhau docker run \
-                -c API.Host=bootstrap.production.bacalhau.org \
-                --wait \
+                -c API.Host=bootstrap.demo.bacalhau.org \
                 docker run \
                 docker.io/bacalhauproject/hello-world:latest
 ```
