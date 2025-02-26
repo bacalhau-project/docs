@@ -1,11 +1,5 @@
 # Limits and Timeouts
 
-{% hint style="warning" %}
-Note that in version `v1.5.0` the configuration management approach was completely changed and certain limits were deprecated.
-
-Check out the [release notes](https://docs.bacalhau.org/guides/updated-configuration-management) to learn about all the changes in configuration management: CLI commands syntax and configuration files management.
-{% endhint %}
-
 ## Resource Limits <a href="#resource-limits" id="resource-limits"></a>
 
 These are the configuration keys that control the capacity of the Bacalhau node, and the limits for jobs that might be run.
@@ -17,7 +11,7 @@ These are the configuration keys that control the capacity of the Bacalhau node,
 | Compute.AllocatedCapacity.GPU    | <p>Specifies the amount of GPU a compute node allocates for running jobs. It can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string (e.g., <code>1</code>). </p><p>Note: When using percentages, the result is always rounded up to the nearest whole GPU</p> |
 | Compute.AllocatedCapacity.Memory | Specifies the amount of Memory a compute node allocates for running jobs. It can be expressed as a percentage (e.g., `85%`) or a Kubernetes resource  string (e.g., `1Gi`)                                                                                                                       |
 
-It is also possible to additionally specify the number of resources to be allocated to each job by default, if the required number of resources is not specified in the job itself. `JobDefaults.<`[`Job type`](broken-reference)`>.Task.Resources.<Resource Type>` configuration keys are used for this purpose. E.g. to provide each [Ops](broken-reference) job with 2Gb of RAM the following key is used: `JobDefaults.Ops.Task.Resources.Memory`:
+It is also possible to additionally specify the number of resources to be allocated to each job by default, if the required number of resources is not specified in the job itself. `JobDefaults.<`[`Job type`](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job/type)`>.Task.Resources.<Resource Type>` configuration keys are used for this purpose. E.g. to provide each [Ops](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job/type) job with 2Gb of RAM the following key is used: `JobDefaults.Ops.Task.Resources.Memory`:
 
 ```bash
 bacalhau config set JobDefaults.Ops.Task.Resources.Memory=2Gi

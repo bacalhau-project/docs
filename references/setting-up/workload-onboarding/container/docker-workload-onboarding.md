@@ -62,19 +62,11 @@ If you need to pass data into your container you will do this through a Docker v
 
 We make the assumption that you are reading from a directory called `/inputs`, which is set as the default.
 
-{% hint style="info" %}
-You can specify which directory the data is written to with the [`--input`](broken-reference) CLI flag.
-{% endhint %}
-
 #### Step 2 - Write Data to the Your Directory
 
 If you need to return data from your container you will do this through a Docker volume. You'll need to modify your code to write to a local directory.
 
 We make the assumption that you are writing to a directory called `/outputs`, which is set as the default.
-
-{% hint style="info" %}
-You can specify which directory the data is written to with the [`--output-volumes`](broken-reference) CLI flag.
-{% endhint %}
 
 #### Step 3 - Build and Push Your Image To a Registry
 
@@ -148,21 +140,7 @@ The result of the commands' execution is shown below:
 do something useful
 ```
 
-#### Step 5 - Upload the Input Data
-
-Data is identified by its content identifier (CID) and can be accessed by anyone who knows the CID. You can use either of these methods to upload your data:
-
-[Copy data from a URL to public storage](broken-reference)
-
-[Pin Data to public storage](broken-reference)
-
-[Copy Data from S3 Bucket to public storage](broken-reference)
-
-{% hint style="info" %}
-You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
-{% endhint %}
-
-#### Step 6 - Run the Workload on Bacalhau
+#### Step 5 - Run the Workload on Bacalhau
 
 To launch your workload in a Docker container, using the specified image and working with `input` data specified via IPFS CID, run the following command:
 

@@ -2,13 +2,13 @@
 
 When running a node, you can choose which jobs you want to run by using configuration options, environment variables or flags to specify a job selection policy.
 
-| Confiuration key                        | Default value | Meaning                                                                                   |
-| --------------------------------------- | ------------- | ----------------------------------------------------------------------------------------- |
-| JobAdmissionControl.Locality            | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").  |
-| JobAdmissionControl.ProbeExec           | unused        | Use the result of an external program to decide if we should take on the job.             |
-| JobAdmissionControl.ProbeHTTP           | unused        | Use the result of a HTTP POST to decide if we should take on the job.                     |
-| JobAdmissionControl.RejectStatelessJobs | False         | Reject jobs that don't specify any [input data](broken-reference).                        |
-| JobAdmissionControl.AcceptNetworkedJobs | False         | Accept jobs that require [network connections](../networking-instructions/networking.md). |
+| Confiuration key                        | Default value | Meaning                                                                                                                          |
+| --------------------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| JobAdmissionControl.Locality            | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").                                         |
+| JobAdmissionControl.ProbeExec           | unused        | Use the result of an external program to decide if we should take on the job.                                                    |
+| JobAdmissionControl.ProbeHTTP           | unused        | Use the result of a HTTP POST to decide if we should take on the job.                                                            |
+| JobAdmissionControl.RejectStatelessJobs | False         | Reject jobs that don't specify any [input data](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job/input-source). |
+| JobAdmissionControl.AcceptNetworkedJobs | False         | Accept jobs that require [network connections](../networking-instructions/networking.md).                                        |
 
 ## Job selection probes
 

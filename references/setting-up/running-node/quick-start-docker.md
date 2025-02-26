@@ -14,7 +14,7 @@ This tutorial describes how to add new nodes to an existing private network. Two
 
 ## Add Host/Virtual Machine as a New Node
 
-Let's assume that you already have a private network with at least one requester node. In this case, the process of adding new nodes follows the [Create And Connect Compute Node](broken-reference) section. You will need to:
+Let's assume that you already have a private network with at least one requester node. You will need to:
 
 1. Set the token in the `Compute.Auth.Token` configuration key
 2. Set the orchestrators IP address in the `Compute.Orchestrators` configuration key
