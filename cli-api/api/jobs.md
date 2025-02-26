@@ -100,7 +100,7 @@ Retrieve a list of jobs.
 **Parameters**:
 
 1. `namespace`: Specify a namespace to filter the jobs. Use `*` to display jobs from all namespaces.
-2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](broken-reference) for usage details.
+2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](../specifications/job/label.md) for usage details.
 3. `limit`: Set the maximum number of jobs to return. Default is set to 10.
 4. `next_token`: Utilize this parameter for pagination continuation.
 5. `order_by`: Determine the ordering of jobs. Choose between `id` or `create_time` (default is `create_time`).
