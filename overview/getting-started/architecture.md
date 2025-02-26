@@ -90,7 +90,7 @@ The publisher is responsible for uploading the final results of a job to a remot
 
 ### Job preparation
 
-You can create jobs in the Bacalhau network using various [job types](broken-reference) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](broken-reference).
+You can create jobs in the Bacalhau network using various [job types](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job/type) introduced in version 1.2. Each job may need specific variables, resource requirements and data details that are described in the [Job Specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job).
 
 <details>
 
@@ -118,7 +118,7 @@ Bacalhau provides an interface to interact with the server via a REST API. Bacal
 bacalhau job run [flags]
 ```
 
-You can use the command with [appropriate flags](broken-reference) to create a job in Bacalhau using JSON and YAML formats.
+You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job) to create a job in Bacalhau using JSON and YAML formats.
 {% endtab %}
 
 {% tab title="API" %}
@@ -130,7 +130,7 @@ You can use [Create Job API Documentation](broken-reference) to submit a new job
 {% endtab %}
 {% endtabs %}
 
-You can use the `bacalhau docker run` [command](broken-reference) to start a job in a Docker container. Below, you can see an excerpt of the commands:
+You can use the `bacalhau docker run` command to start a job in a Docker container. Below, you can see an excerpt of the commands:
 
 <details>
 
@@ -187,7 +187,7 @@ Flags:
 
 </details>
 
-You can also use the `bacalhau wasm run` [command](broken-reference) to run a job compiled into the (WASM) format. Below, you can find an excerpt of the commands in the Bacalhau CLI:
+You can also use the `bacalhau wasm run` command to run a job compiled into the (WASM) format. Below, you can find an excerpt of the commands in the Bacalhau CLI:
 
 <details>
 
@@ -252,7 +252,7 @@ When a job is submitted to a requester node, it selects compute nodes that are c
 
 ### Job execution
 
-The selected compute node receives the job and starts its execution inside a container. The container can use different executors to work with the data and perform the necessary actions. A job can use the docker executor, WASM executor or a library storage volumes. Use [Docker Engine Specification](broken-reference) to view the parameters to configure the Docker Engine. If you want tasks to be executed in a WebAssembly environment, pay attention to [WebAssembly Engine Specification](broken-reference).
+The selected compute node receives the job and starts its execution inside a container. The container can use different executors to work with the data and perform the necessary actions. A job can use the docker executor, WASM executor or a library storage volumes. Use [Docker Engine Specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/engines/docker) to view the parameters to configure the Docker Engine. If you want tasks to be executed in a WebAssembly environment, pay attention to [WebAssembly Engine Specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/engines/wasm).
 
 ### Results publishing
 
@@ -260,7 +260,7 @@ When the Compute node completes the job, it publishes the results to **S3's remo
 
 Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure. View [IPFS Publisher Specification](broken-reference) to get the detailed information.
 
-Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. View [S3 Publisher Specification](broken-reference) to get the detailed information.
+Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. View [S3 Publisher Specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers/s3) to get the detailed information.
 
 ## Chapter 3 - Returning Information
 
@@ -302,7 +302,7 @@ To describe a specific job, inserting the ID to the CLI or API gives back an ove
 bacalhau job describe [id] [flags]
 ```
 
-You can use the command with [appropriate flags](broken-reference) to get a full description of a job in yaml format.
+You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/describe) to get a full description of a job in yaml format.
 {% endtab %}
 
 {% tab title="API" %}
@@ -324,7 +324,7 @@ If you run more then one job or you want to find a specific job ID
 bacalhau job list [flags]
 ```
 
-You can use the command with [appropriate flags](broken-reference) to list jobs on the network in yaml format.
+You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/list) to list jobs on the network in yaml format.
 {% endtab %}
 
 {% tab title="API" %}
@@ -346,7 +346,7 @@ To list executions follow the following commands.
 bacalhau job executions [id] [flags]
 ```
 
-You can use the command with [appropriate flags](broken-reference) to list all executions associated with a job, identified by its ID, in yaml format.
+You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/executions) to list all executions associated with a job, identified by its ID, in yaml format.
 {% endtab %}
 
 {% tab title="API" %}
@@ -360,7 +360,7 @@ You can use [Job Executions API Documentation](broken-reference) to retrieve all
 
 ## Chapter 4 - Monitoring and Management
 
-The Bacalhau client provides the user with tools to monitor and manage the execution of jobs. You can get information about status, progress and decide on next steps. View the [Bacalhau Agent APIs](broken-reference) if you want to know the node's health, capabilities, and deployed Bacalhau version. To get information about the status and characteristics of the nodes in the cluster use [Nodes API Documentation](broken-reference).
+The Bacalhau client provides the user with tools to monitor and manage the execution of jobs. You can get information about status, progress and decide on next steps. View the [Bacalhau Agent APIs](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/agent) if you want to know the node's health, capabilities, and deployed Bacalhau version. To get information about the status and characteristics of the nodes in the cluster use [Nodes API Documentation](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/api/nodes).
 
 ### Stop a Job
 
@@ -370,7 +370,7 @@ The Bacalhau client provides the user with tools to monitor and manage the execu
 bacalhau job stop [id] [flags]
 ```
 
-You can use the command with [appropriate flags](broken-reference) to cancel a job that was previously submitted and stop it running if it has not yet completed.
+You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/stop) to cancel a job that was previously submitted and stop it running if it has not yet completed.
 {% endtab %}
 
 {% tab title="API" %}
@@ -390,7 +390,7 @@ You can use [Stop Job API Documentation](broken-reference) to terminate a specif
 bacalhau job history [id] [flags]
 ```
 
-You can use the command with [appropriate flags](broken-reference) to enumerate the historical events related to a job, identified by its ID.
+You can use the command with [appropriate flags](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/history) to enumerate the historical events related to a job, identified by its ID.
 {% endtab %}
 
 {% tab title="API" %}
@@ -408,8 +408,8 @@ You can use [Job History API Documentation](broken-reference) to retrieve histor
 bacalhau job logs [flags] [id]
 ```
 
-You can use this [command](broken-reference) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
+You can use this [command](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/cli/job/logs) to retrieve the log output (stdout, and stderr) from a job. If the job is still running it is possible to follow the logs after the previously generated logs are retrieved.
 
 {% hint style="info" %}
-To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](broken-reference)
+To familiarize yourself with all the commands used in Bacalhau, please view [CLI Commands](https://app.gitbook.com/o/HOJ2mjuVnRnkv8e25LqS/s/GSmEKKGEGIXdhfaa5pa3/)
 {% endhint %}
