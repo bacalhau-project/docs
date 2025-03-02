@@ -22,6 +22,78 @@ Bacalhau is an open-source distributed compute orchestration framework designed 
 6. **Declarative & Imperative Submissions**: Define jobs in a YAML spec (declarative) or pass all arguments via CLI (imperative).
 7. **Publisher Support**: Output results to local volumes, S3, or other storage backends—so your artifacts are readily accessible.
 
+### Use Cases
+
+Bacalhau's distributed compute framework enables a wide range of applications across different industries:
+
+<details>
+
+<summary>Log Processing</summary>
+
+Process logs efficiently at scale by running distributed jobs directly at the source, reducing costs by up to 93% in bandwidth usage while improving real-time insights. Bacalhau supports various job types for log management:
+
+* **Daemon Jobs**: Continuously run on each node for real-time log aggregation and compression
+* **Service Jobs**: Handle ongoing processing tasks like log aggregation and issue detection
+* **Batch Jobs**: Execute on-demand in-depth analysis of historical log data
+* **Ops Jobs**: Enable real-time querying of live logs for urgent investigations
+
+</details>
+
+<details>
+
+<summary>Distributed Data Warehousing</summary>
+
+Query and analyze data across multiple regions by deploying compute tasks directly where your data resides. This approach reduces latency, enhances performance, and ensures compliance with data sovereignty regulations. Bacalhau integrates with modern data tools like Apache Iceberg and DuckDB to enable:
+
+* Reduced data movement with local query execution
+* Improved query performance through compute-data proximity
+* Seamless scalability with dynamic node addition
+* Compliance with data regulations through region-specific processing
+
+</details>
+
+<details>
+
+<summary>Fleet Management</summary>
+
+Efficiently manage distributed nodes across multiple environments with capabilities for:
+
+* Remote execution of commands without requiring SSH access
+* Automated software deployment and configuration updates
+* Real-time metrics and logs collection
+* Targeted job execution based on node attributes
+* Rapid incident response and automated recovery
+
+</details>
+
+<details>
+
+<summary>Distributed Machine Learning</summary>
+
+Train and deploy ML models across a distributed compute fleet, optimizing performance while keeping data in place:
+
+* Distribute training across multiple machines to handle larger models
+* Process data locally to minimize network transfers
+* Deploy inference jobs near users for low-latency predictions
+* Support federated learning for privacy-sensitive applications
+
+</details>
+
+<details>
+
+<summary>Edge Computing</summary>
+
+Run compute tasks closer to the data source for applications requiring low latency and minimal bandwidth usage:
+
+* Process and analyze sensor, IoT, or video data in real time
+* Perform pre-processing and filtering at the edge before sending refined data
+* Distribute tasks across available edge resources dynamically
+* Ensure data privacy by keeping computations near the source
+
+</details>
+
+
+
 ### How It Works
 
 Bacalhau's architecture enables you to create compute networks that bridge traditional infrastructure boundaries. When you submit a job, Bacalhau intelligently determines which compute nodes are best positioned to process the data based on locality, availability, and your defined constraints—without requiring data movement or constant connectivity.
