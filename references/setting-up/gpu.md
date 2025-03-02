@@ -19,6 +19,30 @@ To submit a job request, use the `--gpu` flag under the `docker run` command to 
 bacalhau docker run --gpu=1 nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
 ```
 
+In order to run this as a job, using yaml, execute the following:
+
+```
+Name: gpu-test-job
+Type: batch
+Count: 1
+Tasks:
+  - Engine:
+      Type: docker
+      Params:
+        Image: "nvidia/cuda:11.6.2-base-ubuntu20.04"
+      Entrypoint:
+        - /bin/bash
+      Parameters:
+        - -c
+        - nvidia-smi && echo 'GPU is working!'
+    Name: TestGPU
+    ResourcesConfig: 
+      CPU: "1"
+      Memory: "1GB"
+      Disk: "10GB"
+      GPU: "1"
+```
+
 ## Limitations
 
 The following limitations currently exist within Bacalhau. Bacalhau supports:
