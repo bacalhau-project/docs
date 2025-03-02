@@ -8,8 +8,8 @@
 
 ## Getting Started
 
-* [Installation](getting-started/installation.md)
 * [Quick Start](getting-started/quick-start.md)
+* [Installation](getting-started/installation.md)
 * [Network Setup](getting-started/network-setup.md)
 * [Basic Usage](getting-started/cli/README.md)
   * [Overview & Global Flags](getting-started/cli/overview.md)
