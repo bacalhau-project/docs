@@ -38,4 +38,17 @@ See the [Running on GPU under docker](https://github.com/Intel-Media-SDK/MediaSD
 
 ## GPU Node Configuration
 
+When running your compute nodes, make sure you add the appropriate configuratio settings:
+
+```
+Compute:
+  AllocatedCapacity:
+    GPU: 1
+  Labels:
+    nvidia.com/gpu: "1"  # Advertise NVIDIA GPU support
+  ResourceLabels:
+    - Key: "nvidia.com/gpu"
+      Value: "1"
+```
+
 Access to GPUs can be controlled using [resource limits](resource-limits.md). To limit the number of GPUs that can be used per job, set a job resource limit. To limit access to GPUs from all jobs, set a total resource limit.
