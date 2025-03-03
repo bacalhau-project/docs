@@ -21,7 +21,9 @@ Choose the setup option that best matches your needs:
 | DevStack            | Development & testing              | Quick local setup with minimal configuration |
 | Self-Hosted Network | Custom infrastructure requirements | Complete control over all components         |
 
-### Option 1: Expanso Cloud (Recommended for Production)
+### Option 1: Expanso Cloud&#x20;
+
+(Recommended for Production)
 
 Expanso Cloud provides a managed orchestrator service, eliminating the need to set up and maintain your own orchestrator.
 
@@ -62,24 +64,9 @@ bacalhau docker run \
 
 This is the simplest way to run a Bacalhau network with minimal setup and maintenance.
 
-### Option 2: Local Testing with DevStack (Recommended for Development)
 
-DevStack provides a pre-configured local environment perfect for development and testing.
 
-```bash
-# Launch a complete development environment
-bacalhau devstack
-```
-
-This pre-configures a transient orchestrator and compute nodes by default, giving you a complete environment for testing with minimal setup.
-
-You can submit jobs to your DevStack just like any other Bacalhau network:
-
-```bash
-bacalhau docker run ubuntu:latest -- echo "Hello from DevStack!"
-```
-
-### Option 3: Self-Hosted Network
+### Option 2: Self-Hosted Network
 
 If you need to host your own orchestrator, follow these steps for a custom deployment.
 
@@ -117,6 +104,23 @@ bacalhau node list
 You should see your orchestrator and all compute nodes listed.
 
 > **Note:** The setup described above creates an open network suitable for testing in trusted environments. For securing your network, refer to the Security Best Practices in the Reference section.
+
+### Option 3: DevStack
+
+DevStack provides a pre-configured local environment perfect for development and testing.
+
+```bash
+# Launch a complete development environment
+bacalhau devstack
+```
+
+This pre-configures a transient orchestrator and compute nodes by default, giving you a complete environment for testing with minimal setup.
+
+You can submit jobs to your DevStack just like any other Bacalhau network:
+
+```bash
+bacalhau docker run ubuntu:latest -- echo "Hello from DevStack!"
+```
 
 ### Alternative Setup Methods
 

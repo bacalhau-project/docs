@@ -18,7 +18,7 @@
   * [Listing  Jobs](getting-started/cli/listing-jobs.md)
   * [Retrieving Logs](getting-started/cli/retrieving-logs.md)
   * [Downloading Results](getting-started/cli/downloading-results.md)
-  * [Stopping or Canceling a Job](getting-started/cli/stopping-or-canceling-a-job.md)
+  * [Stopping a Job](getting-started/cli/stopping-a-job.md)
   * [Working with Nodes](getting-started/cli/working-with-nodes.md)
   * [Debugging the Agent](getting-started/cli/debugging-the-agent.md)
 
@@ -26,6 +26,6 @@
 
 * [Common Workflows](common-workflows/README.md)
   * [Mounting Input Data](common-workflows/mounting-input-data.md)
-  * [Retrieving & Publishing Outputs](common-workflows/retrieving-and-publishing-outputs.md)
+  * [Publishing & Retrieving Results](common-workflows/publishing-and-retrieving-results.md)
   * [Resource Constraints](common-workflows/resource-constraints.md)
 * [Common Pitfalls](common-pitfalls.md)
