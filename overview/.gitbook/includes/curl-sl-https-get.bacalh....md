@@ -33,6 +33,6 @@ docker pull ghcr.io/bacalhau-project/bacalhau:latest-dind
 ```
 
 * Suitable for running compute nodes that can run docker based jobs
-* Require `--privileged`mode when running the container
+* Require `--privileged` mode when running the container
 {% endtab %}
 {% endtabs %}
