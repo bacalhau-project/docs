@@ -1,4 +1,4 @@
-# Retrieving & Publishing Outputs
+# Publishing & Retrieving Results
 
 This guide explains how to configure output publishing and retrieve results from Bacalhau jobs across different storage systems. Proper output handling is essential for building effective data pipelines and workflows.
 
@@ -21,7 +21,7 @@ In Bacalhau, you need to configure two key components for handling outputs:
 ```bash
 bacalhau docker run \
   --publisher <uri><path> \
-  --output outputs:/outputs \
+  --output /outputs:/outputs \
   ubuntu:latest -- echo "Hello, Bacalhau" > /outputs/hello.txt
 ```
 {% endtab %}
@@ -34,7 +34,7 @@ Publisher:
     Key: Value
 
 ResultPaths:
-  - Name: outputs
+  - Name: /outputs
     Path: /outputs
 ```
 {% endtab %}
@@ -71,7 +71,7 @@ The S3 Publisher uploads outputs to an Amazon S3 bucket or any S3-compatible sto
 ```bash
 bacalhau docker run \
   --publisher s3://my-bucket/bacalhau-output \
-  --output outputs:/outputs \
+  --output /outputs:/outputs \
   ubuntu:latest -- bash -c "echo 'results' > /outputs/results.txt"
 ```
 {% endtab %}
@@ -97,7 +97,7 @@ Tasks:
         Bucket: my-bucket
         Key: bacalhau-outputs
     ResultPaths:
-      - Name: outputs
+      - Name: /outputs
         Path: /outputs
 ```
 {% endtab %}
@@ -112,7 +112,7 @@ The IPFS Publisher uploads outputs to the InterPlanetary File System. Both the c
 ```bash
 bacalhau docker run \
   --publisher ipfs \
-  --output outputs:/outputs \
+  --output /outputs:/outputs \
   ubuntu:latest -- bash -c "echo 'results' > /outputs/results.txt"
 ```
 {% endtab %}
@@ -135,15 +135,13 @@ Tasks:
     Publisher:
       Type: ipfs
     ResultPaths:
-      - Name: outputs
+      - Name: /outputs
         Path: /outputs
 ```
 {% endtab %}
 {% endtabs %}
 
-
-
-#### Local Publisher
+Local Publisher
 
 The Local Publisher saves outputs to the local filesystem of the compute node that ran your job. This is intended for **local testing only**, as it requires the client downloading the results to be on the same network as the compute node.
 
@@ -152,11 +150,9 @@ The Local Publisher saves outputs to the local filesystem of the compute node th
 ```bash
 bacalhau docker run \
   --publisher local \
-  --output outputs:/outputs \
+  --output /outputs:/outputs \
   ubuntu:latest -- bash -c "echo 'results' > /outputs/results.txt"
 ```
-
-
 {% endtab %}
 
 {% tab title="Declarative" %}
@@ -177,12 +173,25 @@ Tasks:
     Publisher:
       Type: local
     ResultPaths:
-      - Name: outputs
+      - Name: /outputs
         Path: /outputs
 
 ```
 {% endtab %}
 {% endtabs %}
+
+If you are using the local publish, make SURE you have set the path to be available to your job.
+
+For example, in your config file for your node, you probably want to mount in the local file system:
+
+```
+Compute:
+    AllowListedLocalPaths:
+        - /outputs:rw
+        - /etc/*.conf:ro
+```
+
+You can read more about that here: [Understanding Publishers and Results](publishing-and-retrieving-results.md#understanding-publishers-and-result-paths)
 
 ### Troubleshooting
 
