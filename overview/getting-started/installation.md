@@ -43,7 +43,7 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 * **Running an Orchestrator & Compute**:
   * See [Quick Start](quick-start.md) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
 * **`bacalhau devstack`**:
-  * Perfect for local development or running tests&#x20;
+  * Perfect for local development or running tests.
 
 ***
 
