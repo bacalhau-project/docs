@@ -41,7 +41,7 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 * **AWS Credentials** (if you’re using S3):
   * For S3 inputs or outputs, the node needs valid AWS credentials (e.g., environment variables).
 * **Running an Orchestrator & Compute**:
-  * See Quick Start for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
+  * See [Quick Start](quick-start.md) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
 * **`bacalhau devstack`**:
   * Perfect for local development or running tests&#x20;
 
