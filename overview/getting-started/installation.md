@@ -22,7 +22,7 @@ This should print:
 
 * The local binary version
 * The version of the orchestrator this client is connected to, if any
-* The latest available version of bacalhau incase you are running an outdated version.
+* The latest available version of bacalhau in case you are running an outdated version.
 
 If you get `command not found`, verify your PATH includes the Bacalhau binary.
 
