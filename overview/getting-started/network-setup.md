@@ -25,6 +25,10 @@ Choose the setup option that best matches your needs:
 
 (Recommended for Production)
 
+{% embed url="https://cloud.expanso.io/login" %}
+Expanso Cloud
+{% endembed %}
+
 Expanso Cloud provides a managed orchestrator service, eliminating the need to set up and maintain your own orchestrator.
 
 **Setting Up with Expanso Cloud**
@@ -63,8 +67,6 @@ bacalhau docker run \
 ```
 
 This is the simplest way to run a Bacalhau network with minimal setup and maintenance.
-
-
 
 ### Option 2: Self-Hosted Network
 
