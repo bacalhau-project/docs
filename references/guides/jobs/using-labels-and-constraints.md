@@ -2,7 +2,7 @@
 icon: tags
 ---
 
-# Using Labels and Constraints
+# Labels and Constraints
 
 This guide provides a comprehensive overview of Bacalhau's label and constraint system, which enables fine-grained control over job scheduling and resource allocation.
 
@@ -14,7 +14,7 @@ Labels in Bacalhau are key-value pairs attached to nodes that describe their cha
 
 #### Command Line Configuration
 
-Labels are defined when starting a Bacalhau node using the `-c Labels` flag:
+You define labels when starting a Bacalhau node using the `-c Labels` flag:
 
 ```bash
 bacalhau serve -c Labels="env=prod,gpu=true,arch=x64"
@@ -36,7 +36,7 @@ labels:
 Then start the node with:
 
 ```bash
-bacalhau serve --config-file config.yaml
+bacalhau serve --config config.yaml
 ```
 
 #### Verifying Labels
@@ -65,7 +65,7 @@ Bacalhau supports various operators for precise node selection:
 
 #### Basic Constraint Usage
 
-Here are common patterns for submitting jobs with constraints:
+The below are common patterns for submitting jobs with constraints:
 
 ```bash
 # Single constraint
@@ -209,7 +209,7 @@ bacalhau run --constraints "!maintenance" critical-job
 
 ```bash
 # List all node labels
-bacalhau node list --output json | jq '.[] | .Labels'
+bacalhau node list --output json | jq 'map(.Info.Labels)'
 
 # Check job constraint matches
 bacalhau job describe JOB_ID --include-events
@@ -319,7 +319,7 @@ If your job fails with no matching nodes:
 
 #### Label Updates Not Taking Effect
 
-Remember that label changes require node restarts. After updating labels:
+Remember that label changes require node restarts. After updating labels, take the following steps:
 
 1. Gracefully stop the node
 2. Apply new configuration
