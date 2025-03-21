@@ -47,7 +47,7 @@ Where:
 
 * `URI` is the protocol identifier (file://, s3://, ipfs://, http://, https://)
 * `TARGET` is the path where the data will be mounted in the container
-* PARAMS are key value configuration depending on the input type
+* `PARAMS` are key value configuration [depending on the input type](/cli-api/specifications/sources)
 {% endtab %}
 {% endtabs %}
 
