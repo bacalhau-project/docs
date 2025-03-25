@@ -1,5 +1,5 @@
 ---
-title: curl -sL https://get.bacalh...
+title: Install Bacalhau
 ---
 
 {% tabs %}
