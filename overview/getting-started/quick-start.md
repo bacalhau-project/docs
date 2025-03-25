@@ -9,7 +9,7 @@ This Quick Start guide shows how to run your first Bacalhau job with minimal set
 
 ### 1. Installation
 
-1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](quick-start.md#id-1.-installation) for Windows and Docker options.
+1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](installation.md) for Windows and Docker options.
 
 ```bash
 curl -sL https://get.bacalhau.org/install.sh | bash
