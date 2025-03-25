@@ -28,4 +28,5 @@
   * [Mounting Input Data](common-workflows/mounting-input-data.md)
   * [Publishing & Retrieving Results](common-workflows/publishing-and-retrieving-results.md)
   * [Resource Constraints](common-workflows/resource-constraints.md)
+  * [Partitioning](common-workflows/partitioning.md)
 * [Common Pitfalls](common-pitfalls.md)

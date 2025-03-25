@@ -1,0 +1,201 @@
+# Partitioning
+
+Partitioning is a powerful feature in Bacalhau that allows you to efficiently distribute large datasets and compute-intensive tasks across multiple compute nodes. Instead of running a single job execution, partitioning splits your workload into separate, independent partitions that run concurrently, improving performance and resource utilization.
+
+This core functionality has enabled key integrations such as Bacalhau's [DuckDB integration](https://app.gitbook.com/s/KOwaYl6ijJ5kOeCmhsRl/integrations/duckdb), which implements `partition_by` User Defined Functions (UDFs) that leverage the partitioning system to enable truly distributed SQL queries across multiple nodes.
+
+### Understanding Partitioned Execution
+
+When processing large datasets or running compute-intensive tasks, splitting the work across multiple nodes can significantly improve performance and resource utilization. Bacalhau's partitioning feature makes this process systematic by:
+
+* Distributing work across multiple compute nodes
+* Managing partition assignments and tracking
+* Handling failures at a partition level
+* Providing execution context to each partition
+
+### Core Features
+
+#### 1. Partition Management
+
+Bacalhau handles the key aspects of partition management:
+
+* **Distribution**: When you specify multiple partitions, Bacalhau:
+  * Creates N partitions (0 to N-1)
+  * Assigns each partition to available compute nodes that match the data and other constraints you have set up
+  * Maintains consistent partition assignments throughout the job lifecycle
+  * Ensures that each partition finishes correctly
+* **Independent Execution**: Each partition:
+  * Runs independently of others
+  * Can be processed on different nodes
+  * Has its own lifecycle and error handling
+
+#### 2. Error Handling and Recovery
+
+A key strength of the partitioning system is its approach to failure handling:
+
+* **Partition-Level Isolation**:
+  * Failures are contained within individual partitions
+  * System continues processing unaffected partitions
+  * Failed partitions are retried independently
+*   **Example Scenario**:
+
+    ```
+    Job with 5 partitions:
+    Partition 0: ✓ Completed
+    Partition 1: ✓ Completed
+    Partition 2: ✓ Completed
+    Partition 3: ✗ Failed -> Scheduled for retry
+    Partition 4: ✓ Completed
+    ```
+
+#### 3. Execution Context
+
+Each partition receives essential information through environment variables:
+
+```bash
+BACALHAU_PARTITION_INDEX     # Current partition (0 to N-1)
+BACALHAU_PARTITION_COUNT     # Total number of partitions
+
+# Additional context variables
+BACALHAU_JOB_ID             # Unique job identifier
+BACALHAU_JOB_TYPE           # Job type (Batch/Service)
+BACALHAU_EXECUTION_ID       # Unique execution identifier
+```
+
+This context enables your code to:
+
+* Identify its assigned partition
+* Access job-level information
+* Implement partition-specific processing logic
+
+### Using Partitioning in Your Jobs
+
+{% tabs %}
+{% tab title="Imperative" %}
+```bash
+bacalhau docker run \
+    --count 3 \
+    ubuntu -- sh -c 'echo Partition=$BACALHAU_PARTITION_INDEX'
+```
+
+To use partitioning, specify the number of partitions using the `--count` parameter when submitting your job
+{% endtab %}
+
+{% tab title="Declarative" %}
+```yaml
+# partition.yaml
+Name: Partitioned Job
+Type: batch
+Count: 3  # This defines the number of partitions
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ubuntu
+        Parameters:
+          - sh
+          - -c
+          - echo Partition=$BACALHAU_PARTITION_INDEX
+```
+
+You can also use partitioning in job specifications
+
+Submit with:
+
+```bash
+bacalhau job run partition.yaml
+```
+{% endtab %}
+{% endtabs %}
+
+### Technical Benefits
+
+Bacalhau's partitioning feature offers significant technical advantages:
+
+#### Enhanced Performance and Scalability
+
+* **Horizontal Scaling**: Distribute work across multiple compute nodes
+* **Parallel Processing**: Improve processing speed for large datasets
+* **Resource Optimization**: Maximize resource utilization across your cluster
+* **Reduced Processing Time**: Handle massive datasets more efficiently
+
+#### Increased Reliability and Resilience
+
+* **Granular Failure Recovery**: Isolate errors within individual partitions
+* **Automatic Retry**: Automatically reschedule failed partitions
+* **Continuous Processing**: Continue processing other partitions despite failures
+* **Result Preservation**: Prevent unnecessary reprocessing of successful partitions
+
+### Limitations and Considerations
+
+* Partitioning is supported only for `batch` and `service` job types
+* `daemon` and `ops` jobs are deployed to all nodes and don't use the partitioning feature
+* The default value for `Count` is 1, which means no partitioning
+* Your application code must be designed to work with partitioned execution
+
+### Best Practices
+
+* **Ensure Idempotency**: Make sure each partition can be safely retried without side effects
+* **Balance Partition Size**: Choose a partition count that balances overhead with parallelism
+* **Design for Independence**: Partitions should operate independently without cross-partition dependencies
+* **Handle Edge Cases**: Account for scenarios like uneven data distribution across partitions
+* **Use Partition Context**: Leverage the environment variables to implement partition-aware logic
+
+### Examples
+
+#### Basic Partitioning Example
+
+```bash
+# Run a job with 4 partitions
+bacalhau docker run \
+    --count 4 \
+    ubuntu -- sh -c 'echo Processing partition $BACALHAU_PARTITION_INDEX of $BACALHAU_PARTITION_COUNT'
+```
+
+#### Data Processing with Python
+
+```python
+# script.py
+import os
+import pandas as pd
+
+# Get partition information
+partition_index = int(os.environ.get('BACALHAU_PARTITION_INDEX', 0))
+partition_count = int(os.environ.get('BACALHAU_PARTITION_COUNT', 1))
+
+# Define data ranges for each partition
+def get_data_chunk(index, total):
+    # Example: Split data processing by date ranges
+    dates = pd.date_range('2023-01-01', '2023-12-31')
+    chunk_size = len(dates) // total
+    start_idx = index * chunk_size
+    end_idx = start_idx + chunk_size if index < total - 1 else len(dates)
+    return dates[start_idx:end_idx]
+
+# Process only this partition's data range
+my_dates = get_data_chunk(partition_index, partition_count)
+print(f"Partition {partition_index}/{partition_count} processing dates: {my_dates[0]} to {my_dates[-1]}")
+
+# Continue with processing...
+```
+
+Run with:
+
+```bash
+bacalhau docker run \
+    --count 12 \
+    --input <path>/script.py:/app/script.py \
+    python:3.9 -- python /app/script.py
+```
+
+### Related Features
+
+Bacalhau's partitioning system serves as a foundation for other features, including:
+
+* **DuckDB Integration**: Enables distributed SQL analytics with partitioning support
+* **S3 Partitioning**: Specialized support for partitioned S3 data processing
+
+### Conclusion
+
+Partitioning in Bacalhau provides a powerful way to scale your workloads across distributed compute resources. By allowing work to be split and processed in parallel, while maintaining fault tolerance and proper error handling, Bacalhau's partitioning feature enables efficient processing of large datasets and compute-intensive tasks.
