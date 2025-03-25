@@ -108,7 +108,7 @@ GPU=H100
 
 ### Can I run non Docker jobs?
 
-Yes! You can run programs using WebAssembly instead. See the [onboarding WebAssembly](https://docs.bacalhau.org/getting-started/wasm-workload-onboarding) for information on how to do that.
+Yes! You can run programs using WebAssembly instead. See the [onboarding WebAssembly](../../overview/getting-started/workload-onboarding/wasm-workload-onboarding.md) for information on how to do that.
 
 ### How do I run a script that requires installing packages from a package repository like pypi or apt?
 
