@@ -193,8 +193,8 @@ bacalhau docker run \
 
 Bacalhau's partitioning system serves as a foundation for other features, including:
 
-* **DuckDB Integration**: Enables distributed SQL analytics with partitioning support
-* **S3 Partitioning**: Specialized support for partitioned S3 data processing
+* [**DuckDB Integration**](https://app.gitbook.com/s/KOwaYl6ijJ5kOeCmhsRl/integrations/duckdb): Enables distributed SQL analytics with partitioning support
+* [**S3 Partitioning**](s3-partitioning.md): Specialized support for partitioned S3 data processing
 
 ### Conclusion
 

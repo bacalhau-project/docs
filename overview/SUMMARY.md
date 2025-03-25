@@ -29,4 +29,5 @@
   * [Publishing & Retrieving Results](common-workflows/publishing-and-retrieving-results.md)
   * [Resource Constraints](common-workflows/resource-constraints.md)
   * [Partitioning](common-workflows/partitioning.md)
+  * [S3 Partitioning](common-workflows/s3-partitioning.md)
 * [Common Pitfalls](common-pitfalls.md)
