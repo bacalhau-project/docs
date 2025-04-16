@@ -4,213 +4,370 @@ icon: key
 
 # Authentication & Authorization
 
-## Authorization and authentication flow
+## Introduction
 
-Bacalhau authenticates and authorizes users in a multi-step flow.
+Robust authentication and authorization mechanisms are essential for maintaining security while enabling seamless collaboration. As of Bacalhau 1.7 release, we introduced a significant overhaul to its authentication and authorization systems, offering more flexibility, improved security, and better integration with enterprise environments.
 
-### Requirements
+## 1. Bacalhau Authentication
 
-We know our potential users have many possible requirements around auth and exist across the entire spectrum from "no auth needed because its a simple local deployment" to "enterprise-grade security for publicly accessible nodes". Hence, the auth system needs to be unopinionated about how authentication and authorization gets achieved.
+With Bacalhau 1.7,  we have introduced three distinct authentication paths, each designed to cater to different use cases and environments. The authentication paths are:&#x20;
 
-The auth system has therefore been designed with a few goals in mind:
+1. **Basic HTTP Authentication**
+2. **API Tokens Auth**
+3. **Single Sign-On via OAuth 2.0**
 
-* **Flexible authentication**: it should be easy for users to add their own authentication method, including simple methods like using shared secrets and more complex methods up to OAuth and OIDC.
-* **Flexible authorization**: it should be possible for users to be authorized based on a number of different modes, including group-based auth, RBAC and ABAC. The exact permissions of each should be customizable. The system should not require, for example, a particular model of "namespaces" or "workspaces" because these don't necessarily fit all use cases.
-* **Future proofing**: the auth system should not require core-level upgrades to support advancements in cryptography. The hash functions and key sizes that are considered "secure" change over time, so the Bacalhau core should not be forced to have an opinion on this by the auth system and should not have to play "whack-a-mole" with supporting different configurations for different customers. Instead, it should be possible for customers to apply a policy that makes sense for them and upgrade security at their own pace.
-* **Performance**: any calls to remote servers or complex algorithms to decide logic should happen once in the authentication process, and then subsequent calls to the API should introduce little overhead from authorization.
+### 1.1 HTTP Basic Authentication
 
-### Roles
+The simplest approach leverages the time-tested HTTP Basic Authentication protocol, allowing users to access Bacalhau APIs using traditional username and password credentials. These credentials can be defined in the Node Configuration file, which offers two options for password storage:
 
-* **Auth server** is a set of API endpoints that are trusted to make auth decisions. This is something built into the requester node and doesn't need to be a separate service, but could also be implemented as an external service if desired.
-* **User agent** is a tool that acts on behalf of the user, running in a trusted way locally to them. The user agent submits API calls to the requester node on their behalf – so the CLI, Web UI and SDK are all user agents. We use the term "user agent" to differentiate from a "client", which in the OAuth sense means a third-party service that the user does not have complete trust in.
+* _Plain text passwords for simplicity and ease of setup_
+* _Bcrypt-hashed passwords for enhanced security_
 
-### Policies
+For CLI usage, users simply need to set the environment variables `BACALHAU_API_USERNAME` and `BACALHAU_API_PASSWORD`. For direct API calls, the standard Basic Authorization header with base64-encoded credentials can be used.
 
-Bacalhau implements flexible authentication and authorization using policies which are written using a machine-executable policy format called Rego.
+Below is a sample orchestrator config file that defines 3 users that can authenticate through basic auth.
 
-* Each **authentication policy** receives authentication credentials as input and outputs access tokens that will supplied to future API calls.
-* Each **authorization policy** receives access tokens as input and outputs decisions about allowable access to APIs and job submission.
+{% code lineNumbers="true" %}
+```yaml
+Orchestrator:
+  Enabled: true
+API:
+  Port: 1234
+  Auth:
+    Users:
+      # User with plain text password
+      - Alias: Admin User
+        Username: admin
+        Password: secureAdminPassword
+        # The Capabilities section will be covered 
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ["*"] 
+      
+      # User with limited permissions and plain text password
+      - Alias: Read Only User
+        Username: reader
+        Password: readerPassword
+        # The Capabilities section will be covered 
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ["read:*"]
+      
+      # User with bcrypt hashed password
+      - Alias: Job Manager
+        Username: jobmanager
+        # This is a bcrypt password hash for the password "MySecretPassword"
+        Password: "$2a$10$3ZvxUe5OudgRIQQheomjMO/Ufx1Bb04SH/y0PXnR19oDRXNGps3r2"
+        # The Capabilities section will be covered 
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ["read:job", "write:job", "read:node"]
 
-These two policies work together to define the entire authentication and authorization scheme.
 
-## Auth flow
-
-The basic list of steps is:
-
-1. Get the list of acceptable authn methods
-2. Pick one and execute it, collecting any credentials from the user
-3. Submit the credentials to the authn API
-4. Receive an access token and use it in all future requests
-
-### 1. Retrieve list of supported authentication methods
-
-User agents make a request to their configured auth server to retrieve a list of authentication methods, keyed by name.
-
-```bash
-curl -sL -X GET 'https://bootstrap.production.bacalhau.org/api/v1/auth'
-```
-
-```json
-{
-    "clientkey": {
-        "type": "challenge",
-        "params": {
-            "nOnce": "9qn4v93qb4vq9hff",
-            "minBits": 2048,
-        },
-    },
-    "password": {
-        "type": "ask",
-        "params": {
-            "$schema": ...
-        },
-    },
-    "microsoft": {
-        "type": "external",
-        "params": {
-            "base": "https://login.microsoft.com/?abc=...",
-            "returnQueryParam": "redirect",
-        },
-    }
-}
-```
-
-Each authentication method object describes:
-
-* a type of authentication, identified by a specific key
-* parameters to be used in running the authentication method, specific to that type
-
-Each "type" can be used to implement a number of different authentication methods. The types broadly correlate with behavior that the user agent needs to take to run the authentication flow, such that there can be a single piece of user agent code that is capable of running each type, with different input parameters.
-
-The supported types are:
-
-#### `challenge` authentication
-
-This method is used to identify users via a private key that they hold. The authentication response contains a `InputPhrase` that the user should sign and return to the endpoint.
-
-```json
-{
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://bacalhau.org/auth/challenge",
-    "type": "object",
-    "properties": {
-        "InputPhrase": { "type": "string", "pattern": "[A-Za-z0-9]+" },
-    }
-}
-```
-
-#### `ask` authentication
-
-This method requires the user to manually input some information. This method can be used to implement username and password authentication, shared secret authentication, and even 2FA or security question auth.
-
-The required information is represented by a JSON Schema in the object itself. The implementation should parse the JSON Schema and ask the user questions to populate an object that is valid by it.
-
-```json
-{
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://bacalhau.org/auth/ask",
-    "type": "object",
-    "$ref": "https://json-schema.org/draft/2020-12/schema",
-}
-```
-
-### 2. Run the authn flow and submit the result for an access token
-
-The user agent decides which authentication method to use (e.g. by asking the user, or by knowing it has an appropriate key) and operates the flow.
-
-Once all the data for the method has been successfully collected, the user agent POSTs the data to the auth endpoint for the method. The endpoint is the base auth endpoint plus the name of the method, e.g. `/api/v1/auth/<method>`. So to submit data for a "userpass" method, the user agent would POST to `/api/v1/auth/userpass`.
-
-### 3. Auth server checks the authn data against a policy
-
-The auth server processes the request by inputting the auth credentials into a auth policy. If the auth policy finds the passed data acceptable, it returns an access token that the user can use in subsequent calls.
-
-(Aside: there is actually no specification on the structure of the access token. The user agent should treat it as an opaque blob that it receives from the auth server and submits to the API server. Currently, all of the core Bacalhau code also does not have any opinion of the auth token – it is not assumed to be any specific type of object, and all parsing and handling is handled by the Rego policies. However, all of the currently implemented Rego policies output and expect JWTs, and it is recommended that users continue to use this convention. The rest of this document will assume access tokens are JWTs.)
-
-The signed JWT is returned to the user agent. The user agent takes appropriate steps to keep the access token secret.
-
-In principle, the auth policy can return any JWT it wishes, which will be interpreted later in the API auth policy – it is up to the authn policy and the authz policy to work together to apply auth. The policy to run is identified by the `Node.Auth.Methods` variable, which is a map of method names to policy paths.
-
-However, the default authn and authz policies make decisions using namespaces. Here, the authn policy returns a set of namespaces with associated access permissions, and the authz policy controls access based on them.
-
-In this default case, the JWT includes the fields:
-
-#### `iss` (issuer)
-
-The node ID of the auth server.
-
-#### `sub` (subject)
-
-A network-unique user ID, derived from the auth credentials. The `sub` does not need to identify the same user across different authentication methods, but should ideally be the same if the user logs in via the same auth method again.
-
-#### `ist` (issued at)
-
-The timestamp when the token was issued.
-
-#### `exp` (expires at)
-
-The timestamp after which the token is no longer valid.
-
-#### `ns` (namespaces)
-
-A map of namespaces to permission bits.
-
-The key in the map is a namespace name that the user has some level of access of. Namespace names are ephemeral – i.e. there does not need to be a persistent or coordinated store of namespaces shared across the whole cluster. Instead, the **format** of namespace names is an interface for the network operator to decide.
-
-For example, the default policy will just give the user access to a namespace identified by the `sub` field (e.g. their username). But in principle, more complex setups involving groups could be used.
-
-Namespace names can be a `*`, which by convention will match any set of characters, like a filesystem glob. But it is up to the various auth policies to actually implement this. So a JWT claim containing `"*"` would give default permissions for all namespaces.
-
-The value in the map is an unsigned integer encoding permission bits. If the following bits are set:
-
-* `0b00000001`: user can describe jobs in the namespace
-* `0b00000010`: user can create jobs in the namespace
-* `0b00000100`: user can download results from the namespace
-* `0b00001000`: user can cancel jobs in the namespace
-
-### 4. Make an API request and include the token
-
-The user agent includes an `Authorization` header with the access token it wishes to use passed as a bearer token:
 
 ```
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX3459…
+{% endcode %}
+
+In the above configuration:
+
+1. The first two users have plain text passwords, while the third uses a BCRYPT hashed password for added security.
+2. We have three users with different permission levels. These capabilities will be covered in detail in  the authorization section below.
+
+
+
+To help users and operators generate secure hashed passwords, a convenient CLI command was added that generates a BCRYPT hash of a password of your choosing. This command takes a plain string and converts it into a BCRYPT hash.
+
+<pre class="language-shell"><code class="lang-shell"><strong>$ bacalhau auth hash-password
+</strong></code></pre>
+
+
+
+To use this configuration with the Bacalhau CLI, you would set the following environment variables:
+
+```sh
+# For admin access
+export BACALHAU_API_USERNAME=admin
+export BACALHAU_API_PASSWORD=secureAdminPassword
+
+# For read-only access
+export BACALHAU_API_USERNAME=reader
+export BACALHAU_API_PASSWORD=readerPassword
+
+# For job management
+# Please note: Set the password env variable to the actual password,
+#              not the hashed password.
+export BACALHAU_API_USERNAME=jobmanager
+export BACALHAU_API_PASSWORD=MySecretPassword
 ```
 
-Note that the `Authorization` header is strictly optional – access for unauthorized users is controlled using the policy, and may be allowed. The API call is allowed to proceed if the authorization policy returns a positive decision.
 
-The requester node executes the API authorization policy and passes details of the API call. The default policy is one where the namespaces of the token are checked if present, and non-namespaced APIs require a valid signed token.
 
-As above, custom policies are allowed. The policy to execute is defined by the `Node.Auth.AccessPolicyPath` config variable. For non-namespaced APIs, such as node APIs, the policy may make a blanket decision simply using whether the user has an authorization token or not, or may choose to make a decision depending on the type of authorization. For namespaced APIs, such as job APIs, the policy should examine the namespaces in the JWT token and respond accordingly.
+For direct API calls, for example by using curl, you would encode the credentials in base64:
 
-The authz server will return a `403 Forbidden` error if the user is not allowed to carry out the requested action. It will also return a `401 Unauthorized` error if the token the user passed is not valid for any future request. In the latter case, the user agent should discard the token and execute the above flow again to get a new one.
+{% code overflow="wrap" %}
+```sh
+# For admin (base64 of "admin:secureAdminPassword")
+curl -X GET -H "Authorization: Basic YWRtaW46c2VjdXJlQWRtaW5QYXNzd29yZA==" "http://orchestrator:1234/api/v1/orchestrator/nodes"
 
-## Future work
+# For reader (base64 of "reader:readerPassword")
+curl -X GET -H "Authorization: Basic cmVhZGVyOnJlYWRlclBhc3N3b3Jk" "http://orchestrator:1234/api/v1/orchestrator/nodes"
 
-There are a number of roadmap items that will enhance the auth system:
+# For Job Manager (base64 of "jobmanager:MySecretPassword")
+curl -X GET -H "Authorization: Basic am9ibWFuYWdlcjpNeVNlY3JldFBhc3N3b3Jk" "http://orchestrator:1234/api/v1/orchestrator/nodes"
+```
+{% endcode %}
 
-### Authn/z in the Web UI
+***
 
-The Web UI currently does not have any authn/z capability, and so can only work with the default Bacalhau configuration which does not limit unauthenticated users from querying read-only API endpoints.
+### 1.2 Authentication through API Tokens
 
-To upgrade the Web UI to work in authenticated cases, it will be necessary to implement the algorithms noted above. In short:
+For applications and scenarios where password-based authentication isn't ideal, Bacalhau 1.7 introduces API token support. Instead of username and password pairs, users can generate and use API keys as bearer tokens in authorization headers.
 
-1. The Web UI will need to query the auth API endpoint for available authn methods.
-2. It should then pick an appropriate authn method, either by asking the user, choosing based on known available data (e.g. existing presence of a private key), or by picking the only available option.
-3. It should then run the authn flow for that type:
-   * For `challenge` types, it will need a private key. It should probably generate and store one persistently rather than asking the user to upload theirs.
-   * For `ask` types, it will need to parse the input JSON Schema and present a web form to collect the necessary authn credentials.
-4. Once it has successfully authenticated, it should persistently store the access token and add it to all subsequent API requests.
+Configuration is straightforward – API keys are defined in the orchestrator config under user profiles. To use them with the Bacalhau CLI, users set the `BACALHAU_API_KEY` environment variable. For direct API access, the token is included in the Authorization header using the Bearer scheme.&#x20;
 
-### Addition of an `external` authentication type
+<mark style="color:red;">Please note that API Keys are opaque tokens.</mark>
 
-This type will power future OAuth2/OIDC authentication. The principle is that:
+Here's a sample configuration for API tokens in Bacalhau:
 
-1. The type will specify a remote endpoint to redirect the user to. The CLI will open a browser to this endpoint (or otherwise advise the user to do this) and the Web UI will just issue a redirect to this endpoint.
-2.  The user completes authentication at the remote service and is then redirected back to a supplied endpoint with valid credentials.
+{% code lineNumbers="true" %}
+```yaml
+Orchestrator:
+  Enabled: true
+API:
+  Port: 1234
+  Auth:
+    Users:
+      # Administrator API token with full access
+      - Alias: Admin API Token
+        APIKey: 8F42A91D7C6E4B3DA5E9F8C12B76D3A4
+        # The Capabilities section will be covered 
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ["*"]
+      
+      # Read-only API token
+      - Alias: Monitoring Token
+        APIKey: C5D8E3F1A7B94026895C1D4E3F2A0B78
+        # The Capabilities section will be covered 
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ["read:*"]
+      
+      # Job management API token
+      - Alias: CI/CD Pipeline Token
+        APIKey: 2E8D7F5B3A9C41608D2E6B7F4A5C3D9E
+        # The Capabilities section will be covered 
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ["read:job", "write:job", "read:node"]
+      
+      # Agent management API token
+      - Alias: Agent Management Token
+        APIKey: 1A3B5C7D9E0F2G4H6I8J0K2L4M6N8P0
+        # The Capabilities section will be covered 
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ["read:agent", "write:agent"]
 
-    The CLI may need to run a temporary web server to receive the redirect (this is how CLI tools like `gcloud` currently handle the OIDC flow). The Web UI will need to specify a redirect that it can subsequently decode credentials for.
+```
+{% endcode %}
 
-    Also specified in the authentication method data will be any query parameters that the CLI/WebUI needs to populate with the redirect path. E.g. the specific OIDC scheme might specify the return location as a `?redirect` url query parameter, and the authentication type should specify the name of this parameter.
-3.  There doesn't need to be an optional step where the user exchanges the identity token they received from the remote auth server for a Bacalhau auth token. Instead, the system could just use the returned credential directly.
+In this configuration:
 
-    However, this may be a beneficial step for mapping OIDC credentials into e.g. a JWT that specifies available namespaces. So there should probably be a step where the token received from the OIDC flow is passed to the authn method endpoint, and a policy has the chance to return a different token. In the basic case, it can check the validity of the token and return it unchanged.
-4. The returned credential will be a JWT or similar access token. The user agent should use this credential to query the API as above. The authz policy should be configured to recognize these access tokens and apply authz control based on their content, as for the other methods.
+1. We have four API tokens with different permission levels:
+   * An administrator token with full access to all capabilities
+   * A monitoring token with read-only access to all resources
+   * A CI/CD pipeline token that can view nodes and has full control over jobs
+   * An agent management token that has full control over agents
+2. Each token has a unique, randomly generated API key. You should generate strong, unique keys for your production environment using a secure random generator. <mark style="color:red;">Please note that API keys do not support BCRYPT hashing</mark>.
+
+
+
+To use these API tokens with the Bacalhau CLI, you would set the following environment variable:
+
+```sh
+export BACALHAU_API_KEY=8F42A91D7C6E4B3DA5E9F8C12B76D3A4
+```
+
+For direct API calls, for example by using curl, you would use the Bearer token authentication scheme:
+
+{% code overflow="wrap" %}
+```sh
+curl -X GET -H "Authorization: Bearer 8F42A91D7C6E4B3DA5E9F8C12B76D3A4" "http://orchestrator:1234/api/v1/orchestrator/nodes"
+```
+{% endcode %}
+
+***
+
+### 1.3 Single Sign-On via OAuth 2.0
+
+Perhaps the most significant addition since Bacalhau 1.7  is the support for OAuth 2.0 using the Device Code Flow. This enables Bacalhau to integrate seamlessly with enterprise identity providers such as Okta, Auth0, Azure Active Directory, and Google SSO.
+
+This approach eliminates the need to define users directly in Bacalhau's configuration, instead delegating user management to the identity provider – a considerable advantage in corporate environments with existing identity infrastructure.
+
+The configuration process involves specifying OAuth 2.0 endpoints, client IDs, and desired scopes. When users need to authenticate, they run <mark style="color:green;">**`bacalhau auth sso login`**</mark>, which presents a device code and URL. After completing authentication through their browser, they receive a JWT token that's automatically used for subsequent API calls (_this token exchange will be done seamlessly and the user is not required to perform any extra actions_).
+
+Here's a sample configuration for OAuth 2.0 SSO in Bacalhau:
+
+{% code overflow="wrap" lineNumbers="true" %}
+```yaml
+Orchestrator:
+  Enabled: true
+API:
+  Port: 1234
+  Auth:
+    Oauth2:
+      # Identity provider details, those are names for your own reference only
+      ProviderId: "okta"
+      ProviderName: "Okta SSO"
+      
+      # OAuth 2.0 endpoints - Device Code Endpoint
+      DeviceAuthorizationEndpoint: "https://your-domain.okta.com/oauth2/v1/device/authorize"
+      # The endpoint used to get the JWT token
+      TokenEndpoint: "https://your-domain.okta.com/oauth2/v1/token"
+      # The Expected issuer, should match the issuer in the JWT token
+      Issuer: "https://your-domain.okta.com"
+      # The JWKS URI
+      JWKSUri: "https://your-domain.okta.com/.well-known/jwks.json"
+      
+      # Client details
+      DeviceClientId: "0ab2c3d4e5f6g7h8i9j0"
+      # CLI polling interval to check if the device code was approved
+      PollingInterval: 5
+      
+      # Audience: Expected "aud" in the JWT token
+      Audience: "https://bacalhau.your-company.com/api"
+      
+      # Scopes requested in the token exchange
+      Scopes:
+        - "openid"
+        - "profile"
+        - "email"
+
+```
+{% endcode %}
+
+For this to setup work properly:
+
+1. Register an OAuth 2.0 application in your identity provider (Okta, Auth0, Azure AD, etc.)
+2. Configure it to support the <mark style="color:green;">**Device Code Flow**</mark>. Make sure the provider supports OAuth2 Device code flow.
+3. Set up appropriate roles or groups in your identity provider to map to Bacalhau permissions
+
+The permission mapping would happen in your identity provider. For example, in Okta you might create:
+
+* A "Bacalhau Admins" group with permissions: <mark style="color:green;">`["*"]`</mark>
+* A "Bacalhau Readers" group with permissions: <mark style="color:green;">`["read:*"]`</mark>
+* A "Bacalhau Job Managers" group with permissions: <mark style="color:green;">`["read:job", "write:job", "read:node"]`</mark>
+
+These permissions should be included in the JWT token under the custom claim <mark style="color:green;">`permissions`</mark> when users authenticate.
+
+To authenticate using this setup, users would run:
+
+```sh
+# Login
+$ bacalhau auth sso login
+
+# Logout 
+$ bacalhau auth sso logout
+```
+
+Then the CLI would display something like this:
+
+```
+To login, please:
+ 
+1. Open this URL in your browser: https://your-domain.okta.com/activate 
+2. Enter this code: ABCD-EFGH 
+
+Or, open this URL in your browser: https://your-domain.okta.com/activate?user_code=ABCD-EFGH 
+
+Waiting for authentication with Okta SSO... (press Ctrl+C to cancel)
+
+```
+
+After completing authentication through their browser, the user would receive a JWT token that's automatically used for subsequent API calls. The token can be inspected with:
+
+```sh
+# Inspect JWT token obtained when logging in using SSO
+$ bacalhau auth sso token
+```
+
+***
+
+### 1.4 Authentication Priority in Bacalhau 1.7+
+
+When configuring Bacalhau authentication, it's important to understand the precedence rules that determine which authentication method takes effect.&#x20;
+
+Environment variables take highest precedence in the authentication hierarchy, overriding any other configured methods. This means that if you have set <mark style="color:green;">`BACALHAU_API_USERNAME`</mark> and <mark style="color:green;">`BACALHAU_API_PASSWORD`</mark> for Basic Auth, or <mark style="color:green;">`BACALHAU_API_KEY`</mark> for API token authentication, these will be used regardless of any SSO tokens that may be stored locally from previous <mark style="color:green;">`bacalhau auth sso login`</mark>  sessions.&#x20;
+
+If the <mark style="color:green;">`BACALHAU_API_USERNAME/BACALHAU_API_PASSWORD`</mark>  and <mark style="color:green;">`BACALHAU_API_PASSWORD`</mark>  are defined, an error message will be returned.
+
+This design provides flexibility for users who need to temporarily switch between different authentication contexts without modifying configuration files
+
+For example, a developer could have an SSO session for regular work but quickly switch to using an API key for testing by simply setting the appropriate environment variable. When the environment variable is unset, Bacalhau will fall back to the next available authentication method, typically returning to the previously established SSO session if available.
+
+<pre class="language-sh"><code class="lang-sh"># Inspect current authrentication status
+
+<strong>$ bacalhau auth info
+</strong></code></pre>
+
+## 2. Granular Authorization in Bacalhau 1.7+
+
+As of Bacalhau 1.7, we introduced a sophisticated authorization system built on a resource and capability model that brings fine-grained access control to the platform. This system divides API actions into specific combinations of resources and capabilities, enabling administrators to implement the principle of least privilege across their Bacalhau deployments.
+
+### 2.1 Resource and Capability Framework
+
+The permission structure is organized around two key dimensions:
+
+* <mark style="color:green;">**Resources**</mark>: The objects being accessed or modified (Nodes, Jobs, and Agents)
+* <mark style="color:green;">**Capabilities**</mark>: The types of operations being performed (Read and Write)
+
+This creates a permission taxonomy following the pattern of <mark style="color:green;">`action:resource`</mark>, where permissions can be assigned individually or using wildcards for broader access grants.
+
+### 2.2 Core Permission Set
+
+Bacalhau supports the following core permissions:
+
+1. <mark style="color:green;">`"*"`</mark> - The master permission granting full access to all capabilities across all resources
+2. <mark style="color:green;">`"read:*"`</mark> - Provides read-only access across all resource types
+3. <mark style="color:green;">`"write:*"`</mark> - Grants write access to all resource types
+4. <mark style="color:green;">`"read:node"`</mark> - Allows viewing node information
+5. <mark style="color:green;">`"write:node"`</mark> - Permits actions on the node
+6. <mark style="color:green;">`"read:job"`</mark> - Enables querying job status, details, and logs, etc
+7. <mark style="color:green;">`"write:job"`</mark> - Allows submitting, canceling, and managing job execution
+8. <mark style="color:green;">`"read:agent"`</mark> - Provides access to agent information via `"bacalhau agent"` commands
+9. <mark style="color:green;">`"write:agent"`</mark> - Any write actions on the agent.
+
+### 2.3 Creating Role-Based Access Patterns
+
+These permissions can be combined to create practical access patterns for different user roles and service accounts:
+
+* **Administrator**: <mark style="color:green;">`["*"]`</mark> - Full access to all system functions
+* **Read-only Analyst**: <mark style="color:green;">`["read:*"]`</mark> - Can view but not modify any resources
+* **Job Manager**: <mark style="color:green;">`["read:job", "write:job", "read:node"]`</mark> - Complete control over jobs with visibility into nodes
+* **Monitoring Service**: <mark style="color:green;">`["read:node", "read:job"]`</mark> - View-only access for system monitoring
+* CI/CD Pipeline: <mark style="color:green;">`["write:job", "read:job"]`</mark> - Can submit and monitor jobs but can't access node details
+
+### 2.4 Benefits for Different User Profiles
+
+These authentication enhancements offer distinct advantages for different types of Bacalhau users:
+
+* **Individual developers** benefit from the simplicity of Basic Auth for quick setup and experimentation
+* **DevOps teams** can leverage API tokens for automation, CI/CD pipelines, and service-to-service communication
+* **Enterprise environments** gain seamless integration with existing identity infrastructure through OAuth 2.0
+* **Security teams** appreciate the granular permission model that enforces the principle of least privilege
+
+
+
+## 3. Backward Compatibility with Previous Authentication Methods
+
+Bacalhau 1.7 maintains backward compatibility with the previous authentication mechanism based on Open Policy Agent, ensuring a smooth transition path for existing deployments.&#x20;
+
+Users can continue to use their established OPA policies without immediate migration to the new authentication paths. However, it's important to note that while backward compatibility is preserved, mixing the old and new authentication methods within the same deployment is not supported.
+
+Organizations must choose either to continue using the Open Policy Agent approach exclusively or to migrate fully to the new authentication system with Basic Auth, API Tokens, or OAuth 2.0.&#x20;
+
+This clean separation prevents potential security inconsistencies and configuration conflicts that could arise from overlapping authentication mechanisms.&#x20;
+
+For organizations planning to migrate, the Bacalhau team recommends first setting up the new authentication in a test environment, validating access patterns and permissions, and then performing a complete cutover rather than attempting a gradual or partial migration. This approach ensures security integrity throughout the transition while still providing flexibility in timing the upgrade to the enhanced authentication capabilities.
+
