@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Quick Start
 
 This Quick Start guide shows how to run your first Bacalhau job with minimal setup. Bacalhau's design as a single self-contained binary makes it incredibly easy to set up your own distributed compute network in minutes.
@@ -38,8 +41,8 @@ bacalhau serve --orchestrator --compute
 
 Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
 
-{% tabs %}
-{% tab title="Imperative (CLI)" %}
+<Tabs>
+<TabItem value="Imperative (CLI)" label="Imperative (CLI)">
 ```bash
 bacalhau docker run \
   --input https://www.gutenberg.org/files/2701/2701-0.txt:/data/moby-dick.txt \
@@ -47,9 +50,9 @@ bacalhau docker run \
   --publisher local \
   ghcr.io/bacalhau-project/word-count:latest -- --output-file /outputs/moby-dick-counts.txt /data/moby-dick.txt
 ```
-{% endtab %}
+</TabItem>
 
-{% tab title="Declarative (YAML)" %}
+<TabItem value="Declarative (YAML)" label="Declarative (YAML)">
 Create a `word-count.yaml` file:
 
 ```yaml
@@ -84,8 +87,8 @@ Then run the job using:
 ```bash
 bacalhau job run word-count.yaml
 ```
-{% endtab %}
-{% endtabs %}
+</TabItem>
+</Tabs>
 
 * The job downloads a sample dataset and processes it locally
 * Bacalhau will display job progress until completion

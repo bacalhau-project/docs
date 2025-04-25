@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Mounting Input Data
 
 ## Mounting Input Data
@@ -14,8 +17,8 @@ This page explains how to feed external data into Bacalhau jobs from various sou
 
 Bacalhau jobs often need access to input data. The general syntax for mounting input data is:
 
-{% tabs %}
-{% tab title="Imperative" %}
+<Tabs>
+<TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
   --input <URI><SOURCE>:<TARGET> \
@@ -29,9 +32,9 @@ Where:
 * `TARGET` is the path where the data will be mounted in the container
 
 This pattern is consistent across all input types, making it easy to understand and use regardless of the data source.
-{% endtab %}
+</TabItem>
 
-{% tab title="Declarative" %}
+<TabItem value="Declarative" label="Declarative">
 ```yaml
 ...
 InputSources:
@@ -48,23 +51,23 @@ Where:
 * `URI` is the protocol identifier (file://, s3://, ipfs://, http://, https://)
 * `TARGET` is the path where the data will be mounted in the container
 * `PARAMS` are key value configuration [depending on the input type](/cli-api/specifications/sources)
-{% endtab %}
-{% endtabs %}
+</TabItem>
+</Tabs>
 
 
 
 ### Local Directories
 
-{% tabs %}
-{% tab title="Imperative" %}
+<Tabs>
+<TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
   --input file:///path/to/local/data:/data \
   ubuntu:latest -- cat /data/input.txt
 ```
-{% endtab %}
+</TabItem>
 
-{% tab title="Declarative" %}
+<TabItem value="Declarative" label="Declarative">
 ```yaml
 Type: batch
 Count: 1
@@ -85,8 +88,8 @@ Tasks:
           Params:
             Path: /path/to/local/data
 ```
-{% endtab %}
-{% endtabs %}
+</TabItem>
+</Tabs>
 
 This mounts the directory `/path/to/local/data` from the host machine to `/data` inside the container.
 
@@ -96,16 +99,16 @@ This mounts the directory `/path/to/local/data` from the host machine to `/data`
 
 S3 integration connects to storage solutions compatible with the S3 API, such as AWS S3, Google Cloud Storage, and locally deployed MinIO
 
-{% tabs %}
-{% tab title="Imperative" %}
+<Tabs>
+<TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
   --input s3://my-bucket/datasets/sample.csv:/data/sample.csv \
   ubuntu:latest -- cat /data/sample.csv
 ```
-{% endtab %}
+</TabItem>
 
-{% tab title="Declarative" %}
+<TabItem value="Declarative" label="Declarative">
 ```yaml
 Type: batch
 Count: 1
@@ -127,8 +130,8 @@ Tasks:
             Bucket: my-bucket
             Key: datasets/sample.csv
 ```
-{% endtab %}
-{% endtabs %}
+</TabItem>
+</Tabs>
 
 This downloads and mounts the S3 object to the specified path in the container.
 
@@ -138,16 +141,16 @@ This downloads and mounts the S3 object to the specified path in the container.
 
 URL-based inputs provide access to web-hosted resources.
 
-{% tabs %}
-{% tab title="Imperative" %}
+<Tabs>
+<TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
   --input https://example.com/data.csv:/data/data.csv \
   ubuntu:latest -- head -n 10 /data/data.csv
 ```
-{% endtab %}
+</TabItem>
 
-{% tab title="Declarative" %}
+<TabItem value="Declarative" label="Declarative">
 ```yaml
 Type: batch
 Count: 1
@@ -170,8 +173,8 @@ Tasks:
           Params:
             URL: https://example.com/data.csv
 ```
-{% endtab %}
-{% endtabs %}
+</TabItem>
+</Tabs>
 
 
 
@@ -179,16 +182,16 @@ Tasks:
 
 IPFS provides content-addressable, peer-to-peer storage for decentralized data sharing.
 
-{% tabs %}
-{% tab title="Imperative" %}
+<Tabs>
+<TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
   --input ipfs://QmZ4tDuvesekSs4qM5ZBKpXiZGun7S2CYtEZRB3DYXkjGx:/data \
   ubuntu:latest -- cat /data/file.txt
 ```
-{% endtab %}
+</TabItem>
 
-{% tab title="Declarative" %}
+<TabItem value="Declarative" label="Declarative">
 ```yaml
 Type: batch
 Count: 1
@@ -209,8 +212,8 @@ Tasks:
           Params:
             CID: QmZ4tDuvesekSs4qM5ZBKpXiZGun7S2CYtEZRB3DYXkjGx
 ```
-{% endtab %}
-{% endtabs %}
+</TabItem>
+</Tabs>
 
 The IPFS CID (Content Identifier) points to the specific content you want to mount.
 

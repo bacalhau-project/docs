@@ -6,10 +6,9 @@ icon: bars-progress
 
 Different jobs may require different amounts of resources to execute. Some jobs may have specific hardware requirements, such as GPU. This page describes how to specify hardware requirements for your job.
 
-{% hint style="info" %}
+:::info
 Please bear in mind that each executor is implemented independently and these docs might be slightly out of date. Double check the man page for the executor you are using with `bacalhau [executor] --help`.
-{% endhint %}
-
+:::
 ## Docker Executor
 
 The following table describes how to specify hardware requirements for the Docker executor.

@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Partitioning
 
 Partitioning is a powerful feature in Bacalhau that allows you to efficiently distribute large datasets and compute-intensive tasks across multiple compute nodes. Instead of running a single job execution, partitioning splits your workload into separate, independent partitions that run concurrently, improving performance and resource utilization.
@@ -70,8 +73,8 @@ This context enables your code to:
 
 ### Using Partitioning in Your Jobs
 
-{% tabs %}
-{% tab title="Imperative" %}
+<Tabs>
+<TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
     --count 3 \
@@ -79,9 +82,9 @@ bacalhau docker run \
 ```
 
 To use partitioning, specify the number of partitions using the `--count` parameter when submitting your job
-{% endtab %}
+</TabItem>
 
-{% tab title="Declarative" %}
+<TabItem value="Declarative" label="Declarative">
 ```yaml
 # partition.yaml
 Name: Partitioned Job
@@ -106,8 +109,8 @@ Submit with:
 ```bash
 bacalhau job run partition.yaml
 ```
-{% endtab %}
-{% endtabs %}
+</TabItem>
+</Tabs>
 
 ### Technical Benefits
 

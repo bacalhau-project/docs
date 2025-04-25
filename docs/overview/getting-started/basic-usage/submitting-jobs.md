@@ -67,9 +67,9 @@ This approach helps you:
 * Share job definitions with teammates
 * Make small changes without retyping everything
 
-{% hint style="info" %}
+:::info
 Find out more about the possibilites of jobs in [the job specification reference](https://docs.bacalhau.org/cli-api/specifications/job).
-{% endhint %}
+:::
 
 ### Job Types and Choosing Methods
 

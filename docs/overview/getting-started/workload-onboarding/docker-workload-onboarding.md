@@ -10,10 +10,9 @@ Bacalhau executes jobs by running them within containers. Bacalhau employs a syn
 
 This section describes how to migrate a workload based on a Docker container into a format that will work with the Bacalhau client.
 
-{% hint style="info" %}
+:::info
 You can check out this example tutorial on [how to work with custom containers in Bacalhau](broken-reference) to see how we used all these steps together.
-{% endhint %}
-
+:::
 ### Requirements
 
 Here are few things to note before getting started:
@@ -22,12 +21,11 @@ Here are few things to note before getting started:
 2. **Architecture Compatibility**: Bacalhau supports only images that match the host node's architecture. Typically, most nodes run on `linux/amd64`, so containers in `arm64` format are not able to run.
 3. **Input Flags**: The `--input ipfs://...` flag supports only **directories** and does not support CID subpaths. The `--input https://...` flag supports only **single files** and does not support URL directories. The `--input s3://...` flag supports S3 keys and prefixes. For example, `s3://bucket/logs-2023-04*` includes all logs for April 2023.
 
-{% hint style="info" %}
+:::info
 You can check to see a [list of example public containers](https://github.com/orgs/bacalhau-project/packages?repo_name=examples) used by the Bacalhau team
 
 **Note**: Only about a third of examples have their containers here. If you can't find one, feel free to contact the team.
-{% endhint %}
-
+:::
 ### Runtime Restrictions
 
 To help provide a safe, secure network for all users, we add the following runtime restrictions:
@@ -62,28 +60,25 @@ If you need to pass data into your container you will do this through a Docker v
 
 We make the assumption that you are reading from a directory called `/inputs`, which is set as the default.
 
-{% hint style="info" %}
+:::info
 You can specify which directory the data is written to with the [`--input`](broken-reference) CLI flag.
-{% endhint %}
-
+:::
 #### Step 2 - Write Data to the Your Directory
 
 If you need to return data from your container you will do this through a Docker volume. You'll need to modify your code to write to a local directory.
 
 We make the assumption that you are writing to a directory called `/outputs`, which is set as the default.
 
-{% hint style="info" %}
+:::info
 You can specify which directory the data is written to with the [`--output-volumes`](broken-reference) CLI flag.
-{% endhint %}
-
+:::
 #### Step 3 - Build and Push Your Image To a Registry
 
 At this step, you create (or update) a Docker image that Bacalhau will use to perform your task. You [build your image](https://docs.docker.com/engine/reference/commandline/build/) from your code and dependencies, then [push it](https://docs.docker.com/engine/reference/commandline/push/) to a public registry so that Bacalhau can access it. This is necessary for other Bacalhau nodes to run your container and execute the task.
 
-{% hint style="warning" %}
+:::warning
 Most Bacalhau nodes are of an `x86_64` architecture, therefore containers should be built for `x86_64` systems.
-{% endhint %}
-
+:::
 For example:
 
 ```shell
@@ -133,10 +128,9 @@ docker run ... ${IMAGE} ${CMD}
 
 Launches a Docker container using the specified variables and commands. It binds volumes to facilitate data exchange between the host and the container.
 
-{% hint style="info" %}
+:::info
 Bacalhau will use the [default ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) if your image contains one. If you need to specify another entrypoint, use the `--entrypoint` flag to `bacalhau docker run`.
-{% endhint %}
-
+:::
 For example:
 
 ```shell
@@ -168,10 +162,9 @@ You can choose to
 * [Pin Data to public storage](broken-reference)
 * [Copy Data from S3 Bucket to public storage](broken-reference).
 
-{% hint style="info" %}
+:::info
 You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
-{% endhint %}
-
+:::
 #### Step 6 - Run the Workload on Bacalhau
 
 To launch your workload in a Docker container, using the specified image and working with `input` data specified via IPFS CID, run the following command.
@@ -225,10 +218,9 @@ CREATED   ID        JOB                      STATE      VERIFIED  PUBLISHED
 job-24440f0d-3c06-46af-9adf-cb524aa43961-shard-0-host-QmYgxZiySj3MRkwLSL4X2MF5F9f2PMhAE3LV49XkfNL1o3
 ```
 
-{% hint style="warning" %}
+:::warning
 The `--input` flag does not support CID subpaths for `ipfs://` content.
-{% endhint %}
-
+:::
 Alternatively, you can run your workload with a publicly accessible http(s) URL, which will download the data temporarily into your public storage:
 
 ```shell
@@ -240,10 +232,9 @@ bacalhau job list
 bacalhau job get JOB_ID
 ```
 
-{% hint style="warning" %}
+:::warning
 The `--input` flag does not support URL directories.
-{% endhint %}
-
+:::
 ### Troubleshooting
 
 If you run into this compute error while running your docker image

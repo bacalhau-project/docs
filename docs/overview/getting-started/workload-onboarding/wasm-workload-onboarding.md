@@ -20,10 +20,9 @@ If your program typically involves reading from and writing to network endpoints
 
 By making these adjustments, you can effectively transition your program to operate within the Bacalhau environment, utilizing filesystem operations instead of traditional network interactions.
 
-{% hint style="info" %}
+:::info
 You can specify additional or different output mounts using the `-o` flag.
-{% endhint %}
-
+:::
 ### Step 2: Configure your compiler to output WASI-compliant WebAssembly
 
 You will need to compile your program to WebAssembly that expects WASI. Check the instructions for your compiler to see how to do this.
@@ -38,10 +37,9 @@ Data is identified by its content identifier (CID) and can be accessed by anyone
 * [Pin Data to public storage](broken-reference)
 * [Copy Data from S3 Bucket to public storage](broken-reference).
 
-{% hint style="info" %}
+:::info
 You can mount your data anywhere on your machine, and Bacalhau will be able to run against that data
-{% endhint %}
-
+:::
 ### Step 4: Run your program
 
 You can run a WebAssembly program on Bacalhau using the `bacalhau wasm run` command.
@@ -58,10 +56,9 @@ If your program is locally compiled, specify it as an argument. For instance, ru
 bacalhau wasm run main.wasm
 ```
 
-{% hint style="warning" %}
+:::warning
 The program you specify will be uploaded to a Bacalhau storage node and will be publicly available.
-{% endhint %}
-
+:::
 **Alternative Program Specification:**
 
 You can use a Content IDentifier (CID) for a specific WebAssembly program.
@@ -94,7 +91,7 @@ For a specific WebAssembly program, run:
 bacalhau wasm run Qmajb9T3jBdMSp7xh2JruNrqg3hniCnM6EUVsBocARPJRQ hello world
 ```
 
-{% hint style="info" %}
+:::info
 Write your program to use program arguments to specify input and output paths. This makes your program more flexible in handling different configurations of input and output volumes.
 
 For example, instead of hard-coding your program to read from `/inputs/data.txt`, accept a program argument that should contain the path and then specify the path as an argument to `bacalhau wasm run`:
@@ -104,8 +101,7 @@ bacalhau wasm run prog.wasm /inputs/data.txt
 ```
 
 Your language of choice should contain a standard way of reading program arguments that will work with WASI.&#x20;
-{% endhint %}
-
+:::
 #### Environment variables
 
 You can also specify environment variables using the `-e` flag.

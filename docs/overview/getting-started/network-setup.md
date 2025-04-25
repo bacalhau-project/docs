@@ -25,9 +25,10 @@ Choose the setup option that best matches your needs:
 
 (Recommended for Production)
 
-{% embed url="https://cloud.expanso.io/login" %}
+<!-- TODO: Not sure about this one… -->
+<!-- {% embed url="https://cloud.expanso.io/login" %}
 Expanso Cloud
-{% endembed %}
+{% endembed %} -->
 
 Expanso Cloud provides a managed orchestrator service, eliminating the need to set up and maintain your own orchestrator.
 
