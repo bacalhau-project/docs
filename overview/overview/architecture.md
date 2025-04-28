@@ -19,7 +19,6 @@ All of these components run from the same Bacalhau binary, just in different mod
 
 * **Core Role**: Receives job submissions, maintains job state, and coordinates scheduling
 * **NATS Server**: Acts as a messaging infrastructure hub
-* **Scalability**: Support for multiple orchestrator nodes for high availability
 * **Communication**: Broadcasts scheduling decisions and listens for status updates
 
 #### Compute Nodes
