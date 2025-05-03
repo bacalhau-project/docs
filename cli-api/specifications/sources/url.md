@@ -8,9 +8,9 @@ Here are the parameters that you can define for a URL input source:
 
 * **URL** `(string: <required>)`: The HTTP/HTTPS URL pointing directly to the file you want to retrieve. Only a single file can be downloaded per URL input source.
 
-{% hint style="info" %}
+:::info
 Note: Bacalhau will attempt to infer the filename from the URL or the HTTP headers. This inferred filename is used when placing the file in the target directory.
-{% endhint %}
+:::
 
 ### Example
 

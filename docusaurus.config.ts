@@ -35,39 +35,58 @@ const config: Config = {
     [
       'classic',
       {
+      //   docs: {
+      //     path: './documentation',
+      //     // Map to sub-domain
+      //     routeBasePath: '/docs',
+      //     sidebarPath: './documentation.js',
+      //     showLastUpdateAuthor: true,
+      //     showLastUpdateTime: true,
+      // },
         docs: {
-          path: './docs',
-          routeBasePath: '/docs',
-          sidebarPath: './overview.js',
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
-      },
-        // docs: {
-        //   sidebarPath: './sidebars.ts',
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        // },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
+                    path: 'docs',
+          // Map to sub-domain
+          // routeBasePath: '/',
+          sidebarPath: './docsSidebar.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
         },
+        
+        // blog: {
+        //   showReadingTime: true,
+        //   feedOptions: {
+        //     type: ['rss', 'atom'],
+        //     xslt: true,
+        //   },
+        //   // Please change this to your repo.
+        //   // Remove this to remove the "edit this page" links.
+        //   editUrl:
+        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+        //   // Useful options to enforce blogging best practices
+        //   onInlineTags: 'warn',
+        //   onInlineAuthors: 'warn',
+        //   onUntruncatedBlogPosts: 'warn',
+        // },
         theme: {
           customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'use-cases',
+        path: 'use-cases',
+        routeBasePath: 'use-cases',
+        sidebarPath: './docsSidebar.ts',
+        // editUrl: 'https://github.com/KILTprotocol/docs/edit/master/',
+        // showLastUpdateTime: true,
+        // ... other options
+      },
     ],
   ],
 
@@ -83,9 +102,15 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Docs',
+          label: 'Documentation',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'usecasesSidebar',
+          position: 'left',
+          label: 'Use Cases',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
