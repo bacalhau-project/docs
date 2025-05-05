@@ -34,7 +34,7 @@ bacalhau config set webui.listen=<ip-address>:<port>
 
 Once started, the WebUI is accessible at the specified address, `localhost:8438` by default.&#x20;
 
-<figure><img src="../../.gitbook/assets/2024-10-11_19h25_04 (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="..//img/2024-10-11_19h25_04 (1).png" alt=""><figcaption></figcaption></figure>
 
 ## WebUI Features
 

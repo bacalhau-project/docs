@@ -80,9 +80,9 @@ const config: Config = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'use-cases',
-        path: 'use-cases',
-        routeBasePath: 'use-cases',
-        sidebarPath: './docsSidebar.ts',
+        path: 'docs/use-cases',
+        routeBasePath: '/use-cases',
+        sidebarPath: './usecasesSidebar.ts',
         // editUrl: 'https://github.com/KILTprotocol/docs/edit/master/',
         // showLastUpdateTime: true,
         // ... other options

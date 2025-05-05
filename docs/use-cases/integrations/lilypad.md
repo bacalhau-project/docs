@@ -1,5 +1,4 @@
 ---
-icon: lightbulb-cfl-on
 description: >-
   Lilypad is a decentralized compute network designed to run distributed
   workloads across thousands of nodes. By integrating with Bacalhau, Lilypad

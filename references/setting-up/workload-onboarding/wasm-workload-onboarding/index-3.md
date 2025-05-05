@@ -159,18 +159,18 @@ When we view the files, we can see the original image, the resulting shrunk imag
 ./wasm_results/outputs/original.png
 ```
 
-![png](<../../../.gitbook/assets/index_18_0 (1).png>)
+![png](<../..//img/index_18_0 (1).png>)
 
 ```python
 ./wasm_results/outputs/annotated_gradients.png
 ```
 
-![png](<../../../.gitbook/assets/index_19_0 (1).png>)
+![png](<../..//img/index_19_0 (1).png>)
 
 <pre class="language-python"><code class="lang-python"><strong>./wasm_results/outputs/shrunk.png
 </strong></code></pre>
 
-![png](../../../.gitbook/assets/index_20_0.png)
+![png](../..//img/index_20_0.png)
 
 ## Support
 

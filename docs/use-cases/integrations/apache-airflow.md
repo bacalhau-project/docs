@@ -1,7 +1,3 @@
----
-icon: lightbulb-cfl-on
----
-
 # Apache Airflow Provider for Bacalhau
 
 This is `bacalhau-airflow`, a Python package that integrates [Bacalhau](https://github.com/bacalhau-project/bacalhau) with [Apache Airflow](https://github.com/apache/airflow). The benefit is twofold. First, thanks to this package you can now write complex pipelines for Bacalhau. For instance, jobs can communicate their output's CIDs to downstream jobs, that can use those as inputs. Second, Apache Airflow provides a solid solution to reliably orchestrate your DAGs.
@@ -146,21 +142,21 @@ with DAG("bacalhau-helloworld-dag", start_date=datetime(2023, 3, 1)) as dag:
 
 Now that we understand what the example DAG is supposed to do, let's just run it! Head over to http://0.0.0.0:8080, where Airflow UI is being served. The screenshot below shows our hello world has been loaded correctly.
 
-![](../.gitbook/assets/airflow_01.png)
+![](/img/airflow_01.png)
 
 When you inspect a DAG, Airflow will render a graph depicting a color-coded topology (see image below). For active (i.e. running) pipelines, this will be useful to oversee the status of each task.
 
 To trigger a DAG please enable the toggle shown below.
 
-![](../.gitbook/assets/airflow_02.png)
+![](/img/airflow_02.png)
 
 When all tasks have been completed, we want to fetch the output of our pipeline. To do so we need to retrieve the job-id of the last task. Click on a green box in the `task_2` line and then open the XCom tab.
 
-![](../.gitbook/assets/airflow_03.png)
+![](/img/airflow_03.png)
 
 Here we find the `bacalhau_job_id`. Select that value and copy it into your clipboard.
 
-![](../.gitbook/assets/airflow_04.png)
+![](/img/airflow_04.png)
 
 Lastly, we can use the bacalhau cli `get` command to fetch the output data as follows:
 

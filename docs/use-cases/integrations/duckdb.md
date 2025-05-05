@@ -2,7 +2,6 @@
 description: >-
   Extend DuckDB with distributed query execution, partitioned data processing,
   and scalable compute for large-scale analytics.
-icon: lightbulb-cfl-on
 ---
 
 # DuckDB

@@ -1,6 +1,4 @@
----
-icon: lightbulb-cfl-on
----
+
 
 # Observability for WebAssembly Workloads
 

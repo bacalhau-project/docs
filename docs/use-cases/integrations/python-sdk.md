@@ -1,7 +1,5 @@
----
-description: This is the official Python SDK for Bacalhau, named bacalhau-sdk.
-icon: lightbulb-cfl-on
----
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Bacalhau Python SDK
 
@@ -15,7 +13,7 @@ It is a **high-level** SDK that ships the client-side logic (e.g. signing reques
 
 Please make sure to use this SDK library in your Python projects, instead of the lower level `bacalhau-apiclient`. The latter is listed as a dependency of this SDK and will be installed automatically when you follow the installation instructions below.
 
-## Features​ <a href="#features" id="features"></a>
+## Features
 
 1. List, create and inspect Bacalhau jobs using Python objects
 2. Use the production network, or set the following environment variables to target any Bacalhau network out there:
@@ -23,16 +21,19 @@ Please make sure to use this SDK library in your Python projects, instead of the
    2. `BACALHAU_API_PORT`
 3. Generate a key pair used to sign requests stored in the path specified by the `BACALHAU_DIR` env var (default: `~/.bacalhau`)
 
-## Install​ <a href="#install" id="install"></a>
+## Install
 
 <Tabs>
 <TabItem value="PyPi" label="PyPi">
+
 ```
 pip install bacalhau-sdk
 ```
+
 </TabItem>
 
 <TabItem value="Source" label="Source">
+
 Clone the public repository:
 
 ```bash
@@ -45,14 +46,15 @@ Once you have a copy of the source, you can install it with:
 cd python/
 pip install .
 ```
+
 </TabItem>
 </Tabs>
 
-## Initialize​ <a href="#initialize" id="initialize"></a>
+## Initialize
 
 Likewise the Bacalhau CLI, this SDK uses a key pair to be stored in `BACALHAU_DIR` used for signing requests. If a key pair is not found there, it will create one for you.
 
-## Example Use​ <a href="#example-use" id="example-use"></a>
+## Example Use
 
 Let's submit a Hello World job and then fetch its output data's CID. We start by importing this sdk, namely `bacalhau_sdk`, used to create and submit a job create request. Then we import `bacalhau_apiclient` (installed automatically with this sdk), it provides various object models that compose a job create request. These are used to populate a simple python dictionary that will be passed over to the `submit` util method.
 
@@ -148,7 +150,7 @@ DEBUG:bacalhau_sdk.config:init config done
 ```
 :::
 
-## Available Functions <a href="#devstack" id="devstack"></a>
+## Available Functions
 
 <table><thead><tr><th width="134">Function</th><th width="276">Description</th><th width="359">Input</th></tr></thead><tbody><tr><td><strong>put</strong></td><td>A request to put a job to bacalhau network. It encapsulates the job model. Once the job is successful put on bacalhau network, this returns the job details.</td><td><strong>PutJobRequest</strong></td></tr><tr><td><strong>stop</strong></td><td>Stops a certain job and takes optionally a reason why it was stopped.</td><td><strong>job_id</strong> (str), <strong>reason</strong> <em>(str=None)</em></td></tr><tr><td><strong>executions</strong></td><td>Gets Job Executions with the given parameters. Note that only job_id is required.</td><td><strong>job_id</strong> (str), <strong>namespace</strong> (str=""), <strong>next_token</strong> (str =""), <strong>limit</strong> (int = 5), <strong>reverse</strong> (bool = False), <strong>order_by</strong> (str = "")</td></tr><tr><td><strong>results</strong></td><td>Get the results of the specified job_id.</td><td><strong>job_id</strong> (str)</td></tr><tr><td><strong>get</strong></td><td>Gets Details/Specs of a Job by job_id and returns the job details.</td><td><strong>job_id</strong> (str), <strong>include</strong> (str = ""), <strong>limit</strong> (int = 10)</td></tr><tr><td><strong>history</strong></td><td>Get History of a Job by job_id and return it.</td><td><strong>job_id</strong> (str), <strong>event_type</strong> (str = "execution"), <strong>node_id</strong> (str = ""), <strong>execution_id</strong> (str = "")</td></tr><tr><td><strong>list</strong></td><td>Fetches and returns a list of all the Jobs, which abide the constraints given.</td><td><strong>limit</strong> (int = 5), <strong>next_token</strong> (str = ""), <strong>order_by</strong> (str="created_at"), <strong>reverse</strong> (bool = False)</td></tr></tbody></table>
 

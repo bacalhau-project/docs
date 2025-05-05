@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Configuring Your Input Sources
 
 Bacalhau has two ways to make use of external storage providers: Sources and Publishers. **Sources** are storage resources consumed as inputs to jobs. And **Publishers** are storage resources created with the results of jobs.
@@ -26,6 +29,7 @@ InputSources:
 </TabItem>
 
 <TabItem value="IPFS" label="IPFS">
+
 To start, you'll need to connect the Bacalhau node to an IPFS server so that you can run jobs that consume CIDs as inputs. You can either [install IPFS](https://docs.ipfs.tech/install/) and run it locally, or you can connect to a remote IPFS server.
 
 In both cases, you should have an [IPFS multiaddress](https://richardschneider.github.io/net-ipfs-core/articles/multiaddress.html) for the IPFS server that should look something like this:
@@ -56,9 +60,11 @@ InputSources:
         CID: "QmY7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjY3fZ"
   - Target: "/data"
 ```
+
 </TabItem>
 
 <TabItem value="Local" label="Local">
+
 The Local input source allows Bacalhau jobs to access files and directories that are already present on the compute node. This is especially useful for utilizing locally stored datasets, configuration files, logs, or other necessary resources without the need to fetch them from a remote source, ensuring faster job initialization and execution. See the [Local source specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/sources/local) for more details.
 
 To use a local data source, you will have to:
@@ -82,9 +88,11 @@ InputSources:
         ReadWrite: true
     Target: "/config"
 ```
+
 </TabItem>
 
 <TabItem value="URL" label="URL">
+
 The URL Input Source provides a straightforward method for Bacalhau jobs to access and incorporate data available over HTTP/HTTPS. By specifying a URL, users can ensure the required data, whether a single file or a web page content, is retrieved and prepared in the job's execution environment, enabling direct and efficient data utilization. See the [URL source specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/sources/url) for more details.
 
 To use a URL data source, you will have to specify only URL parameter, as in the part of the declarative job description below:
@@ -97,6 +105,7 @@ InputSources:
         URL: "https://example.com/data/file.txt"
     Target: "/data"
 ```
+
 </TabItem>
 </Tabs>
 
