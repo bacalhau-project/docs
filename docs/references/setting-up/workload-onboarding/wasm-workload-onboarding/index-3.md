@@ -167,8 +167,9 @@ When we view the files, we can see the original image, the resulting shrunk imag
 
 ![png](<../..//img/index_19_0 (1).png>)
 
-<pre class="language-python"><code class="lang-python"><strong>./wasm_results/outputs/shrunk.png
-</strong></code></pre>
+```
+./wasm_results/outputs/shrunk.png
+```
 
 ![png](../..//img/index_20_0.png)
 

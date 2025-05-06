@@ -2,10 +2,6 @@
 
 This is `bacalhau-airflow`, a Python package that integrates [Bacalhau](https://github.com/bacalhau-project/bacalhau) with [Apache Airflow](https://github.com/apache/airflow). The benefit is twofold. First, thanks to this package you can now write complex pipelines for Bacalhau. For instance, jobs can communicate their output's CIDs to downstream jobs, that can use those as inputs. Second, Apache Airflow provides a solid solution to reliably orchestrate your DAGs.
 
-:::danger
-You may try this out using a local devstack until https://github.com/bacalhau-project/bacalhau/issues/2038 has been fixed. Please set the following environment variables `AIRFLOW_VAR_BACALHAU_API_HOST`, `AIRFLOW_VAR_BACALHAU_API_PORT`.
-:::
-
 ## Features
 
 * Create Airflow tasks that run on Bacalhau (via custom operator!)
@@ -140,7 +136,7 @@ with DAG("bacalhau-helloworld-dag", start_date=datetime(2023, 3, 1)) as dag:
 
 ### Run it
 
-Now that we understand what the example DAG is supposed to do, let's just run it! Head over to http://0.0.0.0:8080, where Airflow UI is being served. The screenshot below shows our hello world has been loaded correctly.
+Now that we understand what the example DAG is supposed to do, let's just run it! Head over to [http://0.0.0.0:8080](http://0.0.0.0:8080), where Airflow UI is being served. The screenshot below shows our hello world has been loaded correctly.
 
 ![](/img/airflow_01.png)
 

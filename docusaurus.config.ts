@@ -5,10 +5,13 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
+    
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
-
+markdown: {
+  format: 'detect'
+},
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -22,7 +25,10 @@ const config: Config = {
 
   onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
-
+  onBrokenAnchors: 'ignore',
+  markdown: {
+      format: 'detect',
+  },
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
@@ -47,7 +53,7 @@ const config: Config = {
                     path: 'docs',
           // Map to sub-domain
           // routeBasePath: '/',
-          sidebarPath: './docsSidebar.ts',
+          sidebarPath: require.resolve('./docsSidebar.ts'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -77,12 +83,22 @@ const config: Config = {
   ],
   plugins: [
     [
+      // '@docusaurus/plugin-content-docs',
+      // {
+      //   id: 'use-cases',
+      //   path: 'docs/use-cases',
+      //   routeBasePath: '/use-cases',
+      //   sidebarPath: './usecasesSidebar.ts',
+      //   // editUrl: 'https://github.com/KILTprotocol/docs/edit/master/',
+      //   // showLastUpdateTime: true,
+      //   // ... other options
+      // },
       '@docusaurus/plugin-content-docs',
       {
-        id: 'use-cases',
-        path: 'docs/use-cases',
-        routeBasePath: '/use-cases',
-        sidebarPath: './usecasesSidebar.ts',
+        id: 'references',
+        path: 'docs/references',
+        routeBasePath: '/references',
+        sidebarPath: require.resolve('./referencesSidebar.ts'),
         // editUrl: 'https://github.com/KILTprotocol/docs/edit/master/',
         // showLastUpdateTime: true,
         // ... other options
