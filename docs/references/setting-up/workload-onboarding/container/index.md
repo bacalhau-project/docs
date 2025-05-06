@@ -169,7 +169,7 @@ bacalhau job get ${JOB_ID} --output-dir result
 
 After the download is complete, you should see the following contents in the results directory.
 
-![png](../..//img/index_25_0.png)
+![png](/img/index_25_0.png)
 
 ## Support
 

@@ -159,19 +159,19 @@ When we view the files, we can see the original image, the resulting shrunk imag
 ./wasm_results/outputs/original.png
 ```
 
-![png](<../..//img/index_18_0 (1).png>)
+![png](/img/index_18_0 (1).png)
 
 ```python
 ./wasm_results/outputs/annotated_gradients.png
 ```
 
-![png](<../..//img/index_19_0 (1).png>)
+![png](/img/index_19_0 (1).png)
 
 ```
 ./wasm_results/outputs/shrunk.png
 ```
 
-![png](../..//img/index_20_0.png)
+![png](/img/index_20_0.png)
 
 ## Support
 

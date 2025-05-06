@@ -9,9 +9,7 @@ const config: Config = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
-markdown: {
-  format: 'detect'
-},
+
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -81,30 +79,6 @@ markdown: {
       } satisfies Preset.Options,
     ],
   ],
-  plugins: [
-    [
-      // '@docusaurus/plugin-content-docs',
-      // {
-      //   id: 'use-cases',
-      //   path: 'docs/use-cases',
-      //   routeBasePath: '/use-cases',
-      //   sidebarPath: './usecasesSidebar.ts',
-      //   // editUrl: 'https://github.com/KILTprotocol/docs/edit/master/',
-      //   // showLastUpdateTime: true,
-      //   // ... other options
-      // },
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'references',
-        path: 'docs/references',
-        routeBasePath: '/references',
-        sidebarPath: require.resolve('./referencesSidebar.ts'),
-        // editUrl: 'https://github.com/KILTprotocol/docs/edit/master/',
-        // showLastUpdateTime: true,
-        // ... other options
-      },
-    ],
-  ],
 
   themeConfig: {
     // Replace with your project's social card
@@ -124,11 +98,16 @@ markdown: {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'usecasesSidebar',
+          sidebarId: 'referenceSidebar',
+          position: 'left',
+          label: 'References',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'usecaseSidebar',
           position: 'left',
           label: 'Use Cases',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
