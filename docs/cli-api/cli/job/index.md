@@ -12,55 +12,68 @@ bacalhau job [command]
 
 ## Available Commands
 
-1. [**describe**](index-1.md):
-   * Description: Retrieves detailed information of a job using its ID.
-   *   Usage:
+1. [**describe**](describe.md):
 
-       ```bash
-       bacalhau job describe
-       ```
-2. [**executions**](index-3.md):
-   * Description: Lists all executions associated with a job, identified by its ID.
-   *   Usage:
+   - Description: Retrieves detailed information of a job using its ID.
+   - Usage:
 
-       ```bash
-       bacalhau job executions
-       ```
-3. [**history**](index-4.md):
-   * Description: Enumerates the historical events related to a job, identified by its ID.
-   *   Usage:
+     ```bash
+     bacalhau job describe
+     ```
 
-       ```bash
-       bacalhau job history
-       ```
-4. [**list**](index-5.md):
-   * Description: Provides an overview of all submitted jobs.
-   *   Usage:
+2. [**executions**](executions.md):
 
-       ```bash
-       bacalhau job list
-       ```
-5. [**logs**](index-6.md):
-   * Description: Fetches and streams the logs from a currently executing job.
-   *   Usage:
+   - Description: Lists all executions associated with a job, identified by its ID.
+   - Usage:
 
-       ```bash
-       bacalhau job logs
-       ```
-6. [**run**](index-7.md):
-   * Description: Submits a job for execution using either a JSON or YAML configuration file.
-   *   Usage:
+     ```bash
+     bacalhau job executions
+     ```
 
-       ```bash
-       bacalhau job run
-       ```
-7. [**stop**](index-8.md):
-   * Description: Halts a previously submitted job.
-   *   Usage:
+3. [**history**](history.md):
 
-       ```bash
-       bacalhau job stop
-       ```
+   - Description: Enumerates the historical events related to a job, identified by its ID.
+   - Usage:
+
+     ```bash
+     bacalhau job history
+     ```
+
+4. [**list**](list.md):
+
+   - Description: Provides an overview of all submitted jobs.
+   - Usage:
+
+     ```bash
+     bacalhau job list
+     ```
+
+5. [**logs**](logs.md):
+
+   - Description: Fetches and streams the logs from a currently executing job.
+   - Usage:
+
+     ```bash
+     bacalhau job logs
+     ```
+
+6. [**run**](run.md):
+
+   - Description: Submits a job for execution using either a JSON or YAML configuration file.
+   - Usage:
+
+     ```bash
+     bacalhau job run
+     ```
+
+7. [**stop**](stop.md):
+
+   - Description: Halts a previously submitted job.
+   - Usage:
+
+     ```bash
+     bacalhau job stop
+     ```
 
 For comprehensive details on any of the sub-commands, run:
 
@@ -70,20 +83,20 @@ bacalhau job [command] --help
 
 ## Flags
 
-* `-h`, `--help`:
-  * Description: Shows the help information for the `job` command.
+- `-h`, `--help`:
+  - Description: Shows the help information for the `job` command.
 
 ## Global Flags
 
 1. `--api-host string`:
-   * Description: Determines the host for RESTful communication between the client and server. This flag is overlooked if the `BACALHAU_API_HOST` environment variable is set.
-   * Default: `bootstrap.production.bacalhau.org`
+   - Description: Determines the host for RESTful communication between the client and server. This flag is overlooked if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `bootstrap.production.bacalhau.org`
 2. `--api-port int`:
-   * Description: Designates the port for RESTful communication. This flag is bypassed if the `BACALHAU_API_PORT` environment variable is active.
-   * Default: `1234`
+   - Description: Designates the port for RESTful communication. This flag is bypassed if the `BACALHAU_API_PORT` environment variable is active.
+   - Default: `1234`
 3. `--log-mode logging-mode`:
-   * Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-   * Default: `default`
+   - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
+   - Default: `default`
 4. `--repo string`:
-   * Description: Specifies the path to the bacalhau repository.
-   * Default: `$HOME/.bacalhau`
+   - Description: Specifies the path to the bacalhau repository.
+   - Default: `$HOME/.bacalhau`

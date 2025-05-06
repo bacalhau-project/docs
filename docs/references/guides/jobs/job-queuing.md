@@ -21,7 +21,7 @@ The job queuing feature is not automatically enabled, and it needs to be explici
 Node availability in your network is determined by capacity as well as job constraints such as label selectors, engines or publishers. For example, jobs will be queued if all nodes are currently busy, as well as if idle nodes do not match parameters in your job specification.
 
 :::info
-Bacalhau compute nodes regularly update their [node, resource and health information](../../setting-up/node_management.md#compute-node-updates) every 30 seconds to the requester nodes in the network. During this update period, multiple jobs may be allocated to a node, oversubscribing and potentially exceeding its immediate available capacity. A local job queue is created at the compute node, efficiently handling the high demand as resources become available over time.
+Bacalhau compute nodes regularly update their [node, resource and health information](../../setting-up/06-node_management.md#compute-node-updates) every 30 seconds to the requester nodes in the network. During this update period, multiple jobs may be allocated to a node, oversubscribing and potentially exceeding its immediate available capacity. A local job queue is created at the compute node, efficiently handling the high demand as resources become available over time.
 :::
 
 ## How does it work?

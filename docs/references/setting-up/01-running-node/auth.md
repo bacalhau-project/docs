@@ -4,8 +4,6 @@ description: How to configure authentication and authorization on your Bacalhau 
 
 # Access Management
 
-## Access Management
-
 Bacalhau includes a flexible auth system that supports multiple methods of auth that are appropriate for different deployment environments.
 
 ### By default
@@ -19,4 +17,4 @@ In anonymous mode, Bacalhau will allow:
 
 ### Restricting anonymous access
 
-As of Bacalhau 1.7 release, a more flexible and easy to setup authentication and authorization flow has been introduced. Please check the [Authentication and Authorization docs](../auth_flow.md) for more details.
+As of Bacalhau 1.7 release, a more flexible and easy to setup authentication and authorization flow has been introduced. Please check the [Authentication and Authorization docs](../07-auth_flow.md) for more details.
