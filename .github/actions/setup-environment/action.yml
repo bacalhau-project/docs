@@ -1,0 +1,25 @@
+name: 'Setup Environment'
+description: 'Sets up Node.js and project dependencies'
+
+inputs:
+  node-version:
+    description: 'Node.js version'
+    required: false
+    default: '20.x'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+
+    - name: Build
+      shell: bash
+      run: npm run build
