@@ -1,26 +1,54 @@
 :root {
-  /* Bacalhau Primary Colors */
-  --ifm-color-primary: #0055FF;               /* blue-600 */
-  --ifm-color-primary-dark: #0037A6;          /* blue-700 */
-  --ifm-color-primary-darker: #001C70;        /* blue-800 */
-  --ifm-color-primary-darkest: #000F3B;       /* blue-900 */
-  --ifm-color-primary-light: #256EFF;         /* blue-500 */
-  --ifm-color-primary-lighter: #5A91FF;       /* blue-400 */
-  --ifm-color-primary-lightest: #8CB2FF;      /* blue-300 */
+  /* Bacalhau Blue Colors */
+  --bacalhau-blue-50: #EFF4FF;
+  --bacalhau-blue-100: #DAE6FF;
+  --bacalhau-blue-200: #BED3FF;
+  --bacalhau-blue-300: #8CB2FF;  /* blue-300 */
+  --bacalhau-blue-400: #5A91FF;  /* blue-400 */
+  --bacalhau-blue-500: #256EFF;  /* blue-500 */
+  --bacalhau-blue-600: #0055FF;  /* blue-600 */
+  --bacalhau-blue-700: #0037A6;  /* blue-700 */
+  --bacalhau-blue-800: #001C70;  /* blue-800 */
+  --bacalhau-blue-900: #000F3B;  /* blue-900 */
+  --bacalhau-blue-950: #000924;  /* blue-950 */
+
+  /* Bacalhau Ice Colors */
+  --bacalhau-ice-50: #F1FCFF;
+  --bacalhau-ice-100: #CCF5FF;  /* ice-200 */
+  --bacalhau-ice-200: #99EBFF;  /* ice-300 */
+  --bacalhau-ice-300: #66DFFF;  /* ice-400 */
+  --bacalhau-ice-400: #33CCFF;  /* ice-500 */
+  --bacalhau-ice-500: #00B3F6;  /* ice-600 */
+  --bacalhau-ice-600: #008CBB;  /* ice-700 */
+  --bacalhau-ice-700: #005A79;  /* ice-800 */
+  --bacalhau-ice-800: #00273F;
+  --bacalhau-ice-900: #001731;
+
+  /* Additional colors from the image */
+  --bacalhau-extra-bg: #000924;  /* blue-950 */
+
+  /* Bacalhau Primary Colors using the new variables */
+  --ifm-color-primary: var(--bacalhau-blue-600);
+  --ifm-color-primary-dark: var(--bacalhau-blue-700);
+  --ifm-color-primary-darker: var(--bacalhau-blue-800);
+  --ifm-color-primary-darkest: var(--bacalhau-blue-900);
+  --ifm-color-primary-light: var(--bacalhau-blue-500);
+  --ifm-color-primary-lighter: var(--bacalhau-blue-400);
+  --ifm-color-primary-lightest: var(--bacalhau-blue-300);
 
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 85, 255, 0.1); /* subtle blue */
+  --docusaurus-highlighted-code-line-bg: rgba(0, 85, 255, 0.1); /* subtle blue using blue-600 */
 }
 
 [data-theme='dark'] {
   /* Dark mode – shift to brighter, icy blues */
-  --ifm-color-primary: #33CCFF;              /* ice-500 */
-  --ifm-color-primary-dark: #00B3F6;         /* ice-600 */
-  --ifm-color-primary-darker: #0096D4;       /* blended custom */
-  --ifm-color-primary-darkest: #006C9A;      /* custom midpoint */
-  --ifm-color-primary-light: #66DFFF;        /* ice-400 */
-  --ifm-color-primary-lighter: #99EBFF;      /* ice-300 */
-  --ifm-color-primary-lightest: #CCF5FF;     /* ice-200 */
+  --ifm-color-primary: var(--bacalhau-ice-400);           /* ice-500 */
+  --ifm-color-primary-dark: var(--bacalhau-ice-500);      /* ice-600 */
+  --ifm-color-primary-darker: var(--bacalhau-ice-600);    /* ice-700 */
+  --ifm-color-primary-darkest: var(--bacalhau-ice-700);   /* ice-800 */
+  --ifm-color-primary-light: var(--bacalhau-ice-300);     /* ice-400 */
+  --ifm-color-primary-lighter: var(--bacalhau-ice-200);   /* ice-300 */
+  --ifm-color-primary-lightest: var(--bacalhau-ice-100);  /* ice-200 */
 
   --docusaurus-highlighted-code-line-bg: rgba(51, 204, 255, 0.12); /* ice-500 transparent */
 }

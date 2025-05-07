@@ -1,0 +1,19 @@
+.partners {
+  text-align: center;
+  background-color: #fff;
+  color: #000;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.partnerLogo {
+  height: 4em;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  margin: 0 1rem;
+}
+
+.partnerLogo:hover {
+  opacity: 1;
+}

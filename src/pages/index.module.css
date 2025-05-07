@@ -1,23 +1,122 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
 .heroBanner {
   padding: 4rem 0;
-  text-align: center;
   position: relative;
   overflow: hidden;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heroLogo {
+  position: absolute;
+  top: 50%;
+  right: -5%;
+  transform: translateY(-50%);
+  width: 110%;
+  height: auto;
+  opacity: 0.08;
+}
+
+[data-theme='dark'] .heroLogo {
+  opacity: 0.28;
+}
+
+.heroFlex {
+  position: relative;
+  z-index: 2;
+}
+
+.heroContent {
+  max-width: 60%;
+}
+
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  background: linear-gradient(133.28deg,
+  var(--bacalhau-blue-600) 0%,
+  var(--bacalhau-blue-600) 0%,
+  var(--bacalhau-ice-400) 97.21%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
   }
+
+  .heroFlex {
+    flex-direction: column;
+  }
+
+  .heroContent {
+    max-width: 100%;
+  }
+
+  .heroBackground {
+    width: 100%;
+    opacity: 0.05;
+  }
+
+  .heroLogo {
+    right: -20%;
+    width: 140%;
+  }
 }
 
 .buttons {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: var(--bacalhau-blue-600);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.ctaButton:hover {
+  background-color: var(--bacalhau-blue-700);
+  text-decoration: none;
+  color: white;
+}
+
+.secondaryButton {
+  display: inline-block;
+  background-color: transparent;
+  color: var(--bacalhau-blue-600);
+  padding: 0.75rem 2rem;
+  border-radius: 2rem;
+  border: 1px solid var(--bacalhau-blue-600);
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.secondaryButton:hover {
+  background-color: var(--bacalhau-blue-700);
+  border-color: var(--bacalhau-blue-700);
+  text-decoration: none;
+  color: white;
 }
