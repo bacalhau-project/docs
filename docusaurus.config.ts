@@ -5,20 +5,19 @@ import type * as Preset from "@docusaurus/preset-classic";
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: "My Site",
-  tagline: "Dinosaurs are cool",
-  favicon: "img/favicon.ico",
+  title: "Bacalhau",
+  tagline: "Distributed Compute Over Data",
+  favicon: "img/favicon.png",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://bacalhau.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
 
   // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "Bacalhau", // Usually your repo name.
+  organizationName: "bacalhau-project", // Usually your GitHub org/user name.
+  projectName: "docs", // Usually your repo name.
 
   onBrokenLinks: "ignore",
   onBrokenMarkdownLinks: "warn",
@@ -51,10 +50,8 @@ const config: Config = {
           // Map to sub-domain
           // routeBasePath: '/',
           sidebarPath: require.resolve("./docsSidebar.ts"),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/bacalhau-project/docs/tree/main/",
         },
 
         // blog: {
@@ -80,13 +77,17 @@ const config: Config = {
   ],
 
   themeConfig: {
+    colorMode: {
+      respectPrefersColorScheme: true
+    },
     // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
+    image: "img/bacalhau-social.png",
     navbar: {
-      title: "My Site",
+      title: "Bacalhau",
       logo: {
-        alt: "My Site Logo",
+        alt: "Bacalhau Logo",
         src: "img/logo.svg",
+        srcDark: "img/logo-dark.svg",
       },
       items: [
         {
@@ -120,57 +121,117 @@ const config: Config = {
           label: "Community",
         },
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: "https://github.com/bacalhau-project/bacalhau",
+          className: 'header-github-link',
           label: "GitHub",
+          position: "right",
+          'aria-label': 'GitHub repository',
+        },
+        {
+          href: "https://bacalhauproject.slack.com/",
+          label: "Slack",
+          position: "right",
+        },
+        {
+          href: "https://blog.bacalhau.org/",
+          label: "Blog",
+          position: "right",
+        },
+        {
+          href: "https://expanso.io/?_gl=1*sdzh2w*_gcl_au*ODM0MTE4NTkyLjE3NDIyOTQ5MDQ.*_ga*ODgxNjg0Mjg3LjE3NDIyOTQ5MDQ.*_ga_X1RJ0QGN3Z*czE3NDY1OTkyNDkkbzI5JGcxJHQxNzQ2NjAzMzIxJGoxMCRsMCRoMA..",
+          label: "Enterprise",
           position: "right",
         },
       ],
     },
     footer: {
-      style: "dark",
+      style: 'dark',
       links: [
         {
-          title: "Docs",
+          title: 'Learn',
           items: [
             {
-              label: "Docs",
-              to: "/docs",
+              label: 'What is Bacalhau?',
+              to: '/docs/',
+            },
+            {
+              label: 'Architecture',
+              to: '/docs/overview/architecture',
+            },
+            {
+              label: 'Quick Start',
+              to: '/docs/getting-started/quick-start',
             },
           ],
         },
         {
-          title: "Community",
+          title: 'Use Cases',
           items: [
             {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
+              label: 'Log Processing',
+              to: '/docs/use-cases/use-cases/log-processing',
             },
             {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
+              label: 'Distributed Data Warehousing',
+              to: '/docs/use-cases/use-cases/distributed-data-warehousing',
+            },
+
+            {
+              label: 'Distributed Machine Learning',
+              to: '/docs/use-cases/use-cases/distributed-machine-learning',
             },
             {
-              label: "X",
-              href: "https://x.com/docusaurus",
+              label: 'Edge Computing',
+              to: '/docs/use-cases/use-cases/edge-computing',
+            },
+            {
+              label: 'Fleet Management',
+              to: '/docs/use-cases/use-cases/fleet-management',
             },
           ],
         },
         {
-          title: "More",
+          title: 'Community & Social',
           items: [
             {
-              label: "Blog",
-              to: "/blog",
+              label: 'GitHub',
+              href: 'https://github.com/bacalhau-project/bacalhau',
             },
             {
-              label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              label: 'Slack',
+              href: 'https://bit.ly/bacalhau-project-slack',
+            },
+            {
+              label: 'Twitter/X',
+              href: 'https://twitter.com/BacalhauProject',
+            },
+            {
+              label: 'LinkedIn',
+              href: 'https://www.linkedin.com/showcase/bacalhau-project/posts',
+            },
+          ],
+        },
+        {
+          title: 'Expanso & Cloud',
+          items: [
+            {
+              label: 'Expanso.io',
+              href: 'https://expanso.io',
+            },
+            {
+              label: 'Expanso Cloud',
+              href: 'https://cloud.expanso.io',
+            },
+            {
+              label: 'Enterprise Support',
+              href: 'https://expanso.io/contact',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Bacalhau Project.`,
     },
+
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,

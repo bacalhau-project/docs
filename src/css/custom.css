@@ -1,30 +1,26 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
-
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  /* Bacalhau Primary Colors */
+  --ifm-color-primary: #0055FF;               /* blue-600 */
+  --ifm-color-primary-dark: #0037A6;          /* blue-700 */
+  --ifm-color-primary-darker: #001C70;        /* blue-800 */
+  --ifm-color-primary-darkest: #000F3B;       /* blue-900 */
+  --ifm-color-primary-light: #256EFF;         /* blue-500 */
+  --ifm-color-primary-lighter: #5A91FF;       /* blue-400 */
+  --ifm-color-primary-lightest: #8CB2FF;      /* blue-300 */
+
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 85, 255, 0.1); /* subtle blue */
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Dark mode – shift to brighter, icy blues */
+  --ifm-color-primary: #33CCFF;              /* ice-500 */
+  --ifm-color-primary-dark: #00B3F6;         /* ice-600 */
+  --ifm-color-primary-darker: #0096D4;       /* blended custom */
+  --ifm-color-primary-darkest: #006C9A;      /* custom midpoint */
+  --ifm-color-primary-light: #66DFFF;        /* ice-400 */
+  --ifm-color-primary-lighter: #99EBFF;      /* ice-300 */
+  --ifm-color-primary-lightest: #CCF5FF;     /* ice-200 */
+
+  --docusaurus-highlighted-code-line-bg: rgba(51, 204, 255, 0.12); /* ice-500 transparent */
 }
