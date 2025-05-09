@@ -1,3 +1,6 @@
+---
+sidebar_position: 80
+---
 # Working with Nodes
 
 While `agent` commands let you interact with your local Bacalhau process, `node` commands allow you to manage the broader network of compute resources. The orchestrator tracks these nodes, and this guide covers common operations you'll need for monitoring and managing your compute infrastructure.

@@ -1,3 +1,6 @@
+---
+sidebar_position: 30
+---
 # Inspecting Jobs
 
 Once you've submitted jobs to Bacalhau and identified them through job listing, you'll often need to dig deeper into specific jobs. This guide covers the commands for getting detailed information about your jobs.

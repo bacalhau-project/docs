@@ -1,3 +1,6 @@
+---
+sidebar_position: 20
+---
 # Submitting Jobs
 
 This guide introduces the basics of submitting jobs to Bacalhau. Whether you're running a quick task or setting up a more complex job, you'll learn the essential approaches.

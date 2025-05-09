@@ -1,3 +1,6 @@
+---
+sidebar_position: 90
+---
 # Debugging the Agent
 
 The Bacalhau `agent` is the process your client directly communicates with. By default, this is running on `localhost:1234`, but can be changed using `--api-host` and `--api-port` flags. For local testing or small clusters, you'll frequently need to check the agent's health and examine its configuration.

@@ -1,5 +1,5 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Limits and Timeouts
 
@@ -9,10 +9,10 @@ These are the configuration keys that control the capacity of the Bacalhau node,
 
 | Configuration key                | Description                                                                                                                                                                                                                                                                                      |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Compute.AllocatedCapacity.CPU    | <p>Specifies the amount of CPU a compute node allocates for running jobs. It<br>can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string</p>                                                                                                                    |
-| Compute.AllocatedCapacity.Disk   | <p>Specifies the amount of Disk space a compute node allocates for running<br>jobs. It can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string (e.g., <code>10Gi</code>)</p>                                                                                   |
+| Compute.AllocatedCapacity.CPU    | <p>Specifies the amount of CPU a compute node allocates for running jobs. It<br/>can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string</p>                                                                                                                    |
+| Compute.AllocatedCapacity.Disk   | <p>Specifies the amount of Disk space a compute node allocates for running<br/>jobs. It can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string (e.g., <code>10Gi</code>)</p>                                                                                   |
 | Compute.AllocatedCapacity.GPU    | <p>Specifies the amount of GPU a compute node allocates for running jobs. It can be expressed as a percentage (e.g., <code>85%</code>) or a Kubernetes resource string (e.g., <code>1</code>). </p><p>Note: When using percentages, the result is always rounded up to the nearest whole GPU</p> |
-| Compute.AllocatedCapacity.Memory | Specifies the amount of Memory a compute node allocates for running jobs. It can be expressed as a percentage (e.g., `85%`) or a Kubernetes resource  string (e.g., `1Gi`)                                                                                                                       |
+| Compute.AllocatedCapacity.Memory | Specifies the amount of Memory a compute node allocates for running jobs. It can be expressed as a percentage (e.g., `85%`) or a Kubernetes resource string (e.g., `1Gi`)                                                                                                                        |
 
 It is also possible to additionally specify the number of resources to be allocated to each job by default, if the required number of resources is not specified in the job itself. `JobDefaults.<`[`Job type`](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job/type)`>.Task.Resources.<Resource Type>` configuration keys are used for this purpose. E.g. to provide each [Ops](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/job/type) job with 2Gb of RAM the following key is used: `JobDefaults.Ops.Task.Resources.Memory`:
 
@@ -40,11 +40,12 @@ Applying job timeouts allows node operators to more fairly distribute the work s
 
 ### Configuring Execution Time Limits
 
-<Tabs>
+<Tabs groupId="timeout-config">
 <TabItem value="Job" label="Job">
 Job submitters can pass the `--timeout` flag to any Bacalhau job submission CLI to set a maximum job execution time. The supplied value should be a whole number of seconds with no unit.
 
 The timeout can also be added to an existing job spec by adding the `Timeout` property to the `Spec`.
+
 </TabItem>
 
 <TabItem value="Node" label="Node">
@@ -59,5 +60,6 @@ Here is a list of the relevant properties:
 | JobDefaults.**Ops.**&#x54;ask.Timeouts.**TotalTimeout**     | Default value for the maximum execution timeout this compute node supports for ops jobs. Jobs with higher timeout requirements will not be bid on   |
 
 Note, that timeouts can not be configured for Daemon and Service jobs.
+
 </TabItem>
 </Tabs>

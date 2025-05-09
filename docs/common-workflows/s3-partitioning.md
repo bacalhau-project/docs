@@ -1,3 +1,6 @@
+---
+sidebar_position: 50
+---
 # S3 Partitioning
 
 Bacalhau's S3 partitioning feature builds on the [core partitioning](partitioning.md) system to automatically handle data distribution from S3 buckets across multiple job executions. This specialized implementation includes graceful failure handling and independent retry of failed partitions specifically optimized for S3 data sources.

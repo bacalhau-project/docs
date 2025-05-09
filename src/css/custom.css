@@ -38,6 +38,20 @@
 
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 85, 255, 0.1); /* subtle blue using blue-600 */
+
+  table {
+    display: table;
+    width: 100%;
+    border: none
+  }
+
+  table th, table td {
+    text-align: left;
+  }
+
+  table th:last-child, table td:last-child {
+  }
+
 }
 
 [data-theme='dark'] {
@@ -51,4 +65,10 @@
   --ifm-color-primary-lightest: var(--bacalhau-ice-100);  /* ice-200 */
 
   --docusaurus-highlighted-code-line-bg: rgba(51, 204, 255, 0.12); /* ice-500 transparent */
+
+  --ifm-font-color-base: rgb(240, 255, 255);
+
+  table tr:nth-child(2n) {
+    background-color: var(--ifm-table-background);
+  }
 }

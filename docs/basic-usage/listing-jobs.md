@@ -1,3 +1,6 @@
+---
+sidebar_position: 40
+---
 # Listing  Jobs
 
 This guide shows you how to view and filter the jobs in your Bacalhau environment. Being able to list jobs is essential for monitoring your workloads and finding specific jobs to inspect further.

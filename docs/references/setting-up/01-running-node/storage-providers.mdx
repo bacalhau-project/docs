@@ -1,5 +1,5 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Configuring Your Input Sources
 
@@ -7,7 +7,7 @@ Bacalhau has two ways to make use of external storage providers: Sources and Pub
 
 ## Sources
 
-<Tabs>
+<Tabs groupId="storage-sources">
 <TabItem value="S3" label="S3">
 Bacalhau allows you to use S3 or any S3-compatible storage service as an input source. Users can specify files or entire prefixes stored in S3 buckets to be fetched and mounted directly into the job execution environment. This capability ensures that your jobs have immediate access to the necessary data. See the [S3 source specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/sources/s3) for more details.
 
@@ -26,6 +26,7 @@ InputSources:
         ChecksumSHA256: "e3b0c44b542b..."
   - Target: "/data"
 ```
+
 </TabItem>
 
 <TabItem value="IPFS" label="IPFS">
@@ -111,11 +112,11 @@ InputSources:
 
 ## Publishers
 
-<Tabs>
+<Tabs groupId="storage-publishers">
 <TabItem value="S3" label="S3">
 Bacalhau's S3 Publisher provides users with a secure and efficient method to publish job results to any S3-compatible storage service. To use an S3 publisher you will have to specify required parameters **Bucket** and **Key** and optional parameters Region, Endpoint, VersionID, ChecksumSHA256. See the [S3 publisher specification](https://app.gitbook.com/s/GSmEKKGEGIXdhfaa5pa3/specifications/publishers/s3) for more details.
 
-Here’s an example of the part of the declarative job description that outlines the process of using the S3 Publisher with Bacalhau:
+Here's an example of the part of the declarative job description that outlines the process of using the S3 Publisher with Bacalhau:
 
 ```
 Publisher:
@@ -125,6 +126,7 @@ Publisher:
     Key: "task123/result.tar.gz"
     Endpoint: "https://s3.us-west-2.amazonaws.com"
 ```
+
 </TabItem>
 
 <TabItem value="IPFS" label="IPFS">
@@ -142,6 +144,7 @@ PublishedResult:
   Params:
     CID: "QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco"
 ```
+
 </TabItem>
 
 <TabItem value="Local" label="Local">
@@ -161,5 +164,6 @@ PublishedResult:
   Params:
     URL: "http://192.168.0.11:6001/e-c4b80d04-ff2b-49d6-9b99-d3a8e669a6bf.tgz"
 ```
+
 </TabItem>
 </Tabs>

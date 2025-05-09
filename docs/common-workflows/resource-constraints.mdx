@@ -1,5 +1,9 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+---
+sidebar_position: 30
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Resource Constraints
 
@@ -9,7 +13,7 @@ Configure CPU, memory, disk, and GPU requirements for your Bacalhau jobs to ensu
 
 Specify CPU cores and memory allocation for your jobs. Default values are **CPU: 500m** and **Memory: 512Mb**.
 
-<Tabs>
+<Tabs groupId="cpu-memory">
 <TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
@@ -38,15 +42,13 @@ Tasks:
 </TabItem>
 </Tabs>
 
-
-
 ### GPU Requirements
 
 Request GPU resources for machine learning, deep learning, and other GPU-accelerated tasks.
 
 > **Note:** The compute node must have available GPUs with proper drivers, and your container image should include necessary GPU libraries (e.g., CUDA).
 
-<Tabs>
+<Tabs groupId="gpu-requirements">
 <TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
@@ -62,6 +64,7 @@ bacalhau docker run \
   --constraints "GPU-0=Tesla-T1" \
   nvidia/cuda:11.6.2-base-ubuntu20.04 -- nvidia-smi
 ```
+
 </TabItem>
 
 <TabItem value="Declarative" label="Declarative">
@@ -87,20 +90,17 @@ Tasks:
 </TabItem>
 </Tabs>
 
-
-
 ### Disk Space
 
 Control how much disk space your job can use:
 
-<Tabs>
+<Tabs groupId="disk-space">
 <TabItem value="Imperative" label="Imperative">
 ```bash
 bacalhau docker run \
   --disk 10gb \
   ubuntu:latest -- dd if=/dev/zero of=/outputs/large_file bs=1M count=8000
 ```
-
 
 </TabItem>
 
@@ -126,17 +126,14 @@ Tasks:
 </TabItem>
 </Tabs>
 
-
-
 ### Common Issues
 
-* **Job Stuck Pending**: You may be requesting resources that aren't available. Check available resources with `bacalhau node list` or reduce requirements.
-* **Out of Memory (OOM)**: Increase memory allocation or process data in smaller batches.
-* **Disk Space Issues**: Increase disk allocation or clean up temporary files during processing.
+- **Job Stuck Pending**: You may be requesting resources that aren't available. Check available resources with `bacalhau node list` or reduce requirements.
+- **Out of Memory (OOM)**: Increase memory allocation or process data in smaller batches.
+- **Disk Space Issues**: Increase disk allocation or clean up temporary files during processing.
 
 ### Best Practices
 
-* Start with conservative resource requests and scale up as needed
-* For memory-intensive tasks, add a 20-30% buffer to your estimated peak usage
-* Check if your framework can effectively use multiple GPUs before requesting them
-
+- Start with conservative resource requests and scale up as needed
+- For memory-intensive tasks, add a 20-30% buffer to your estimated peak usage
+- Check if your framework can effectively use multiple GPUs before requesting them

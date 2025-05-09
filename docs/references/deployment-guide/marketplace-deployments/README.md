@@ -7,4 +7,3 @@ icon: cart-circle-check
 {% content-ref url="google-cloud-marketplace.md" %}
 [google-cloud-marketplace.md](google-cloud-marketplace.md)
 {% endcontent-ref %}
-

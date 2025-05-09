@@ -1,3 +1,6 @@
+---
+sidebar_position: 10
+---
 # Overview & Global Flags
 
 This page explains how the Bacalhau CLI is structured and which global flags are most commonly used. Understanding these fundamentals will help you work efficiently with all Bacalhau commands.

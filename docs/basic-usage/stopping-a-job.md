@@ -1,4 +1,7 @@
-# Stopping or Canceling a Job
+---
+sidebar_position: 70
+---
+# Stopping a Job
 
 Sometimes you need to terminate a running job before it completes naturally. Bacalhau provides a straightforward way to stop jobs in progress.
 

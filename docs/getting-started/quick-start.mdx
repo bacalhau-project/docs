@@ -1,5 +1,5 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Quick Start
 
@@ -7,8 +7,8 @@ This Quick Start guide shows how to run your first Bacalhau job with minimal set
 
 ### Prerequisites
 
-* Docker installed on any machine that runs a compute node
-* Bacalhau CLI installed (see below)
+- Docker installed on any machine that runs a compute node
+- Bacalhau CLI installed (see below)
 
 ### 1. Installation
 
@@ -24,8 +24,6 @@ curl -sL https://get.bacalhau.org/install.sh | bash
 bacalhau version
 ```
 
-
-
 ### 2. Start a Hybrid Node
 
 Open a terminal and run:
@@ -34,14 +32,14 @@ Open a terminal and run:
 bacalhau serve --orchestrator --compute
 ```
 
-* This command launches both an orchestrator and a compute node in one process
-* Keep it running; you'll see logs indicating it's ready
+- This command launches both an orchestrator and a compute node in one process
+- Keep it running; you'll see logs indicating it's ready
 
 ### 3. Submit a Data Analysis Job
 
 Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
 
-<Tabs>
+<Tabs groupId="job-submission">
 <TabItem value="Imperative (CLI)" label="Imperative (CLI)">
 ```bash
 bacalhau docker run \
@@ -65,9 +63,9 @@ Tasks:
       Params:
         Image: ghcr.io/bacalhau-project/word-count:latest
         Parameters:
-        - --output-file
-        - /outputs/moby-dick-counts.txt
-        - /data/moby-dick.txt
+          - --output-file
+          - /outputs/moby-dick-counts.txt
+          - /data/moby-dick.txt
     Publisher:
       Type: local
     InputSources:
@@ -78,8 +76,8 @@ Tasks:
           Params:
             URL: https://www.gutenberg.org/files/2701/2701-0.txt
     ResultPaths:
-    - Name: outputs
-      Path: /outputs
+      - Name: outputs
+        Path: /outputs
 ```
 
 Then run the job using:
@@ -87,12 +85,13 @@ Then run the job using:
 ```bash
 bacalhau job run word-count.yaml
 ```
+
 </TabItem>
 </Tabs>
 
-* The job downloads a sample dataset and processes it locally
-* Bacalhau will display job progress until completion
-* You'll receive a Job ID once the job is submitted
+- The job downloads a sample dataset and processes it locally
+- Bacalhau will display job progress until completion
+- You'll receive a Job ID once the job is submitted
 
 ### 4. Inspect the Job
 
@@ -100,8 +99,8 @@ bacalhau job run word-count.yaml
 bacalhau job describe <jobID>
 ```
 
-* Replace `<jobID>` with the actual ID printed in step 2
-* You can run `bacalhau job logs <job-id>` to just get the execution logs
+- Replace `<jobID>` with the actual ID printed in step 2
+- You can run `bacalhau job logs <job-id>` to just get the execution logs
 
 ### 5. Retrieve Results
 
@@ -116,8 +115,6 @@ head job-*/outputs/moby-dick-counts.txt
 ```
 
 > **Note:** You should see a word frequency analysis of the Moby Dick text file!
-
-
 
 ### 🎉 Success!
 
