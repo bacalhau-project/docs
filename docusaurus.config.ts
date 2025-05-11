@@ -103,7 +103,7 @@ const config: Config = {
           type: "docSidebar",
           sidebarId: "docsSidebar",
           position: "left",
-          label: "Documentation",
+          label: "Docs",
         },
         {
           type: "docSidebar",
@@ -135,11 +135,6 @@ const config: Config = {
           label: "GitHub",
           position: "right",
           "aria-label": "GitHub repository",
-        },
-        {
-          href: "https://bacalhauproject.slack.com/",
-          label: "Slack",
-          position: "right",
         },
         {
           href: "https://blog.bacalhau.org/",
