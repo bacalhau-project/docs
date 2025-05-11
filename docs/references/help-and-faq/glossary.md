@@ -1,6 +1,5 @@
 ---
-description: Definitions and usage for Bacalhau terminology
-icon: list
+slug: /references/glossary
 ---
 
 # Glossary

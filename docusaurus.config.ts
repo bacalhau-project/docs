@@ -1,34 +1,34 @@
-import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
-import type * as Preset from "@docusaurus/preset-classic";
-import { redirects, createRedirects } from "./redirects"; // Add this line
+import { themes as prismThemes } from 'prism-react-renderer'
+import type { Config } from '@docusaurus/types'
+import type * as Preset from '@docusaurus/preset-classic'
+import { redirects, createRedirects } from './redirects' // Add this line
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: "Bacalhau",
-  tagline: "Distributed Compute Over Data",
-  favicon: "img/favicon.png",
+  title: 'Bacalhau',
+  tagline: 'Distributed Compute Over Data',
+  favicon: 'img/favicon.png',
 
-  url: "https://bacalhau.org",
-  baseUrl: "/docs/",
+  url: 'https://bacalhau.org',
+  baseUrl: '/docs/',
 
   // GitHub pages deployment config.
-  organizationName: "bacalhau-project", // Usually your GitHub org/user name.
-  projectName: "docs", // Usually your repo name.
+  organizationName: 'bacalhau-project', // Usually your GitHub org/user name.
+  projectName: 'docs', // Usually your repo name.
 
-  onBrokenLinks: "ignore",
-  onBrokenMarkdownLinks: "warn",
-  onBrokenAnchors: "ignore",
+  onBrokenLinks: 'ignore',
+  onBrokenMarkdownLinks: 'warn',
+  onBrokenAnchors: 'ignore',
   markdown: {
-    format: "detect",
+    format: 'detect',
   },
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: 'en',
+    locales: ['en'],
   },
 
   plugins: [
@@ -39,26 +39,36 @@ const config: Config = {
         createRedirects: createRedirects,
       },
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'useCases',
+        path: 'content/use-cases',
+        routeBasePath: '/',
+        sidebarPath: require.resolve("./sidebarsUseCases.ts"),
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'community',
+        path: 'content/community',
+        routeBasePath: '/community',
+        sidebarPath: require.resolve("./sidebarsCommunity.ts"),
+      },
+    ],
   ],
 
   presets: [
     [
-      "classic",
+      'classic',
       {
-        //   docs: {
-        //     path: './documentation',
-        //     // Map to sub-domain
-        //     routeBasePath: '/docs',
-        //     sidebarPath: './documentation.js',
-        //     showLastUpdateAuthor: true,
-        //     showLastUpdateTime: true,
-        // },
         docs: {
-          path: "docs",
-          // Map to sub-domain
-          // routeBasePath: '/',
-          sidebarPath: require.resolve("./docsSidebar.ts"),
-          editUrl: "https://github.com/bacalhau-project/docs/tree/main/",
+          path: 'docs',
+          routeBasePath: 'docs',
+          sidebarPath: require.resolve("./sidebarsDocs.ts"),
+          editUrl: 'https://github.com/bacalhau-project/docs/tree/main/',
+          showLastUpdateTime: true,
         },
 
         // blog: {
@@ -77,7 +87,7 @@ const config: Config = {
         //   onUntruncatedBlogPosts: 'warn',
         // },
         theme: {
-          customCss: "./src/css/custom.css",
+          customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
     ],
@@ -85,149 +95,151 @@ const config: Config = {
 
   themeConfig: {
     // TODO: remove this when we are ready to go live
-    metadata: [{ name: "robots", content: "noindex, nofollow" }],
+    metadata: [{ name: 'robots', content: 'noindex, nofollow' }],
     colorMode: {
       respectPrefersColorScheme: true,
     },
     // Replace with your project's social card
-    image: "img/bacalhau-social.png",
+    image: 'img/bacalhau-social.png',
     navbar: {
-      title: "Bacalhau",
+      title: 'Bacalhau',
       logo: {
-        alt: "Bacalhau Logo",
-        src: "img/logo.svg",
-        srcDark: "img/logo-dark.svg",
+        alt: 'Bacalhau Logo',
+        src: 'img/logo.svg',
+        srcDark: 'img/logo-dark.svg',
       },
       items: [
         {
-          type: "docSidebar",
-          sidebarId: "docsSidebar",
-          position: "left",
-          label: "Docs",
+          type: 'docSidebar',
+          sidebarId: 'docs',
+          position: 'left',
+          label: 'Docs',
         },
         {
-          type: "docSidebar",
-          sidebarId: "usecaseSidebar",
-          position: "left",
-          label: "Use Cases",
+          type: 'docSidebar',
+          sidebarId: 'useCases',
+          docsPluginId: 'useCases',
+          position: 'left',
+          label: 'Use Cases',
         },
         {
-          type: "docSidebar",
-          sidebarId: "cliapiSidebar",
-          position: "left",
-          label: "CLI & API",
+          type: 'docSidebar',
+          sidebarId: 'cliApi',
+          position: 'left',
+          label: 'CLI & API',
         },
         {
-          type: "docSidebar",
-          sidebarId: "referenceSidebar",
-          position: "left",
-          label: "References",
+          type: 'docSidebar',
+          sidebarId: 'reference',
+          position: 'left',
+          label: 'References',
         },
         {
-          type: "docSidebar",
-          sidebarId: "communitySidebar",
-          position: "left",
-          label: "Community",
+          type: 'docSidebar',
+          sidebarId: 'community',
+          docsPluginId: 'community',
+          position: 'left',
+          label: 'Community',
         },
         {
-          href: "https://github.com/bacalhau-project/bacalhau",
-          className: "header-github-link",
-          label: "GitHub",
-          position: "right",
-          "aria-label": "GitHub repository",
+          href: 'https://github.com/bacalhau-project/bacalhau',
+          className: 'header-github-link',
+          label: 'GitHub',
+          position: 'right',
+          'aria-label': 'GitHub repository',
         },
         {
-          href: "https://blog.bacalhau.org/",
-          label: "Blog",
-          position: "right",
+          href: 'https://blog.bacalhau.org/',
+          label: 'Blog',
+          position: 'right',
         },
         {
-          href: "https://expanso.io/?_gl=1*sdzh2w*_gcl_au*ODM0MTE4NTkyLjE3NDIyOTQ5MDQ.*_ga*ODgxNjg0Mjg3LjE3NDIyOTQ5MDQ.*_ga_X1RJ0QGN3Z*czE3NDY1OTkyNDkkbzI5JGcxJHQxNzQ2NjAzMzIxJGoxMCRsMCRoMA..",
-          label: "Enterprise",
-          position: "right",
+          href: 'https://expanso.io/?_gl=1*sdzh2w*_gcl_au*ODM0MTE4NTkyLjE3NDIyOTQ5MDQ.*_ga*ODgxNjg0Mjg3LjE3NDIyOTQ5MDQ.*_ga_X1RJ0QGN3Z*czE3NDY1OTkyNDkkbzI5JGcxJHQxNzQ2NjAzMzIxJGoxMCRsMCRoMA..',
+          label: 'Enterprise',
+          position: 'right',
         },
       ],
     },
     footer: {
       links: [
         {
-          title: "Learn",
+          title: 'Learn',
           items: [
             {
-              label: "What is Bacalhau?",
-              to: "/docs/",
+              label: 'What is Bacalhau?',
+              to: '/docs/',
             },
             {
-              label: "Architecture",
-              to: "/docs/overview/architecture",
+              label: 'Architecture',
+              to: '/docs/overview/architecture',
             },
             {
-              label: "Quick Start",
-              to: "/docs/getting-started/quick-start",
+              label: 'Quick Start',
+              to: '/docs/getting-started/quick-start',
             },
           ],
         },
         {
-          title: "Use Cases",
+          title: 'Use Cases',
           items: [
             {
-              label: "Log Processing",
-              to: "/docs/use-cases/use-cases/log-processing",
+              label: 'Log Processing',
+              to: 'use-cases/log-processing',
             },
             {
-              label: "Distributed Data Warehousing",
-              to: "/docs/use-cases/use-cases/distributed-data-warehousing",
+              label: 'Distributed Data Warehousing',
+              to: 'use-cases/distributed-data-warehousing',
             },
 
             {
-              label: "Distributed Machine Learning",
-              to: "/docs/use-cases/use-cases/distributed-machine-learning",
+              label: 'Distributed Machine Learning',
+              to: 'use-cases/distributed-machine-learning',
             },
             {
-              label: "Edge Computing",
-              to: "/docs/use-cases/use-cases/edge-computing",
+              label: 'Edge Computing',
+              to: 'use-cases/edge-computing',
             },
             {
-              label: "Fleet Management",
-              to: "/docs/use-cases/use-cases/fleet-management",
-            },
-          ],
-        },
-        {
-          title: "Community & Social",
-          items: [
-            {
-              label: "GitHub",
-              href: "https://github.com/bacalhau-project/bacalhau",
-            },
-            {
-              label: "Slack",
-              href: "https://bit.ly/bacalhau-project-slack",
-            },
-            {
-              label: "Twitter/X",
-              href: "https://twitter.com/BacalhauProject",
-            },
-            {
-              label: "LinkedIn",
-              href: "https://www.linkedin.com/showcase/bacalhau-project/posts",
+              label: 'Fleet Management',
+              to: 'use-cases/fleet-management',
             },
           ],
         },
         {
-          title: "Expanso & Cloud",
+          title: 'Community & Social',
           items: [
             {
-              label: "Expanso.io",
-              href: "https://expanso.io",
+              label: 'GitHub',
+              href: 'https://github.com/bacalhau-project/bacalhau',
             },
             {
-              label: "Expanso Cloud",
-              href: "https://cloud.expanso.io",
+              label: 'Slack',
+              href: 'https://bit.ly/bacalhau-project-slack',
             },
             {
-              label: "Enterprise Support",
-              href: "https://expanso.io/contact",
+              label: 'Twitter/X',
+              href: 'https://twitter.com/BacalhauProject',
+            },
+            {
+              label: 'LinkedIn',
+              href: 'https://www.linkedin.com/showcase/bacalhau-project/posts',
+            },
+          ],
+        },
+        {
+          title: 'Expanso & Cloud',
+          items: [
+            {
+              label: 'Expanso.io',
+              href: 'https://expanso.io',
+            },
+            {
+              label: 'Expanso Cloud',
+              href: 'https://cloud.expanso.io',
+            },
+            {
+              label: 'Enterprise Support',
+              href: 'https://expanso.io/contact',
             },
           ],
         },
@@ -236,9 +248,9 @@ const config: Config = {
     },
 
     prism: {
-      additionalLanguages: ["bash"],
+      additionalLanguages: ['bash'],
     },
   } satisfies Preset.ThemeConfig,
-};
+}
 
-export default config;
+export default config
