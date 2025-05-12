@@ -1,11 +1,12 @@
 ---
 sidebar_position: 90
 ---
+
 # Debugging the Agent
 
 The Bacalhau `agent` is the process your client directly communicates with. By default, this is running on `localhost:1234`, but can be changed using `--api-host` and `--api-port` flags. For local testing or small clusters, you'll frequently need to check the agent's health and examine its configuration.
 
-### Checking Agent Health and Version
+## Checking Agent Health and Version
 
 When troubleshooting connectivity or verifying your setup:
 
@@ -23,7 +24,7 @@ bacalhau agent version
 
 This displays version information helpful when verifying installations, troubleshooting issues, or reporting bugs.
 
-### Inspecting Agent Configuration
+## Inspecting Agent Configuration
 
 During setup or when diagnosing issues:
 
@@ -33,7 +34,7 @@ bacalhau agent config
 
 This returns the complete configuration in YAML format, showing network parameters, resource limits, and admission control settings. Use this when jobs aren't being accepted or resources aren't properly allocated.
 
-### Examining Node Details
+## Examining Node Details
 
 To get detailed information about the agent's node:
 
@@ -43,7 +44,7 @@ bacalhau agent node
 
 This shows information about node identity, available resources, and supported features. Use this when setting up a new node or troubleshooting job scheduling issues.
 
-### Working with Remote Agents
+## Working with Remote Agents
 
 To connect to a remote agent:
 

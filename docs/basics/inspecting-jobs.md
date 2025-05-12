@@ -1,17 +1,18 @@
 ---
 sidebar_position: 30
 ---
+
 # Inspecting Jobs
 
 Once you've submitted jobs to Bacalhau and identified them through job listing, you'll often need to dig deeper into specific jobs. This guide covers the commands for getting detailed information about your jobs.
 
-### What You'll Learn
+## What You'll Learn
 
-* How to view comprehensive details about a specific job
-* How to track a job's history and state changes
-* How to examine individual job executions
+- How to view comprehensive details about a specific job
+- How to track a job's history and state changes
+- How to examine individual job executions
 
-### Describing a Job
+## Describing a Job
 
 To see complete details about a specific job, use:
 
@@ -21,7 +22,7 @@ bacalhau job describe <job-id>
 
 Replace `<job-id>` with your actual job ID. You can use the full ID or just the first few characters (if they uniquely identify the job).
 
-#### Sample Output
+### Sample Output
 
 ```
 ID            = j-1efa8fb5-a3ce-4c15-8660-e6c5cd4fe981
@@ -60,14 +61,14 @@ Hello from a YAML spec!
 
 The output shows you:
 
-* Basic job information (ID, name, type, state)
-* Summary of job completion status
-* Job history timeline
-* Execution details on which nodes ran the job
-* Execution history showing state changes
-* Standard output from the job execution
+- Basic job information (ID, name, type, state)
+- Summary of job completion status
+- Job history timeline
+- Execution details on which nodes ran the job
+- Execution history showing state changes
+- Standard output from the job execution
 
-### Customizing the Output Format
+## Customizing the Output Format
 
 Change the output format for easier parsing or integration with other tools:
 
@@ -79,7 +80,7 @@ bacalhau job describe <job-id> --output yaml
 bacalhau job describe <job-id> --output json --pretty
 ```
 
-### Tracking Job History
+## Tracking Job History
 
 To see how a job's state has changed over time:
 
@@ -89,7 +90,7 @@ bacalhau job history <job-id>
 
 The history shows important events like state transitions and execution updates.
 
-#### Filtering History Events
+### Filtering History Events
 
 Filter history by event type:
 
@@ -107,7 +108,7 @@ Filter by a specific execution:
 bacalhau job history <job-id> --execution-id <execution-id>
 ```
 
-### Viewing Job Executions
+## Viewing Job Executions
 
 For jobs that run on multiple nodes or have multiple attempts, check the executions:
 
@@ -129,4 +130,3 @@ bacalhau job executions <job-id> --wide
 # Get in alternative format
 bacalhau job executions <job-id> --output yaml
 ```
-
