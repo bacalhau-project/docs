@@ -65,7 +65,7 @@ node:
 
 ### Set command value validation
 
-#### Example of invalid logging mode valu
+#### Example of invalid logging mode value
 
 ```bash
 bacalhau config set node.loggingmode some-invalid-value
