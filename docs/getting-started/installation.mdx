@@ -29,22 +29,22 @@ curl -sL https://get.bacalhau.org/install.sh | bash
 </TabItem>
 
 <TabItem value="Docker" label="Docker">
-**Base Image**
+
+### Base Image
 
 ```bash
 docker pull ghcr.io/bacalhau-project/bacalhau:latest
 ```
 
-- Suitable for running orchestrators, clients or compute nodes with no docker support
+- Suitable for running orchestrators, clients or compute nodes with no Docker support
 
-\
-**Docker in Docker**
+### Docker in Docker
 
 ```bash
 docker pull ghcr.io/bacalhau-project/bacalhau:latest-dind
 ```
 
-- Suitable for running compute nodes that can run docker based jobs
+- Suitable for running compute nodes that can run Docker based jobs
 - Require `--privileged` mode when running the container
 </TabItem>
 </Tabs>
@@ -65,9 +65,9 @@ If you get `command not found`, verify your PATH includes the Bacalhau binary.
 
 ### Upgrading Bacalhau
 
-To upgrade Bacalhau to the latest version, run the installation script. If Bacalhau is already installed, this will update it to the most recent version available.&#x20;
+To upgrade Bacalhau to the latest version, run the installation script. If Bacalhau is already installed, this will update it to the most recent version available.
 
-### **Requirements & Tips**
+## Requirements & Tips
 
 - **Docker**:
   - Must be installed and running on any **compute** node to handle Docker-based jobs.
@@ -78,9 +78,7 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 - **`bacalhau devstack`**:
   - Perfect for local development or running tests.
 
----
-
-#### **Next Steps**
+## Next Steps
 
 - Head over to Basic CLI Usage to learn how to submit, describe, and stop jobs.
 - Check Common Workflows for steps on mounting data (S3, local folders) and publishing outputs.
