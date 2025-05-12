@@ -1,19 +1,20 @@
 ---
 sidebar_position: 01
 ---
+
 # Overview
 
 This page explains how the Bacalhau CLI is structured and which global flags are most commonly used. Understanding these fundamentals will help you work efficiently with all Bacalhau commands.
 
-### What You'll Learn
+## What You'll Learn
 
-* The general structure and organization of Bacalhau commands
-* How global flags affect command behavior regardless of the specific command
-* How to customize output formats and control connection settings
-* How to specify configuration files and data directories
-* Where to find more detailed command references
+- The general structure and organization of Bacalhau commands
+- How global flags affect command behavior regardless of the specific command
+- How to customize output formats and control connection settings
+- How to specify configuration files and data directories
+- Where to find more detailed command references
 
-### CLI Structure
+## CLI Structure
 
 Bacalhau commands follow a consistent pattern that makes them intuitive and predictable:
 
@@ -21,17 +22,17 @@ Bacalhau commands follow a consistent pattern that makes them intuitive and pred
 bacalhau <top-level-command> <subcommand> [flags]
 ```
 
-### Top-Level Commands
+## Top-Level Commands
 
 Bacalhau's CLI groups commands into logical categories:
 
-* `agent`: Client-side commands for checking health, version, and node information
-* `job`: Core job management (create, list, describe, stop, retrieve logs, etc.)
-* `node`: Cluster node management and inspection
-* `config`: Client configuration management
-* `docker`: Imperative command for running Docker-based jobs&#x20;
+- `agent`: Client-side commands for checking health, version, and node information
+- `job`: Core job management (create, list, describe, stop, retrieve logs, etc.)
+- `node`: Cluster node management and inspection
+- `config`: Client configuration management
+- `docker`: Imperative command for running Docker-based jobs&#x20;
 
-### Command Examples
+## Command Examples
 
 ```bash
 # Get version information
@@ -47,11 +48,11 @@ bacalhau docker run ubuntu:latest -- echo "Hello World"
 bacalhau node list
 ```
 
-### Global Flags
+## Global Flags
 
 These flags work with any command and provide consistent behavior across the CLI. They're especially useful for scripting and automation.
 
-#### Connection Settings
+### Connection Settings
 
 | Flag                | Description                   | Default     |
 | ------------------- | ----------------------------- | ----------- |
@@ -64,7 +65,7 @@ Example:
 bacalhau job list --api-host mycluster.example.com --api-port 8080
 ```
 
-#### Configuration Management
+### Configuration Management
 
 | Flag                  | Description                                              | Default       |
 | --------------------- | -------------------------------------------------------- | ------------- |
@@ -84,7 +85,7 @@ bacalhau job list --data-dir /path/to/bacalhau/data
 bacalhau serve --orchestrator -c WebUI.Enabled=true
 ```
 
-#### Output Formatting
+### Output Formatting
 
 | Flag              | Description                                | Example Values          |
 | ----------------- | ------------------------------------------ | ----------------------- |
@@ -104,9 +105,7 @@ bacalhau job list --output json --pretty
 bacalhau job list --output yaml
 ```
 
-
-
-### Getting Help
+## Getting Help
 
 For detailed information about any command's available flags:
 

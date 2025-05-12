@@ -13,24 +13,24 @@ bacalhau job logs [id] [flags]
 ## Flags
 
 1. `-f`, `--follow`:
-   * Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
+   - Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
 2. `-h`, `--help`:
-   * Description: Display help information for the `logs` command.
+   - Description: Display help information for the `logs` command.
 
 ## Global Flags
 
 1. `--api-host string`:
-   * Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-   * Default: `bootstrap.production.bacalhau.org`
+   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `bootstrap.production.bacalhau.org`
 2. `--api-port int`:
-   * Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
-   * Default: `1234`
+   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
+   - Default: `1234`
 3. `--log-mode logging-mode`:
-   * Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
-   * Default: `default`
+   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
+   - Default: `default`
 4. `--repo string`:
-   * Description: Specifies the path to the bacalhau repository.
-   * Default: `$HOME/.bacalhau`
+   - Description: Specifies the path to the bacalhau repository.
+   - Default: `$HOME/.bacalhau`
 
 ## Examples
 
@@ -51,6 +51,7 @@ bacalhau job logs [id] [flags]
     [2023-09-24 09:02:01] ERROR - Failed to retrieve data from endpoint: /api/v1/data.
     [2023-09-24 09:05:00] INFO - Data sync completed with 4500 new records.
     ```
+
 2.  **Follow Logs in Real-Time**:
 
     **Command:**
@@ -67,6 +68,7 @@ bacalhau job logs [id] [flags]
     [2023-09-24 11:31:05] WARN - High memory usage detected: 85% of allocated resources.
     ... [Logs continue to appear in real-time] ...
     ```
+
 3.  **Display Logs Using a Shortened ID**:
 
     **Command:**

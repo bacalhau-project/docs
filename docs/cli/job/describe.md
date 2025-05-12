@@ -6,7 +6,7 @@ The `bacalhau job describe` command provides a detailed description of a specifi
 
 ## Usage
 
-```
+```bash
 bacalhau job describe [id] [flags]
 ```
 

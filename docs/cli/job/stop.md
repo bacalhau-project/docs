@@ -6,31 +6,31 @@ The `bacalhau job stop` command allows users to terminate a previously submitted
 
 ## Usage
 
-```
+```bash
 bacalhau job stop [id] [flags]
 ```
 
 ## Flags
 
-* `--quiet`:
-  * Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
-* `-h`, `--help`:
-  * Description: Displays help information for the `stop` command.
+- `--quiet`:
+  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
+- `-h`, `--help`:
+  - Description: Displays help information for the `stop` command.
 
 ## Global Flags
 
-* `--api-host string`:
-  * Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  * Default: `bootstrap.production.bacalhau.org`
-* `--api-port int`:
-  * Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  * Default: `1234`
-* `--log-mode logging-mode`:
-  * Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  * Default: `default`
-* `--repo string`:
-  * Description: Defines the path to the bacalhau repository.
-  * Default: `$HOME/.bacalhau`
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
 
 ## Examples
 
@@ -55,6 +55,7 @@ bacalhau job stop [id] [flags]
 
     Job stop successfully submitted with evaluation ID: 397fd425-8b1a-491e-952a-0632492e7ece
     ```
+
 2.  **Silently Stop a Job**:
 
     If you prefer to terminate a job without seeing any verbose feedback or messages, the `--quiet` option can be used.

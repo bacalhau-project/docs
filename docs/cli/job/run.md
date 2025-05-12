@@ -6,45 +6,45 @@ The `bacalhau job run` command facilitates the initiation of a job from a file o
 
 ## Usage
 
-```
+```bash
 bacalhau job run [flags]
 ```
 
 ## Flags
 
-* `--dry-run`:
-  * Description: With this flag, the job will not be submitted. Instead, it will display what would have been submitted, providing a way to preview before actual submission.
-* `-f`, `--follow`:
-  * Description: If provided, the command will continuously display the output from the job as it runs.
-* `--id-only`:
-  * Description: On successful job submission, only the Job ID will be printed.
-* `--node-details`:
-  * Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
-* `--show-warnings`:
-  * Description: Shows any warnings that occur during the job submission.
-* `--wait`:
-  * Description: Waits for the job to finish execution. To set this to false, use --wait=false
-  * Default: `true`
-* `--wait-timeout-secs int`:
-  * Description: If `--wait` is provided, this flag sets the maximum time (in seconds) the command will wait for the job to finish before it terminates.
-  * Default: `600` seconds
-* `-h`, `--help`:
-  * Description: Displays help information for the `run` command.
+- `--dry-run`:
+  - Description: With this flag, the job will not be submitted. Instead, it will display what would have been submitted, providing a way to preview before actual submission.
+- `-f`, `--follow`:
+  - Description: If provided, the command will continuously display the output from the job as it runs.
+- `--id-only`:
+  - Description: On successful job submission, only the Job ID will be printed.
+- `--node-details`:
+  - Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
+- `--show-warnings`:
+  - Description: Shows any warnings that occur during the job submission.
+- `--wait`:
+  - Description: Waits for the job to finish execution. To set this to false, use --wait=false
+  - Default: `true`
+- `--wait-timeout-secs int`:
+  - Description: If `--wait` is provided, this flag sets the maximum time (in seconds) the command will wait for the job to finish before it terminates.
+  - Default: `600` seconds
+- `-h`, `--help`:
+  - Description: Displays help information for the `run` command.
 
 ## Global Flags
 
-* `--api-host string`:
-  * Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  * Default: `bootstrap.production.bacalhau.org`
-* `--api-port int`:
-  * Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  * Default: `1234`
-* `--log-mode logging-mode`:
-  * Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  * Default: `default`
-* `--repo string`:
-  * Description: Defines the path to the bacalhau repository.
-  * Default: `$HOME/.bacalhau`
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
 
 ## Examples
 
@@ -100,6 +100,7 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
     To get more details about the run executions, execute:
      bacalhau job executions j-2d0f513a-9eb1-49c2-8bc8-246c6fb41520
     ```
+
 2.  **Running a Job and Following its Logs**:
 
     **Command:**
@@ -116,6 +117,7 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
 
     Hello Bacalhau!
     ```
+
 3.  **Running a Job Without Waiting**:
 
     **Command:**
@@ -129,6 +131,7 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
     ```plaintext
     j-3fd396b3-e92e-42ca-bd87-0dc9eb15e6f9
     ```
+
 4.  **Fetching Only the Job ID Upon Submission**:
 
     **Command:**
@@ -142,6 +145,7 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
     ```plaintext
     j-5976ffb6-3465-4fec-8b3b-2c822cbaf417
     ```
+
 5.  **Fetching Only the Job ID and Wait for Completion**:
 
     **Command:**
@@ -155,6 +159,7 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
     ```plaintext
     j-293f1302-3298-4aca-b06d-33fd1e3f9d2c
     ```
+
 6.  **Running a Job with Node Details**:
 
     **Command:**
@@ -182,6 +187,7 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
     To get more details about the run executions, execute:
      bacalhau job executions j-05e65dd3-4e9e-4e20-a104-3c91ba934435
     ```
+
 7.  **Rerunning a previously submitting job**:
 
     **Command:**
@@ -210,12 +216,12 @@ This configuration describes a batch job that runs a Docker task. It utilizes th
 
 The `bacalhau job run` command also supports templating, which allows users to dynamically inject variables into their job specifications. Additional flags related to templating include:
 
-* `--no-template`:
-  * Description: Disable the templating feature. When this flag is set, the job spec will be used as-is, without any placeholder replacements.
-* `-E, --template-envs`:
-  * Description: Specify a regular expression pattern for selecting environment variables to be included as template variables in the job spec. e.g. `--template-envs ".*"` will include all environment variables.
-* `-V, --template-vars`:
-  * Description: Replace a placeholder in the job spec with a value. e.g. `--template-vars foo=bar`
+- `--no-template`:
+  - Description: Disable the templating feature. When this flag is set, the job spec will be used as-is, without any placeholder replacements.
+- `-E, --template-envs`:
+  - Description: Specify a regular expression pattern for selecting environment variables to be included as template variables in the job spec. e.g. `--template-envs ".*"` will include all environment variables.
+- `-V, --template-vars`:
+  - Description: Replace a placeholder in the job spec with a value. e.g. `--template-vars foo=bar`
 
 ### Overview
 
@@ -307,11 +313,11 @@ Tasks:
         Image: expanso/nginx-access-log-processor:1.0.0
         Parameters:
           - --query
-          - {{.query}}
+          - { { .query } }
           - --start-time
-          - {{or (index . "start-time") ""}}
+          - { { or (index . "start-time") "" } }
           - --end-time
-          - {{or (index . "end-time") ""}}
+          - { { or (index . "end-time") "" } }
     InputSources:
       - Target: /logs
         Source:
@@ -344,16 +350,16 @@ Tasks:
         Image: expanso/nginx-access-log-processor:1.0.0
         Parameters:
           - --query
-          - {{.query}}
+          - { { .query } }
     InputSources:
       - Target: /logs
         Source:
           Type: s3
           Params:
-            Bucket: {{.AccessLogBucket}}
-            Key: {{.AccessLogPrefix}}
-            Filter: {{or (index . "AccessLogPattern") ".*"}}
-            Region: {{.AWSRegion}}
+            Bucket: { { .AccessLogBucket } }
+            Key: { { .AccessLogPrefix } }
+            Filter: { { or (index . "AccessLogPattern") ".*" } }
+            Region: { { .AWSRegion } }
 ```
 
 This is a batch job that runs on a single node. It accepts the duckdb query variable, and four other variables to define the S3 bucket, prefix, and pattern for the logs and the AWS region.

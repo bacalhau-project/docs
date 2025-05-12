@@ -6,52 +6,52 @@ The `bacalhau job list` command provides a listing of all submitted jobs. This c
 
 ## Usage
 
-```
+```bash
 bacalhau job list [flags]
 ```
 
 ## Flags
 
-* `-h`, `--help`:
-  * Description: Display help for the `list` command.
-* `--hide-header`:
-  * Description: Opts out of printing the column headers in the results.
-* `--labels string`:
-  * Description: Filters jobs by labels. It's designed to function similar to Kubernetes label selectors.
-  * Default: `bacalhau_canary != true`
-* `--limit uint32`:
-  * Description: Limits the number of results returned.
-  * Default: `10`
-* `--next-token string`:
-  * Description: Uses the provided token for pagination.
-* `--no-style`:
-  * Description: Strips all styling from the table output.
-* `--order-by string`:
-  * Description: Organizes results based on a chosen field. Valid fields are `id` and `created_at`.
-* `--order-reversed`:
-  * Description: Reverses the order of the displayed results.
-* `--output format`:
-  * Description: Dictates the desired output format for the command. Options are `table`, `csv`, `json`, and `yaml`.
-  * Default: `table`
-* `--pretty`:
-  * Description: Offers a more visually pleasing output for `json` and `yaml` formats.
-* `--wide`:
-  * Description: Presents full values in the table results, preventing truncation.
+- `-h`, `--help`:
+  - Description: Display help for the `list` command.
+- `--hide-header`:
+  - Description: Opts out of printing the column headers in the results.
+- `--labels string`:
+  - Description: Filters jobs by labels. It's designed to function similar to Kubernetes label selectors.
+  - Default: `bacalhau_canary != true`
+- `--limit uint32`:
+  - Description: Limits the number of results returned.
+  - Default: `10`
+- `--next-token string`:
+  - Description: Uses the provided token for pagination.
+- `--no-style`:
+  - Description: Strips all styling from the table output.
+- `--order-by string`:
+  - Description: Organizes results based on a chosen field. Valid fields are `id` and `created_at`.
+- `--order-reversed`:
+  - Description: Reverses the order of the displayed results.
+- `--output format`:
+  - Description: Dictates the desired output format for the command. Options are `table`, `csv`, `json`, and `yaml`.
+  - Default: `table`
+- `--pretty`:
+  - Description: Offers a more visually pleasing output for `json` and `yaml` formats.
+- `--wide`:
+  - Description: Presents full values in the table results, preventing truncation.
 
 ## Global Flags
 
-* `--api-host string`:
-  * Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  * Default: `bootstrap.production.bacalhau.org`
-* `--api-port int`:
-  * Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  * Default: `1234`
-* `--log-mode logging-mode`:
-  * Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  * Default: `default`
-* `--repo string`:
-  * Description: Points to the bacalhau repository location.
-  * Default: `$HOME/.bacalhau`
+- `--api-host string`:
+  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Points to the bacalhau repository location.
+  - Default: `$HOME/.bacalhau`
 
 ## Examples
 
@@ -72,6 +72,7 @@ bacalhau job list [flags]
     04:53:50  f4993f62    docker  batch  Completed
     ... (trimmed for brevity) ...
     ```
+
 2.  **Limit the list to the last two jobs**:
 
     Limit the list to display only the last two jobs:
@@ -87,6 +88,7 @@ bacalhau job list [flags]
     03:14:16  19a26187    docker  batch  Completed
     21:47:21  2a53a13b    docker  batch  Completed
     ```
+
 3.  **Order the list by creation date in descending order**:
 
     Order the jobs by their creation date in a descending manner:
@@ -104,6 +106,7 @@ bacalhau job list [flags]
     17:43:50  f196521d    docker  batch  Completed
     ... (trimmed for brevity) ...
     ```
+
 4.  **Filter the jobs by specific labels**:
 
     Display jobs that have specific labels:
@@ -117,6 +120,7 @@ bacalhau job list [flags]
     ```plaintext
     ... (filtered jobs) ...
     ```
+
 5.  **Display the list in JSON format with pretty printing**:
 
     Get a limited list of jobs in a formatted JSON output:

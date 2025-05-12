@@ -6,35 +6,35 @@ The `bacalhau agent alive` command provides information about the agent's livene
 
 ## Usage
 
-```
+```bash
 bacalhau agent alive [flags]
 ```
 
 ## Flags
 
-* `-h`, `--help`:
-  * Description: Displays help information for the `alive` sub-command.
-* `--output format`:
-  * Description: Determines the format in which the output is displayed. Available formats include JSON and YAML.
-  * Options: `json`, `yaml`
-  * Default: `yaml`
-* `--pretty`:
-  * Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
+- `-h`, `--help`:
+  - Description: Displays help information for the `alive` sub-command.
+- `--output format`:
+  - Description: Determines the format in which the output is displayed. Available formats include JSON and YAML.
+  - Options: `json`, `yaml`
+  - Default: `yaml`
+- `--pretty`:
+  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
 
 ## Global Flags
 
-* `--api-host string`:
-  * Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  * Default: `bootstrap.production.bacalhau.org`
-* `--api-port int`:
-  * Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  * Default: `1234`
-* `--log-mode logging-mode`:
-  * Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
-  * Default: `default`
-* `--repo string`:
-  * Description: Defines the path to the bacalhau repository.
-  * Default: \`\`$HOME/.bacalhau\`
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: \`\`$HOME/.bacalhau\`
 
 ## Examples
 
@@ -44,8 +44,8 @@ bacalhau agent alive [flags]
 
     **Command**:
 
-    ```
-    → bacalhau agent alive
+    ```bash
+    bacalhau agent alive
     ```
 
     **Output**:
@@ -53,12 +53,13 @@ bacalhau agent alive [flags]
     ```
     status: OK
     ```
+
 2.  **Output in JSON format**:
 
     **Command**:
 
-    ```
-    → bacalhau agent alive --output json --pretty
+    ```bash
+    bacalhau agent alive --output json --pretty
     ```
 
     **Output**:

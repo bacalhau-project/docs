@@ -70,7 +70,7 @@ InputSources:
 
 In this example, the main WASM module is fetched from the local file system on the compute node. The entrypoint function is `start_app`, and it is given two arguments `"--assets"` and `"/app/data"`. Additionally, the WASM environment has access to `/app/data/file.txt` file downloaded from the given URL.
 
-{% hint style="info" %}
+:::info
 Parameters are passed to the WASM module as command-line arguments. To access these arguments in your WASM module, you'll need to implement the appropriate code based on your programming language. For example, in Rust, you can retrieve the parameters as follows:
 
 ```rust
@@ -82,4 +82,4 @@ fn _start() {
 }
 ```
 
-{% endhint %}
+:::
