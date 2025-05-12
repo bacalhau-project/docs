@@ -4,6 +4,9 @@ description: >-
   and scalable compute for large-scale analytics.
 ---
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
 # DuckDB
 
 ## Overview
@@ -81,33 +84,36 @@ SELECT * FROM read_parquet(getvariable('my_files'));
 
 ## Key Use Cases
 
-### **1. Distributed Data Processing**
+### 1. Distributed Data Processing
 
 - Run SQL queries across multiple machines without data movement.
 - Leverage **Bacalhau’s job orchestration** to distribute and parallelize workloads.
 
-### **2. Multi-Region Data Warehousing**
+### 2. Multi-Region Data Warehousing
 
 - Execute **scatter-gather queries** where data resides, avoiding centralization bottlenecks.
 - Process only necessary data partitions instead of querying the entire dataset.
 
-### **3. Scalable Analytics**
+### 3. Scalable Analytics
 
 - Perform **interactive and batch analytics** on large-scale datasets.
 - Use partition-aware querying to speed up data retrieval and reduce costs.
 
 ## Usage Examples
 
-### 1. Run a Simple Query&#x20;
+### 1. Run a Simple Query
 
-**Imperative (CLI):**
+<Tabs groupId="simple-query">
+<TabItem value="Imperative (CLI)" label="Imperative (CLI)">
 
 ```bash
 bacalhau docker run ghcr.io/bacalhau-project/duckdb \
   "SELECT 'Hello Bacalhau!' as greeting;"
 ```
 
-**Declarative (YAML):**
+</TabItem>
+
+<TabItem value="Declarative (YAML)" label="Declarative (YAML)">
 
 ```yaml
 Name: Simple Query Example
@@ -123,6 +129,9 @@ Tasks:
           - -c
           - "SELECT 42 AS answer;"
 ```
+
+</TabItem>
+</Tabs>
 
 ### 2. Process Partitioned Log Files
 

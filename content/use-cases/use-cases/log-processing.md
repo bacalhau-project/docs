@@ -14,10 +14,10 @@ Efficient log management is essential for monitoring system health, detecting an
 
 Bacalhau simplifies distributed log processing through its versatile job orchestration capabilities, offering several types of jobs to handle various aspects of log management:
 
-- **Daemon Jobs**: These continuously running jobs on each node handle real-time log aggregation and compression. They transmit aggregated logs to platforms like Kafka or Kinesis for immediate analysis and periodically store raw logs in storage solutions such as S3 for archival purposes.&#x20;
-- **Service Jobs**: Designed for ongoing intermediate processing tasks, service jobs perform log aggregation, basic statistics computation, deduplication, and issue detection. They run on a specified number of nodes, ensuring continuous log processing and seamless integration with logging services like Splunk for real-time insights.&#x20;
-- **Batch Jobs**: Executed on-demand, batch jobs focus on in-depth analysis of historical log data stored in locations like S3. This approach eliminates the need to move large datasets, effectively transforming nodes into a distributed data warehouse for comprehensive investigations.&#x20;
-- **Ops Jobs**: Ideal for urgent investigations, ops jobs run across all nodes that meet specific criteria, enabling real-time querying of live logs. This comprehensive coverage is crucial for immediate troubleshooting and incident response.&#x20;
+- **Daemon Jobs**: These continuously running jobs on each node handle real-time log aggregation and compression. They transmit aggregated logs to platforms like Kafka or Kinesis for immediate analysis and periodically store raw logs in storage solutions such as S3 for archival purposes.
+- **Service Jobs**: Designed for ongoing intermediate processing tasks, service jobs perform log aggregation, basic statistics computation, deduplication, and issue detection. They run on a specified number of nodes, ensuring continuous log processing and seamless integration with logging services like Splunk for real-time insights.
+- **Batch Jobs**: Executed on-demand, batch jobs focus on in-depth analysis of historical log data stored in locations like S3. This approach eliminates the need to move large datasets, effectively transforming nodes into a distributed data warehouse for comprehensive investigations.
+- **Ops Jobs**: Ideal for urgent investigations, ops jobs run across all nodes that meet specific criteria, enabling real-time querying of live logs. This comprehensive coverage is crucial for immediate troubleshooting and incident response.
 
 ## Benefits of Using Bacalhau for Log Processing
 

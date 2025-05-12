@@ -13,7 +13,7 @@ Processing data at the edge—closer to where it is generated—is critical for 
 
 ## Key Capabilities
 
-### 1. **Low-Latency Processing at the Edge**
+### 1. Low-Latency Processing at the Edge
 
 Bacalhau enables compute tasks to be executed directly on edge devices, reducing round-trip times to cloud-based systems.
 
@@ -21,7 +21,7 @@ Bacalhau enables compute tasks to be executed directly on edge devices, reducing
 - Enable AI inference directly on edge nodes without cloud dependency.
 - Reduce response times for critical applications like industrial automation, autonomous vehicles, and healthcare monitoring.
 
-### 2. **Efficient Data Processing with Minimal Bandwidth Usage**
+### 2. Efficient Data Processing with Minimal Bandwidth Usage
 
 Transmitting large volumes of raw data to centralized locations for processing can be expensive and slow. Bacalhau optimizes this by allowing computations to happen locally before only sending necessary results.
 
@@ -29,7 +29,7 @@ Transmitting large volumes of raw data to centralized locations for processing c
 - Reduce network bandwidth usage by executing compute jobs locally.
 - Improve system reliability by ensuring tasks continue running even with intermittent connectivity.
 
-### 3. **Scalable Distributed Execution Across Edge Nodes**
+### 3. Scalable Distributed Execution Across Edge Nodes
 
 Bacalhau dynamically schedules workloads across a distributed network of edge nodes, ensuring optimal resource utilization.
 
@@ -37,7 +37,7 @@ Bacalhau dynamically schedules workloads across a distributed network of edge no
 - Balance workloads between cloud, edge, and on-premise environments.
 - Automatically failover to alternative nodes in case of network or hardware failures.
 
-### 4. **Secure & Resilient Edge Deployments**
+### 4. Secure & Resilient Edge Deployments
 
 Edge environments often operate in remote or untrusted locations. Bacalhau provides a robust execution framework that ensures secure and reliable compute at the edge.
 

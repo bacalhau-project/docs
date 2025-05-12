@@ -13,7 +13,7 @@ Scaling machine learning workloads across multiple regions and compute environme
 
 ## Key Capabilities
 
-### 1. **Distributed Training & Parallel Execution**
+### 1. Distributed Training & Parallel Execution
 
 Bacalhau enables ML workloads to be split across multiple nodes, allowing for faster and more efficient training by parallelizing computations.
 
@@ -21,7 +21,7 @@ Bacalhau enables ML workloads to be split across multiple nodes, allowing for fa
 - Process subsets of data locally and aggregate results, reducing the need for excessive data transfer.
 - Enable federated learning approaches where training occurs on edge nodes without centralizing data.
 
-### 2. **Optimized Data Movement & Local Processing**
+### 2. Optimized Data Movement & Local Processing
 
 Moving large datasets for ML training is expensive and slow. Bacalhau optimizes data locality by running computations closer to the data source.
 
@@ -29,7 +29,7 @@ Moving large datasets for ML training is expensive and slow. Bacalhau optimizes 
 - Train models across multiple data centers without requiring full dataset replication.
 - Minimize network costs by aggregating model updates instead of raw data.
 
-### 3. **Scalable Model Deployment & Inference**
+### 3. Scalable Model Deployment & Inference
 
 Bacalhau simplifies deploying ML models across a distributed fleet for real-time or batch inference.
 
@@ -37,7 +37,7 @@ Bacalhau simplifies deploying ML models across a distributed fleet for real-time
 - Run model evaluation and A/B testing across different compute clusters.
 - Dynamically allocate compute resources based on demand.
 
-### 4. **Federated Learning & Privacy-Preserving ML**
+### 4. Federated Learning & Privacy-Preserving ML
 
 For privacy-sensitive applications, Bacalhau supports federated learning by keeping data decentralized while training global models.
 
