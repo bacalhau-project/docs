@@ -124,13 +124,6 @@ const config: Config = {
           label: 'Community',
         },
         {
-          href: 'https://github.com/bacalhau-project/bacalhau',
-          className: 'header-github-link',
-          label: 'GitHub',
-          position: 'right',
-          'aria-label': 'GitHub repository',
-        },
-        {
           href: 'https://blog.bacalhau.org/',
           label: 'Blog',
           position: 'right',
@@ -139,6 +132,12 @@ const config: Config = {
           href: 'https://expanso.io/?_gl=1*sdzh2w*_gcl_au*ODM0MTE4NTkyLjE3NDIyOTQ5MDQ.*_ga*ODgxNjg0Mjg3LjE3NDIyOTQ5MDQ.*_ga_X1RJ0QGN3Z*czE3NDY1OTkyNDkkbzI5JGcxJHQxNzQ2NjAzMzIxJGoxMCRsMCRoMA..',
           label: 'Enterprise',
           position: 'right',
+        },
+        {
+          href: 'https://github.com/bacalhau-project/bacalhau',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },
