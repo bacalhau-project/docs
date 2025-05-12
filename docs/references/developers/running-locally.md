@@ -53,15 +53,15 @@ The message above contains the environment variables you need for a new terminal
 
 ```bash
 bacalhau node list
- ID      TYPE       APPROVAL  STATUS     LABELS                                              CPU     MEMORY      DISK         GPU  
- node-0  Requester  APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux                                                 
-                                         env=devstack id=node-0 name=node-0                                                        
- node-1  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux           1.4 /   2.7 GB /    13.1 GB /    0 /  
-                                         env=devstack id=node-1 name=node-1                  1.4     2.7 GB      13.1 GB      0    
- node-2  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux           1.4 /   2.7 GB /    13.1 GB /    0 /  
-                                         env=devstack id=node-2 name=node-2                  1.4     2.7 GB      13.1 GB      0    
- node-3  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux           1.4 /   2.7 GB /    13.1 GB /    0 /  
-                                         env=devstack id=node-3 name=node-3                  1.4     2.7 GB      13.1 GB      0    
+ ID      TYPE       APPROVAL  STATUS     LABELS                                              CPU     MEMORY      DISK         GPU
+ node-0  Requester  APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
+                                         env=devstack id=node-0 name=node-0
+ node-1  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux           1.4 /   2.7 GB /    13.1 GB /    0 /
+                                         env=devstack id=node-1 name=node-1                  1.4     2.7 GB      13.1 GB      0
+ node-2  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux           1.4 /   2.7 GB /    13.1 GB /    0 /
+                                         env=devstack id=node-2 name=node-2                  1.4     2.7 GB      13.1 GB      0
+ node-3  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux           1.4 /   2.7 GB /    13.1 GB /    0 /
+                                         env=devstack id=node-3 name=node-3                  1.4     2.7 GB      13.1 GB      0
 ```
 
 ## New Terminal Window
@@ -91,12 +91,12 @@ This should output something like the following:
 Job successfully submitted. Job ID: j-5b0ee6dd-6080-4277-99ce-fdf179907b25
 Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
 
- TIME          EXEC. ID    TOPIC            EVENT         
- 11:06:24.789              Submission       Job submitted 
- 11:06:24.798  e-4fba1f7c  Scheduling       Requested execution on node-1 
- 11:06:24.828  e-4fba1f7c  Execution        Running 
- 11:06:25.173  e-4fba1f7c  Execution        Completed successfully 
-                                             
+ TIME          EXEC. ID    TOPIC            EVENT
+ 11:06:24.789              Submission       Job submitted
+ 11:06:24.798  e-4fba1f7c  Scheduling       Requested execution on node-1
+ 11:06:24.828  e-4fba1f7c  Execution        Running
+ 11:06:25.173  e-4fba1f7c  Execution        Completed successfully
+
 To get more details about the run, execute:
 	bacalhau job describe j-5b0ee6dd-6080-4277-99ce-fdf179907b25
 
@@ -130,20 +130,20 @@ Summary
 Completed = 1
 
 Job History
- TIME                 TOPIC         EVENT         
- 2024-10-30 11:06:24  Submission    Job submitted 
- 2024-10-30 11:06:24  State Update  Running       
- 2024-10-30 11:06:25  State Update  Completed     
+ TIME                 TOPIC         EVENT
+ 2024-10-30 11:06:24  Submission    Job submitted
+ 2024-10-30 11:06:24  State Update  Running
+ 2024-10-30 11:06:25  State Update  Completed
 
 Executions
- ID          NODE ID  STATE      DESIRED  REV.  CREATED    MODIFIED   COMMENT 
- e-4fba1f7c  node-1   Completed  Stopped  6     6m11s ago  6m11s ago          
+ ID          NODE ID  STATE      DESIRED  REV.  CREATED    MODIFIED   COMMENT
+ e-4fba1f7c  node-1   Completed  Stopped  6     6m11s ago  6m11s ago
 
 Execution e-4fba1f7c History
- TIME                 TOPIC       EVENT                         
- 2024-10-30 11:06:24  Scheduling  Requested execution on node-1 
- 2024-10-30 11:06:24  Execution   Running                       
- 2024-10-30 11:06:25  Execution   Completed successfully        
+ TIME                 TOPIC       EVENT
+ 2024-10-30 11:06:24  Scheduling  Requested execution on node-1
+ 2024-10-30 11:06:24  Execution   Running
+ 2024-10-30 11:06:25  Execution   Completed successfully
 
 Standard Output
 hello devstack test
@@ -166,6 +166,6 @@ j-5b0ee6dd/
 
 If you execute `cat stdout` it should read `hello devstack test`. If you write any files in your job, they will appear in `volumes/output`.
 
-## Support <a href="#support" id="support"></a>
+## Support
 
 If you have questions or need support or guidance, please reach out to the [Bacalhau team via Slack](https://bacalhauproject.slack.com/ssb/redirect) (**#general** channel).

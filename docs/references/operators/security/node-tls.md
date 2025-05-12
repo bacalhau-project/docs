@@ -30,8 +30,8 @@ In this step, we'll generate the certificate that enables TLS connections for th
 
 First, identify the DNS name or IP address used to connect to the orchestrator. This is typically found in the compute nodes' configuration under the "Orchestrators" field. For example:
 
-* If your config specifies `nats://10.0.5.16:4222,` use the IP address `10.0.5.16`
-* If your config specifies `nats://my-bacalhau-orchestrator-node:4222`, use the DNS name `my-bacalhau-orchestrator-node`
+- If your config specifies `nats://10.0.5.16:4222,` use the IP address `10.0.5.16`
+- If your config specifies `nats://my-bacalhau-orchestrator-node:4222`, use the DNS name `my-bacalhau-orchestrator-node`
 
 Next, generate a server certificate signed by the Root CA (created in step 1). This certificate must include your chosen IP address or DNS name in its Subject Alternative Name field. Additionally, always include the IP address "127.0.0.1" in the Subject Alternative Names to support communications initiated from the orchestrator node itself.
 
@@ -43,31 +43,31 @@ In this step, we'll configure both orchestrator nodes and compute nodes with the
 
 First, copy the following files to the orchestrator node:
 
-* The root certificate from step 1 (certificate file only, not the private key)
-* The server certificate from step 2
-* The server's private key from step 2
+- The root certificate from step 1 (certificate file only, not the private key)
+- The server certificate from step 2
+- The server's private key from step 2
 
 The orchestrator node should now have three files: the root certificate, server certificate, and server key file. Next, enable TLS support by adding the TLS configuration section to the orchestrator's configuration file. Example:
 
 ```yaml
-NameProvider: "uuid"
+NameProvider: 'uuid'
 API:
   Port: 1234
 Orchestrator:
   Enabled: true
   Auth:
-    Token: "i_am_very_secret_token"
+    Token: 'i_am_very_secret_token'
   TLS:
-    ServerCert: "/path/to/cert"
-    ServerKey: "/path/to/key"
-    CACert: "/path/to/ca-cert"
+    ServerCert: '/path/to/cert'
+    ServerKey: '/path/to/key'
+    CACert: '/path/to/ca-cert'
     ServerTimeout: 15
 ```
 
 Next, prepare each compute node by copying the root certificate file (excluding the private key) to the node. Then, update each compute node's configuration to trust this certificate authority for secure server connections. Example:
 
 ```yaml
-NameProvider: "uuid"
+NameProvider: 'uuid'
 API:
   Port: 1234
 Compute:
@@ -75,9 +75,9 @@ Compute:
   Orchestrators:
     - nats://my-bacalhau-orchestrator-node:4222
   Auth:
-    Token: "i_am_very_secret_token"
+    Token: 'i_am_very_secret_token'
   TLS:
-    CACert: "/path/to/ca-cert"
+    CACert: '/path/to/ca-cert'
 ```
 
 After restarting the Bacalhau processes on all nodes, secure TLS communication will be established for all node-to-node interactions.

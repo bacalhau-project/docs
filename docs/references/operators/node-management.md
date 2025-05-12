@@ -71,17 +71,17 @@ This information enables intelligent job scheduling based on actual resource ava
 
 ### Compute Node Settings
 
-| Configuration Key | Description | Default |
-|-------------------|-------------|---------|
-| `Compute.Heartbeat.InfoUpdateInterval` | How often node static information is reported | 1 minute |
-| `Compute.Heartbeat.Interval` | How often heartbeats are sent | 15 seconds |
+| Configuration Key                      | Description                                   | Default    |
+| -------------------------------------- | --------------------------------------------- | ---------- |
+| `Compute.Heartbeat.InfoUpdateInterval` | How often node static information is reported | 1 minute   |
+| `Compute.Heartbeat.Interval`           | How often heartbeats are sent                 | 15 seconds |
 
 ### Orchestrator Node Settings
 
-| Configuration Key | Description | Default |
-|-------------------|-------------|---------|
+| Configuration Key                            | Description                                                           | Default  |
+| -------------------------------------------- | --------------------------------------------------------------------- | -------- |
 | `Orchestrator.NodeManager.DisconnectTimeout` | Time after which a node without heartbeats is considered disconnected | 1 minute |
-| `Orchestrator.NodeManager.ManualApproval` | Whether to require manual approval for compute nodes | `false` |
+| `Orchestrator.NodeManager.ManualApproval`    | Whether to require manual approval for compute nodes                  | `false`  |
 
 Example configuration to enable manual approval in `config.yaml`:
 

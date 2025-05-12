@@ -15,12 +15,14 @@ This guide explains how to use existing Docker containers and create custom ones
 
 Bacalhau uses a syntax that closely resembles Docker, allowing you to utilize the same containers.
 
-#### Example: Docker Command
+### Example: Docker Command
+
 ```bash
 docker run alpine echo "Hello from Docker"
 ```
 
-#### Equivalent Bacalhau Command
+### Equivalent Bacalhau Command
+
 ```bash
 bacalhau docker run alpine echo "Hello from Bacalhau"
 ```
@@ -35,9 +37,11 @@ bacalhau job logs JOB_ID
 bacalhau job describe JOB_ID
 ```
 
-## Requirements for Docker Containers
+:::warning[Requirements for Docker Containers]
 
-1. **Container Registry**: Containers must be published to a registry that is accessible to your Bacalhau nodes
+Containers must be published to a registry that is accessible to your Bacalhau nodes
+
+:::
 
 ## Creating a Custom Container
 

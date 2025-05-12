@@ -78,11 +78,6 @@ Click on any job ID to open the detailed view where you can:
 - Examine resource utilization
 - View job specifications and parameters
 
-<figure>
-  <img src="../img/webui-job-details.png" alt="Job Details View">
-  <figcaption>Job Details and Logs View</figcaption>
-</figure>
-
 ### Node Management
 
 The Nodes page provides visibility into your cluster:
@@ -102,11 +97,6 @@ Click on any node ID to access:
 - Currently running and scheduled jobs
 - Resource allocation and availability
 - Connection history
-
-<figure>
-  <img src="../img/webui-node-details.png" alt="Node Details View">
-  <figcaption>Node Details and Status View</figcaption>
-</figure>
 
 ## Troubleshooting with the WebUI
 
