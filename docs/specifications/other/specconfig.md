@@ -25,7 +25,7 @@ Copy
 }
 ```
 
-Full Docker spec can be found [here](/docs/components/engines/docker.md).
+Full Docker spec can be found [here](/components/engines/docker.md).
 
 #### S3 Publisher <a href="#s3-publisher" id="s3-publisher"></a>
 
@@ -41,7 +41,7 @@ Copy
 }
 ```
 
-Full S3 Publisher can be found [here](/docs/components/publishers/s3.md).
+Full S3 Publisher can be found [here](/components/publishers/s3.md).
 
 #### Local Directory Input Source <a href="#local-directory-input-source" id="local-directory-input-source"></a>
 
@@ -57,6 +57,6 @@ Copy
 }
 ```
 
-Full local source can be found [here](/docs/components/sources/local.md).
+Full local source can be found [here](/components/sources/local.md).
 
 Remember, the exact keys and values in the `Params` map will vary depending on the specific requirements of the component being configured. Always refer to the individual component's documentation to understand the available parameters.

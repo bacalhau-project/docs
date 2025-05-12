@@ -8,7 +8,7 @@ This guide explains how to use existing Docker containers and create custom ones
 
 ## Prerequisites
 
-1. [Install the Bacalhau client](/docs/getting-started/installation.mdx)
+1. [Install the Bacalhau client](/getting-started/installation.mdx)
 2. [Docker](https://docs.docker.com/install/) (for both building custom containers and running on compute nodes)
 
 ## Understanding Docker Workloads in Bacalhau

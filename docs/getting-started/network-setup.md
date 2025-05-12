@@ -36,7 +36,7 @@ Expanso Cloud provides a managed orchestrator service, eliminating the need to s
    * An orchestrator endpoint
    * Authentication credentials
    * A configuration file
-2. **Create a** [**configuration file**](/docs/references/operators/configuration-reference) (or use the one provided):
+2. **Create a** [**configuration file**](/references/operators/configuration-reference.md) (or use the one provided):
 
 ```yaml
 # config.yaml

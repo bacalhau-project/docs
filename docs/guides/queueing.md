@@ -6,12 +6,12 @@ Job Queueing allows Bacalhau to handle situations when there are no suitable nod
 
 ## Configuring Job Queueing
 
-The job queueing feature is not automatically enabled and needs to be explicitly set in your [Job specification](/docs/specifications/job) or node configuration using the `QueueTimeout` parameter. This parameter activates the queueing feature and defines the amount of time your job should wait for available nodes.
+The job queueing feature is not automatically enabled and needs to be explicitly set in your [Job specification](/specifications/job/README.md) or node configuration using the `QueueTimeout` parameter. This parameter activates the queueing feature and defines the amount of time your job should wait for available nodes.
 
 Node availability is determined by capacity as well as job constraints such as label selectors, engines, or publishers. For example, jobs will be queued if all nodes are currently busy, or if idle nodes do not match parameters in your job specification.
 
 :::info
-Bacalhau compute nodes regularly update their [node, resource and health information](/docs/references/operators/node-management.md) every 30 seconds to the orchestrator nodes. During this update period, multiple jobs may be allocated to a node, potentially exceeding its immediate available capacity. A local job queue is created at the compute node, efficiently handling the high demand as resources become available over time.
+Bacalhau compute nodes regularly update their [node, resource and health information](/references/operators/node-management.md) every 30 seconds to the orchestrator nodes. During this update period, multiple jobs may be allocated to a node, potentially exceeding its immediate available capacity. A local job queue is created at the compute node, efficiently handling the high demand as resources become available over time.
 :::
 
 ## How It Works

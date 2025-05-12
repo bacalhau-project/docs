@@ -15,10 +15,10 @@ const config: Config = {
   organizationName: 'bacalhau-project', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
 
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
-  onBrokenAnchors: 'warn',
-  onDuplicateRoutes: 'warn',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'throw',
+  onBrokenAnchors: 'throw',
+  onDuplicateRoutes: 'throw',
   markdown: {
     format: 'detect',
   },

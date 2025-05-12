@@ -4,7 +4,7 @@ Bacalhau supports running programs compiled to [WebAssembly (Wasm)](https://weba
 
 ## Prerequisites
 
-1. [Install the Bacalhau client](/docs/getting-started/installation.mdx)
+1. [Install the Bacalhau client](/getting-started/installation.mdx)
 2. A Wasm program compiled for WebAssembly System Interface (WASI) Snapshot 1
 
 ## Limitations
