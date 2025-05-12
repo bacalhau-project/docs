@@ -18,7 +18,7 @@ Jobs using `http` must specify the domains they want to access when the job is s
 
 So, putting it together the job run should look like this:
 
-```
+```bash
 bacalhau docker run --network=host alpine curl https://google.com
 ```
 
@@ -32,11 +32,11 @@ If you encounter the following (or any DNS) error, you likely set the `--network
 
 ```
 Execution e-0d59d223: error:
-Failed to fetch: https://pypi.org/simple/pyyaml/ 
-  Caused by: Could not connect, are you offline? 
-  Caused by: Request failed after 3 retries 
-  Caused by: error sending request for url (https://pypi.org/simple/pyyaml/) 
-  Caused by: client error (Connect) Caused by: dns error: failed to lookup address information: Try again 
+Failed to fetch: https://pypi.org/simple/pyyaml/
+  Caused by: Could not connect, are you offline?
+  Caused by: Request failed after 3 retries
+  Caused by: error sending request for url (https://pypi.org/simple/pyyaml/)
+  Caused by: client error (Connect) Caused by: dns error: failed to lookup address information: Try again
   Caused by: failed to lookup address information: Try again
 ```
 
@@ -44,7 +44,7 @@ Failed to fetch: https://pypi.org/simple/pyyaml/
 Bacalhau jobs are explicitly prevented from starting other Bacalhau jobs, even if a Bacalhau requester node is specified on the HTTP allowlist.
 :::
 
-### Setting Up Your Nodes
+## Setting Up Your Nodes
 
 Network access for jobs is enabled by default at the node level. If you wish to disable it, you can configure this using an Admission Controller setting in the node configuration:
 

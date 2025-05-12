@@ -14,7 +14,9 @@ The WebUI is disabled by default. To enable it:
 bacalhau config set WebUI.Enabled=true
 ```
 
-> **Note:** You need to restart your Bacalhau node after enabling the WebUI for changes to take effect.
+:::note
+You need to restart your Bacalhau node after enabling the WebUI for changes to take effect.
+:::
 
 ### Network Configuration
 

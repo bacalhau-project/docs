@@ -2,7 +2,7 @@
 
 Bacalhau's S3 partitioning feature builds on the [core partitioning](partitioning.mdx) system to automatically handle data distribution from S3 buckets across multiple job executions. This specialized implementation includes graceful failure handling and independent retry of failed partitions specifically optimized for S3 data sources.
 
-### Key Benefits
+## Key Benefits
 
 - **Automatic Data Distribution**: Intelligently distributes S3 objects across partitions
 - **Multiple Partitioning Strategies**: Choose from various strategies based on your data organization
@@ -10,11 +10,11 @@ Bacalhau's S3 partitioning feature builds on the [core partitioning](partitionin
 - **Failure Isolation**: Failures are contained to individual partitions
 - **Independent Retries**: Failed partitions are retried automatically without affecting successful ones
 
-### Partitioning Strategies
+## Partitioning Strategies
 
 Bacalhau supports multiple S3 partitioning strategies to match different data organization patterns:
 
-#### No Partitioning (Shared Data)
+### No Partitioning (Shared Data)
 
 When all executions need access to all the data, omit the partition configuration:
 
@@ -35,7 +35,7 @@ Perfect for:
 - Processing configuration files
 - Running analysis that needs the complete dataset
 
-#### Object-Based Distribution
+### Object-Based Distribution
 
 Evenly distributes objects across partitions without specific grouping logic:
 
@@ -57,7 +57,7 @@ Ideal for:
 - Handling randomly named files
 - Large-scale data transformation tasks
 
-#### Date-Based Partitioning
+### Date-Based Partitioning
 
 Process each day's data in parallel using a configurable date format:
 
@@ -80,7 +80,7 @@ Perfect for:
 - Log aggregation and analysis
 - Time-series computations
 
-#### Regex-Based Partitioning
+### Regex-Based Partitioning
 
 Distribute data based on patterns in object keys:
 
@@ -103,7 +103,7 @@ Enables scenarios like:
 - Geographic data processing
 - Territory-specific reporting
 
-#### Substring-Based Partitioning
+### Substring-Based Partitioning
 
 Distributes data based on substring segments in object keys:
 
@@ -127,7 +127,7 @@ Perfect for:
 - Segment-specific processing
 - Category-based computations
 
-### Combining Partitioned and Shared Data
+## Combining Partitioned and Shared Data
 
 You can combine partitioned data with shared reference data in the same job:
 
@@ -157,9 +157,9 @@ This pattern supports:
 - Analyzing data using common reference files
 - Running calculations that need both partitioned data and shared configuration
 
-### Complete Job Examples
+## Complete Job Examples
 
-#### Example 1: Object-Based Partitioning
+### Example 1: Object-Based Partitioning
 
 Here's a complete job specification using object-based partitioning:
 
@@ -191,7 +191,7 @@ tasks:
               type: object
 ```
 
-#### Example 2: Combining Partitioned and Shared Data
+### Example 2: Combining Partitioned and Shared Data
 
 Here's a complete job specification that combines partitioned and shared data sources:
 
@@ -236,7 +236,7 @@ tasks:
         path: /outputs
 ```
 
-### Usage
+## Usage
 
 To run a job with S3 partitioning, define your job with the appropriate partitioning strategy and set the number of partitions with the `count` parameter, then submit:
 
