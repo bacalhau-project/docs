@@ -10,7 +10,7 @@ const config: Config = {
 
   url: 'https://bacalhau.org',
   baseUrl: '/',
-  trailingSlash: true,
+  trailingSlash: false,
 
   // GitHub pages deployment config.
   organizationName: 'bacalhau-project', // Usually your GitHub org/user name.
