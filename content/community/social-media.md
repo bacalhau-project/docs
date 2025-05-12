@@ -1,5 +1,5 @@
 ---
-description: Find Bacalhau on your favorite social media platform
+sidebar_position: 10
 ---
 
 # Social Media
@@ -28,4 +28,4 @@ If you have questions or need support or guidance, please reach out to the [Baca
 
 ## Contributing
 
-If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](community/ways-to-contribute.md).
+If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](/community/ways-to-contribute).

@@ -1,17 +1,18 @@
 ---
 slug: /engines/wasm
 ---
+
 # WebAssembly (WASM)
 
 The WASM Engine in Bacalhau allows tasks to be executed in a WebAssembly environment, offering compatibility and speed. This engine supports WASM and WASI (WebAssembly System Interface) jobs, making it highly adaptable for various use cases. Below are the parameters for configuring the WASM Engine.
 
 ## `WASM` Engine Parameters
 
-- **EntryModule** `(`[`InputSource`](../job/input-source.md) `: required)`: Specifies the WASM module that contains the start function or the main execution code of the task. The InputSource should point to the location of the WASM binary.
+- **EntryModule** `(`[`InputSource`](../../specifications/job/input-source.md) `: required)`: Specifies the WASM module that contains the start function or the main execution code of the task. The InputSource should point to the location of the WASM binary.
 - **Entrypoint** `(string: <optional>)`: The name of the function within the EntryModule to execute. For WASI jobs, this should typically be `_start`. The entrypoint function should have zero parameters and zero results.
 - **Parameters** `(string[]: <optional>)`: An array of strings containing arguments that will be supplied to the program as ARGV. This allows parameterized execution of the WASM task.
 - **EnvironmentVariables** `(map[string]string: <optional>)`: A mapping of environment variable keys to their values, made available within the executing WASM environment.
-- **ImportModules** `(`[`InputSource`](../job/input-source.md)`[] : optional)`: An array of InputSources pointing to additional WASM modules. The exports from these modules will be available as imports to the EntryModule, enabling modular and reusable WASM code.
+- **ImportModules** `(`[`InputSource`](../../specifications/job/input-source.md)`[] : optional)`: An array of InputSources pointing to additional WASM modules. The exports from these modules will be available as imports to the EntryModule, enabling modular and reusable WASM code.
 
 ## Examples
 

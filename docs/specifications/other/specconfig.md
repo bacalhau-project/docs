@@ -4,8 +4,8 @@
 
 ### `SpecConfig` Parameters <a href="#specconfig-parameters" id="specconfig-parameters"></a>
 
-* **Type** `(string : <required>)`: Specifies the type of the configuration. Examples include `docker` and `wasm` for execution engines, `S3` for input sources and publishers, etc.
-* **Params** `(map[string]any : <optional>)`: A set of key-value pairs that provide the specific configurations for the chosen type. The keys and values are flexible and depend on the `Type`. For instance, parameters for a Docker engine might include image name and version, while an S3 publisher would require configurations like the bucket name and AWS region. If not provided, it defaults to `nil`.
+- **Type** `(string : <required>)`: Specifies the type of the configuration. Examples include `docker` and `wasm` for execution engines, `S3` for input sources and publishers, etc.
+- **Params** `(map[string]any : <optional>)`: A set of key-value pairs that provide the specific configurations for the chosen type. The keys and values are flexible and depend on the `Type`. For instance, parameters for a Docker engine might include image name and version, while an S3 publisher would require configurations like the bucket name and AWS region. If not provided, it defaults to `nil`.
 
 ### Usage Examples <a href="#usage-examples" id="usage-examples"></a>
 
@@ -25,7 +25,7 @@ Copy
 }
 ```
 
-Full Docker spec can be found [here](../engines/docker.md).
+Full Docker spec can be found [here](/docs/components/engines/docker.md).
 
 #### S3 Publisher <a href="#s3-publisher" id="s3-publisher"></a>
 
@@ -41,7 +41,7 @@ Copy
 }
 ```
 
-Full S3 Publisher can be found [here](../publishers/s3.md).
+Full S3 Publisher can be found [here](/docs/components/publishers/s3.md).
 
 #### Local Directory Input Source <a href="#local-directory-input-source" id="local-directory-input-source"></a>
 
@@ -57,6 +57,6 @@ Copy
 }
 ```
 
-Full local source can be found [here](../sources/local.md).
+Full local source can be found [here](/docs/components/sources/local.md).
 
 Remember, the exact keys and values in the `Params` map will vary depending on the specific requirements of the component being configured. Always refer to the individual component's documentation to understand the available parameters.

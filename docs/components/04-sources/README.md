@@ -1,5 +1,0 @@
----
-slug: /sources
----
-# Sources
-

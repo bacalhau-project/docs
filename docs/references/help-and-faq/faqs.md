@@ -1,6 +1,7 @@
 ---
 slug: /references/faq
 ---
+
 # FAQs
 
 ### How do I restrict what nodes my jobs run on?
@@ -41,7 +42,7 @@ bacalhau config set WebUI.Enabled=true
 
 ### Can I run non-Docker jobs?
 
-Yes! You can run programs using WebAssembly instead. Refer to the [WebAssembly onboarding documentation](../../getting-started/workload-onboarding/wasm-workload-onboarding.md) for instructions.
+Yes! You can run programs using WebAssembly instead. Refer to the [WebAssembly onboarding documentation](../../references/developers/workload-onboarding/wasm.md) for instructions.
 
 ### How do I see a job's progress while it's running?
 

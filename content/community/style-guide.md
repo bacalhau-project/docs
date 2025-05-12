@@ -1,5 +1,5 @@
 ---
-icon: pen-fancy
+sidebar_position: 20
 ---
 
 # Style Guide
@@ -173,4 +173,4 @@ If have questions or need support or guidance, please reach out to the [Bacalhau
 
 ## Contributing
 
-If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](ways-to-contribute.md).
+If you have any hints, tips or suggestions to add, check out the different [ways to contribute to Bacalhau](./ways-to-contribute.md).

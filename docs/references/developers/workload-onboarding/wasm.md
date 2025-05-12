@@ -4,7 +4,7 @@ Bacalhau supports running programs compiled to [WebAssembly (Wasm)](https://weba
 
 ## Prerequisites
 
-1. [Install the Bacalhau client](broken-reference)
+1. [Install the Bacalhau client](/docs/getting-started/installation.mdx)
 2. A Wasm program compiled for WebAssembly System Interface (WASI) Snapshot 1
 
 ## Limitations
@@ -51,6 +51,7 @@ bacalhau wasm run program.wasm --input ./local-file.txt:/inputs/file.txt
 ### Working with Output Data
 
 Wasm programs can write output to:
+
 - Standard output (stdout)
 - The filesystem at `/outputs` (default output location)
 - Custom output locations specified with the `-o` flag
@@ -64,6 +65,7 @@ bacalhau wasm run program.wasm -o results:/custom/path
 ### 1. Use Filesystem Operations Instead of Network Calls
 
 Wasm programs on Bacalhau can't make network requests. Instead:
+
 - Read input data from the filesystem (typically `/inputs`)
 - Write output data to the filesystem (typically `/outputs`)
 
@@ -97,7 +99,3 @@ See job details:
 ```bash
 bacalhau job describe JOB_ID
 ```
-
-## Examples
-
-See [the Rust example](index-3.md) for a complete workload that uses WebAssembly.

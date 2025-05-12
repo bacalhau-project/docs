@@ -97,7 +97,7 @@ Retrieve a list of nodes.
 
 **Parameters**:
 
-1. `labels`: Use label-based criteria to filter nodes. See [Label Filtering](https://docs.bacalhau.org/references/api) for usage details.
+1. `labels`: Use label-based criteria to filter nodes. See [Label Filtering](/docs/guides/labels-and-constraints.md) for usage details.
 2. `limit`: Set the maximum number of jobs to return. Default is set to 10.
 3. `next_token`: Utilize this parameter for pagination continuation.
 4. `order_by`: Determine the ordering of jobs. Choose between `id`, `type`, `available_cpu`, `available_memory`, `available_disk` or `available_gpu`. (default is `id`).
@@ -243,6 +243,3 @@ curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available
   ]
 }
 ```
-
-[\
-](https://docs.bacalhau.org/references/api/jobs)

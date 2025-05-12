@@ -1,3 +1,6 @@
+---
+sidebar_position: 30
+---
 # Network Setup
 
 This guide explains how to set up Bacalhau networks for various deployment scenarios, from development environments to production deployments.
@@ -33,7 +36,7 @@ Expanso Cloud provides a managed orchestrator service, eliminating the need to s
    * An orchestrator endpoint
    * Authentication credentials
    * A configuration file
-2. **Create a** [**configuration file**](https://app.gitbook.com/s/6P82bTsk0U7YoGty7i8i/guides/configuration-management/write-a-config.yaml) (or use the one provided):
+2. **Create a** [**configuration file**](/docs/references/operators/configuration-reference) (or use the one provided):
 
 ```yaml
 # config.yaml

@@ -1,3 +1,6 @@
+---
+sidebar_position: 10
+---
 # Key Concepts
 
 Bacalhau is built around a few core ideas and terminologies. If you're new to Bacalhau, here's what you need to know:

@@ -1,5 +1,5 @@
 ---
-slug: /references/faq
+slug: /references/troubleshooting
 ---
 # Troubleshooting
 

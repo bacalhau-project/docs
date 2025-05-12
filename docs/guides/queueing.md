@@ -6,12 +6,12 @@ Job Queueing allows Bacalhau to handle situations when there are no suitable nod
 
 ## Configuring Job Queueing
 
-The job queueing feature is not automatically enabled and needs to be explicitly set in your [Job specification](../specifications/job.md) or node configuration using the `QueueTimeout` parameter. This parameter activates the queueing feature and defines the amount of time your job should wait for available nodes.
+The job queueing feature is not automatically enabled and needs to be explicitly set in your [Job specification](/docs/specifications/job) or node configuration using the `QueueTimeout` parameter. This parameter activates the queueing feature and defines the amount of time your job should wait for available nodes.
 
 Node availability is determined by capacity as well as job constraints such as label selectors, engines, or publishers. For example, jobs will be queued if all nodes are currently busy, or if idle nodes do not match parameters in your job specification.
 
 :::info
-Bacalhau compute nodes regularly update their [node, resource and health information](../setting-up/06-node_management.md#compute-node-updates) every 30 seconds to the orchestrator nodes. During this update period, multiple jobs may be allocated to a node, potentially exceeding its immediate available capacity. A local job queue is created at the compute node, efficiently handling the high demand as resources become available over time.
+Bacalhau compute nodes regularly update their [node, resource and health information](/docs/references/operators/node-management.md) every 30 seconds to the orchestrator nodes. During this update period, multiple jobs may be allocated to a node, potentially exceeding its immediate available capacity. A local job queue is created at the compute node, efficiently handling the high demand as resources become available over time.
 :::
 
 ## How It Works
@@ -81,9 +81,9 @@ Namespace     = default
 Type          = batch
 State         = Queued
 Message       = Job queued. not enough nodes to run job. requested: 1, available: 3, suitable: 0.
-• Node n-b75224b7: node busy with available capacity {CPU: 0.2, Memory: 12 GB, Disk: 79 GB, GPU: 0} 
+• Node n-b75224b7: node busy with available capacity {CPU: 0.2, Memory: 12 GB, Disk: 79 GB, GPU: 0}
   and queue capacity {CPU: 2, Memory: 4.0 GB, Disk: 0 B, GPU: 0}
-• Node n-d42422fd: node busy with available capacity {CPU: 0.2, Memory: 12 GB, Disk: 83 GB, GPU: 0} 
+• Node n-d42422fd: node busy with available capacity {CPU: 0.2, Memory: 12 GB, Disk: 83 GB, GPU: 0}
   and queue capacity {CPU: 3, Memory: 1.0 GB, Disk: 0 B, GPU: 0}
 • Node n-f50db1f9: node busy with available capacity {CPU: 0.2, Memory: 12 GB, Disk: 83 GB, GPU: 0}
 ```
@@ -97,9 +97,9 @@ Namespace     = default
 Type          = batch
 State         = Queued
 Message       = Job queued. not enough nodes to run job. requested: 1, available: 4, suitable: 0.
-• 3 of 4 nodes: labels map[Architecture:amd64 Operating-System:linux owner:bacalhau] 
+• 3 of 4 nodes: labels map[Architecture:amd64 Operating-System:linux owner:bacalhau]
   don't match required selectors [name = walid]
-• Node Qma5yQAk: labels map[Architecture:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB 
+• Node Qma5yQAk: labels map[Architecture:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
   Operating-System:linux owner:bacalhau] don't match required selectors [name = walid]
 ```
 
@@ -126,14 +126,14 @@ Completed = 1
 Job History
  TIME                 REV.  STATE      TOPIC       EVENT
  2024-06-24 13:36:40  1     Pending    Submission  Job submitted
- 2024-06-24 13:36:40  2     Queued     Queueing    Job queued. not enough nodes to run job. requested: 1, 
+ 2024-06-24 13:36:40  2     Queued     Queueing    Job queued. not enough nodes to run job. requested: 1,
                                                    available: 4, suitable: 0.
-                                                   • 3 of 4 nodes: labels map[Architecture:amd64 
-                                                   Operating-System:linux owner:bacalhau] 
+                                                   • 3 of 4 nodes: labels map[Architecture:amd64
+                                                   Operating-System:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
-                                                   • Node Qma5yQAk: labels map[Architecture:amd64 
-                                                   GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB 
-                                                   Operating-System:linux owner:bacalhau] 
+                                                   • Node Qma5yQAk: labels map[Architecture:amd64
+                                                   GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
+                                                   Operating-System:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
  2024-06-24 13:39:40  3     Running
  2024-06-24 13:41:40  4     Completed

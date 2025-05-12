@@ -19,7 +19,7 @@ Retrieve the specification and current status of a particular job.
 
 **Response**:
 
-**Job**: Specification for the requested [job](../specifications/job/).
+**Job**: Specification for the requested [job](/docs/specifications/job).
 
 **Example**:
 
@@ -101,7 +101,7 @@ Retrieve a list of jobs.
 **Parameters**:
 
 1. `namespace`: Specify a namespace to filter the jobs. Use `*` to display jobs from all namespaces.
-2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](../specifications/job/label.md) for usage details.
+2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](/docs/specifications/job/label) for usage details.
 3. `limit`: Set the maximum number of jobs to return. Default is set to 10.
 4. `next_token`: Utilize this parameter for pagination continuation.
 5. `order_by`: Determine the ordering of jobs. Choose between `id` or `create_time` (default is `create_time`).
@@ -109,7 +109,7 @@ Retrieve a list of jobs.
 
 **Response**:
 
-- [**Jobs**](../specifications/job/): List of matching jobs.
+- [**Jobs**](/docs/specifications/job): List of matching jobs.
 - **NextToken** `(string)`: Pagination token.
 
 **Example**:
@@ -247,7 +247,7 @@ Retrieve historical events for a specific job.
 **Response**:
 
 - **History**: List of matching historical events.
-- **NextToken** `(string)`: Pagination token.
+- **NextToken** `(string)\*\*: Pagination token.
 
 **Example**:
 
@@ -362,7 +362,7 @@ Retrieve all executions for a particular job.
 **Response**:
 
 - **Executions**: List of relevant executions.
-- **NextToken** `(string)`: Pagination token.
+- **NextToken** `(string)\*\*: Pagination token.
 
 **Example**
 
@@ -497,11 +497,11 @@ Fetch results published by all executions for the defined job. Applicable only f
 **Response**:
 
 - **Results**: List of all published results.
-- **NextToken** `(string)`: Pagination token.
+- **NextToken** `(string)\*\*: Pagination token.
 
 **Example**:
 
-Result of a job that used the [S3 Publisher](../specifications/publishers/s3.md):
+Result of a job that used the [S3 Publisher](/docs/publishers/s3):
 
 ```bash
 curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-479d160f-f9ab-4e32-aec9-a45554126450/results

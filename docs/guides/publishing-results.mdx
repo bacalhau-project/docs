@@ -2,8 +2,8 @@
 title: Publishing Results
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
 
 # Publishing & Retrieving Results
 
@@ -192,13 +192,13 @@ If you are using the local publish, make SURE you have set the path to be availa
 For example, in your config file for your node, you probably want to mount in the local file system:
 
 ```
+
 Compute:
-  AllowListedLocalPaths:
-    - /outputs:rw
-    - /etc/\*.conf:ro
+AllowListedLocalPaths: - /outputs:rw - /etc/\*.conf:ro
+
 ```
 
-You can read more about that here: [Understanding Publishers and Results](publishing-and-retrieving-results.md#understanding-publishers-and-result-paths)
+You can read more about that here: [Understanding Publishers and Results](publishing-results.mdx#understanding-publishers-and-result-paths)
 
 ### Troubleshooting
 
@@ -224,3 +224,4 @@ For IPFS publisher issues:
 1. Ensure IPFS daemon is running on both compute node and client
 2. Check for network connectivity between nodes
 3. Verify you have enough disk space for pinning
+```

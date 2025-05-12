@@ -1,3 +1,6 @@
+---
+sidebar_position: 20
+---
 # Architecture
 
 Bacalhau employs a distributed, node-based architecture that brings compute operations closer to data. Built around a single self-contained binary that serves multiple roles, Bacalhau makes it remarkably simple to deploy and scale a distributed compute network.

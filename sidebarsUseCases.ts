@@ -9,7 +9,7 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       link: {
         type: 'doc',
-        id: 'use-cases/index',
+        id: 'use-cases/README',
       },
       items: [
         {

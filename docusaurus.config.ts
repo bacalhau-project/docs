@@ -3,29 +3,25 @@ import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import { redirects, createRedirects } from './redirects' // Add this line
 
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-
 const config: Config = {
   title: 'Bacalhau',
   tagline: 'Distributed Compute Over Data',
   favicon: 'img/favicon.png',
 
   url: 'https://bacalhau.org',
-  baseUrl: '/docs/',
+  baseUrl: '',
 
   // GitHub pages deployment config.
   organizationName: 'bacalhau-project', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
 
-  onBrokenLinks: 'ignore',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
-  onBrokenAnchors: 'ignore',
+  onBrokenAnchors: 'warn',
+  onDuplicateRoutes: 'warn',
   markdown: {
     format: 'detect',
   },
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -45,7 +41,7 @@ const config: Config = {
         id: 'useCases',
         path: 'content/use-cases',
         routeBasePath: '/',
-        sidebarPath: require.resolve("./sidebarsUseCases.ts"),
+        sidebarPath: require.resolve('./sidebarsUseCases.ts'),
       },
     ],
     [
@@ -54,7 +50,7 @@ const config: Config = {
         id: 'community',
         path: 'content/community',
         routeBasePath: '/community',
-        sidebarPath: require.resolve("./sidebarsCommunity.ts"),
+        sidebarPath: require.resolve('./sidebarsCommunity.ts'),
       },
     ],
   ],
@@ -66,26 +62,10 @@ const config: Config = {
         docs: {
           path: 'docs',
           routeBasePath: 'docs',
-          sidebarPath: require.resolve("./sidebarsDocs.ts"),
+          sidebarPath: require.resolve('./sidebarsDocs.ts'),
           editUrl: 'https://github.com/bacalhau-project/docs/tree/main/',
           showLastUpdateTime: true,
         },
-
-        // blog: {
-        //   showReadingTime: true,
-        //   feedOptions: {
-        //     type: ['rss', 'atom'],
-        //     xslt: true,
-        //   },
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        //   // Useful options to enforce blogging best practices
-        //   onInlineTags: 'warn',
-        //   onInlineAuthors: 'warn',
-        //   onUntruncatedBlogPosts: 'warn',
-        // },
         theme: {
           customCss: './src/css/custom.css',
         },

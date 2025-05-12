@@ -71,7 +71,7 @@ This approach helps you:
 * Make small changes without retyping everything
 
 :::info
-Find out more about the possibilites of jobs in [the job specification reference](https://docs.bacalhau.org/cli-api/specifications/job).
+Find out more about the possibilites of jobs in [the job specification reference](/docs/specifications/job).
 :::
 
 ### Job Types and Choosing Methods

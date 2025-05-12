@@ -1,14 +1,14 @@
 # S3 Partitioning
 
-Bacalhau's S3 partitioning feature builds on the [core partitioning](partitioning.md) system to automatically handle data distribution from S3 buckets across multiple job executions. This specialized implementation includes graceful failure handling and independent retry of failed partitions specifically optimized for S3 data sources.
+Bacalhau's S3 partitioning feature builds on the [core partitioning](partitioning.mdx) system to automatically handle data distribution from S3 buckets across multiple job executions. This specialized implementation includes graceful failure handling and independent retry of failed partitions specifically optimized for S3 data sources.
 
 ### Key Benefits
 
-* **Automatic Data Distribution**: Intelligently distributes S3 objects across partitions
-* **Multiple Partitioning Strategies**: Choose from various strategies based on your data organization
-* **Clean Processing Logic**: Write code focused on processing, not partitioning
-* **Failure Isolation**: Failures are contained to individual partitions
-* **Independent Retries**: Failed partitions are retried automatically without affecting successful ones
+- **Automatic Data Distribution**: Intelligently distributes S3 objects across partitions
+- **Multiple Partitioning Strategies**: Choose from various strategies based on your data organization
+- **Clean Processing Logic**: Write code focused on processing, not partitioning
+- **Failure Isolation**: Failures are contained to individual partitions
+- **Independent Retries**: Failed partitions are retried automatically without affecting successful ones
 
 ### Partitioning Strategies
 
@@ -31,9 +31,9 @@ inputSources:
 
 Perfect for:
 
-* Loading shared reference data
-* Processing configuration files
-* Running analysis that needs the complete dataset
+- Loading shared reference data
+- Processing configuration files
+- Running analysis that needs the complete dataset
 
 #### Object-Based Distribution
 
@@ -53,9 +53,9 @@ inputSources:
 
 Ideal for:
 
-* Processing large volumes of user uploads
-* Handling randomly named files
-* Large-scale data transformation tasks
+- Processing large volumes of user uploads
+- Handling randomly named files
+- Large-scale data transformation tasks
 
 #### Date-Based Partitioning
 
@@ -68,17 +68,17 @@ inputSources:
       type: s3
       params:
         bucket: app-logs
-        key: "logs/*"
+        key: 'logs/*'
         partition:
           type: date
-          dateFormat: "2006-01-02"
+          dateFormat: '2006-01-02'
 ```
 
 Perfect for:
 
-* Daily analytics processing
-* Log aggregation and analysis
-* Time-series computations
+- Daily analytics processing
+- Log aggregation and analysis
+- Time-series computations
 
 #### Regex-Based Partitioning
 
@@ -91,17 +91,17 @@ inputSources:
       type: s3
       params:
         bucket: global-sales
-        key: "regions/*"
+        key: 'regions/*'
         partition:
           type: regex
-          pattern: "([^/]+)/.*"
+          pattern: '([^/]+)/.*'
 ```
 
 Enables scenarios like:
 
-* Regional sales analysis
-* Geographic data processing
-* Territory-specific reporting
+- Regional sales analysis
+- Geographic data processing
+- Territory-specific reporting
 
 #### Substring-Based Partitioning
 
@@ -123,9 +123,9 @@ inputSources:
 
 Perfect for:
 
-* Customer cohort analysis
-* Segment-specific processing
-* Category-based computations
+- Customer cohort analysis
+- Segment-specific processing
+- Category-based computations
 
 ### Combining Partitioned and Shared Data
 
@@ -148,14 +148,14 @@ inputSources:
         key: logs/*
         partition:
           type: date
-          dateFormat: "2006-01-02"
+          dateFormat: '2006-01-02'
 ```
 
 This pattern supports:
 
-* Processing daily logs with shared lookup tables
-* Analyzing data using common reference files
-* Running calculations that need both partitioned data and shared configuration
+- Processing daily logs with shared lookup tables
+- Analyzing data using common reference files
+- Running calculations that need both partitioned data and shared configuration
 
 ### Complete Job Examples
 
@@ -197,7 +197,7 @@ Here's a complete job specification that combines partitioned and shared data so
 
 ```yaml
 name: daily-analysis
-count: 7  # Process a week of data
+count: 7 # Process a week of data
 type: batch
 tasks:
   - name: daily-analytics
@@ -230,7 +230,7 @@ tasks:
             key: logs/*
             partition:
               type: date
-              dateFormat: "2006-01-02"
+              dateFormat: '2006-01-02'
     outputs:
       - name: results
         path: /outputs
@@ -243,4 +243,3 @@ To run a job with S3 partitioning, define your job with the appropriate partitio
 ```bash
 bacalhau job run job-spec.yaml
 ```
-

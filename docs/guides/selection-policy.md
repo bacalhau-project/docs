@@ -2,13 +2,13 @@
 
 When running a node, you can choose which jobs you want to run by using configuration options, environment variables, or flags to specify a job selection policy.
 
-| Configuration key                      | Default value | Meaning                                                                                                                  |
-| ------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| JobAdmissionControl.Locality          | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").                                 |
-| JobAdmissionControl.ProbeExec         | unused        | Use the result of an external program to decide if we should take on the job.                                            |
-| JobAdmissionControl.ProbeHTTP         | unused        | Use the result of a HTTP POST to decide if we should take on the job.                                                    |
-| JobAdmissionControl.RejectStatelessJobs | False       | Reject jobs that don't specify any [input data](../specifications/job/input-source.md).                                  |
-| JobAdmissionControl.RejectNetworkedJobs | False       | Reject jobs that require [network access](../03-networking-instructions/networking.md). By default, network access is enabled. |
+| Configuration key                       | Default value | Meaning                                                                                                                        |
+| --------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| JobAdmissionControl.Locality            | Anywhere      | Only accept jobs that reference data we have locally ("local") or anywhere ("anywhere").                                       |
+| JobAdmissionControl.ProbeExec           | unused        | Use the result of an external program to decide if we should take on the job.                                                  |
+| JobAdmissionControl.ProbeHTTP           | unused        | Use the result of a HTTP POST to decide if we should take on the job.                                                          |
+| JobAdmissionControl.RejectStatelessJobs | False         | Reject jobs that don't specify any [input data](../specifications/job/input-source.md).                                     |
+| JobAdmissionControl.RejectNetworkedJobs | False         | Reject jobs that require [network access](./networking.md). By default, network access is enabled. |
 
 ## Job Selection Probes
 
@@ -27,11 +27,13 @@ These are external programs that are passed the following data structure so that
       "image": "ubuntu:latest",
       "entrypoint": ["cat", "/file.txt"]
     },
-    "inputs": [{
-      "engine": "ipfs",
-      "cid": "XXX",
-      "path": "/file.txt"
-    }]
+    "inputs": [
+      {
+        "engine": "ipfs",
+        "cid": "XXX",
+        "path": "/file.txt"
+      }
+    ]
   }
 }
 ```
@@ -61,10 +63,7 @@ If the HTTP response is a JSON blob, it should match the [following schema](http
       "type": "string"
     }
   },
-  "required": [
-    "shouldBid",
-    "reason"
-  ]
+  "required": ["shouldBid", "reason"]
 }
 ```
 
