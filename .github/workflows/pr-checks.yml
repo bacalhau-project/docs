@@ -4,10 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-
 jobs:
-  build:
-    name: Build
+  spell-check:
+    name: Spell Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -15,3 +14,6 @@ jobs:
 
       - name: Setup Environment
         uses: ./.github/actions/setup-environment
+
+      - name: Run spell check
+        run: npm run spell-check
