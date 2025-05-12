@@ -9,7 +9,8 @@ const config: Config = {
   favicon: 'img/favicon.png',
 
   url: 'https://bacalhau.org',
-  baseUrl: '',
+  baseUrl: '/',
+  trailingSlash: true,
 
   // GitHub pages deployment config.
   organizationName: 'bacalhau-project', // Usually your GitHub org/user name.
@@ -74,8 +75,6 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // TODO: remove this when we are ready to go live
-    metadata: [{ name: 'robots', content: 'noindex, nofollow' }],
     colorMode: {
       respectPrefersColorScheme: true,
     },
