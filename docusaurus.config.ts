@@ -87,8 +87,8 @@ const config: Config = {
       title: 'Bacalhau',
       logo: {
         alt: 'Bacalhau Logo',
-        src: 'img/logo.svg',
-        srcDark: 'img/logo-dark.svg',
+        src: 'img/logos/logo.svg',
+        srcDark: 'img/logos/logo-dark.svg',
       },
       items: [
         {
