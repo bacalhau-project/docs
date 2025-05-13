@@ -89,6 +89,7 @@ const config: Config = {
       indexName: 'bacalhau',
       searchPagePath: 'search',
       insights: true,
+      placeholder: 'Search Bacalhau...'
     },
     navbar: {
       title: 'Bacalhau',
