@@ -50,7 +50,7 @@ function HomepageHeader() {
                                 <Link
                                     className={styles.secondaryButton}
                                     href="https://bacalhauproject.slack.com/">
-                                    Join US on Slack
+                                    Join us on Slack
                                 </Link>
                             </div>
                         </div>

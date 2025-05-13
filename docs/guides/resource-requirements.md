@@ -6,12 +6,12 @@ This guide covers how to specify resource requirements for your jobs and how to 
 
 Bacalhau manages four key resource types:
 
-| Resource | Description | Default | Example |
-|----------|-------------|---------|---------|
-| CPU | Processing power in cores or millicores | 500m (0.5 cores) | `--cpu=2` |
-| Memory | RAM allocation | 1GB | `--memory=4GB` |
-| Disk | Storage space | System dependent | `--disk=10GB` |
-| GPU | Number of GPUs | 0 | `--gpu=1` |
+| Resource | Description                             | Default          | Example        |
+| -------- | --------------------------------------- | ---------------- | -------------- |
+| CPU      | Processing power in cores or millicores | 500m (0.5 cores) | `--cpu=2`      |
+| Memory   | RAM allocation                          | 1GB              | `--memory=4GB` |
+| Disk     | Storage space                           | System dependent | `--disk=10GB`  |
+| GPU      | Number of GPUs                          | 0                | `--gpu=1`      |
 
 ## For Job Submitters: Requesting Resources
 
@@ -42,12 +42,12 @@ Tasks:
         Image: ubuntu:latest
         Parameters:
           - echo
-          - "Hello, world!"
+          - 'Hello, world!'
     Resources:
-      CPU: "2"
-      Memory: "4GB"
-      Disk: "10GB"
-      GPU: "1"
+      CPU: '2'
+      Memory: '4GB'
+      Disk: '10GB'
+      GPU: '1'
 ```
 
 Submit using:
@@ -61,6 +61,7 @@ bacalhau job run job.yaml
 #### CPU
 
 CPU can be specified in two formats:
+
 - **Decimal cores**: `--cpu=2` (2 CPU cores)
 - **Millicores**: `--cpu=500m` (0.5 CPU cores)
 
@@ -73,6 +74,7 @@ bacalhau docker run --cpu=250m alpine -- sleep 60
 #### Memory
 
 Memory can be specified using different units:
+
 - `MB` or `M` for megabytes
 - `GB` or `G` for gigabytes
 
@@ -128,14 +130,15 @@ Node operators can configure how much of their system resources are allocated to
 
 ### Configuring Node Resource Limits
 
-| Configuration Key | Description | Default | Format |
-|-------------------|-------------|---------|--------|
-| Compute.AllocatedCapacity.CPU | CPU allocation for jobs | `80%` | Percentage or absolute value |
-| Compute.AllocatedCapacity.Memory | Memory allocation for jobs | `80%` | Percentage or absolute value |
-| Compute.AllocatedCapacity.Disk | Disk space allocation for jobs | `80%` | Percentage or absolute value |
-| Compute.AllocatedCapacity.GPU | GPU allocation for jobs | `100%` | Percentage or absolute value |
+| Configuration Key                | Description                    | Default | Format                       |
+| -------------------------------- | ------------------------------ | ------- | ---------------------------- |
+| Compute.AllocatedCapacity.CPU    | CPU allocation for jobs        | `80%`   | Percentage or absolute value |
+| Compute.AllocatedCapacity.Memory | Memory allocation for jobs     | `80%`   | Percentage or absolute value |
+| Compute.AllocatedCapacity.Disk   | Disk space allocation for jobs | `80%`   | Percentage or absolute value |
+| Compute.AllocatedCapacity.GPU    | GPU allocation for jobs        | `100%`  | Percentage or absolute value |
 
 Values can be expressed as:
+
 - Percentages of total system resources (e.g., `80%`)
 - Absolute values (e.g., `16Gi` for memory)
 
@@ -145,10 +148,10 @@ Example `config.yaml` configuration:
 # config.yaml
 Compute:
   AllocatedCapacity:
-    CPU: "75%"
-    Memory: "16Gi"
-    Disk: "80%"
-    GPU: "100%"
+    CPU: '75%'
+    Memory: '16Gi'
+    Disk: '80%'
+    GPU: '100%'
 ```
 
 ### Setting Default Job Resources
@@ -161,12 +164,12 @@ JobDefaults:
   Batch:
     Task:
       Resources:
-        Memory: "2Gi"
-        CPU: "1"
+        Memory: '2Gi'
+        CPU: '1'
   Ops:
     Task:
       Resources:
-        CPU: "0.5"
+        CPU: '0.5'
 ```
 
 ## Checking Available Resources

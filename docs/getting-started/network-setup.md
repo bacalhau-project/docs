@@ -1,20 +1,21 @@
 ---
 sidebar_position: 30
 ---
+
 # Network Setup
 
 This guide explains how to set up Bacalhau networks for various deployment scenarios, from development environments to production deployments.
 
-### Introduction
+## Introduction
 
 Bacalhau's architecture consists of two primary node types:
 
-* **Orchestrator nodes** that schedule and manage jobs
-* **Compute nodes** that execute workloads
+- **Orchestrator nodes** that schedule and manage jobs
+- **Compute nodes** that execute workloads
 
 Compute nodes connect to orchestrators, but don't need to be reachable by orchestrators or other compute nodes, making deployment simpler.
 
-### Getting Started with Bacalhau
+## Getting Started with Bacalhau
 
 Choose the setup option that best matches your needs:
 
@@ -24,19 +25,21 @@ Choose the setup option that best matches your needs:
 | DevStack            | Development & testing              | Quick local setup with minimal configuration |
 | Self-Hosted Network | Custom infrastructure requirements | Complete control over all components         |
 
-### Option 1: Expanso Cloud&#x20;
+### Option 1: Expanso Cloud
 
 (Recommended for Production)
 
 Expanso Cloud provides a managed orchestrator service, eliminating the need to set up and maintain your own orchestrator.
 
-**Setting Up with Expanso Cloud**
+#### Setting Up with Expanso Cloud
 
 1. **Sign up for Expanso Cloud** to receive:
-   * An orchestrator endpoint
-   * Authentication credentials
-   * A configuration file
-2. **Create a** [**configuration file**](/references/operators/configuration-reference.md) (or use the one provided):
+
+- An orchestrator endpoint
+- Authentication credentials
+- A configuration file
+
+2. **Create a [configuration file](/references/operators/configuration-reference.md)** (or use the one provided):
 
 ```yaml
 # config.yaml
@@ -45,9 +48,9 @@ Compute:
   Orchestrators:
     - <orchestrator-endpoint>
   Auth:
-    Token: <auth-token>
+  Token: <auth-token>
   TLS:
-    RequireTLS: true
+  RequireTLS: true
 ```
 
 3. **Start your compute node**:
@@ -71,7 +74,7 @@ This is the simplest way to run a Bacalhau network with minimal setup and mainte
 
 If you need to host your own orchestrator, follow these steps for a custom deployment.
 
-**Setting Up an Orchestrator Node**
+#### Setting Up an Orchestrator Node
 
 On your designated orchestrator machine:
 
@@ -82,7 +85,7 @@ bacalhau serve --orchestrator
 
 Take note of this machine's IP address or hostname - you'll need it to connect compute nodes.
 
-**Adding Compute Nodes**
+#### Adding Compute Nodes
 
 On each machine that will execute jobs:
 
@@ -93,7 +96,7 @@ bacalhau serve --compute -c Compute.Orchestrators=<orchestrator-ip>:4222
 
 Replace `<orchestrator-ip>` with the actual IP address or hostname of your orchestrator.
 
-**Verifying Your Cluster**
+#### Verifying Your Cluster
 
 Check that all nodes are connected:
 
@@ -104,7 +107,9 @@ bacalhau node list
 
 You should see your orchestrator and all compute nodes listed.
 
-> **Note:** The setup described above creates an open network suitable for testing in trusted environments. For securing your network, refer to the Security Best Practices in the Reference section.
+:::note
+The setup described above creates an open network suitable for testing in trusted environments. For securing your network, refer to the Security Best Practices in the Reference section.
+:::
 
 ### Option 3: DevStack
 
@@ -138,9 +143,9 @@ bacalhau serve --orchestrator --compute
 
 This starts Bacalhau in "hybrid mode" where:
 
-* The orchestrator handles job scheduling
-* The compute service executes containers
-* Both components run in the same process
+- The orchestrator handles job scheduling
+- The compute service executes containers
+- Both components run in the same process
 
 This option is useful for initial testing or for very small deployments.
 
@@ -170,12 +175,14 @@ For a quick multi-node setup, Bacalhau provides Docker Compose examples that cre
     ```bash
     git clone https://github.com/bacalhau-project/bacalhau-network-setups.git
     ```
+
 2.  **Navigate to a Specific Setup**\
     Change directory to your desired setup under `docker-compose`:
 
     ```bash
     cd bacalhau-network-setups/docker-compose/<setup-name>
     ```
+
 3.  **Start the Network**\
     Use Docker Compose to bring up the network:
 
@@ -187,6 +194,6 @@ These setups enable deployment and testing of Bacalhau across multiple nodes, in
 
 ### Next Steps
 
-* Secure your network with our Security Guide
-* Learn how to submit jobs to your network
-* Explore common workflows for different use cases
+- Secure your network with our Security Guide
+- Learn how to submit jobs to your network
+- Explore common workflows for different use cases

@@ -184,7 +184,7 @@ Perhaps the most significant addition since Bacalhau 1.7 is the support for OAut
 
 This approach eliminates the need to define users directly in Bacalhau's configuration, instead delegating user management to the identity provider – a considerable advantage in corporate environments with existing identity infrastructure.
 
-The configuration process involves specifying OAuth 2.0 endpoints, client IDs, and desired scopes. When users need to authenticate, they run **`bacalhau auth sso login`**, which presents a device code and URL. After completing authentication through their browser, they receive a JWT token that's automatically used for subsequent API calls (_this token exchange will be done seamlessly and the user is not required to perform any extra actions_).
+The configuration process involves specifying OAuth 2.0 endpoints, client IDs, and desired scopes. When users need to authenticate, they run `bacalhau auth sso login`, which presents a device code and URL. After completing authentication through their browser, they receive a JWT token that's automatically used for subsequent API calls (_this token exchange will be done seamlessly and the user is not required to perform any extra actions_).
 
 Here's a sample configuration for OAuth 2.0 SSO in Bacalhau:
 
@@ -231,11 +231,11 @@ For this to setup work properly:
 
 The permission mapping would happen in your identity provider. For example, in Okta you might create:
 
-- A "Bacalhau Admins" group with permissions: **`["*"]`**
-- A "Bacalhau Readers" group with permissions: **`["read:*"]`**
-- A "Bacalhau Job Managers" group with permissions: **`["read:job", "write:job", "read:node"]`**
+- A "Bacalhau Admins" group with permissions: `["*"]`
+- A "Bacalhau Readers" group with permissions: `["read:*"]`
+- A "Bacalhau Job Managers" group with permissions: `["read:job", "write:job", "read:node"]`
 
-These permissions should be included in the JWT token under the custom claim **`permissions`**.
+These permissions should be included in the JWT token under the custom claim `permissions`.
 
 To authenticate using this setup, users would run:
 
@@ -267,15 +267,13 @@ After completing authentication through their browser, the user would receive a 
 bacalhau auth sso token
 ```
 
----
-
 ### 1.4 Authentication Priority in Bacalhau 1.7+
 
 When configuring Bacalhau authentication, it's important to understand the precedence rules that determine which authentication method takes effect.
 
-Environment variables take highest precedence in the authentication hierarchy, overriding any other configured methods. This means that if you have set **`BACALHAU_API_USERNAME`** and **`BACALHAU_API_PASSWORD`** for Basic Auth, or **`BACALHAU_API_KEY`** for API token authentication, these will be used regardless of any SSO tokens that may be stored locally from previous **`bacalhau auth sso login`** sessions.
+Environment variables take highest precedence in the authentication hierarchy, overriding any other configured methods. This means that if you have set `BACALHAU_API_USERNAME` and `BACALHAU_API_PASSWORD` for Basic Auth, or `BACALHAU_API_KEY` for API token authentication, these will be used regardless of any SSO tokens that may be stored locally from previous `bacalhau auth sso login` sessions.
 
-If the **`BACALHAU_API_USERNAME/BACALHAU_API_PASSWORD`** and **`BACALHAU_API_PASSWORD`** are defined, an error message will be returned.
+If the `BACALHAU_API_USERNAME/BACALHAU_API_PASSWORD` and `BACALHAU_API_PASSWORD` are defined, an error message will be returned.
 
 This design provides flexibility for users who need to temporarily switch between different authentication contexts without modifying configuration files
 
@@ -299,37 +297,37 @@ The permission structure is organized around two key dimensions:
 - **Capabilities**: The types of operations
   being performed (Read and Write)
 
-This creates a permission taxonomy following the pattern of **`action:resource`**, where permissions can be assigned individually or using wildcards for broader access grants.
+This creates a permission taxonomy following the pattern of `action:resource`, where permissions can be assigned individually or using wildcards for broader access grants.
 
 ### 2.2 Core Permission Set
 
 Bacalhau supports the following core permissions:
 
-1. **`"*"`** - The master permission granting full
+1. `"*"` - The master permission granting full
    access to all capabilities across all resources
-2. **`"read:*"`** - Provides read-only access across
+2. `"read:*"` - Provides read-only access across
    all resource types
-3. **`"write:*"`** - Grants write access to all resource
+3. `"write:*"` - Grants write access to all resource
    types
-4. **`"read:node"`** - Allows viewing node information
-5. **`"write:node"`** - Permits actions on the node
-6. **`"read:job"`** - Enables querying job status,
+4. `"read:node"` - Allows viewing node information
+5. `"write:node"` - Permits actions on the node
+6. `"read:job"` - Enables querying job status,
    details, and logs, etc
-7. **`"write:job"`** - Allows submitting, canceling,
+7. `"write:job"` - Allows submitting, canceling,
    and managing job execution
-8. **`"read:agent"`** - Provides access to agent information
+8. `"read:agent"` - Provides access to agent information
    via `"bacalhau agent"` commands
-9. **`"write:agent"`** - Any write actions on the agent.
+9. `"write:agent"` - Any write actions on the agent.
 
 ### 2.3 Creating Role-Based Access Patterns
 
 These permissions can be combined to create practical access patterns for different user roles and service accounts:
 
-- **Administrator**: **`["*"]`** - Full access to all system functions
-- **Read-only Analyst**: **`["read:*"]`** - Can view but not modify any resources
-- **Job Manager**: **`["read:job", "write:job", "read:node"]`** - Complete control over jobs with visibility into nodes
-- **Monitoring Service**: **`["read:node", "read:job"]`** - View-only access for system monitoring
-- CI/CD Pipeline: **`["write:job", "read:job"]`** - Can submit and monitor jobs but can't access node details
+- **Administrator**: `["*"]` - Full access to all system functions
+- **Read-only Analyst**: `["read:*"]` - Can view but not modify any resources
+- **Job Manager**: `["read:job", "write:job", "read:node"]` - Complete control over jobs with visibility into nodes
+- **Monitoring Service**: `["read:node", "read:job"]` - View-only access for system monitoring
+- CI/CD Pipeline: `["write:job", "read:job"]` - Can submit and monitor jobs but can't access node details
 
 ### 2.4 Benefits for Different User Profiles
 

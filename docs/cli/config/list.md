@@ -14,24 +14,24 @@ bacalhau config list [flags]
 
 ## Flags
 
-* `-h`, `--help`:
-  * Description: Displays help information for the `list` sub-command.
-* `--hide-header`:
-  * Description: Do not print the column headers when displaying the results.
-  * Default: `false`
-* `--no-style`:
-  * Description: Removes all styling from the table output, displaying raw data.
-  * Default: `false`
-* `--output format`:
-  * Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
-  * Options: `json`, `yaml`, `table`
-  * Default: `table`
-* `--pretty`:
-  * Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
-  * Default: `true`
-* `--wide`:
-  * Description: Prints full values in the table results without truncating any information.
-  * Default: `false`
+- `-h`, `--help`:
+  - Description: Displays help information for the `list` sub-command.
+- `--hide-header`:
+  - Description: Do not print the column headers when displaying the results.
+  - Default: `false`
+- `--no-style`:
+  - Description: Removes all styling from the table output, displaying raw data.
+  - Default: `false`
+- `--output format`:
+  - Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
+  - Options: `json`, `yaml`, `table`
+  - Default: `table`
+- `--pretty`:
+  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
+  - Default: `true`
+- `--wide`:
+  - Description: Prints full values in the table results without truncating any information.
+  - Default: `false`
 
 ## Examples
 
@@ -52,6 +52,7 @@ bacalhau config list [flags]
      <key_name> <key_value>
     ...
     ```
+
 2.  **Output in JSON format**:
 
     **Command**:

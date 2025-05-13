@@ -1,17 +1,18 @@
 ---
 sidebar_position: 40
 ---
-# Listing  Jobs
+
+# Listing Jobs
 
 This guide shows you how to view and filter the jobs in your Bacalhau environment. Being able to list jobs is essential for monitoring your workloads and finding specific jobs to inspect further.
 
-### What You'll Learn
+## What You'll Learn
 
-* How to list all your jobs
-* How to filter jobs by various criteria
-* How to customize the output format
+- How to list all your jobs
+- How to filter jobs by various criteria
+- How to customize the output format
 
-### Basic Job Listing
+## Basic Job Listing
 
 To see your recent jobs, use:
 
@@ -21,7 +22,7 @@ bacalhau job list
 
 By default, this shows your 10 most recent jobs with basic information.
 
-#### Sample Output
+### Sample Output
 
 ```
  CREATED   ID          JOB     TYPE   STATE
@@ -35,23 +36,23 @@ To fetch more records use:
 
 The output columns show:
 
-* **CREATED**: When the job was created (time)
-* **ID**: The job's unique identifier
-* **JOB**: The job engine type (usually docker)
-* **TYPE**: The job type (batch, service, etc.)
-* **STATE**: Current job state (Completed, Running, Pending, Failed, etc.)
+- **CREATED**: When the job was created (time)
+- **ID**: The job's unique identifier
+- **JOB**: The job engine type (usually docker)
+- **TYPE**: The job type (batch, service, etc.)
+- **STATE**: Current job state (Completed, Running, Pending, Failed, etc.)
 
-### Filtering Your Job List
+## Filtering Your Job List
 
 You can refine your job list using various flags:
 
-#### Limit the Number of Results
+### Limit the Number of Results
 
 ```bash
 bacalhau job list --limit 5
 ```
 
-#### Filter by Labels
+### Filter by Labels
 
 Labels help organize and categorize your jobs:
 
@@ -65,7 +66,7 @@ More complex label filtering:
 bacalhau job list --labels "region in (us-east-1, us-west-1)"
 ```
 
-#### Change Result Order
+### Change Result Order
 
 Order by creation time or job ID:
 
@@ -79,7 +80,7 @@ Reverse the order (newest last):
 bacalhau job list --order-reversed
 ```
 
-#### Pagination
+### Pagination
 
 When you have many jobs, the output will include a pagination token:
 
@@ -88,11 +89,11 @@ When you have many jobs, the output will include a pagination token:
 bacalhau job list --limit 10 --next-token Ok46MTA6MTA
 ```
 
-### Customizing Output Format
+## Customizing Output Format
 
 By default, results appear in a table format. You can choose other formats:
 
-#### JSON Output
+### JSON Output
 
 ```bash
 bacalhau job list --output json
@@ -104,13 +105,13 @@ For more readable JSON:
 bacalhau job list --output json --pretty
 ```
 
-#### YAML Output
+### YAML Output
 
 ```bash
 bacalhau job list --output yaml
 ```
 
-#### CSV Output
+### CSV Output
 
 Useful for importing into spreadsheets:
 

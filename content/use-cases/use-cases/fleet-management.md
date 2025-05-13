@@ -13,7 +13,7 @@ Managing a distributed fleet of compute nodes across multiple regions and enviro
 
 ## Key Capabilities
 
-### 1. **Remote Execution**
+### 1. Remote Execution
 
 Bacalhau allows you to execute commands across your entire fleet or on specific subsets of nodes, reducing the need for manual intervention and enabling real-time operational control.
 
@@ -21,7 +21,7 @@ Bacalhau allows you to execute commands across your entire fleet or on specific 
 - Execute commands on nodes dynamically selected based on their attributes (e.g., region, hardware type, role).
 - Reduce the complexity of managing compute nodes across cloud, on-premise, and hybrid environments.
 
-### 2. **Software Deployment & Configuration Updates**
+### 2. Software Deployment & Configuration Updates
 
 Keeping software and configurations up to date across a large number of distributed nodes is challenging. Bacalhau simplifies this by allowing seamless deployment of updates.
 
@@ -29,7 +29,7 @@ Keeping software and configurations up to date across a large number of distribu
 - Deploy configuration changes dynamically based on workload needs.
 - Ensure all nodes remain in sync with the latest versions of necessary tools and dependencies.
 
-### 3. **Real-Time Metrics & Logs Collection**
+### 3. Real-Time Metrics & Logs Collection
 
 Monitoring the health and performance of a large fleet requires collecting logs and metrics in real time. Bacalhau provides an efficient way to access this data across all nodes.
 
@@ -37,7 +37,7 @@ Monitoring the health and performance of a large fleet requires collecting logs 
 - Fetch logs from a specific subset of nodes dynamically for debugging and analysis.
 - Reduce reliance on heavyweight monitoring tools by executing targeted status checks when needed.
 
-### 4. **Targeted & Ops Jobs Execution**
+### 4. Targeted & Ops Jobs Execution
 
 Bacalhau supports **Ops Jobs**, a type of execution designed specifically for fleet-wide operations. These jobs run on all nodes that match a given selection criteria, making it easy to execute large-scale fleet management tasks.
 
@@ -45,7 +45,7 @@ Bacalhau supports **Ops Jobs**, a type of execution designed specifically for fl
 - Query or modify system state at scale without impacting ongoing workloads.
 - Filter job execution by node attributes (e.g., run a command only on GPU nodes or ARM-based instances).
 
-### 5. **Incident Response & Automated Recovery**
+### 5. Incident Response & Automated Recovery
 
 When failures or security incidents occur, Bacalhau enables rapid fleet-wide response and mitigation through distributed execution.
 

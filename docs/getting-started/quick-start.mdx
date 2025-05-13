@@ -8,12 +8,12 @@ import TabItem from '@theme/TabItem'
 
 This Quick Start guide shows how to run your first Bacalhau job with minimal setup. Bacalhau's design as a single self-contained binary makes it incredibly easy to set up your own distributed compute network in minutes.
 
-### Prerequisites
+## Prerequisites
 
 - Docker installed on any machine that runs a compute node
 - Bacalhau CLI installed (see below)
 
-### 1. Installation
+## 1. Installation
 
 1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](./installation.mdx) for Windows and Docker options.
 
@@ -27,7 +27,7 @@ curl -sL https://get.bacalhau.org/install.sh | bash
 bacalhau version
 ```
 
-### 2. Start a Hybrid Node
+## 2. Start a Hybrid Node
 
 Open a terminal and run:
 
@@ -38,7 +38,7 @@ bacalhau serve --orchestrator --compute
 - This command launches both an orchestrator and a compute node in one process
 - Keep it running; you'll see logs indicating it's ready
 
-### 3. Submit a Data Analysis Job
+## 3. Submit a Data Analysis Job
 
 Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
 
@@ -96,7 +96,7 @@ bacalhau job run word-count.yaml
 - Bacalhau will display job progress until completion
 - You'll receive a Job ID once the job is submitted
 
-### 4. Inspect the Job
+## 4. Inspect the Job
 
 ```bash
 bacalhau job describe <jobID>
@@ -105,7 +105,7 @@ bacalhau job describe <jobID>
 - Replace `<jobID>` with the actual ID printed in step 2
 - You can run `bacalhau job logs <job-id>` to just get the execution logs
 
-### 5. Retrieve Results
+## 5. Retrieve Results
 
 Download and view your job results:
 
@@ -117,9 +117,11 @@ bacalhau job get <jobID>
 head job-*/outputs/moby-dick-counts.txt
 ```
 
-> **Note:** You should see a word frequency analysis of the Moby Dick text file!
+:::note
+You should see a word frequency analysis of the Moby Dick text file!
+:::
 
-### 🎉 Success!
+## 🎉 Success!
 
 You've just:
 

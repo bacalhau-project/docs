@@ -43,7 +43,7 @@ Check node labels using:
 bacalhau node list
 ```
 
-## Constraint Operators
+### Constraint Operators
 
 Bacalhau supports various operators for precise node selection:
 
@@ -126,9 +126,9 @@ bacalhau docker run --constraints "cpu-cores gt 64" alpine echo "failed"
 
 Follow these patterns for consistent label naming:
 
-* Use lowercase alphanumeric characters
-* Separate words with hyphens
-* Use descriptive prefixes for categorization
+- Use lowercase alphanumeric characters
+- Separate words with hyphens
+- Use descriptive prefixes for categorization
 
 Examples:
 
@@ -245,11 +245,13 @@ bacalhau job describe JOB_ID --include-events
 If your job fails with no matching nodes:
 
 1. Check available nodes and their labels:
+
    ```bash
    bacalhau node list --output json
    ```
 
 2. Verify your constraints aren't too restrictive:
+
    ```bash
    # Instead of
    --constraints "mem-gb gt 128"

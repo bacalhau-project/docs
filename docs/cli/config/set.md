@@ -4,7 +4,9 @@
 
 The `bacalhau config set` command sets a value in the bacalhau node's configuration file. This command is used to modify the configuration file that the bacalhau node will reference for its settings. Key names in the configuration are case-insensitive. Additionally, the command validates the value being set based on the type of the configuration key, ensuring that only appropriate and valid configurations are applied.
 
-Note: Changes made using this command will be applied to the configuration file, but they do not immediately affect the running configuration of an active bacalhau node. The modifications will take effect only after the node is restarted.
+:::note
+Changes made using this command will be applied to the configuration file, but they do not immediately affect the running configuration of an active bacalhau node. The modifications will take effect only after the node is restarted.
+:::
 
 ## Usage
 
@@ -14,8 +16,8 @@ bacalhau config set <key> <value>
 
 ## Flags
 
-* `-h`, `--help`:
-  * Description: Displays help information for the `set` sub-command.
+- `-h`, `--help`:
+  - Description: Displays help information for the `set` sub-command.
 
 ## Examples
 
@@ -63,7 +65,7 @@ node:
 
 ### Set command value validation
 
-**Example of invalid logging mode value**
+#### Example of invalid logging mode value
 
 ```bash
 bacalhau config set node.loggingmode some-invalid-value
@@ -71,7 +73,7 @@ bacalhau config set node.loggingmode some-invalid-value
 Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
 ```
 
-**Example of invalid time duration value**
+#### Example of invalid time duration value
 
 ```bash
 bacalhau config set node.volumesizerequesttimeout 10days

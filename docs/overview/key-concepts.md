@@ -5,20 +5,20 @@ sidebar_position: 10
 
 Bacalhau is built around a few core ideas and terminologies. If you're new to Bacalhau, here's what you need to know:
 
-### Distributed Compute Orchestration
+## Distributed Compute Orchestration
 
 Bacalhau coordinates computing workloads across a network of machines, intelligently matching jobs to resources.
 
 * Bacalhau acts as a dispatcher: You submit jobs (e.g., container workloads), and it finds the best node to run them based on available resources, data location, and constraints.
 
-### Bring the Compute to the Data
+## Bring the Compute to the Data
 
 Instead of moving data to compute, Bacalhau moves compute to where data lives, reducing network overhead and improving efficiency.
 
 * Traditionally, big data solutions shuffle large datasets across networks to a central compute cluster.
 * Bacalhau inverts this approach: it places compute tasks where the data already resides—whether in local storage, an S3 bucket, or other storage providers—reducing unnecessary data movement.
 
-### Jobs & Executions
+## Jobs & Executions
 
 Bacalhau organizes work in a hierarchy that enables efficient resource allocation and parallelization.
 
@@ -26,7 +26,7 @@ Bacalhau organizes work in a hierarchy that enables efficient resource allocatio
 * A job can be broken into multiple **Executions** that run in parallel across different compute nodes.
 * Bacalhau optimizes these executions based on data locality and available resources.
 
-### Job Types
+## Job Types
 
 Bacalhau supports various execution patterns to accommodate different workload requirements:
 
@@ -35,7 +35,7 @@ Bacalhau supports various execution patterns to accommodate different workload r
 * **Daemon Jobs**: Long-running background processes that perform ongoing work.
 * **Service Jobs**: Web services or APIs that need to remain available and respond to requests.
 
-### Node Types
+## Node Types
 
 The Bacalhau network consists of specialized components, each with specific responsibilities:
 
@@ -43,7 +43,7 @@ The Bacalhau network consists of specialized components, each with specific resp
 * **Compute Node**: Executes workloads locally, typically requiring Docker or another runtime. Started with `bacalhau serve --compute`.
 * **Hybrid Node**: Serves both roles at once—often used for local dev or small setups. Started with `bacalhau serve --orchestrator --compute`.
 
-### Execution Engines
+## Execution Engines
 
 Bacalhau runs your code through pluggable runtime environments:
 
@@ -52,7 +52,7 @@ Bacalhau runs your code through pluggable runtime environments:
   * **WebAssembly (WASM)**: For lightweight, sandboxed execution
 * The framework is designed to accommodate additional engines as needed.
 
-### Storage Providers
+## Storage Providers
 
 Bacalhau can access data from various sources through a clean, extensible interface:
 
@@ -63,13 +63,13 @@ Bacalhau can access data from various sources through a clean, extensible interf
   * IPFS
   * And more via storage provider plugins
 
-### Publisher
+## Publisher
 
 After execution, Bacalhau ensures your results are accessible where you need them:
 
 * After a job finishes, its results can be published to a specific backend—like local disk, S3 or IPFS—so they're easy to retrieve.
 
-### Communication Layer
+## Communication Layer
 
 A reliable messaging system allows Bacalhau components to coordinate effectively:
 

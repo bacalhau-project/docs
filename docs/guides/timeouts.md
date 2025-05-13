@@ -15,11 +15,11 @@ Timeouts in Bacalhau set limits on how long a job can run before being automatic
 
 Bacalhau supports several types of timeouts:
 
-| Timeout Type | Description |
-|--------------|-------------|
-| Execution Timeout | Maximum time a job can spend in execution |
-| Queue Timeout | Maximum time a job can wait for resources |
-| Total Timeout | Overall maximum lifespan of a job including queue time |
+| Timeout Type      | Description                                            |
+| ----------------- | ------------------------------------------------------ |
+| Execution Timeout | Maximum time a job can spend in execution              |
+| Queue Timeout     | Maximum time a job can wait for resources              |
+| Total Timeout     | Overall maximum lifespan of a job including queue time |
 
 ## For Job Submitters: Setting Timeouts
 
@@ -49,10 +49,10 @@ Tasks:
         Image: ubuntu:latest
         Parameters:
           - sleep
-          - "300"
+          - '300'
     Timeouts:
-      ExecutionTimeout: 1800  # 30 minutes in seconds
-      QueueTimeout: 600       # 10 minutes in seconds
+      ExecutionTimeout: 1800 # 30 minutes in seconds
+      QueueTimeout: 600 # 10 minutes in seconds
 ```
 
 Submit using:
@@ -88,21 +88,22 @@ JobDefaults:
     Task:
       Timeouts:
         # Default timeout for batch jobs (1 hour)
-        ExecutionTimeout: "1h" 
+        ExecutionTimeout: '1h'
         # Maximum allowed timeout (4 hours)
-        TotalTimeout: "4h"
+        TotalTimeout: '4h'
   Ops:
     Task:
       Timeouts:
         # Default timeout for ops jobs (30 minutes)
-        ExecutionTimeout: "30m"
+        ExecutionTimeout: '30m'
         # Maximum allowed timeout (2 hours)
-        TotalTimeout: "2h"
+        TotalTimeout: '2h'
 ```
 
 ### Configuration Format
 
 Timeout values should be specified with a numeric value followed by a time unit:
+
 - `s` for seconds
 - `m` for minutes
 - `h` for hours
@@ -112,6 +113,7 @@ For example: `30m`, `2h`, or `3600s`
 ### Job Type Support
 
 Timeouts can be configured for these job types:
+
 - Batch jobs
 - Ops jobs
 
@@ -127,12 +129,14 @@ bacalhau docker run --queue-timeout 900 ubuntu -- <command>
 ```
 
 In YAML:
+
 ```yaml
 Timeouts:
-  QueueTimeout: 900  # seconds
+  QueueTimeout: 900 # seconds
 ```
 
 This is useful when:
+
 - Your job has specific resource requirements
 - You want to fail fast if resources aren't available
 - You have time-sensitive workloads

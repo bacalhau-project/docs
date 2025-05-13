@@ -3,17 +3,15 @@ import TabItem from "@theme/TabItem";
 
 # Mounting Input Data
 
-## Mounting Input Data
-
 This page explains how to feed external data into Bacalhau jobs from various sources. Bacalhau's modular architecture enables flexible data mounting from multiple storage providers, with S3-compatible storage, local directories, IPFS, and HTTP/HTTPS URLs supported out of the box.
 
-### What You'll Learn
+## What You'll Learn
 
 - How to mount data from different sources to your Bacalhau jobs
 - The syntax and options for each data source type
 - Best practices for efficient data handling
 
-### Input Mounting Basics
+## Input Mounting Basics
 
 Bacalhau jobs often need access to input data. The general syntax for mounting input data is:
 
@@ -54,7 +52,7 @@ Where:
 </TabItem>
 </Tabs>
 
-### Local Directories
+## Local Directories
 
 <Tabs groupId="local-directories">
 <TabItem value="Imperative" label="Imperative">
@@ -91,7 +89,7 @@ Tasks:
 
 This mounts the directory `/path/to/local/data` from the host machine to `/data` inside the container.
 
-### S3-Compatible Storage
+## S3-Compatible Storage
 
 S3 integration connects to storage solutions compatible with the S3 API, such as AWS S3, Google Cloud Storage, and locally deployed MinIO
 
@@ -131,7 +129,7 @@ Tasks:
 
 This downloads and mounts the S3 object to the specified path in the container.
 
-### HTTP/HTTPS URLs
+## HTTP/HTTPS URLs
 
 URL-based inputs provide access to web-hosted resources.
 
@@ -170,7 +168,7 @@ Tasks:
 </TabItem>
 </Tabs>
 
-### IPFS (InterPlanetary File System)
+## IPFS (InterPlanetary File System)
 
 IPFS provides content-addressable, peer-to-peer storage for decentralized data sharing.
 
@@ -209,7 +207,7 @@ Tasks:
 
 The IPFS CID (Content Identifier) points to the specific content you want to mount.
 
-### Multiple Inputs
+## Multiple Inputs
 
 You can combine multiple inputs from different sources in a single job:
 
@@ -221,7 +219,7 @@ bacalhau docker run \
 python:3.9 -- python /config/process.py
 ```
 
-### Working with Large Datasets
+## Working with Large Datasets
 
 For very large datasets, consider these optimization strategies:
 
@@ -241,14 +239,14 @@ Best practices:
 - Process data in chunks when possible
 - Choose efficient data formats (Parquet, Arrow, etc.)
 
-### Tips & Caveats
+## Tips & Caveats
 
 - **Credentials**: Some mount sources (S3) require proper credentials or connectivity
 - **Data Locality**: Use Bacalhau label selectors to run jobs on nodes that have or close to the data
 - **IPFS Network**: Compute nodes must be connected to an IPFS daemon to support this storage type
 - **Size Limits**: Very large inputs may require increased disk allocations using `--disk`
 
-### Next Steps
+## Next Steps
 
 - Learn how to retrieve and publish outputs from jobs
 - See a complete example workflow that includes input data

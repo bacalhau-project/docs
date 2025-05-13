@@ -43,15 +43,15 @@ bacalhau node list
 You should see the nodes in your devstack:
 
 ```
-ID      TYPE       APPROVAL  STATUS     LABELS                                   
+ID      TYPE       APPROVAL  STATUS     LABELS
 node-0  Requester  APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-0 name=node-0       
+                                        env=devstack id=node-0 name=node-0
 node-1  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-1 name=node-1       
+                                        env=devstack id=node-1 name=node-1
 node-2  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-2 name=node-2       
+                                        env=devstack id=node-2 name=node-2
 node-3  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-3 name=node-3       
+                                        env=devstack id=node-3 name=node-3
 ```
 
 ## Running a Simple Job
@@ -93,6 +93,7 @@ http://localhost:8438
 ```
 
 The Web UI allows you to:
+
 - View all running and completed jobs
 - Inspect node status and resources
 - Monitor job execution details and logs
