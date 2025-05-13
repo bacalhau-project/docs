@@ -83,6 +83,14 @@ const config: Config = {
     },
     // Replace with your project's social card
     image: 'img/bacalhau-social.png',
+    algolia: {
+      appId: 'BQF5P65VX0',
+      apiKey: '6225ea23cecfca6c27ae47b655fbb576',
+      indexName: 'bacalhau',
+      contextualSearch: true,
+      searchPagePath: 'search',
+      insights: false,
+    },
     navbar: {
       title: 'Bacalhau',
       logo: {
