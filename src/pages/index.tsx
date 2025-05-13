@@ -65,7 +65,7 @@ export default function Home(): ReactNode {
     const {siteConfig} = useDocusaurusContext();
     return (
         <Layout
-            title={`${siteConfig.title}`}
+          title="Distributed Compute Over Data"
             description="Bacalhau is a platform for fast, cost efficient, and secure computation that enables users to run compute jobs where the data is generated and stored.">
             <HomepageHeader/>
             <main>
