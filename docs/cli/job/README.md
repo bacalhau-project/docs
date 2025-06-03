@@ -28,7 +28,16 @@ bacalhau job [command]
      bacalhau job executions
      ```
 
-3. [**history**](./history.md):
+3. [**get**](./get.md):
+
+   - Description: Get the results of a job, identified by its ID.
+   - Usage:
+
+     ```bash
+     bacalhau job get
+     ```
+
+4. [**history**](./history.md):
 
    - Description: Enumerates the historical events related to a job, identified by its ID.
    - Usage:
@@ -36,8 +45,7 @@ bacalhau job [command]
      ```bash
      bacalhau job history
      ```
-
-4. [**list**](./list.md):
+5. [**list**](./list.md):
 
    - Description: Provides an overview of all submitted jobs.
    - Usage:
@@ -46,7 +54,7 @@ bacalhau job [command]
      bacalhau job list
      ```
 
-5. [**logs**](./logs.md):
+6. [**logs**](./logs.md):
 
    - Description: Fetches and streams the logs from a currently executing job.
    - Usage:
@@ -55,7 +63,7 @@ bacalhau job [command]
      bacalhau job logs
      ```
 
-6. [**run**](./run.md):
+7. [**run**](./run.md):
 
    - Description: Submits a job for execution using either a JSON or YAML configuration file.
    - Usage:
@@ -64,7 +72,7 @@ bacalhau job [command]
      bacalhau job run
      ```
 
-7. [**stop**](./stop.md):
+8. [**stop**](./stop.md):
 
    - Description: Halts a previously submitted job.
    - Usage:
