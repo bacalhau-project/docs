@@ -1,3 +1,5 @@
+import GlobalFlags from './_agent-global-flags.md';
+
 # Node
 
 ## Description
@@ -21,20 +23,7 @@ bacalhau agent node [flags]
 - `--pretty`:
   - Beautifies the output when using JSON or YAML formats.
 
-## Global Flags
-
-- `--api-host string`:
-  - The host for REST communication. Overrides the `BACALHAU_API_HOST` environment variable.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - The port for REST communication. Overridden if `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Specifies the log format. Choices are: `default`, `station`, `json`, `combined`, `event`.
-  - Default: `default`
-- `--repo string`:
-  - Path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+<GlobalFlags />
 
 ## Examples
 
