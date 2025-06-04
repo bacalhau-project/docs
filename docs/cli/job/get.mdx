@@ -1,0 +1,36 @@
+import GlobalFlags from './_job-global-flags.md';
+
+# Get
+
+## Description
+
+The `bacalhau job get` command is used to get the results of the job, including stdout and stderr.
+
+## Usage
+
+```bash
+bacalhau job get [id] [flags]
+```
+
+## Flags
+
+- `--download-timeout-secs duration`:
+  - Description: Timeout duration for IPFS downloads. (default 5m0s)
+- `-h`, `--help`:
+  - Description: Display help for the `list` command.
+- `output-dir string`:
+  - Description: Directory to write the output to.
+- `--raw`:
+  - Description: Download raw result CIDs instead of merging multiple CIDs into a single result.
+
+<GlobalFlags />
+
+## Examples
+
+1.  **Get the results of a job**:
+
+    `bacalhau job get 51225160-807e-48b8-88c9-28311c7899e1`
+
+2. **Get the results of a job, using a short ID**:
+
+    `bacalhau job get 51225160`
