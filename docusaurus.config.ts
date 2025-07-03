@@ -216,15 +216,11 @@ const config: Config = {
           ],
         },
         {
-          title: 'Expanso & Cloud',
+          title: 'Expanso',
           items: [
             {
               label: 'Expanso.io',
               href: 'https://expanso.io',
-            },
-            {
-              label: 'Expanso Cloud',
-              href: 'https://cloud.expanso.io',
             },
             {
               label: 'Enterprise Support',
