@@ -1,3 +1,5 @@
+import GlobalFlags from './_job-global-flags.md';
+
 # Get
 
 ## Description
@@ -21,20 +23,7 @@ bacalhau job get [id] [flags]
 - `--raw`:
   - Description: Download raw result CIDs instead of merging multiple CIDs into a single result.
 
-## Global Flags
-
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+<GlobalFlags />
 
 ## Examples
 
