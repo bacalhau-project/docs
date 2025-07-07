@@ -21,56 +21,10 @@ Choose the setup option that best matches your needs:
 
 | Setup Option        | Best For                           | Key Benefit                                  |
 | ------------------- | ---------------------------------- | -------------------------------------------- |
-| Expanso Cloud       | Production deployments             | Fully managed orchestrator service           |
 | DevStack            | Development & testing              | Quick local setup with minimal configuration |
 | Self-Hosted Network | Custom infrastructure requirements | Complete control over all components         |
 
-### Option 1: Expanso Cloud
-
-(Recommended for Production)
-
-Expanso Cloud provides a managed orchestrator service, eliminating the need to set up and maintain your own orchestrator.
-
-#### Setting Up with Expanso Cloud
-
-1. **Sign up for Expanso Cloud** to receive:
-
-- An orchestrator endpoint
-- Authentication credentials
-- A configuration file
-
-2. **Create a [configuration file](/references/operators/configuration-reference.md)** (or use the one provided):
-
-```yaml
-# config.yaml
-Compute:
-  Enabled: true
-  Orchestrators:
-    - <orchestrator-endpoint>
-  Auth:
-  Token: <auth-token>
-  TLS:
-  RequireTLS: true
-```
-
-3. **Start your compute node**:
-
-```bash
-bacalhau serve --compute -c config.yaml
-```
-
-4. **Submit jobs** to the Expanso Cloud orchestrator:
-
-```bash
-bacalhau docker run \
-  --api-host <expanso-endpoint> \
-  ubuntu:latest \
-  -- echo "Hello from Expanso Cloud!"
-```
-
-This is the simplest way to run a Bacalhau network with minimal setup and maintenance.
-
-### Option 2: Self-Hosted Network
+### Option 1: Self-Hosted Network
 
 If you need to host your own orchestrator, follow these steps for a custom deployment.
 
@@ -111,7 +65,7 @@ You should see your orchestrator and all compute nodes listed.
 The setup described above creates an open network suitable for testing in trusted environments. For securing your network, refer to the Security Best Practices in the Reference section.
 :::
 
-### Option 3: DevStack
+### Option 2: DevStack
 
 DevStack provides a pre-configured local environment perfect for development and testing.
 
