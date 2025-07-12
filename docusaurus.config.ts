@@ -30,6 +30,30 @@ const config: Config = {
 
   plugins: [
     [
+      'docusaurus-plugin-remote-content',
+      {
+        // options here
+        name: 'content', // used by CLI, must be path safe
+        sourceBaseUrl: 'https://raw.githubusercontent.com/bacalhau-project/examples/refs/heads/main/fleet-management/', // the base url for the markdown (gets prepended to all of the documents when fetching)
+        outDir: 'docs/guides', // the base directory to output to.
+        documents: ['README.md'], // the file names to download
+        // in the plugin's options:
+        modifyContent(filename, content) {
+          if (filename.includes('README')) {
+            var trimContent = content.replace(
+              '# query-cluster',
+              '# Query Cluster'
+            )
+            return {
+              filename: 'fleet-management.md',
+              content: trimContent,
+            }
+          }
+          return undefined
+        },
+      },
+    ],
+    [
       '@docusaurus/plugin-client-redirects',
       {
         redirects: redirects,
@@ -89,7 +113,7 @@ const config: Config = {
       indexName: 'bacalhau',
       searchPagePath: 'search',
       insights: true,
-      placeholder: 'Search Bacalhau...'
+      placeholder: 'Search Bacalhau...',
     },
     navbar: {
       title: 'Bacalhau',
