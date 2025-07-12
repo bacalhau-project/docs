@@ -1,3 +1,5 @@
+import GlobalFlags from './_agent-global-flags.md';
+
 # Version
 
 The `bacalhau agent version` command is used to obtain the version of the bacalhau agent.
@@ -21,21 +23,7 @@ bacalhau agent version [flags]
 - **`--pretty`**:
   - Used for pretty printing the output, enhancing readability. This flag is applicable only for the "json" and "yaml" output formats.
 
-## Global Flags:
-
-- **`--api-host string`**:
-  - Designates the host for client-server communication via REST. If the `BACALHAU_API_HOST` environment variable is present, this flag will be disregarded.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- **`--api-port int`**:
-  - Defines the port for client-server communication through REST. This flag becomes irrelevant if the `BACALHAU_API_PORT` environment variable is specified.
-  - Default: `1234`
-- **`--log-mode logging-mode`**:
-  - Specifies the desired logging format.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- **`--repo string`**:
-  - Indicates the path to the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`
+<GlobalFlags />
 
 ## Examples
 
