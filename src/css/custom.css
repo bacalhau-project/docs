@@ -82,6 +82,11 @@
 
   --ifm-font-color-base: rgb(240, 255, 255);
 
+  /* Force pure black navbar and footer */
+  --ifm-navbar-background-color: #000;
+  --ifm-footer-background-color: #000;
+  --ifm-background-color: #000;
+
   table tr:nth-child(2n) {
     background-color: var(--ifm-table-background);
   }

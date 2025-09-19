@@ -22,7 +22,7 @@ const FeatureList: FeatureItem[] = [
     },
     {
         title: 'Built to be efficient.',
-        Svg: require('@site/static/img/tick.svg').default,
+        Svg: require('@site/static/img/ticksvg.svg').default,
         description: (
             <>
                 Bacalhau can run on nearly any architecture, from the largest VMs and GPUs to low power edge and IoT devices. Furthermore,
@@ -45,14 +45,10 @@ const FeatureList: FeatureItem[] = [
 
 function Feature({title, Svg, description}: FeatureItem) {
     return (
-        <div className={clsx('col col--4')}>
-            <div className="text--left padding-horiz--md">
-                <Svg className={styles.featureSvg} role="img"/>
-            </div>
-            <div className="text--left padding-horiz--md">
-                <Heading as="h3">{title}</Heading>
-                <p>{description}</p>
-            </div>
+        <div className={styles.cardThree}>
+            <Svg className={styles.cardImage} role="img"/>
+            <Heading as="h2" className={styles.cardHeading}>{title}</Heading>
+            <p className={styles.cardSubText}>{description}</p>
         </div>
     );
 }
@@ -60,8 +56,8 @@ function Feature({title, Svg, description}: FeatureItem) {
 export default function HomepageFeatures(): ReactNode {
     return (
         <section className={styles.features}>
-            <div className="container">
-                <div className="row">
+            <div className={styles.container}>
+                <div className={styles.cardContent}>
                     {FeatureList.map((props, idx) => (
                         <Feature key={idx} {...props} />
                     ))}

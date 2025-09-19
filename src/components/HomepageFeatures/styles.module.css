@@ -1,11 +1,78 @@
 .features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+  padding: 60px 0;
+  background-color: #000;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
-.featureSvg {
-  height: 50px;
-  width: 50px;
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin: auto;
+}
+
+.cardContent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 0 32px;
+}
+
+.cardThree {
+  background: transparent;
+  border-radius: 0;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+}
+
+.cardThree:hover {
+  transform: translateY(-5px);
+}
+
+.cardImage {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+  color: #05f;
+  fill: #05f;
+}
+
+.cardHeading {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.cardSubText {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: white;
+  margin: 0;
+  text-align: center;
+}
+
+@media screen and (max-width: 996px) {
+  .cardContent {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 0 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cardContent {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .cardThree {
+    padding: 30px 20px;
+  }
 }

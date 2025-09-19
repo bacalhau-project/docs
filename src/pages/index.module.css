@@ -1,80 +1,188 @@
-.heroBanner {
-  padding: 4rem 0;
+.heroSection {
+  background-color: #000;
+  color: white;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding-top: 140px;
+  padding-left: 32px;
+  padding-right: 32px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 16px;
   position: relative;
   overflow: hidden;
 }
 
-.heroBackground {
+.backgroundLeft {
+  z-index: -1;
+  float: left;
+  max-width: 539px;
+  max-height: 618px;
+  margin-top: 0;
   position: absolute;
-  top: 0;
+  top: 203px;
+  left: 0;
+}
+
+.backgroundLeft img {
+  width: 100%;
+}
+
+.backgroundRight {
+  z-index: -1;
+  max-width: 538px;
+  max-height: 638px;
+  position: absolute;
+  top: 203px;
   right: 0;
-  width: 60%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
 }
 
-.heroLogo {
-  position: absolute;
-  top: 50%;
-  right: -5%;
-  transform: translateY(-50%);
-  width: 110%;
-  height: auto;
-  opacity: 0.08;
+.backgroundRight img {
+  width: 100%;
 }
 
-[data-theme='dark'] .heroLogo {
-  opacity: 0.28;
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin: auto;
 }
 
-.heroFlex {
-  position: relative;
-  z-index: 2;
+.computation {
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+  max-width: none;
+  margin: auto;
+  display: flex;
 }
 
-.heroContent {
-  max-width: 60%;
+.computationItem {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-width: 47.5%;
+  display: flex;
 }
-
 
 .heroTitle {
-  font-size: 3.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  background: linear-gradient(133.28deg,
-  var(--bacalhau-blue-600) 0%,
-  var(--bacalhau-blue-600) 0%,
-  var(--bacalhau-ice-400) 97.21%);
-  -webkit-background-clip: text;
+  background-color: transparent;
+  background-image: linear-gradient(133.28deg, #05f, #05f 0%, #05f 0%, #3cf 97.21%);
+  text-align: left;
   -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
-  display: inline-block;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 58px;
+  margin-bottom: 14px;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.subText {
+  color: white;
+  margin-top: 14px;
+  margin-bottom: 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+}
 
-  .heroFlex {
+.lottieAnimation {
+  width: 100%;
+  height: 400px;
+  max-width: 500px;
+}
+
+.githubButton {
+  margin-top: 20px;
+}
+
+.ctaSection {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.ctaText {
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 991px) {
+  .computation {
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: -40px;
   }
 
-  .heroContent {
+  .computationItem {
+    justify-content: flex-start;
+    align-items: center;
     max-width: 100%;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .heroBackground {
-    width: 100%;
-    opacity: 0.05;
+  .subText {
+    text-align: center;
+    max-width: 400px;
   }
 
-  .heroLogo {
-    right: -20%;
-    width: 140%;
+  .heroTitle {
+    text-align: center;
+    max-width: 500px;
+    font-size: 48px;
+    line-height: 48px;
+  }
+
+  .heroSection {
+    margin-top: 0;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .backgroundLeft {
+    top: 140px;
+  }
+
+  .backgroundRight {
+    top: 700px;
+  }
+
+  .subText {
+    max-width: 370px;
+  }
+
+  .heroTitle {
+    max-width: 320px;
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  .heroSection {
+    margin-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .backgroundRight {
+    top: 1000px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .subText {
+    max-width: 325px;
+  }
+
+  .heroSection {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 
@@ -87,17 +195,19 @@
 
 .ctaButton {
   display: inline-block;
-  background-color: var(--bacalhau-blue-600);
+  background-color: #05f;
   color: white;
-  padding: 0.75rem 2rem;
-  border-radius: 2rem;
+  padding: 15px 30px;
+  border-radius: 20px;
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .ctaButton:hover {
-  background-color: var(--bacalhau-blue-700);
+  background-color: #004eff;
   text-decoration: none;
   color: white;
 }
