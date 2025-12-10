@@ -5,6 +5,12 @@ description: >-
   performance and ensuring compliance.
 ---
 
+import Head from '@docusaurus/Head';
+
+<Head>
+  <link rel="canonical" href="https://expanso.io/use-cases/distributed-data-warehouse/" />
+</Head>
+
 # Distributed Data Warehousing
 
 ## Overview
@@ -18,7 +24,7 @@ Traditional centralized data warehouses often struggle with high data transfer c
 - **Scalability Constraints** – As data volumes grow, expanding a monolithic warehouse becomes increasingly complex and costly.
 - **Compliance and Data Sovereignty** – Regulations like GDPR and HIPAA often require data to remain within specific regions, making centralized storage and processing non-compliant.
 
-## Bacalhau’s Approach to Distributed Data Warehousing
+## Bacalhau's Approach to Distributed Data Warehousing
 
 Bacalhau simplifies distributed data warehousing by enabling compute to run near the data, reducing unnecessary transfers, ensuring compliance, and improving query performance. Compute nodes can be deployed across different regions and data centers, ensuring each location processes its own data efficiently. This approach allows for:
 
@@ -42,7 +48,7 @@ This approach optimizes performance, ensures compliance by keeping data in its d
 Bacalhau integrates seamlessly with modern data tools like **Apache Iceberg** and **DuckDB**, enhancing its distributed processing capabilities:
 
 - **Apache Iceberg** – A high-performance table format for large analytic datasets, enabling schema evolution, partitioning, and efficient data access across distributed environments.
-- **DuckDB** – An in-process analytical database optimized for executing complex queries efficiently. DuckDB’s compatibility with Iceberg tables allows for fast, distributed query execution while keeping data in place.
+- **DuckDB** – An in-process analytical database optimized for executing complex queries efficiently. DuckDB's compatibility with Iceberg tables allows for fast, distributed query execution while keeping data in place.
 
 Together, these tools provide a powerful foundation for decentralized data warehousing while maintaining regulatory compliance.
 
