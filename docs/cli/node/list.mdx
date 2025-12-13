@@ -1,3 +1,5 @@
+import GlobalFlags from './_node-global-flags.md';
+
 # List
 
 The `bacalhau node list` command is designed to provide users with a comprehensive list of network nodes along with details based on specified flags.
@@ -45,21 +47,7 @@ bacalhau node list [flags]
 - `--wide`:
   - Display full values in the output table, without truncation.
 
-## Global Flags
-
-- `--api-host string`:
-  - Specify the host for client-server communication via REST. This gets ignored if the `BACALHAU_API_HOST` environment variable is defined.
-  - Default: `"bootstrap.production.bacalhau.org"`.
-- `--api-port int`:
-  - Specify the port for RESTful communication between client and server. Gets overlooked if the `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`.
-- `--log-mode logging-mode`:
-  - Choose the desired log format.
-  - Options: `'default', 'station', 'json', 'combined', 'event'`.
-  - Default: `'default'`.
-- `--repo string`:
-  - Point to the directory path of the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`.
+<GlobalFlags />
 
 ## Examples
 
