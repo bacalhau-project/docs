@@ -1,3 +1,5 @@
+import GlobalFlags from './_node-global-flags.md';
+
 # Node
 
 The `bacalhau node` command provides a set of sub-commands to query and manage node-related information within Bacalhau. With these tools, users can access specific details about nodes, list all network nodes, and more.
@@ -10,7 +12,7 @@ bacalhau node [command]
 
 ## Available Commands
 
-1. [**approve**](approve.md):
+1. [**approve**](approve.mdx):
 
    - Description: Approves a single node to join the cluster.
    - Usage:
@@ -19,7 +21,7 @@ bacalhau node [command]
      bacalhau node approve
      ```
 
-2. [**delete**](delete.md):
+2. [**delete**](delete.mdx):
 
    - Description: Deletes a node from the cluster using its ID.
    - Usage:
@@ -28,7 +30,7 @@ bacalhau node [command]
      bacalhau node delete
      ```
 
-3. [**describe**](describe.md):
+3. [**describe**](describe.mdx):
 
    - Description: Retrieves detailed information of a node using its ID.
    - Usage:
@@ -37,7 +39,7 @@ bacalhau node [command]
      bacalhau node describe
      ```
 
-4. [**list**](list.md):
+4. [**list**](list.mdx):
 
    - Description: Lists the details of all nodes present in the network.
    - Usage:
@@ -46,7 +48,7 @@ bacalhau node [command]
      bacalhau node list
      ```
 
-5. [**reject**](reject.md):
+5. [**reject**](reject.mdx):
 
 - Description: Reject a specific node's request to join the cluster.
 - Usage:
@@ -66,17 +68,4 @@ bacalhau node [command] --help
 - `-h`, `--help`:
   - Description: Shows the help information for the `node` command.
 
-## Global Flags
-
-- `--api-host string`:
-  - Description: Specifies the host for RESTful communication between the client and server. The flag will be ignored if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Designates the port for RESTful communication. The flag will be bypassed if the `BACALHAU_API_PORT` environment variable is active.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Specifies the path to the bacalhau repository.
-  - Default: `/Users/walid/.bacalhau`
+<GlobalFlags />

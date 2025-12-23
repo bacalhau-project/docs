@@ -1,3 +1,5 @@
+import GlobalFlags from './_job-global-flags.md';
+
 # Logs
 
 ## Description
@@ -17,20 +19,7 @@ bacalhau job logs [id] [flags]
 2. `-h`, `--help`:
    - Description: Display help information for the `logs` command.
 
-## Global Flags
-
-1. `--api-host string`:
-   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
-2. `--api-port int`:
-   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
-   - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
-   - Default: `$HOME/.bacalhau`
+<GlobalFlags />
 
 ## Examples
 

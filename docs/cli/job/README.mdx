@@ -1,3 +1,5 @@
+import GlobalFlags from './_job-global-flags.md';
+
 # Job
 
 The `bacalhau job` command provides a suite of sub-commands to submit, query, and manage jobs within Bacalhau. Users can deploy jobs, obtain job details, track execution logs, and more.
@@ -10,7 +12,7 @@ bacalhau job [command]
 
 ## Available Commands
 
-1. [**describe**](./describe.md):
+1. [**describe**](./describe.mdx):
 
    - Description: Retrieves detailed information of a job using its ID.
    - Usage:
@@ -19,7 +21,7 @@ bacalhau job [command]
      bacalhau job describe
      ```
 
-2. [**executions**](./executions.md):
+2. [**executions**](./executions.mdx):
 
    - Description: Lists all executions associated with a job, identified by its ID.
    - Usage:
@@ -28,7 +30,7 @@ bacalhau job [command]
      bacalhau job executions
      ```
 
-3. [**get**](./get.md):
+3. [**get**](./get.mdx):
 
    - Description: Get the results of a job, identified by its ID.
    - Usage:
@@ -37,7 +39,7 @@ bacalhau job [command]
      bacalhau job get
      ```
 
-4. [**history**](./history.md):
+4. [**history**](./history.mdx):
 
    - Description: Enumerates the historical events related to a job, identified by its ID.
    - Usage:
@@ -45,7 +47,8 @@ bacalhau job [command]
      ```bash
      bacalhau job history
      ```
-5. [**list**](./list.md):
+
+5. [**list**](./list.mdx):
 
    - Description: Provides an overview of all submitted jobs.
    - Usage:
@@ -54,7 +57,7 @@ bacalhau job [command]
      bacalhau job list
      ```
 
-6. [**logs**](./logs.md):
+6. [**logs**](./logs.mdx):
 
    - Description: Fetches and streams the logs from a currently executing job.
    - Usage:
@@ -63,7 +66,7 @@ bacalhau job [command]
      bacalhau job logs
      ```
 
-7. [**run**](./run.md):
+7. [**run**](./run.mdx):
 
    - Description: Submits a job for execution using either a JSON or YAML configuration file.
    - Usage:
@@ -72,7 +75,7 @@ bacalhau job [command]
      bacalhau job run
      ```
 
-8. [**stop**](./stop.md):
+8. [**stop**](./stop.mdx):
 
    - Description: Halts a previously submitted job.
    - Usage:
@@ -92,17 +95,4 @@ bacalhau job [command] --help
 - `-h`, `--help`:
   - Description: Shows the help information for the `job` command.
 
-## Global Flags
-
-1. `--api-host string`:
-   - Description: Determines the host for RESTful communication between the client and server. This flag is overlooked if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
-2. `--api-port int`:
-   - Description: Designates the port for RESTful communication. This flag is bypassed if the `BACALHAU_API_PORT` environment variable is active.
-   - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
-   - Default: `$HOME/.bacalhau`
+<GlobalFlags />

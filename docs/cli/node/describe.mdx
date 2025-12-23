@@ -1,3 +1,5 @@
+import GlobalFlags from './_node-global-flags.md';
+
 # Describe
 
 The `bacalhau node describe` command offers users the ability to retrieve detailed information about a specific node using its unique identifier.
@@ -25,21 +27,7 @@ bacalhau node describe [id] [flags]
 - `--pretty`:
   - When this flag is used, the command will pretty print the output. This is applicable only for outputs in `json` and `yaml` formats.
 
-## Global Flags
-
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+<GlobalFlags />
 
 ## Examples
 
