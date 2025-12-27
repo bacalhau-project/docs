@@ -1,0 +1,1694 @@
+# Additional Bacalhau Documentation
+
+## Publishing Results
+
+# Publishing & Retrieving Results
+
+This guide explains how to configure output publishing and retrieve results from Bacalhau jobs across different storage systems. Proper output handling is essential for building effective data pipelines and workflows.
+
+## What You'll Learn
+
+- How Bacalhau's Publishers mechanism works
+- How to configure different output destination types
+- How to retrieve outputs from various storage systems
+- How to choose the right publisher for your use case
+
+## Understanding Publishers and Result Paths
+
+In Bacalhau, you need to configure two key components for handling outputs:
+
+1. A **Publisher** defines where your job's output files are stored after execution
+2. **Result Paths** specify which directories should be captured as job results.&#x20;
+
+</Tabs>
+
+### Retrieving Local Outputs
+
+After your job completes, retrieve outputs using the `bacalhau job get` command:
+
+```bash
+bacalhau job get <jobID>
+````
+
+This will download all published outputs to your current directory.
+
+:::note
+
+- If you define a publisher without specifying result paths, only stdout and stderr will be uploaded to the chosen publisher
+- If you define result paths without a publisher, the job will fail
+- You can have multiple result paths, each capturing different directories
+  :::
+
+## Publisher Types
+
+Bacalhau supports multiple publisher types to accommodate different needs and infrastructure requirements.
+
+### S3 Publisher
+
+The S3 Publisher uploads outputs to an Amazon S3 bucket or any S3-compatible storage service, such as MinIO. The compute node must have permission to write to the bucket, and the orchestrator must have permission to provide pre-signed URLs to download the results.
+
+</Tabs>
+
+### IPFS Publisher
+
+The IPFS Publisher uploads outputs to the InterPlanetary File System. Both the client (downloading the result) and the compute node must be connected to an IPFS daemon.
+
+</Tabs>
+
+### Local Publisher
+
+The Local Publisher saves outputs to the local filesystem of the compute node that ran your job. This is intended for **local testing only**, as it requires the client downloading the results to be on the same network as the compute node.
+
+</Tabs>
+
+If you are using the local publish, make SURE you have set the path to be available to your job.
+
+For example, in your config file for your node, you probably want to mount in the local file system:
+
+```
+
+Compute:
+AllowListedLocalPaths: - /outputs:rw - /etc/\*.conf:ro
+
+```
+
+You can read more about that here: [Understanding Publishers and Results](publishing-results.mdx#understanding-publishers-and-result-paths)
+
+## Troubleshooting
+
+### No Outputs Found
+
+If you don't see expected outputs:
+
+1. Check that your job wrote to the directories specified in your `ResultPaths`
+2. Verify the job completed successfully with `bacalhau job describe <jobID>`
+3. Check for errors in the logs with `bacalhau job logs <jobID>`
+
+### S3 Publishing Issues
+
+For S3 publisher problems:
+
+1. Ensure compute nodes have proper IAM roles or credentials to write to the bucket
+2. Check that the orchestrator has permissions to generate pre-signed URLs
+
+### IPFS Publishing Issues
+
+For IPFS publisher issues:
+
+1. Ensure IPFS daemon is running on both compute node and client
+2. Check for network connectivity between nodes
+3. Verify you have enough disk space for pinning
+```
+
+
+## README
+
+# What is Bacalhau?
+
+Bacalhau is an open-source distributed compute orchestration framework designed to bring compute to the data. Instead of moving large datasets around networks, Bacalhau makes it easy to execute jobs close to the data's location, drastically reducing latency and resource overhead.
+
+### Why It Matters
+
+* **Highly Distributed Architecture**: Deploy compute networks that span regions, cloud providers, and on-premises datacenters—all working together as a unified system.
+* **Resilient Operation**: Compute nodes operate effectively even with intermittent connectivity to orchestrators, maintaining service availability during network partitioning or isolation.
+* **Data Sovereignty & Security**: Process sensitive data within security boundaries without requiring it to leave your premises, enabling computation while preserving data control.
+* **Cross-Organizational Computation**: Allow specific vetted computations on protected datasets without exposing raw data, breaking data silos between organizations.
+* **Resource Efficiency**: By minimizing data transfers, Bacalhau saves bandwidth costs and ensures jobs run faster.
+* **High Scalability**: As your data and processing needs grow, simply add more compute nodes on demand—whether on-premises or in the cloud.
+* **Ease of Integration**: Bacalhau works with existing container images (Docker, etc.), meaning you can leverage your current workflows without major rewrites.
+
+### Key Features
+
+1. **Single Binary Simplicity**: Bacalhau is a single self-contained binary that functions as a client, orchestrator, and compute node—making it incredibly easy to set up and scale your distributed compute network.
+2. **Modular Architecture**: Bacalhau's design supports multiple execution engines (Docker, WebAssembly) and storage providers through clean interfaces, allowing for easy extension.
+3. **Orchestrator-Compute Model**: A dedicated orchestrator coordinates job scheduling, while compute nodes run tasks—all from the same binary with different runtime modes.
+4. **Flexible Storage Integrations**: Bacalhau integrates with S3, HTTP/HTTPS, and other storage systems, letting you pull data from various sources.
+5. **Multiple Job Types**: Support for batch, ops, daemon, and service job types to accommodate different workflow requirements.
+6. **Declarative & Imperative Submissions**: Define jobs in a YAML spec (declarative) or pass all arguments via CLI (imperative).
+7. **Publisher Support**: Output results to local volumes, S3, or other storage backends—so your artifacts are readily accessible.
+
+### Use Cases
+
+Bacalhau's distributed compute framework enables a wide range of applications across different industries:
+
+<details>
+
+<summary>Log Processing</summary>
+
+Process logs efficiently at scale by running distributed jobs directly at the source, reducing costs by up to 93% in bandwidth usage while improving real-time insights. Bacalhau supports various job types for log management:
+
+* **Daemon Jobs**: Continuously run on each node for real-time log aggregation and compression
+* **Service Jobs**: Handle ongoing processing tasks like log aggregation and issue detection
+* **Batch Jobs**: Execute on-demand in-depth analysis of historical log data
+* **Ops Jobs**: Enable real-time querying of live logs for urgent investigations
+
+</details>
+
+<details>
+
+<summary>Distributed Data Warehousing</summary>
+
+Query and analyze data across multiple regions by deploying compute tasks directly where your data resides. This approach reduces latency, enhances performance, and ensures compliance with data sovereignty regulations. Bacalhau integrates with modern data tools like Apache Iceberg and DuckDB to enable:
+
+* Reduced data movement with local query execution
+* Improved query performance through compute-data proximity
+* Seamless scalability with dynamic node addition
+* Compliance with data regulations through region-specific processing
+
+</details>
+
+<details>
+
+<summary>Fleet Management</summary>
+
+Efficiently manage distributed nodes across multiple environments with capabilities for:
+
+* Remote execution of commands without requiring SSH access
+* Automated software deployment and configuration updates
+* Real-time metrics and logs collection
+* Targeted job execution based on node attributes
+* Rapid incident response and automated recovery
+
+</details>
+
+<details>
+
+<summary>Distributed Machine Learning</summary>
+
+Train and deploy ML models across a distributed compute fleet, optimizing performance while keeping data in place:
+
+* Distribute training across multiple machines to handle larger models
+* Process data locally to minimize network transfers
+* Deploy inference jobs near users for low-latency predictions
+* Support federated learning for privacy-sensitive applications
+
+</details>
+
+<details>
+
+<summary>Edge Computing</summary>
+
+Run compute tasks closer to the data source for applications requiring low latency and minimal bandwidth usage:
+
+* Process and analyze sensor, IoT, or video data in real time
+* Perform pre-processing and filtering at the edge before sending refined data
+* Distribute tasks across available edge resources dynamically
+* Ensure data privacy by keeping computations near the source
+
+</details>
+
+### How It Works
+
+Bacalhau's architecture enables you to create compute networks that bridge traditional infrastructure boundaries. When you submit a job, Bacalhau intelligently determines which compute nodes are best positioned to process the data based on locality, availability, and your defined constraints—without requiring data movement or constant connectivity.
+
+This approach is particularly valuable for:
+
+* Organizations with data that cannot leave certain security boundaries
+* Multi-region operations where data transfer is expensive or impractical
+* Scenarios where multiple parties need to collaborate on analysis without sharing raw data
+* Edge computing environments with intermittent connectivity
+
+### Community
+
+Bacalhau has a very friendly community and we are always happy to help you get started:
+
+* [Join the Slack Community](https://bit.ly/bacalhau-project-slack) Go to **#bacalhau** channel – it is the easiest way to engage with other members in the community and get help.
+* [Contributing](/community/ways-to-contribute) – learn how to contribute to the Bacalhau project.
+
+
+## README
+
+# Other Specifications
+
+
+## README
+
+# Job Specification
+
+A `Job` represents a discrete unit of work that can be scheduled and executed. It carries all the necessary information to define the nature of the work, how it should be executed, and the resources it requires.
+
+```yaml
+Type: batch
+Count: 1
+Priority: 50
+Meta:
+  version: "1.2.5"
+Labels:
+  project: "my-project"
+Constraints:
+  - Key: Architecture
+    Operator: '='
+    Values:
+      - arm64
+  - Key: region
+    Operator: '='
+    Values:
+      - us-west-2
+Tasks:
+  #...
+```
+
+## `job` Parameters
+
+* **Name** `(string : <optional>)`: A logical name to refer to the job. Defaults to job ID.
+* **Namespace** `(string: "default")`: The namespace in which the job is running. `ClientID` is used as a namespace in the public demo network.
+* **Type** `(string: <required>)`: The type of the job, such as `batch`, `ops`, `daemon` or `service`. You can learn more about the supported jobs types in the [Job Types](type.md) guide.
+* **Priority** `(int: 0`): Determines the scheduling priority.
+* **Count** `(int: <required)`: Number of replicas to be scheduled. This is only applicable for jobs of type `batch` and `service`.
+* **Meta** `(`[`Meta`](meta.md) `: nil)`: Arbitrary metadata associated with the job.
+* **Labels** `(`[`Label`](label.md)`[] : nil)`: Arbitrary labels associated with the job for filtering purposes.
+* **Constraints** `(`[`Constraint`](constraint.md)`[] : nil)`: These are selectors which must be true for a compute node to run this job.
+* **Tasks** `(`[`Task`](task.md)`[] : <required>)`:: Task associated with the job, which defines a unit of work within the job. Today we are only supporting single task per job, but with future plans to extend this.
+
+## Server-Generated Parameters
+
+The following parameters are generated by the server and should not be set directly.
+
+* **ID** `(string)`: A unique identifier assigned to this job. It's auto-generated by the server and should not be set directly. Used for distinguishing between jobs with similar names.
+* **State** `(`[`State`](../other/state.md)`)`: Represents the current state of the job.
+* **Version** `(int)`: A monotonically increasing version number incremented on job specification update.
+* **Revision** `(int)`: A monotonically increasing revision number incremented on each update to the job's state or specification.
+* **CreateTime** `(int)`: Timestamp of job creation.
+* **ModifyTime** `(int)`: Timestamp of last job modification.
+
+
+## README
+
+# Engines
+
+
+## README
+
+# Sources
+
+
+## README
+
+# Publishers
+
+
+## auth
+
+# Authentication & Authorization
+
+## Introduction
+
+Robust authentication and authorization mechanisms are essential for maintaining security while enabling seamless collaboration. As of Bacalhau 1.7 release, we introduced a significant overhaul to its authentication and authorization systems, offering more flexibility, improved security, and better integration with enterprise environments.
+
+## 1. Bacalhau Authentication
+
+With Bacalhau 1.7, we have introduced three distinct authentication paths, each designed to cater to different use cases and environments. The authentication paths are:
+
+1. **Basic HTTP Authentication**
+2. **API Tokens Auth**
+3. **Single Sign-On via OAuth 2.0**
+
+### 1.1 HTTP Basic Authentication
+
+The simplest approach leverages the time-tested HTTP Basic Authentication protocol, allowing users to access Bacalhau APIs using traditional username and password credentials. These credentials can be defined in the Node Configuration file, which offers two options for password storage:
+
+- _Plain text passwords for simplicity and ease of setup_
+- _Bcrypt-hashed passwords for enhanced security_
+
+For CLI usage, users simply need to set the environment variables `BACALHAU_API_USERNAME` and `BACALHAU_API_PASSWORD`. For direct API calls, the standard Basic Authorization header with base64-encoded credentials can be used.
+
+Below is a sample orchestrator config file that defines 3 users that can authenticate through basic auth.
+
+```yaml
+Orchestrator:
+  Enabled: true
+API:
+  Port: 1234
+  Auth:
+    Users:
+      # User with plain text password
+      - Alias: Admin User
+        Username: admin
+        Password: secureAdminPassword
+        # The Capabilities section will be covered
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ['*']
+
+      # User with limited permissions and plain text password
+      - Alias: Read Only User
+        Username: reader
+        Password: readerPassword
+        # The Capabilities section will be covered
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ['read:*']
+
+      # User with bcrypt hashed password
+      - Alias: Job Manager
+        Username: jobmanager
+        # This is a bcrypt password hash for the password "MySecretPassword"
+        Password: '$2a$10$3ZvxUe5OudgRIQQheomjMO/Ufx1Bb04SH/y0PXnR19oDRXNGps3r2'
+        # The Capabilities section will be covered
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ['read:job', 'write:job', 'read:node']
+```
+
+In the above configuration:
+
+1. The first two users have plain text passwords, while the third uses a BCRYPT hashed password for added security.
+2. We have three users with different permission levels. These capabilities will be covered in detail in the authorization section below.
+
+To help users and operators generate secure hashed passwords, a convenient CLI command was added that generates a BCRYPT hash of a password of your choosing. This command takes a plain string and converts it into a BCRYPT hash.
+
+```shell
+bacalhau auth hash-password
+```
+
+To use this configuration with the Bacalhau CLI, you would set the following environment variables:
+
+```shell
+# For admin access
+export BACALHAU_API_USERNAME=admin
+export BACALHAU_API_PASSWORD=secureAdminPassword
+
+# For read-only access
+export BACALHAU_API_USERNAME=reader
+export BACALHAU_API_PASSWORD=readerPassword
+
+# For job management
+# Please note: Set the password env variable to the actual password,
+#              not the hashed password.
+export BACALHAU_API_USERNAME=jobmanager
+export BACALHAU_API_PASSWORD=MySecretPassword
+```
+
+For direct API calls, for example by using curl, you would encode the credentials in base64:
+
+```shell
+# For admin (base64 of "admin:secureAdminPassword")
+curl -X GET -H "Authorization: Basic YWRtaW46c2VjdXJlQWRtaW5QYXNzd29yZA==" "http://orchestrator:1234/api/v1/orchestrator/nodes"
+
+# For reader (base64 of "reader:readerPassword")
+curl -X GET -H "Authorization: Basic cmVhZGVyOnJlYWRlclBhc3N3b3Jk" "http://orchestrator:1234/api/v1/orchestrator/nodes"
+
+# For Job Manager (base64 of "jobmanager:MySecretPassword")
+curl -X GET -H "Authorization: Basic am9ibWFuYWdlcjpNeVNlY3JldFBhc3N3b3Jk" "http://orchestrator:1234/api/v1/orchestrator/nodes"
+```
+
+---
+
+### 1.2 Authentication through API Tokens
+
+For applications and scenarios where password-based authentication isn't ideal, Bacalhau 1.7 introduces API token support. Instead of username and password pairs, users can generate and use API keys as bearer tokens in authorization headers.
+
+Configuration is straightforward – API keys are defined in the orchestrator config under user profiles. To use them with the Bacalhau CLI, users set the `BACALHAU_API_KEY` environment variable. For direct API access, the token is included in the Authorization header using the Bearer scheme.
+
+Please note that API Keys are opaque tokens.
+
+Here's a sample configuration for API tokens in Bacalhau:
+
+```yaml
+Orchestrator:
+  Enabled: true
+API:
+  Port: 1234
+  Auth:
+    Users:
+      # Administrator API token with full access
+      - Alias: Admin API Token
+        APIKey: 8F42A91D7C6E4B3DA5E9F8C12B76D3A4
+        # The Capabilities section will be covered
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ['*']
+
+      # Read-only API token
+      - Alias: Monitoring Token
+        APIKey: C5D8E3F1A7B94026895C1D4E3F2A0B78
+        # The Capabilities section will be covered
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ['read:*']
+
+      # Job management API token
+      - Alias: CI/CD Pipeline Token
+        APIKey: 2E8D7F5B3A9C41608D2E6B7F4A5C3D9E
+        # The Capabilities section will be covered
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ['read:job', 'write:job', 'read:node']
+
+      # Agent management API token
+      - Alias: Agent Management Token
+        APIKey: 1A3B5C7D9E0F2G4H6I8J0K2L4M6N8P0
+        # The Capabilities section will be covered
+        # in the Authorization section below
+        Capabilities:
+          - Actions: ['read:agent', 'write:agent']
+```
+
+In this configuration:
+
+1. We have four API tokens with different permission levels:
+   - An administrator token with full access to all capabilities
+   - A monitoring token with read-only access to all resources
+   - A CI/CD pipeline token that can view nodes and has full control over jobs
+   - An agent management token that has full control over agents
+2. Each token has a unique, randomly generated API key. You should generate strong, unique keys for your production environment using a secure random generator.
+
+Please note that API keys do not support BCRYPT hashing.
+
+To use these API tokens with the Bacalhau CLI, you would set the following environment variable:
+
+```shell
+export BACALHAU_API_KEY=8F42A91D7C6E4B3DA5E9F8C12B76D3A4
+```
+
+For direct API calls, for example by using curl, you would use the Bearer token authentication scheme:
+
+```shell
+curl -X GET -H "Authorization: Bearer 8F42A91D7C6E4B3DA5E9F8C12B76D3A4" "http://orchestrator:1234/api/v1/orchestrator/nodes"
+```
+
+---
+
+### 1.3 Single Sign-On via OAuth 2.0
+
+Perhaps the most significant addition since Bacalhau 1.7 is the support for OAuth 2.0 using the Device Code Flow. This enables Bacalhau to integrate seamlessly with enterprise identity providers such as Okta, Auth0, Azure Active Directory, and Google SSO.
+
+This approach eliminates the need to define users directly in Bacalhau's configuration, instead delegating user management to the identity provider – a considerable advantage in corporate environments with existing identity infrastructure.
+
+The configuration process involves specifying OAuth 2.0 endpoints, client IDs, and desired scopes. When users need to authenticate, they run `bacalhau auth sso login`, which presents a device code and URL. After completing authentication through their browser, they receive a JWT token that's automatically used for subsequent API calls (_this token exchange will be done seamlessly and the user is not required to perform any extra actions_).
+
+Here's a sample configuration for OAuth 2.0 SSO in Bacalhau:
+
+```yaml
+Orchestrator:
+  Enabled: true
+API:
+  Port: 1234
+  Auth:
+    Oauth2:
+      # Identity provider details, those are names for your own reference only
+      ProviderId: 'okta'
+      ProviderName: 'Okta SSO'
+
+      # OAuth 2.0 endpoints - Device Code Endpoint
+      DeviceAuthorizationEndpoint: 'https://your-domain.okta.com/oauth2/v1/device/authorize'
+      # The endpoint used to get the JWT token
+      TokenEndpoint: 'https://your-domain.okta.com/oauth2/v1/token'
+      # The Expected issuer, should match the issuer in the JWT token
+      Issuer: 'https://your-domain.okta.com'
+      # The JWKS URI
+      JWKSUri: 'https://your-domain.okta.com/.well-known/jwks.json'
+
+      # Client details
+      DeviceClientId: '0ab2c3d4e5f6g7h8i9j0'
+      # CLI polling interval to check if the device code was approved
+      PollingInterval: 5
+
+      # Audience: Expected "aud" in the JWT token
+      Audience: 'https://bacalhau.your-company.com/api'
+
+      # Scopes requested in the token exchange
+      Scopes:
+        - 'openid'
+        - 'profile'
+        - 'email'
+```
+
+For this to setup work properly:
+
+1. Register an OAuth 2.0 application in your identity provider (Okta, Auth0, Azure AD, etc.)
+2. Configure it to support the **Device Code Flow**. Make sure the provider supports OAuth2 Device code flow.
+3. Set up appropriate roles or groups in your identity provider to map to Bacalhau permissions
+
+The permission mapping would happen in your identity provider. For example, in Okta you might create:
+
+- A "Bacalhau Admins" group with permissions: `["*"]`
+- A "Bacalhau Readers" group with permissions: `["read:*"]`
+- A "Bacalhau Job Managers" group with permissions: `["read:job", "write:job", "read:node"]`
+
+These permissions should be included in the JWT token under the custom claim `permissions`.
+
+To authenticate using this setup, users would run:
+
+```shell
+# Login
+bacalhau auth sso login
+
+# Logout
+bacalhau auth sso logout
+```
+
+Then the CLI would display something like this:
+
+```shell
+To login, please:
+
+1. Open this URL in your browser: <https://your-domain.okta.com/activate
+2. Enter this code: ABCD-EFGH
+
+Or, open this URL in your browser: [https://your-domain.okta.com/activate?user_code=ABCD-EFGH](https://your-domain.okta.com/activate?user_code=ABCD-EFGH)
+
+Waiting for authentication with Okta SSO... (press Ctrl+C to cancel)
+```
+
+After completing authentication through their browser, the user would receive a JWT token that's automatically used for subsequent API calls. The token can be inspected with:
+
+```shell
+# Inspect JWT token obtained when logging in using SSO
+bacalhau auth sso token
+```
+
+### 1.4 Authentication Priority in Bacalhau 1.7+
+
+When configuring Bacalhau authentication, it's important to understand the precedence rules that determine which authentication method takes effect.
+
+Environment variables take highest precedence in the authentication hierarchy, overriding any other configured methods. This means that if you have set `BACALHAU_API_USERNAME` and `BACALHAU_API_PASSWORD` for Basic Auth, or `BACALHAU_API_KEY` for API token authentication, these will be used regardless of any SSO tokens that may be stored locally from previous `bacalhau auth sso login` sessions.
+
+If the `BACALHAU_API_USERNAME/BACALHAU_API_PASSWORD` and `BACALHAU_API_PASSWORD` are defined, an error message will be returned.
+
+This design provides flexibility for users who need to temporarily switch between different authentication contexts without modifying configuration files
+
+For example, a developer could have an SSO session for regular work but quickly switch to using an API key for testing by simply setting the appropriate environment variable. When the environment variable is unset, Bacalhau will fall back to the next available authentication method, typically returning to the previously established SSO session if available.
+
+```shell
+# Inspect current authentication status
+bacalhau auth info
+```
+
+## 2. Granular Authorization in Bacalhau 1.7+
+
+As of Bacalhau 1.7, we introduced a sophisticated authorization system built on a resource and capability model that brings fine-grained access control to the platform. This system divides API actions into specific combinations of resources and capabilities, enabling administrators to implement the principle of least privilege across their Bacalhau deployments.
+
+### 2.1 Resource and Capability Framework
+
+The permission structure is organized around two key dimensions:
+
+- **Resources**: The objects being accessed or
+  modified (Nodes, Jobs, and Agents)
+- **Capabilities**: The types of operations
+  being performed (Read and Write)
+
+This creates a permission taxonomy following the pattern of `action:resource`, where permissions can be assigned individually or using wildcards for broader access grants.
+
+### 2.2 Core Permission Set
+
+Bacalhau supports the following core permissions:
+
+1. `"*"` - The master permission granting full
+   access to all capabilities across all resources
+2. `"read:*"` - Provides read-only access across
+   all resource types
+3. `"write:*"` - Grants write access to all resource
+   types
+4. `"read:node"` - Allows viewing node information
+5. `"write:node"` - Permits actions on the node
+6. `"read:job"` - Enables querying job status,
+   details, and logs, etc
+7. `"write:job"` - Allows submitting, canceling,
+   and managing job execution
+8. `"read:agent"` - Provides access to agent information
+   via `"bacalhau agent"` commands
+9. `"write:agent"` - Any write actions on the agent.
+
+### 2.3 Creating Role-Based Access Patterns
+
+These permissions can be combined to create practical access patterns for different user roles and service accounts:
+
+- **Administrator**: `["*"]` - Full access to all system functions
+- **Read-only Analyst**: `["read:*"]` - Can view but not modify any resources
+- **Job Manager**: `["read:job", "write:job", "read:node"]` - Complete control over jobs with visibility into nodes
+- **Monitoring Service**: `["read:node", "read:job"]` - View-only access for system monitoring
+- CI/CD Pipeline: `["write:job", "read:job"]` - Can submit and monitor jobs but can't access node details
+
+### 2.4 Benefits for Different User Profiles
+
+These authentication enhancements offer distinct advantages for different types of Bacalhau users:
+
+- **Individual developers** benefit from the simplicity of Basic Auth for quick setup and experimentation
+- **DevOps teams** can leverage API tokens for automation, CI/CD pipelines, and service-to-service communication
+- **Enterprise environments** gain seamless integration with existing identity infrastructure through OAuth 2.0
+- **Security teams** appreciate the granular permission model that enforces the principle of least privilege
+
+## 3. Backward Compatibility with Previous Authentication Methods
+
+Bacalhau 1.7 maintains backward compatibility with the previous authentication mechanism based on Open Policy Agent, ensuring a smooth transition path for existing deployments.
+
+Users can continue to use their established OPA policies without immediate migration to the new authentication paths. However, it's important to note that while backward compatibility is preserved, mixing the old and new authentication methods within the same deployment is not supported.
+
+Organizations must choose either to continue using the Open Policy Agent approach exclusively or to migrate fully to the new authentication system with Basic Auth, API Tokens, or OAuth 2.0.
+
+This clean separation prevents potential security inconsistencies and configuration conflicts that could arise from overlapping authentication mechanisms.
+
+For organizations planning to migrate, the Bacalhau team recommends first setting up the new authentication in a test environment, validating access patterns and permissions, and then performing a complete cutover rather than attempting a gradual or partial migration. This approach ensures security integrity throughout the transition while still providing flexibility in timing the upgrade to the enhanced authentication capabilities.
+
+
+## configuration-reference
+
+# Configuration Reference
+
+This document serves as the comprehensive reference for all Bacalhau configuration options. You can set these values using a YAML file or the command line.
+
+## Setting Configuration
+
+```bash
+# Using a configuration file
+bacalhau serve --config config.yaml
+
+# Using command-line options
+bacalhau serve -c NameProvider=hostname -c Labels="region=us-west"
+
+# Combining approaches
+bacalhau serve --config base-config.yaml -c WebUI.Enabled=true
+```
+
+## Example Configurations
+
+Below are example configurations for the two primary node types in Bacalhau.
+
+### Compute Node Example
+
+This example shows a configuration for a compute node that connects to orchestrators:
+
+```yaml
+# Basic node identification
+NameProvider: 'hostname'
+Labels:
+  region: 'us-west'
+  environment: 'production'
+
+# Compute node settings
+Compute:
+  # Enable compute capabilities
+  Enabled: true
+
+  # Connect to these orchestrators
+  Orchestrators:
+    - 'nats://orchestrator-1.example.com:4222'
+
+  # Local paths that can be mounted
+  AllowListedLocalPaths:
+    - '/data:/data:ro' # Read-only access
+    - '/outputs:/outputs:rw' # Read-write access
+
+  # Security settings
+  Auth:
+    Token: 'secure-access-token'
+
+  # Resource allocation
+  AllocatedCapacity:
+    CPU: '80%' # Dedicate 80% of CPU to jobs
+    Memory: '80%' # Dedicate 80% of memory to jobs
+    Disk: '80%' # Dedicate 80% of disk to jobs
+    GPU: '100%' # Dedicate all GPUs to jobs
+
+# Reject jobs with network access
+JobAdmissionControl:
+  RejectNetworkedJobs: true
+
+# Default resources for jobs
+JobDefaults:
+  Batch:
+    Task:
+      Resources:
+        CPU: '500m'
+        Memory: '512Mb'
+      Timeouts:
+        ExecutionTimeout: '1h'
+```
+
+### Orchestrator Node Example
+
+This example shows a configuration for an orchestrator node that manages compute nodes:
+
+```yaml
+# Basic node identification
+NameProvider: 'hostname'
+Labels:
+  region: 'us-west'
+  environment: 'production'
+
+# API configuration
+API:
+  Host: '0.0.0.0'
+  Port: 1234
+  TLS:
+    UseTLS: true
+    CertFile: '/etc/bacalhau/certs/server.crt'
+    KeyFile: '/etc/bacalhau/certs/server.key'
+
+# Orchestrator settings
+Orchestrator:
+  # Enable orchestrator capabilities
+  Enabled: true
+
+  # Listen on all interfaces
+  Host: '0.0.0.0'
+  Port: 4222
+
+  # Security settings
+  Auth:
+    Token: 'secure-access-token'
+
+  # Node management
+  NodeManager:
+    DisconnectTimeout: '1m'
+
+  # Job scheduling
+  Scheduler:
+    WorkerCount: 4 # 4 concurrent schedulers
+    QueueBackoff: '30s'
+
+# Default resources for jobs
+JobDefaults:
+  Batch:
+    Task:
+      Resources:
+        CPU: '500m'
+        Memory: '512Mb'
+
+# Enable Web UI for monitoring
+WebUI:
+  Enabled: true
+  Listen: '0.0.0.0:8438'
+```
+
+## All Configuration Options
+
+The following table lists all configuration options in alphabetical order.
+
+| Configuration Key                                  | Default Value                        | Description                                                                                                 |
+| -------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `API.Auth.AccessPolicyPath`                        | `""`                                 | Path to policy file for API access control                                                                  |
+| `API.Auth.Methods`                                 | `{"ClientKey":{"Type":"challenge"}}` | Authentication methods mapping                                                                              |
+| `API.Auth.Oauth2`                                  | `{}`                                 | OAuth 2.0 configuration                                                                                     |
+| `API.Auth.Users`                                   | `[]`                                 | List of users for basic authentication                                                                      |
+| `API.Host`                                         | `"0.0.0.0"`                          | Hostname or IP address on which the API server listens                                                      |
+| `API.Port`                                         | `1234`                               | Port number on which the API server listens                                                                 |
+| `API.TLS.AutoCert`                                 | `""`                                 | Domain for automatic certificate generation                                                                 |
+| `API.TLS.AutoCertCachePath`                        | `""`                                 | Directory to cache auto-generated certificates                                                              |
+| `API.TLS.CAFile`                                   | `""`                                 | Path to Certificate Authority file                                                                          |
+| `API.TLS.CertFile`                                 | `""`                                 | Path to TLS certificate file                                                                                |
+| `API.TLS.Insecure`                                 | `false`                              | Allow insecure TLS connections                                                                              |
+| `API.TLS.KeyFile`                                  | `""`                                 | Path to TLS private key file                                                                                |
+| `API.TLS.SelfSigned`                               | `false`                              | Use self-signed certificate                                                                                 |
+| `API.TLS.UseTLS`                                   | `false`                              | Enable TLS for API server                                                                                   |
+| `Compute.AllocatedCapacity.CPU`                    | `"80%"`                              | CPU allocation (percentage or absolute)                                                                     |
+| `Compute.AllocatedCapacity.Disk`                   | `"80%"`                              | Disk allocation (percentage or absolute)                                                                    |
+| `Compute.AllocatedCapacity.GPU`                    | `"100%"`                             | GPU allocation (percentage or absolute)                                                                     |
+| `Compute.AllocatedCapacity.Memory`                 | `"80%"`                              | Memory allocation (percentage or absolute)                                                                  |
+| `Compute.AllowListedLocalPaths`                    | `[]`                                 | Local paths allowed for mounting in format `path[:mode]`. Mode can be `ro` (read-only) or `rw` (read-write) |
+| `Compute.Auth.Token`                               | `""`                                 | Token for orchestrator access                                                                               |
+| `Compute.Enabled`                                  | `false`                              | Enable compute capabilities                                                                                 |
+| `Compute.Heartbeat.InfoUpdateInterval`             | `"1m"`                               | Interval for updating node information                                                                      |
+| `Compute.Heartbeat.Interval`                       | `"15s"`                              | Interval between heartbeats sent to orchestrator                                                            |
+| `Compute.Network.AdvertisedAddress`                | `""`                                 | Address that this compute node advertises to other nodes                                                    |
+| `Compute.Network.PortRangeEnd`                     | `32000`                              | Last port in the range (inclusive) that can be allocated to jobs                                            |
+| `Compute.Network.PortRangeStart`                   | `20000`                              | First port in the range (inclusive) that can be allocated to jobs                                           |
+| `Compute.Orchestrators`                            | `["nats://127.0.0.1:4222"]`          | List of orchestrator endpoints                                                                              |
+| `Compute.TLS.CACert`                               | `""`                                 | CA certificate path for verifying orchestrator                                                              |
+| `Compute.TLS.RequireTLS`                           | `false`                              | Require TLS for orchestrator communication                                                                  |
+| `DataDir`                                          | `~/.bacalhau`                        | Location on disk for Bacalhau state                                                                         |
+| `DisableAnalytics`                                 | `false`                              | Disable sharing anonymous analytics data                                                                    |
+| `Engines.Disabled`                                 | `[]`                                 | List of disabled execution engines                                                                          |
+| `Engines.Types.Docker.ManifestCache.Refresh`       | `"1h"`                               | Refresh interval for cache entries                                                                          |
+| `Engines.Types.Docker.ManifestCache.Size`          | `1000`                               | Size of Docker manifest cache                                                                               |
+| `Engines.Types.Docker.ManifestCache.TTL`           | `"1h"`                               | Time-to-live for cache entries                                                                              |
+| `InputSources.Disabled`                            | `[]`                                 | List of disabled input source types                                                                         |
+| `InputSources.MaxRetryCount`                       | `3`                                  | Maximum retry attempts for source access                                                                    |
+| `InputSources.ReadTimeout`                         | `"5m"`                               | Timeout for reading from sources                                                                            |
+| `InputSources.Types.IPFS.Endpoint`                 | `""`                                 | IPFS API endpoint for input sources                                                                         |
+| `JobAdmissionControl.AcceptNetworkedJobs`          | `false`                              | Accept jobs that require network access                                                                     |
+| `JobAdmissionControl.Locality`                     | `"Anywhere"`                         | Data locality requirement: `"Anywhere"` or `"Local"`                                                        |
+| `JobAdmissionControl.ProbeExec`                    | `""`                                 | External program path for job admission decisions                                                           |
+| `JobAdmissionControl.ProbeHTTP`                    | `""`                                 | HTTP endpoint for job admission decisions                                                                   |
+| `JobAdmissionControl.RejectStatelessJobs`          | `false`                              | Reject jobs without input data                                                                              |
+| `JobDefaults.Batch.Priority`                       | `0`                                  | Default priority for batch jobs                                                                             |
+| `JobDefaults.Batch.Task.Publisher.Params`          | `{}`                                 | Default publisher parameters for batch jobs                                                                 |
+| `JobDefaults.Batch.Task.Publisher.Type`            | `""`                                 | Default publisher type for batch jobs (e.g., "s3", "ipfs")                                                  |
+| `JobDefaults.Batch.Task.Resources.CPU`             | `"500m"`                             | Default CPU for batch jobs (500m = 0.5 cores)                                                               |
+| `JobDefaults.Batch.Task.Resources.Disk`            | `""`                                 | Default disk space for batch jobs                                                                           |
+| `JobDefaults.Batch.Task.Resources.GPU`             | `""`                                 | Default GPU count for batch jobs                                                                            |
+| `JobDefaults.Batch.Task.Resources.Memory`          | `"512Mb"`                            | Default memory for batch jobs                                                                               |
+| `JobDefaults.Batch.Task.Timeouts.ExecutionTimeout` | `""`                                 | Default execution timeout for batch jobs                                                                    |
+| `JobDefaults.Batch.Task.Timeouts.TotalTimeout`     | `""`                                 | Default total timeout for batch jobs                                                                        |
+| `JobDefaults.Daemon.Priority`                      | `0`                                  | Default priority for daemon jobs                                                                            |
+| `JobDefaults.Daemon.Task.Resources.CPU`            | `"500m"`                             | Default CPU for daemon jobs                                                                                 |
+| `JobDefaults.Daemon.Task.Resources.Disk`           | `""`                                 | Default disk space for daemon jobs                                                                          |
+| `JobDefaults.Daemon.Task.Resources.GPU`            | `""`                                 | Default GPU count for daemon jobs                                                                           |
+| `JobDefaults.Daemon.Task.Resources.Memory`         | `"512Mb"`                            | Default memory for daemon jobs                                                                              |
+| `JobDefaults.Ops.Priority`                         | `0`                                  | Default priority for ops jobs                                                                               |
+| `JobDefaults.Ops.Task.Publisher.Params`            | `{}`                                 | Default publisher parameters for ops jobs                                                                   |
+| `JobDefaults.Ops.Task.Publisher.Type`              | `""`                                 | Default publisher type for ops jobs                                                                         |
+| `JobDefaults.Ops.Task.Resources.CPU`               | `"500m"`                             | Default CPU for ops jobs                                                                                    |
+| `JobDefaults.Ops.Task.Resources.Disk`              | `""`                                 | Default disk space for ops jobs                                                                             |
+| `JobDefaults.Ops.Task.Resources.GPU`               | `""`                                 | Default GPU count for ops jobs                                                                              |
+| `JobDefaults.Ops.Task.Resources.Memory`            | `"512Mb"`                            | Default memory for ops jobs                                                                                 |
+| `JobDefaults.Ops.Task.Timeouts.ExecutionTimeout`   | `""`                                 | Default execution timeout for ops jobs                                                                      |
+| `JobDefaults.Ops.Task.Timeouts.TotalTimeout`       | `""`                                 | Default total timeout for ops jobs                                                                          |
+| `JobDefaults.Service.Priority`                     | `0`                                  | Default priority for service jobs                                                                           |
+| `JobDefaults.Service.Task.Resources.CPU`           | `"500m"`                             | Default CPU for service jobs                                                                                |
+| `JobDefaults.Service.Task.Resources.Disk`          | `""`                                 | Default disk space for service jobs                                                                         |
+| `JobDefaults.Service.Task.Resources.GPU`           | `""`                                 | Default GPU count for service jobs                                                                          |
+| `JobDefaults.Service.Task.Resources.Memory`        | `"512Mb"`                            | Default memory for service jobs                                                                             |
+| `Labels`                                           | `{}`                                 | Key-value pairs used to describe and categorize nodes                                                       |
+| `Logging.Level`                                    | `"info"`                             | Log level: trace, debug, info, warn, error, fatal, panic                                                    |
+| `Logging.LogDebugInfoInterval`                     | `"30s"`                              | Debug info logging interval                                                                                 |
+| `Logging.Mode`                                     | `"default"`                          | Log format: default, json                                                                                   |
+| `NameProvider`                                     | `"puuid"`                            | Method to generate node names. Options: `"hostname"`, `"aws"`, `"gcp"`, `"uuid"`, `"puuid"`                 |
+| `Orchestrator.Advertise`                           | `""`                                 | URL to advertise to other servers                                                                           |
+| `Orchestrator.Auth.Token`                          | `""`                                 | Token for compute node authentication                                                                       |
+| `Orchestrator.Cluster.Advertise`                   | `""`                                 | Address to advertise to cluster members                                                                     |
+| `Orchestrator.Cluster.Host`                        | `""`                                 | Hostname/IP for cluster communication                                                                       |
+| `Orchestrator.Cluster.Name`                        | `""`                                 | Unique identifier for orchestrator cluster                                                                  |
+| `Orchestrator.Cluster.Peers`                       | `[]`                                 | List of cluster members to connect to on startup                                                            |
+| `Orchestrator.Cluster.Port`                        | `0`                                  | Port for cluster communication                                                                              |
+| `Orchestrator.Enabled`                             | `false`                              | Enable orchestrator capabilities                                                                            |
+| `Orchestrator.EvaluationBroker.MaxRetryCount`      | `10`                                 | Maximum evaluation retry attempts                                                                           |
+| `Orchestrator.EvaluationBroker.VisibilityTimeout`  | `"1m"`                               | How long an evaluation can be claimed                                                                       |
+| `Orchestrator.Host`                                | `"0.0.0.0"`                          | Hostname/IP for orchestrator connections                                                                    |
+| `Orchestrator.License.LocalPath`                   | `""`                                 | Local license file path                                                                                     |
+| `Orchestrator.NodeManager.DisconnectTimeout`       | `"1m"`                               | Time before marking node as disconnected                                                                    |
+| `Orchestrator.NodeManager.ManualApproval`          | `false`                              | Require manual approval for compute nodes                                                                   |
+| `Orchestrator.Port`                                | `4222`                               | Port for orchestrator connections                                                                           |
+| `Orchestrator.Scheduler.HousekeepingInterval`      | `"30s"`                              | Interval for housekeeping tasks                                                                             |
+| `Orchestrator.Scheduler.HousekeepingTimeout`       | `"2m"`                               | Timeout for housekeeping runs                                                                               |
+| `Orchestrator.Scheduler.QueueBackoff`              | `"1m"`                               | Retry interval for failed jobs                                                                              |
+| `Orchestrator.Scheduler.WorkerCount`               | `[system CPU count]`                 | Concurrent scheduling workers                                                                               |
+| `Orchestrator.SupportReverseProxy`                 | `false`                              | Configure for running behind reverse proxy                                                                  |
+| `Orchestrator.TLS.CACert`                          | `""`                                 | CA certificate path                                                                                         |
+| `Orchestrator.TLS.ServerCert`                      | `""`                                 | Server certificate path                                                                                     |
+| `Orchestrator.TLS.ServerKey`                       | `""`                                 | Server private key path                                                                                     |
+| `Orchestrator.TLS.ServerTimeout`                   | `0`                                  | TLS timeout in seconds                                                                                      |
+| `Publishers.Disabled`                              | `[]`                                 | List of disabled publisher types                                                                            |
+| `Publishers.Types.IPFS.Endpoint`                   | `""`                                 | IPFS API endpoint for publishing                                                                            |
+| `Publishers.Types.Local.Address`                   | `"127.0.0.1"`                        | Local publisher address                                                                                     |
+| `Publishers.Types.Local.Port`                      | `6001`                               | Local publisher port                                                                                        |
+| `Publishers.Types.S3.PreSignedURLDisabled`         | `false`                              | Disable pre-signed URLs for S3 publisher                                                                    |
+| `Publishers.Types.S3.PreSignedURLExpiration`       | `""`                                 | Pre-signed URL expiration time                                                                              |
+| `ResultDownloaders.Disabled`                       | `[]`                                 | List of disabled result downloader types                                                                    |
+| `ResultDownloaders.Timeout`                        | `""`                                 | Timeout for download operations                                                                             |
+| `ResultDownloaders.Types.IPFS.Endpoint`            | `""`                                 | IPFS API endpoint for downloading results                                                                   |
+| `StrictVersionMatch`                               | `false`                              | Enforce strict version matching                                                                             |
+| `UpdateConfig.Interval`                            | `"24h"`                              | Update check interval (0 to disable)                                                                        |
+| `WebUI.Backend`                                    | `""`                                 | Backend API server (empty=use same as API server)                                                           |
+| `WebUI.Enabled`                                    | `false`                              | Enable web UI                                                                                               |
+| `WebUI.Listen`                                     | `"0.0.0.0:8438"`                     | Address and port for web UI                                                                                 |
+
+
+## constraint
+
+# Constraint
+
+A `Constraint` represents a condition that must be met for a compute node to be eligible to run a given job. Operators have the flexibility to manually define node labels when initiating a node using the bacalhau serve command. Additionally, Bacalhau boasts features like automatic resource detection and dynamic labeling, further enhancing its capability.
+
+By defining constraints, you can ensure that jobs are scheduled on nodes that have the necessary requirements or conditions.
+
+### `Constraint` Parameters:
+
+1. **Key**: The name of the attribute or property to check on the compute node. This could be anything from a specific hardware feature, operating system version, or any other node property.
+2. **Operator**: Determines the kind of comparison to be made against the `Key`'s value, which can be:
+   1. `in`: Checks if the Key's value exists within the provided list of values.
+   2. `notin`: Ensures the Key's value doesn't match any in the provided list of values.
+   3. `exists`: Verifies that a value for the specified Key is present, regardless of its actual value.
+   4. `!`: Confirms the absence of the specified Key. i.e DoesNotExist
+   5. `gt`: Assesses if the Key's value is greater than the provided value.
+   6. `lt`: Assesses if the Key's value is less than the provided value.
+   7. `=` & `==`: Both are used to compare the Key's value for an exact match with the provided value.
+   8. `!=`: Ensures the Key's value is not the same as the provided value.
+3. **Values (optional)**: A list of values that the node attribute, specified by the `Key`, is compared against using the `Operator`. This is not needed for operators like `exists` or `!`.
+
+### Example:
+
+Consider a scenario where a job should only run on nodes with a GPU and an operating system version greater than `2.0`. The constraints for such a requirement might look like:
+
+```yaml
+constraints:
+  - key: "hardware.gpu"
+    operator: "exists"
+  - key: "Operating-System"
+    operator: "="
+    values: ["linux"]
+  - key: "region"
+    operator: "in"
+    values: ["eu-west-1,eu-west-2"]
+```
+
+In this example, the first constraint checks if the node has a GPU, the second constraint ensures the OS is linux, and deployed in eu-west-1 or eu-west-2\`.
+
+### Notes:
+
+1. Constraints are evaluated as a logical AND, meaning all constraints must be satisfied for a node to be eligible.
+2. Using too many specific constraints can lead to a job not being scheduled if no nodes satisfy all the conditions.
+3. It's essential to balance the specificity of constraints with the broader needs and resources available in the cluster.
+
+
+## debugging-the-agent
+
+# Debugging the Agent
+
+The Bacalhau `agent` is the process your client directly communicates with. By default, this is running on `localhost:1234`, but can be changed using `--api-host` and `--api-port` flags. For local testing or small clusters, you'll frequently need to check the agent's health and examine its configuration.
+
+## Checking Agent Health and Version
+
+When troubleshooting connectivity or verifying your setup:
+
+```bash
+bacalhau agent alive
+```
+
+This returns a simple health check response, confirming your client can communicate with the agent.
+
+To check which version you're running:
+
+```bash
+bacalhau agent version
+```
+
+This displays version information helpful when verifying installations, troubleshooting issues, or reporting bugs.
+
+## Inspecting Agent Configuration
+
+During setup or when diagnosing issues:
+
+```bash
+bacalhau agent config
+```
+
+This returns the complete configuration in YAML format, showing network parameters, resource limits, and admission control settings. Use this when jobs aren't being accepted or resources aren't properly allocated.
+
+## Examining Node Details
+
+To get detailed information about the agent's node:
+
+```bash
+bacalhau agent node
+```
+
+This shows information about node identity, available resources, and supported features. Use this when setting up a new node or troubleshooting job scheduling issues.
+
+## Working with Remote Agents
+
+To connect to a remote agent:
+
+```bash
+bacalhau agent version --api-host cluster.example.com --api-port 8080
+```
+
+This pattern works with all agent commands and is useful for monitoring production clusters or diagnosing connectivity issues between network components.
+
+
+## docker
+
+# Docker Containers
+
+This guide explains how to use existing Docker containers and create custom ones for your Bacalhau workloads.
+
+## Prerequisites
+
+1. [Install the Bacalhau client](/getting-started/installation.mdx)
+2. [Docker](https://docs.docker.com/install/) (for both building custom containers and running on compute nodes)
+
+## Understanding Docker Workloads in Bacalhau
+
+Bacalhau uses a syntax that closely resembles Docker, allowing you to utilize the same containers.
+
+### Example: Docker Command
+
+```bash
+docker run alpine echo "Hello from Docker"
+```
+
+### Equivalent Bacalhau Command
+
+```bash
+bacalhau docker run alpine echo "Hello from Bacalhau"
+```
+
+### Getting Job Results
+
+```bash
+# View job logs
+bacalhau job logs JOB_ID
+
+# Get detailed job information
+bacalhau job describe JOB_ID
+```
+
+:::warning[Requirements for Docker Containers]
+
+Containers must be published to a registry that is accessible to your Bacalhau nodes
+
+:::
+
+## Creating a Custom Container
+
+Let's walk through creating a simple custom Docker container for Bacalhau.
+
+### Step 1: Create Your Container Files
+
+Create a simple Dockerfile:
+
+```dockerfile
+FROM alpine:latest
+RUN echo '#!/bin/sh\necho "Hello from $1"' > /usr/local/bin/greet && \
+    chmod +x /usr/local/bin/greet
+```
+
+### Step 2: Build and Test Your Container Locally
+
+Build your Docker image:
+
+```bash
+docker build -t your-registry/simple-greeter:latest .
+```
+
+Test it locally:
+
+```bash
+docker run --rm your-registry/simple-greeter:latest sh -c 'greet "Local Test"'
+```
+
+### Step 3: Push Your Container to a Registry
+
+```bash
+# For multi-architecture support (recommended)
+docker buildx build --platform linux/amd64,linux/arm64 --push -t your-registry/simple-greeter:latest .
+
+# For single architecture
+docker push your-registry/simple-greeter:latest
+```
+
+## Running Your Custom Container on Bacalhau
+
+Run your container on Bacalhau:
+
+```bash
+bacalhau docker run your-registry/simple-greeter:latest \
+  sh -c 'greet "Bacalhau"'
+```
+
+View your job logs:
+
+```bash
+bacalhau job logs JOB_ID
+```
+
+
+## docker
+
+# Docker
+
+Docker Engine is one of the execution engines supported in Bacalhau. It allows users to run tasks inside Docker containers, offering an isolated and consistent environment for execution. Below are the parameters to configure the Docker Engine.
+
+## `Docker` Engine Parameters
+
+* **Image** `(string: <required>)`: Specifies the Docker image to use for task execution. It should be an image that can be pulled by Docker.
+* **Entrypoint** `(string[]: <optional>)`: Allows overriding the default entrypoint set in the Docker image. Each string in the array represents a segment of the entrypoint command.
+* **Parameters** `(string[]: <optional>)`: Additional command-line arguments to be included in the container’s startup command, appended after the entrypoint.
+* **EnvironmentVariables** `(string[]: <optional>)`: Sets environment variables within the Docker container during task execution. Each string should be formatted as `KEY=value`.
+* **WorkingDirectory** `(string: <optional>)`: Sets the path inside the container where the task executes. If not specified, it defaults to the working directory defined in the Docker image.
+
+### Example
+
+Here’s an example of configuring the Docker Engine within a job or task using YAML:
+
+```yaml
+Engine:
+  Type: "Docker"
+  Params:
+    Image: "ubuntu:20.04"
+    Entrypoint:
+      - "/bin/bash"
+      - "-c"
+    Parameters:
+      - "echo Hello, World!"
+    EnvironmentVariables:
+      - "MY_ENV_VAR=myvalue"
+    WorkingDirectory: "/app"
+```
+
+In this example, the task will be executed inside an Ubuntu 20.04 Docker container. The entrypoint is overridden to execute a bash shell that runs an echo command. An environment variable MY\_ENV\_VAR is set with the value myvalue, and the working directory inside the container is set to /app.
+
+
+## downloading-results
+
+# Downloading Results
+
+After a Bacalhau job completes, you'll need to retrieve the output files generated by your job. This guide explains the basics of downloading job results.
+
+## What You'll Learn
+
+- How to specify output paths in your jobs
+- How to retrieve job results using the CLI
+
+## Getting Job Results
+
+To download the results of a completed job:
+
+```bash
+bacalhau job get <jobID>
+```
+
+This command downloads all outputs from the job to your current directory.
+
+### Specifying an Output Directory
+
+You can specify where to save the downloaded results:
+
+```bash
+bacalhau job get <jobID> --output-dir /path/to/save
+```
+
+### Download Timeout Setting
+
+For larger downloads, you can adjust the timeout:
+
+```bash
+bacalhau job get <jobID> --download-timeout-secs 10m
+```
+
+## Specifying Job Outputs and Publisher
+
+When submitting a job, you need to define which files or directories should be collected as outputs, and where those outputs should be published.
+
+### Using Command Line
+
+For Docker jobs, use the `--output` flag to define outputs and the `--publisher` flag to specify where to publish the results:
+
+```bash
+bacalhau docker run \
+  --output results:/outputs \
+  --publisher s3://my-bucket/results-folder \
+  ubuntu:latest \
+  -- echo "Hello, World!" > /outputs/hello.txt
+```
+
+This tells Bacalhau to:
+
+1. Collect everything in the `/outputs` directory of the container
+2. Publish it to the specified S3 bucket and path
+3. Make it available for download with `bacalhau job get`
+
+### Using Declarative Submission
+
+You can also define outputs in a job specification file:
+
+```yaml
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: python:3.9
+        Entrypoint:
+          - 'python'
+          - '-c'
+          - "import os; os.makedirs('/outputs', exist_ok=True); open('/outputs/result.txt', 'w').write('Analysis complete!')"
+    Publisher:
+      Type: s3
+      Params:
+        Bucket: my-bucket
+        Key: results-folder
+    ResultPaths:
+      - Name: results
+        Path: /outputs
+```
+
+Submit this job using:
+
+```bash
+bacalhau job run job-spec.yaml
+```
+
+### Multiple Output Paths
+
+You can specify multiple output paths in a single job:
+
+```bash
+bacalhau docker run \
+  --output logs:/var/log \
+  --output results:/outputs \
+  --publisher s3://my-bucket/results-folder \
+  ubuntu:latest \
+  -- <your-command>
+```
+
+## Downloaded Results Structure
+
+After running `bacalhau job get`, the results will be organized in a directory structure like this:
+
+```
+.
+├── job-j-6bafb8d4
+│   ├── exitCode
+│   ├── outputs
+│   │   └── file1
+│   ├── stderr
+│   └── stdout
+```
+
+The directory structure includes:
+
+- `exitCode`: Contains the exit code of the job
+- `outputs`: Contains all the files from the job's specified output directories
+- `stderr`: Captures any error output from the job
+- `stdout`: Captures the standard output from the job
+
+
+## faqs
+
+# FAQs
+
+## How do I restrict what nodes my jobs run on?
+
+You can describe each node with labels in a `key=value` format, which can later be used as conditions for choosing nodes to run your jobs on:
+
+```bash
+bacalhau config set Labels=NodeType=WebServer
+```
+
+For multiple labels, use comma-separated values:
+
+```bash
+bacalhau config set Labels=foo=bar,baz=qaz
+```
+
+## How do I specify the orchestrator for my compute node?
+
+The `Compute.Orchestrator` field in the config tells the Bacalhau compute node where to connect:
+
+```bash
+bacalhau config set Compute.Orchestrators=my-great-orchestrator.com
+```
+
+You can add protocol and port if needed:
+
+```bash
+bacalhau config set Compute.Orchestrators=nats://my-great-orchestrator.com:4222
+```
+
+## How do I enable the WebUI?
+
+By default, the WebUI for Bacalhau is disabled for security reasons. To enable it:
+
+```bash
+bacalhau config set WebUI.Enabled=true
+```
+
+## Can I run non-Docker jobs?
+
+Yes! You can run programs using WebAssembly instead. Refer to the [WebAssembly onboarding documentation](../../references/developers/workload-onboarding/wasm.md) for instructions.
+
+## How do I see a job's progress while it's running?
+
+Use the job describe command with your job ID:
+
+```bash
+bacalhau job describe b4491a4a-7b55-4fa7-a5af-80f3c99bc379
+```
+
+If your job writes to stdout or stderr while running, you can also view the output with the `logs` command.
+
+## Can I stop a running job?
+
+Yes. Given a valid `job ID`, you can use the `stop` command to cancel the job and stop it from running:
+
+```bash
+bacalhau job stop <job-id>
+```
+
+
+## glossary
+
+# Glossary
+
+## Compute Node
+
+A Compute Node in the Bacalhau platform is responsible for executing jobs and producing results. These nodes are part of a private network that allows workload distribution and communication between computers. Compute Nodes handle various types of jobs based on their capabilities and resources. They work in tandem with Requester Nodes, which manage user requests, discover and rank Compute Nodes and monitor job lifecycles.
+
+## CLI (Command Line Interface)
+
+A CLI (Command Line Interface) in the Bacalhau platform is a tool that allows users to interact with Bacalhau through text-based commands entered into a terminal or command prompt. The CLI provides a set of commands for managing and executing various tasks on the platform, including submitting jobs, monitoring job status, managing nodes and configuring the environment.
+
+## Data Source
+
+A Data Source in Bacalhau refers to the origin of the data used in jobs. This can include various types of storage such as IPFS, S3, local files or URLs. Data sources are specified in the job configuration and are essential for providing the necessary input data for job execution.
+
+## Docker
+
+Docker in Bacalhau refers to the use of Docker containers to package and run applications. Docker provides a standardized unit of software, enabling users to create and manage containers efficiently. Bacalhau supports running Docker workloads, allowing users to utilize containerized applications seamlessly on the platform.
+
+## IPFS
+
+The InterPlanetary File System (IPFS) is a protocol and peer-to-peer network for storing and sharing data in a distributed file system. In Bacalhau, IPFS is used as a data source and a way to distribute job inputs and outputs, leveraging its decentralized nature for efficient data management.
+
+## Job
+
+A Job in the Bacalhau platform is a unit of work that a user submits for execution. Jobs can be simple tasks or complex workflows involving multiple steps. They are defined by specifications that include the job type, resources required and input/output data. Jobs are managed by Requester Nodes, which ensure they are distributed to appropriate Compute Nodes for execution.
+
+## Job Results
+
+Job Results are the output generated after a job has been executed on a Compute Node. These results can include processed data, logs and any other relevant output files. Results are often stored in specified locations such as IPFS or S3, allowing users to retrieve and utilize them after job completion.
+
+## Node
+
+A Node in the Bacalhau is a fundamental component of the network, responsible for executing and managing jobs. A Node is the Bacalhau entity installed Nodes can be classified into different types based on their roles, such as Compute Nodes and Requester Nodes. Each node operates as part of a decentralized network, allowing distributed processing and resource management.
+
+## Node Management
+
+Node Management in Bacalhau involves configuring and maintaining the nodes within the network, including both Compute Nodes and Requester Nodes. This includes tasks like onboarding new nodes, managing node resources, setting access controls and ensuring nodes meet operational standards for job execution.
+
+## Network
+
+In the context of the Bacalhau, a Network refers to the interconnected system of nodes that collaborate to execute jobs, manage data and maintain communication. This network is decentralized, meaning it does not rely on a central authority, which enhances its robustness, scalability and efficiency.
+
+## Network Specification
+
+The Network Specification in Bacalhau defines the network requirements and settings for job execution. This includes configurations for network access, data transfer protocols and connectivity between nodes. Proper network specification ensures that jobs can communicate effectively and access necessary resources.
+
+## Workload Onboarding
+
+Workload Onboarding in Bacalhau is the process of preparing and integrating different types of workloads for execution on the platform. This involves setting up environments for various programming languages, configuring containers and ensuring workloads are optimized for execution across the distributed network of Compute Nodes.
+
+## WebAssembly (WASM)
+
+WebAssembly (WASM) in Bacalhau is a binary instruction format for a stack-based virtual machine. WASM is designed for safe and efficient execution, making it a suitable target for compilation from high-level languages. Bacalhau supports running WASM workloads, enabling efficient execution of lightweight and portable code.
+
+## Requestor Node
+
+A Requester Node in the Bacalhau platform is responsible for handling user requests, discovering and ranking Compute Nodes, forwarding jobs to these nodes and monitoring the lifecycle of the jobs. Requester Nodes play a crucial role in managing the flow of tasks and ensuring they are executed efficiently by the appropriate Compute Nodes in the network.
+
+## S3
+
+Amazon Simple Storage Service (S3) is a scalable object storage service. Bacalhau supports S3 as a data source, allowing users to store and retrieve input and output data for jobs. S3's integration with Bacalhau provides robust and reliable storage options for large-scale data processing tasks.
+
+
+## gpu
+
+# GPU Workloads
+
+## Overview
+
+Bacalhau supports running jobs on GPUs out of the box. This guide covers how to set up and use GPUs with Bacalhau.
+
+## Supported GPU Types
+
+Bacalhau currently supports:
+
+- NVIDIA GPUs
+- AMD GPUs
+- Intel GPUs
+
+These are only available with the Docker executor.
+
+## Prerequisites
+
+### Basic Requirements
+
+1. [Docker](https://get.docker.com/) installed
+2. Appropriate GPU drivers for your hardware
+
+### GPU-Specific Setup
+
+#### NVIDIA GPUs
+
+1. Install [NVIDIA GPU Drivers](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html)
+2. Install [NVIDIA Container Toolkit (nvidia-docker2)](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
+3. Verify with `nvidia-smi` command
+
+#### AMD GPUs
+
+1. Install [AMD GPU drivers](https://www.amd.com/en/support/download/drivers.html)
+2. Set up Docker for ROCm following [this guide](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/docker.html)
+3. Verify with `rocm-smi` command
+
+#### Intel GPUs
+
+1. Install [Intel GPU drivers](https://www.intel.com/content/www/us/en/download-center/home.html)
+2. Set up Docker for Intel GPUs following [this guide](https://github.com/Intel-Media-SDK/MediaSDK/wiki/Running-on-GPU-under-docker)
+3. Verify with `xpu-smi` command
+
+## Running GPU Jobs
+
+### Command Line
+
+Use the `--gpu` flag to specify the number of GPUs your job requires:
+
+```bash
+bacalhau docker run --gpu=1 nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
+```
+
+### Using YAML
+
+You can also submit GPU jobs using YAML configuration:
+
+```yaml
+Name: gpu-test-job
+Type: batch
+Count: 1
+Tasks:
+  - Engine:
+      Type: docker
+      Params:
+        Image: 'nvidia/cuda:11.6.2-base-ubuntu20.04'
+      Entrypoint:
+        - /bin/bash
+      Parameters:
+        - -c
+        - nvidia-smi && echo 'GPU is working!'
+    Name: TestGPU
+    ResourcesConfig:
+      CPU: '1'
+      Memory: '1GB'
+      Disk: '10GB'
+      GPU: '1'
+```
+
+## Important Notes
+
+- Your container must include the appropriate CUDA runtime and be compatible with the CUDA version on the node
+- GPU access can be controlled using resource limits
+- The Bacalhau network must have executor nodes with GPUs exposed
+
+
+## input-source
+
+[Content truncated - see full docs]
+
+
+## inspecting-jobs
+
+[Content truncated - see full docs]
+
+
+## ipfs
+
+[Content truncated - see full docs]
+
+
+## ipfs
+
+[Content truncated - see full docs]
+
+
+## label
+
+[Content truncated - see full docs]
+
+
+## labels-and-constraints
+
+[Content truncated - see full docs]
+
+
+## listing-jobs
+
+[Content truncated - see full docs]
+
+
+## local
+
+[Content truncated - see full docs]
+
+
+## local
+
+[Content truncated - see full docs]
+
+
+## meta
+
+[Content truncated - see full docs]
+
+
+## mounting-input-data
+
+[Content truncated - see full docs]
+
+
+## network
+
+[Content truncated - see full docs]
+
+
+## networking
+
+[Content truncated - see full docs]
+
+
+## node-management
+
+[Content truncated - see full docs]
+
+
+## node-tls
+
+[Content truncated - see full docs]
+
+
+## partitioning
+
+[Content truncated - see full docs]
+
+
+## queueing
+
+[Content truncated - see full docs]
+
+
+## resource-requirements
+
+[Content truncated - see full docs]
+
+
+## resources
+
+[Content truncated - see full docs]
+
+
+## result-path
+
+# ResultPath
+
+A `ResultPath` denotes a specific location within a `Task` that contains meaningful output or results. By specifying a `ResultPath`, you can pinpoint which files or directories are essential and should be retained or published after the task's execution.
+
+## `ResultPath` Parameters:
+
+1. **Name**: A descriptive label or identifier for the result, allowing for easier referencing and understanding of the output's nature or significance.
+2. **Path**: Specifies the exact location, either a file or a directory, within the task's environment where the result or output is stored. This ensures that after the task completes, the critical data at this path can be accessed, retained, or published as necessary.
+
+
+## retrieving-logs
+
+[Content truncated - see full docs]
+
+
+## running-locally
+
+[Content truncated - see full docs]
+
+
+## s3
+
+[Content truncated - see full docs]
+
+
+## s3
+
+[Content truncated - see full docs]
+
+
+## s3-partitioning
+
+[Content truncated - see full docs]
+
+
+## s3managed
+
+[Content truncated - see full docs]
+
+
+## selection-policy
+
+[Content truncated - see full docs]
+
+
+## specconfig
+
+[Content truncated - see full docs]
+
+
+## state
+
+[Content truncated - see full docs]
+
+
+## stopping-a-job
+
+[Content truncated - see full docs]
+
+
+## submitting-jobs
+
+[Content truncated - see full docs]
+
+
+## task
+
+[Content truncated - see full docs]
+
+
+## timeouts
+
+[Content truncated - see full docs]
+
+
+## timeouts
+
+# Timeouts
+
+The `Timeouts` object provides a mechanism to impose timing constraints on specific task operations, particularly execution. By setting these timeouts, users can ensure tasks don't run indefinitely and align them with intended durations.
+
+## `Timeouts` Parameters:
+
+* **ExecutionTimeout** `(int: <optional>)`: Defines the maximum duration (in seconds) that a task is permitted to run. A value of zero indicates that there's no set timeout. This could be particularly useful for tasks that function as daemons and are designed to run indefinitely.
+
+Utilizing the `Timeouts` judiciously helps in managing resource utilization and ensures tasks adhere to expected timelines, thereby enhancing the efficiency and predictability of job executions.
+
+
+## troubleshooting
+
+[Content truncated - see full docs]
+
+
+## type
+
+[Content truncated - see full docs]
+
+
+## url
+
+[Content truncated - see full docs]
+
+
+## wasm
+
+[Content truncated - see full docs]
+
+
+## wasm
+
+[Content truncated - see full docs]
+
+
+## webui
+
+[Content truncated - see full docs]
+
+
+## working-with-nodes
+
+[Content truncated - see full docs]
+

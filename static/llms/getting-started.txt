@@ -1,0 +1,283 @@
+# Getting Started with Bacalhau
+
+## installation
+
+# Installation
+
+This section explains how to install Bacalhau on your machine, verify it's working, and understand basic requirements. Bacalhau is distributed as a single self-contained binary that can function as a client, orchestrator node, and compute node—greatly simplifying deployment and management of your distributed compute network.
+
+## Install the Bacalhau Binary
+
+To install the CLI, choose your environment, and run the command(s) below.
+
+</Tabs>
+
+### Verify the Installation
+
+```bash
+bacalhau version
+```
+
+This should print:
+
+- The local binary version
+- The version of the orchestrator this client is connected to, if any
+- The latest available version of bacalhau in case you are running an outdated version.
+
+If you get `command not found`, verify your PATH includes the Bacalhau binary.
+
+### Upgrading Bacalhau
+
+To upgrade Bacalhau to the latest version, run the installation script. If Bacalhau is already installed, this will update it to the most recent version available.
+
+## Requirements & Tips
+
+- **Docker**:
+  - Must be installed and running on any **compute** node to handle Docker-based jobs.
+- **AWS Credentials** (if you're using S3):
+  - For S3 inputs or outputs, the node needs valid AWS credentials (e.g., environment variables).
+- **Running an Orchestrator & Compute**:
+  - See [Quick Start](./quick-start.mdx) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
+- **`bacalhau devstack`**:
+  - Perfect for local development or running tests.
+
+## Next Steps
+
+- Head over to Basic CLI Usage to learn how to submit, describe, and stop jobs.
+- Check Common Workflows for steps on mounting data (S3, local folders) and publishing outputs.
+- Explore References for advanced node management (Docker Compose, devstack, multi-node clusters).
+
+
+## network-setup
+
+# Network Setup
+
+This guide explains how to set up Bacalhau networks for various deployment scenarios, from development environments to production deployments.
+
+## Introduction
+
+Bacalhau's architecture consists of two primary node types:
+
+- **Orchestrator nodes** that schedule and manage jobs
+- **Compute nodes** that execute workloads
+
+Compute nodes connect to orchestrators, but don't need to be reachable by orchestrators or other compute nodes, making deployment simpler.
+
+## Getting Started with Bacalhau
+
+Choose the setup option that best matches your needs:
+
+| Setup Option        | Best For                           | Key Benefit                                  |
+| ------------------- | ---------------------------------- | -------------------------------------------- |
+| DevStack            | Development & testing              | Quick local setup with minimal configuration |
+| Self-Hosted Network | Custom infrastructure requirements | Complete control over all components         |
+
+### Option 1: Self-Hosted Network
+
+If you need to host your own orchestrator, follow these steps for a custom deployment.
+
+#### Setting Up an Orchestrator Node
+
+On your designated orchestrator machine:
+
+```bash
+# Start an orchestrator-only node
+bacalhau serve --orchestrator
+```
+
+Take note of this machine's IP address or hostname - you'll need it to connect compute nodes.
+
+#### Adding Compute Nodes
+
+On each machine that will execute jobs:
+
+```bash
+# Start a compute-only node connected to your orchestrator
+bacalhau serve --compute -c Compute.Orchestrators=<orchestrator-ip>:4222
+```
+
+Replace `<orchestrator-ip>` with the actual IP address or hostname of your orchestrator.
+
+#### Verifying Your Cluster
+
+Check that all nodes are connected:
+
+```bash
+# List all nodes in your network
+bacalhau node list
+```
+
+You should see your orchestrator and all compute nodes listed.
+
+:::note
+The setup described above creates an open network suitable for testing in trusted environments. For securing your network, refer to the Security Best Practices in the Reference section.
+:::
+
+### Option 2: DevStack
+
+DevStack provides a pre-configured local environment perfect for development and testing.
+
+```bash
+# Launch a complete development environment
+bacalhau devstack
+```
+
+This pre-configures a transient orchestrator and compute nodes by default, giving you a complete environment for testing with minimal setup.
+
+You can submit jobs to your DevStack just like any other Bacalhau network:
+
+```bash
+bacalhau docker run ubuntu:latest -- echo "Hello from DevStack!"
+```
+
+### Alternative Setup Methods
+
+These methods provide additional ways to set up Bacalhau for specific use cases.
+
+#### Single Hybrid Node
+
+For the simplest local setup, you can run a single node that acts as both orchestrator and compute:
+
+```bash
+# Launch a combined orchestrator and compute node
+bacalhau serve --orchestrator --compute
+```
+
+This starts Bacalhau in "hybrid mode" where:
+
+- The orchestrator handles job scheduling
+- The compute service executes containers
+- Both components run in the same process
+
+This option is useful for initial testing or for very small deployments.
+
+#### Docker Deployment
+
+Run Bacalhau in Docker for easier management:
+
+```bash
+# Run an orchestrator node
+docker run -p 4222:4222 ghcr.io/bacalhau-project/bacalhau:latest serve --orchestrator
+
+# Run a compute node using Docker-in-Docker
+docker run --privileged -p 4222:4222 \
+  ghcr.io/bacalhau-project/bacalhau:latest-dind \
+  serve --compute -c Compute.Orchestrators=<orchestrator-ip>:4222
+```
+
+The `bacalhau:latest-dind` image includes Docker-in-Docker capabilities required for compute nodes.
+
+#### Docker Compose Setup
+
+For a quick multi-node setup, Bacalhau provides Docker Compose examples that create a complete network suitable for testing:
+
+1.  **Clone Network Setups Repository**\
+    Clone the repository containing the network setups:
+
+    ```bash
+    git clone https://github.com/bacalhau-project/bacalhau-network-setups.git
+    ```
+
+2.  **Navigate to a Specific Setup**\
+    Change directory to your desired setup under `docker-compose`:
+
+    ```bash
+    cd bacalhau-network-setups/docker-compose/<setup-name>
+    ```
+
+3.  **Start the Network**\
+    Use Docker Compose to bring up the network:
+
+    ```bash
+    docker compose up
+    ```
+
+These setups enable deployment and testing of Bacalhau across multiple nodes, including an orchestrator and persistent data storage.
+
+### Next Steps
+
+- Secure your network with our Security Guide
+- Learn how to submit jobs to your network
+- Explore common workflows for different use cases
+
+
+## quick-start
+
+# Quick Start
+
+This Quick Start guide shows how to run your first Bacalhau job with minimal setup. Bacalhau's design as a single self-contained binary makes it incredibly easy to set up your own distributed compute network in minutes.
+
+## Prerequisites
+
+- Docker installed on any machine that runs a compute node
+- Bacalhau CLI installed (see below)
+
+## 1. Installation
+
+1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](./installation.mdx) for Windows and Docker options.
+
+```bash
+curl -sL https://get.bacalhau.org/install.sh | bash
+```
+
+2. Once installed, verify with:
+
+```bash
+bacalhau version
+```
+
+## 2. Start a Hybrid Node
+
+Open a terminal and run:
+
+```bash
+bacalhau serve --orchestrator --compute
+```
+
+- This command launches both an orchestrator and a compute node in one process
+- Keep it running; you'll see logs indicating it's ready
+
+## 3. Submit a Data Analysis Job
+
+Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
+
+</Tabs>
+
+- The job downloads a sample dataset and processes it locally
+- Bacalhau will display job progress until completion
+- You'll receive a Job ID once the job is submitted
+
+## 4. Inspect the Job
+
+```bash
+bacalhau job describe <jobID>
+```
+
+- Replace `<jobID>` with the actual ID printed in step 2
+- You can run `bacalhau job logs <job-id>` to just get the execution logs
+
+## 5. Retrieve Results
+
+Download and view your job results:
+
+```bash
+# Download the results
+bacalhau job get <jobID>
+
+# View the analysis output
+head job-*/outputs/moby-dick-counts.txt
+```
+
+:::note
+You should see a word frequency analysis of the Moby Dick text file!
+:::
+
+## 🎉 Success!
+
+You've just:
+
+1. Started a local Bacalhau network
+2. Submitted a job using both imperative and declarative methods
+3. Tracked job progress with detailed descriptions
+4. Retrieved and viewed job results
+

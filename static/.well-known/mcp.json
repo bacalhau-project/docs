@@ -1,0 +1,36 @@
+{
+  "name": "Bacalhau Documentation",
+  "description": "MCP server for Bacalhau distributed compute documentation - CLI reference, API docs, examples, and tutorials",
+  "version": "1.0.0",
+  "server": {
+    "url": "https://mcp.expanso.io",
+    "transport": "https"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": true
+  },
+  "tools": [
+    {
+      "name": "search_bacalhau_docs",
+      "description": "Search Bacalhau documentation for answers about distributed compute, CLI commands, and API usage"
+    },
+    {
+      "name": "get_cli_help",
+      "description": "Get detailed help for Bacalhau CLI commands"
+    },
+    {
+      "name": "get_example",
+      "description": "Get code examples for running jobs with Bacalhau"
+    }
+  ],
+  "documentation": {
+    "main": "https://docs.bacalhau.org",
+    "github": "https://github.com/bacalhau-project/bacalhau",
+    "llms_txt": "https://docs.bacalhau.org/llms.txt"
+  },
+  "contact": {
+    "discord": "https://bit.ly/bacalhau-project-slack",
+    "github": "https://github.com/bacalhau-project/bacalhau/issues"
+  }
+}

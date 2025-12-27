@@ -1,0 +1,159 @@
+# Bacalhau Concepts & Architecture
+
+## architecture
+
+# Architecture
+
+Bacalhau employs a distributed, node-based architecture that brings compute operations closer to data. Built around a single self-contained binary that serves multiple roles, Bacalhau makes it remarkably simple to deploy and scale a distributed compute network.
+
+## High-Level Overview
+
+1. **User Submits a Job**: The user, through the Bacalhau CLI or API, sends a job definition to the Orchestrator. Jobs can be submitted in two ways:
+   * **Imperative**: `bacalhau docker run ...` with command-line arguments
+   * **Declarative**: `bacalhau job run <job-spec>` using a YAML specification file
+2. **Orchestrator Schedules Tasks**: Based on resource availability, data location, and job requirements, the Orchestrator assigns tasks to Compute Nodes.
+3. **Compute Nodes Execute Tasks**: Each Compute Node pulls the necessary image(s), mounts or fetches input data (local, S3, etc.), and runs the task in an isolated environment.
+4. **Results Publication**: Once the task completes, outputs are published to configured storage. The Orchestrator updates the job's status accordingly.
+
+All of these components run from the same Bacalhau binary, just in different modes, making deployment remarkably simple.
+
+## Core Components
+
+### Orchestrators
+
+* **Core Role**: Receives job submissions, maintains job state, and coordinates scheduling
+* **NATS Server**: Acts as a messaging infrastructure hub
+* **Communication**: Broadcasts scheduling decisions and listens for status updates
+
+### Compute Nodes
+
+* **Primary Function**: Execute containerized or WASM-based workloads
+* **Resource Management**: Advertise available CPU, memory, GPU, and storage capacity
+* **Data Handling**: Fetch or mount input data from various sources and publish results
+* **Isolation**: Run tasks in Docker containers or WASM environments
+
+## Modular Architecture
+
+Bacalhau features a pluggable architecture with well-defined interfaces that enable extension without modifying core code:
+
+* **Execution Engine Interface**: Currently supports Docker and WebAssembly (WASM) workloads, with a clean API for adding new execution environments
+* **Storage Provider Interface**: Plug in various storage backends (S3, HTTP/HTTPS, local paths, IPFS) for both input and output handling
+* **Publisher Interface**: Easily add new ways to publish and share computation results
+
+## Data-Centric Design
+
+A key differentiator of Bacalhau is its data-centric approach:
+
+* **Data Locality**: The system intelligently schedules jobs on nodes with local access to data
+* **Minimal Transfer**: Moves computation to data rather than moving large datasets
+* **Data Sovereignty**: Process sensitive data within security boundaries without requiring it to leave premises
+* **Cross-Organizational Computation**: Enable collaborative analysis on protected datasets without exposing raw data
+
+## Network Resilience
+
+Bacalhau's architecture is designed to maintain operations even during network disruptions:
+
+* **Event-Driven State**: All system events are stored in local ledgers and shared during normal operation
+* **Independent Operation**: Nodes continue functioning during network outages
+* **State Reconciliation**: When network partitions heal, nodes exchange missed events
+* **Local Decision Making**: Orchestrators can make scheduling decisions with available information
+
+## Deployment Models
+
+Bacalhau's single-binary architecture supports flexible deployment configurations:
+
+* **Single Node**: Run orchestrator and compute services on one machine (ideal for development)
+* **Regional Cluster**: Distributed compute nodes within a single geographic region
+* **Global Cluster**: Compute network spanning multiple regions and data centers
+
+## Security Considerations
+
+* **Execution Environments**: Tasks run in Docker containers or WASM environments with appropriate resource limits
+* **Access Control**: Each node requires valid credentials for accessing private data sources
+* **Data Boundaries**: Computation happens within defined security perimeters, protecting sensitive information
+
+## Observability
+
+* **Metrics & Logging**: Each node can expose metrics on resource usage and job performance
+* **Event Tracking**: Orchestrators record job lifecycle events for monitoring and auditing
+
+
+## key-concepts
+
+# Key Concepts
+
+Bacalhau is built around a few core ideas and terminologies. If you're new to Bacalhau, here's what you need to know:
+
+## Distributed Compute Orchestration
+
+Bacalhau coordinates computing workloads across a network of machines, intelligently matching jobs to resources.
+
+* Bacalhau acts as a dispatcher: You submit jobs (e.g., container workloads), and it finds the best node to run them based on available resources, data location, and constraints.
+
+## Bring the Compute to the Data
+
+Instead of moving data to compute, Bacalhau moves compute to where data lives, reducing network overhead and improving efficiency.
+
+* Traditionally, big data solutions shuffle large datasets across networks to a central compute cluster.
+* Bacalhau inverts this approach: it places compute tasks where the data already resides—whether in local storage, an S3 bucket, or other storage providers—reducing unnecessary data movement.
+
+## Jobs & Executions
+
+Bacalhau organizes work in a hierarchy that enables efficient resource allocation and parallelization.
+
+* A **Job** defines the overall workflow (e.g., "run a Docker image with these arguments").
+* A job can be broken into multiple **Executions** that run in parallel across different compute nodes.
+* Bacalhau optimizes these executions based on data locality and available resources.
+
+## Job Types
+
+Bacalhau supports various execution patterns to accommodate different workload requirements:
+
+* **Batch Jobs**: One-time execution of a workload, typically for data processing tasks that run to completion.
+* **Ops Jobs**: Administrative or operational tasks, often for system maintenance or monitoring.
+* **Daemon Jobs**: Long-running background processes that perform ongoing work.
+* **Service Jobs**: Web services or APIs that need to remain available and respond to requests.
+
+## Node Types
+
+The Bacalhau network consists of specialized components, each with specific responsibilities:
+
+* **Orchestrator Node**: Receives job submissions, schedules executions, and monitors state. Started with `bacalhau serve --orchestrator`.
+* **Compute Node**: Executes workloads locally, typically requiring Docker or another runtime. Started with `bacalhau serve --compute`.
+* **Hybrid Node**: Serves both roles at once—often used for local dev or small setups. Started with `bacalhau serve --orchestrator --compute`.
+
+## Execution Engines
+
+Bacalhau runs your code through pluggable runtime environments:
+
+* Bacalhau supports multiple execution engines through its modular architecture:
+  * **Docker**: For container-based workloads
+  * **WebAssembly (WASM)**: For lightweight, sandboxed execution
+* The framework is designed to accommodate additional engines as needed.
+
+## Storage Providers
+
+Bacalhau can access data from various sources through a clean, extensible interface:
+
+* Bacalhau can mount data from various sources through its flexible storage provider interface:
+  * S3-compatible storage
+  * HTTP/HTTPS URLs
+  * Local filesystems
+  * IPFS
+  * And more via storage provider plugins
+
+## Publisher
+
+After execution, Bacalhau ensures your results are accessible where you need them:
+
+* After a job finishes, its results can be published to a specific backend—like local disk, S3 or IPFS—so they're easy to retrieve.
+
+## Communication Layer
+
+A reliable messaging system allows Bacalhau components to coordinate effectively:
+
+* Bacalhau uses NATS.io as its communication backbone:
+  * Orchestrators act as NATS servers
+  * Compute nodes connect as NATS clients
+  * This provides reliable, scalable messaging between components
+

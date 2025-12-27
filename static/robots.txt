@@ -1,0 +1,11 @@
+# Bacalhau Documentation
+# https://docs.bacalhau.org
+
+User-agent: *
+Allow: /
+
+# LLM-friendly content for AI systems
+# See https://llmstxt.org/ for specification
+LLMs-Txt: https://docs.bacalhau.org/llms.txt
+
+Sitemap: https://docs.bacalhau.org/sitemap.xml

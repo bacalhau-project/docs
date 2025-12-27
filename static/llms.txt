@@ -1,0 +1,43 @@
+# Bacalhau Documentation
+
+> Bacalhau is an open-source distributed compute platform that enables processing data where it lives. Run Docker containers and WebAssembly across edge, on-premises, and multi-cloud environments.
+
+## Quick Start
+
+```bash
+# Install Bacalhau
+curl -sL https://get.bacalhau.org/install.sh | bash
+
+# Run your first job
+bacalhau docker run ubuntu echo "Hello World"
+
+# Check job status
+bacalhau job list
+```
+
+## Documentation Sections
+
+- [Getting Started](/llms/getting-started.txt): Installation, quickstart, first jobs
+- [CLI Reference](/llms/cli.txt): All bacalhau commands and options
+- [API Reference](/llms/api.txt): REST API documentation
+- [Examples](/llms/examples.txt): Code examples and tutorials
+- [Concepts](/llms/concepts.txt): Architecture and core concepts
+
+## Key Concepts
+
+- **Compute Over Data**: Run compute where data lives, not the other way around
+- **Docker Support**: Run existing Docker containers without modification
+- **WASM Support**: Lightweight WebAssembly execution for edge devices
+- **Distributed**: Scale from laptop to thousands of nodes
+- **Open Source**: Apache 2.0 licensed, community-driven
+
+## Resources
+
+- GitHub: https://github.com/bacalhau-project/bacalhau
+- Discord: https://bit.ly/bacalhau-project-slack
+- Website: https://bacalhau.org
+
+## Related
+
+- [Expanso Platform](https://docs.expanso.io/llms.txt): Enterprise features
+- [Examples](https://examples.expanso.io/llms.txt): Code examples
