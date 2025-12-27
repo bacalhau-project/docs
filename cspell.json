@@ -2,7 +2,7 @@
   "version": "0.2",
   "language": "en",
   "files": ["**/*.{md,mdx,ts,tsx,js,jsx,json}"],
-  "ignorePaths": ["package-lock.json", "yarn.lock", "*.log"],
+  "ignorePaths": ["package-lock.json", "yarn.lock", "*.log", "static/bacalhau.json"],
   "ignoreRegExpList": [
     "/```[\\s\\S]*?```/",
     "/`[^`]*`/",
