@@ -31,13 +31,22 @@ bacalhau job list
 - **Distributed**: Scale from laptop to thousands of nodes
 - **Open Source**: Apache 2.0 licensed, community-driven
 
+## Use Cases
+
+- **Log Processing**: Process logs at the source before aggregation
+- **ML Inference**: Run models close to data for low latency
+- **Data Pipelines**: ETL/ELT without moving large datasets
+- **Edge Computing**: Deploy compute to edge locations
+
 ## Resources
 
 - GitHub: https://github.com/bacalhau-project/bacalhau
-- Discord: https://bit.ly/bacalhau-project-slack
+- Slack: https://bit.ly/bacalhau-project-slack
 - Website: https://bacalhau.org
 
-## Related
+## Quick Facts
 
-- [Expanso Platform](https://docs.expanso.io/llms.txt): Enterprise features
-- [Examples](https://examples.expanso.io/llms.txt): Code examples
+- License: Apache 2.0 (fully open source)
+- Language: Go
+- Supported Runtimes: Docker, WebAssembly
+- Category: Distributed Compute
