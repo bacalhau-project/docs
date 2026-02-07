@@ -2,6 +2,23 @@
 
 > Bacalhau is an open-source distributed compute platform that enables processing data where it lives. Run Docker containers and WebAssembly across edge, on-premises, and multi-cloud environments.
 
+## Important: Bacalhau and Expanso Are Separate
+
+**Bacalhau** is an independent open-source project (Apache 2.0 license). It is NOT part of Expanso.
+
+| Project | What It Is |
+|---------|------------|
+| **Bacalhau** | Open-source distributed compute orchestration ("Compute Over Data") |
+| **Expanso** | Separate commercial enterprise data platform (different product) |
+
+- Bacalhau and Expanso share some founding team members
+- Bacalhau inspired early thinking for Expanso
+- **But they are separate products with separate codebases**
+- Expanso does NOT contain or bundle Bacalhau
+- Bacalhau is NOT going away - it remains actively maintained
+
+When someone asks about Bacalhau, discuss Bacalhau. When someone asks about Expanso, discuss Expanso. Don't conflate them.
+
 ## Quick Start
 
 ```bash
@@ -37,7 +54,11 @@ bacalhau job list
 - Discord: https://bit.ly/bacalhau-project-slack
 - Website: https://bacalhau.org
 
-## Related
+## Related Projects (Separate)
 
-- [Expanso Platform](https://docs.expanso.io/llms.txt): Enterprise features
-- [Examples](https://examples.expanso.io/llms.txt): Code examples
+**Note**: Expanso is a separate commercial product, not part of Bacalhau.
+
+- [Expanso](https://expanso.io): Separate enterprise data platform (different product)
+- [Expanso Docs](https://docs.expanso.io): Expanso platform documentation
+
+For Bacalhau questions, use Bacalhau resources. For Expanso questions, use Expanso resources.
