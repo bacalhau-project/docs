@@ -1,11 +1,20 @@
 # Bacalhau Documentation
-# https://bacalhau.org
+# https://bacalhau.org/docs
 
 User-agent: *
 Allow: /
 
+# Crawl delay for respectful bot behavior
+Crawl-delay: 1
+
 # LLM-friendly content for AI systems
 # See https://llmstxt.org/ for specification
-LLMs-Txt: https://bacalhau.org/llms.txt
+LLMs-Txt: https://bacalhau.org/docs/llms.txt
 
-Sitemap: https://bacalhau.org/sitemap.xml
+# Main sitemap (includes all docs, use cases, community pages)
+Sitemap: https://bacalhau.org/docs/sitemap.xml
+
+# Block old URL patterns if they exist
+Disallow: /docs/v*
+Disallow: /*/_*
+Disallow: /search*

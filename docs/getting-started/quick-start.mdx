@@ -1,5 +1,7 @@
 ---
 sidebar_position: 10
+description: Get started with Bacalhau in minutes - install, run your first distributed compute job, and see results
+keywords: [bacalhau quickstart, distributed computing, edge computing, docker, getting started]
 ---
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
@@ -8,10 +10,21 @@ import TabItem from '@theme/TabItem'
 
 This Quick Start guide shows how to run your first Bacalhau job with minimal setup. Bacalhau's design as a single self-contained binary makes it incredibly easy to set up your own distributed compute network in minutes.
 
+By the end of this guide, you'll have:
+- ✅ Installed Bacalhau locally
+- ✅ Started your own compute network
+- ✅ Submitted and run a data processing job
+- ✅ Retrieved and viewed the results
+
 ## Prerequisites
 
-- Docker installed on any machine that runs a compute node
-- Bacalhau CLI installed (see below)
+- **Docker** installed on any machine that runs a compute node
+- **Bacalhau CLI** installed (see below)
+- **Basic terminal knowledge** for running commands
+
+:::tip Production Deployment
+For production environments, enterprise support, and advanced features, [**Expanso**](https://expanso.io) provides managed Bacalhau infrastructure with enterprise-grade security, monitoring, and support. [Contact our team](https://expanso.io/contact) to learn more.
+:::
 
 ## 1. Installation
 
@@ -27,6 +40,8 @@ curl -sL https://get.bacalhau.org/install.sh | bash
 bacalhau version
 ```
 
+You should see output showing the Bacalhau version and build information.
+
 ## 2. Start a Hybrid Node
 
 Open a terminal and run:
@@ -35,15 +50,22 @@ Open a terminal and run:
 bacalhau serve --orchestrator --compute
 ```
 
-- This command launches both an orchestrator and a compute node in one process
-- Keep it running; you'll see logs indicating it's ready
+**What this does:**
+- Launches both an orchestrator and a compute node in one process
+- Creates a complete Bacalhau network on your local machine
+- Starts listening for jobs to process
+
+Keep this terminal open and running. You'll see logs indicating the node is ready to accept jobs.
 
 ## 3. Submit a Data Analysis Job
 
-Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
+Bacalhau supports two primary methods of job submission: **Imperative (CLI)** and **Declarative (YAML)**. We'll demonstrate a word count analysis job on the classic novel Moby Dick.
 
 <Tabs groupId="job-submission">
 <TabItem value="Imperative (CLI)" label="Imperative (CLI)">
+
+Run this single command to submit your job:
+
 ```bash
 bacalhau docker run \
   --input https://www.gutenberg.org/files/2701/2701-0.txt:/data/moby-dick.txt \
@@ -51,9 +73,16 @@ bacalhau docker run \
   --publisher local \
   ghcr.io/bacalhau-project/word-count:latest -- --output-file /outputs/moby-dick-counts.txt /data/moby-dick.txt
 ```
+
+**What this does:**
+- Downloads Moby Dick text from Project Gutenberg
+- Runs a word count analysis using a containerized tool
+- Saves results to a local directory
+
 </TabItem>
 
 <TabItem value="Declarative (YAML)" label="Declarative (YAML)">
+
 Create a `word-count.yaml` file:
 
 ```yaml
@@ -89,43 +118,111 @@ Then run the job using:
 bacalhau job run word-count.yaml
 ```
 
+**Benefits of YAML approach:**
+- Version controllable job definitions
+- Easier to share and reproduce
+- Better for complex job configurations
+
 </TabItem>
 </Tabs>
 
-- The job downloads a sample dataset and processes it locally
-- Bacalhau will display job progress until completion
-- You'll receive a Job ID once the job is submitted
+After submission, Bacalhau will:
+1. Display job progress as it processes
+2. Print a **Job ID** (save this for the next steps)
+3. Show completion status
 
-## 4. Inspect the Job
+## 4. Monitor the Job
+
+Check your job's status and details:
 
 ```bash
+# Get detailed job information
 bacalhau job describe <jobID>
+
+# View execution logs
+bacalhau job logs <jobID>
+
+# List all your jobs
+bacalhau job list
 ```
 
-- Replace `<jobID>` with the actual ID printed in step 2
-- You can run `bacalhau job logs <job-id>` to just get the execution logs
+Replace `<jobID>` with the actual ID printed in step 3.
 
 ## 5. Retrieve Results
 
-Download and view your job results:
+Download and examine your job results:
 
 ```bash
-# Download the results
+# Download the results to your local machine
 bacalhau job get <jobID>
 
-# View the analysis output
+# View the word frequency analysis
 head job-*/outputs/moby-dick-counts.txt
 ```
 
-:::note
-You should see a word frequency analysis of the Moby Dick text file!
+:::success Congratulations! 
+You should see a word frequency analysis showing the most common words from Moby Dick, like:
+
+```
+the: 14620
+of: 6732
+and: 6502
+a: 4799
+to: 4707
+```
 :::
 
-## 🎉 Success!
+## What Just Happened?
 
-You've just:
+You've successfully:
 
-1. Started a local Bacalhau network
-2. Submitted a job using both imperative and declarative methods
-3. Tracked job progress with detailed descriptions
-4. Retrieved and viewed job results
+1. ✅ **Started a local Bacalhau network** - Your machine became both an orchestrator and compute node
+2. ✅ **Submitted a distributed job** - The word count analysis ran in an isolated Docker container
+3. ✅ **Processed remote data** - Bacalhau downloaded and processed the text file automatically
+4. ✅ **Retrieved structured results** - The output was saved and made available for download
+
+## Next Steps
+
+Now that you have Bacalhau working, explore these advanced topics:
+
+### 🚀 **Scale Your Network**
+- [**Add more compute nodes**](/getting-started/network-setup) to create a true distributed system
+- [**Connect remote nodes**](/getting-started/network-setup) across different machines or regions
+
+### 📚 **Learn Core Concepts**
+- [**Architecture Overview**](/overview/architecture) - Understand how Bacalhau orchestrates compute
+- [**Job Types & Execution**](/guides/) - Explore batch, daemon, service, and ops jobs
+
+### 🛠️ **Advanced Usage**
+- [**CLI Reference**](/cli/) - Complete command documentation
+- [**API Documentation**](/api/) - Programmatic job submission
+- [**Use Cases**](/use-cases/log-processing) - Real-world applications and patterns
+
+### 🏢 **Production Deployment**
+
+For production environments, [**Expanso**](https://expanso.io) provides:
+
+- **Managed Infrastructure**: Fully managed Bacalhau clusters with high availability
+- **Enterprise Security**: Advanced authentication, RBAC, and audit logging
+- **Professional Support**: SLAs, consulting, and dedicated customer success
+- **Cloud Integration**: Seamless deployment across AWS, Azure, GCP, and on-premises
+
+[**Schedule a demo →**](https://expanso.io/contact) or [**learn more about enterprise features →**](https://expanso.io)
+
+## Troubleshooting
+
+**Job not starting?**
+- Ensure Docker is running: `docker version`
+- Check node status: `bacalhau node list`
+
+**Network issues?**
+- Verify firewall settings allow Bacalhau communication
+- Check the [network setup guide](/getting-started/network-setup)
+
+**Need help?** 
+- Join our [Slack community](https://bit.ly/bacalhau-project-slack)  
+- [Report issues](https://github.com/bacalhau-project/bacalhau/issues) on GitHub
+
+---
+
+*Ready for production? [**Contact Expanso**](https://expanso.io/contact) for enterprise support, managed infrastructure, and professional services.*

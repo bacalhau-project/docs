@@ -2,7 +2,9 @@
 
 Bacalhau is an open-source distributed compute orchestration framework designed to bring compute to the data. Instead of moving large datasets around networks, Bacalhau makes it easy to execute jobs close to the data's location, drastically reducing latency and resource overhead.
 
-### Why It Matters
+**Bacalhau is built and maintained by [Expanso](https://expanso.io)**, the enterprise edge computing platform that provides production-ready infrastructure, commercial support, and enterprise features for organizations running distributed compute at scale.
+
+## Why It Matters
 
 * **Highly Distributed Architecture**: Deploy compute networks that span regions, cloud providers, and on-premises datacenters—all working together as a unified system.
 * **Resilient Operation**: Compute nodes operate effectively even with intermittent connectivity to orchestrators, maintaining service availability during network partitioning or isolation.
@@ -12,7 +14,7 @@ Bacalhau is an open-source distributed compute orchestration framework designed 
 * **High Scalability**: As your data and processing needs grow, simply add more compute nodes on demand—whether on-premises or in the cloud.
 * **Ease of Integration**: Bacalhau works with existing container images (Docker, etc.), meaning you can leverage your current workflows without major rewrites.
 
-### Key Features
+## Key Features
 
 1. **Single Binary Simplicity**: Bacalhau is a single self-contained binary that functions as a client, orchestrator, and compute node—making it incredibly easy to set up and scale your distributed compute network.
 2. **Modular Architecture**: Bacalhau's design supports multiple execution engines (Docker, WebAssembly) and storage providers through clean interfaces, allowing for easy extension.
@@ -22,7 +24,7 @@ Bacalhau is an open-source distributed compute orchestration framework designed 
 6. **Declarative & Imperative Submissions**: Define jobs in a YAML spec (declarative) or pass all arguments via CLI (imperative).
 7. **Publisher Support**: Output results to local volumes, S3, or other storage backends—so your artifacts are readily accessible.
 
-### Use Cases
+## Use Cases
 
 Bacalhau's distributed compute framework enables a wide range of applications across different industries:
 
@@ -37,6 +39,8 @@ Process logs efficiently at scale by running distributed jobs directly at the so
 * **Batch Jobs**: Execute on-demand in-depth analysis of historical log data
 * **Ops Jobs**: Enable real-time querying of live logs for urgent investigations
 
+📖 Learn more: [Log Processing Use Case](/use-cases/log-processing)
+
 </details>
 
 <details>
@@ -49,6 +53,8 @@ Query and analyze data across multiple regions by deploying compute tasks direct
 * Improved query performance through compute-data proximity
 * Seamless scalability with dynamic node addition
 * Compliance with data regulations through region-specific processing
+
+📖 Learn more: [Distributed Data Warehousing Use Case](/use-cases/distributed-data-warehousing)
 
 </details>
 
@@ -64,6 +70,8 @@ Efficiently manage distributed nodes across multiple environments with capabilit
 * Targeted job execution based on node attributes
 * Rapid incident response and automated recovery
 
+📖 Learn more: [Fleet Management Use Case](/use-cases/fleet-management)
+
 </details>
 
 <details>
@@ -76,6 +84,8 @@ Train and deploy ML models across a distributed compute fleet, optimizing perfor
 * Process data locally to minimize network transfers
 * Deploy inference jobs near users for low-latency predictions
 * Support federated learning for privacy-sensitive applications
+
+📖 Learn more: [Distributed Machine Learning Use Case](/use-cases/distributed-machine-learning)
 
 </details>
 
@@ -90,11 +100,11 @@ Run compute tasks closer to the data source for applications requiring low laten
 * Distribute tasks across available edge resources dynamically
 * Ensure data privacy by keeping computations near the source
 
+📖 Learn more: [Edge Computing Use Case](/use-cases/edge-computing)
+
 </details>
 
-
-
-### How It Works
+## How It Works
 
 Bacalhau's architecture enables you to create compute networks that bridge traditional infrastructure boundaries. When you submit a job, Bacalhau intelligently determines which compute nodes are best positioned to process the data based on locality, availability, and your defined constraints—without requiring data movement or constant connectivity.
 
@@ -105,9 +115,38 @@ This approach is particularly valuable for:
 * Scenarios where multiple parties need to collaborate on analysis without sharing raw data
 * Edge computing environments with intermittent connectivity
 
-### Community
+📖 **Learn more:** [Architecture Overview](/overview/architecture) | [Getting Started Guide](/getting-started/quick-start)
+
+## Enterprise & Production Support
+
+For organizations running Bacalhau in production environments, [**Expanso**](https://expanso.io) provides:
+
+* 🏢 **Enterprise Support**: Professional support, SLAs, and consulting services
+* 🔒 **Enhanced Security**: Advanced authentication, authorization, and audit capabilities  
+* 📊 **Management Tools**: Web-based dashboards, monitoring, and operational tooling
+* ☁️ **Cloud Integration**: Seamless integration with major cloud providers and enterprise systems
+* 🎯 **Custom Solutions**: Tailored implementations for specific industry requirements
+
+[**Contact Expanso →**](https://expanso.io/contact) for enterprise solutions and production support.
+
+## Community
 
 Bacalhau has a very friendly community and we are always happy to help you get started:
 
-* [Join the Slack Community](https://bit.ly/bacalhau-project-slack) Go to **#bacalhau** channel – it is the easiest way to engage with other members in the community and get help.
-* [Contributing](/community/ways-to-contribute) – learn how to contribute to the Bacalhau project.
+* 💬 [**Join the Slack Community**](https://bit.ly/bacalhau-project-slack) - Go to **#bacalhau** channel – it is the easiest way to engage with other members in the community and get help.
+* 🤝 [**Contributing**](/community/ways-to-contribute) – learn how to contribute to the Bacalhau project.
+* 🐛 [**Report Issues**](https://github.com/bacalhau-project/bacalhau/issues) – help us improve by reporting bugs and feature requests.
+* 📖 [**Documentation**](/) – comprehensive guides and API references.
+
+## Next Steps
+
+Ready to get started? Here are some great places to begin:
+
+1. 🚀 [**Quick Start Guide**](/getting-started/quick-start) - Get Bacalhau running in minutes
+2. 📚 [**Architecture Overview**](/overview/architecture) - Understand how Bacalhau works
+3. 🛠️ [**CLI Reference**](/cli) - Complete command-line interface documentation  
+4. 💡 [**Use Cases**](/use-cases/log-processing) - See real-world applications and examples
+
+---
+
+*Bacalhau is an open-source project maintained by [Expanso](https://expanso.io). For enterprise support and production deployments, [contact our team](https://expanso.io/contact).*

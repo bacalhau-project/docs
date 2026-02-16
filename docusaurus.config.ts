@@ -1,20 +1,21 @@
 import { themes as prismThemes } from 'prism-react-renderer'
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
-import { redirects, createRedirects } from './redirects' // Add this line
+import { redirects, createRedirects } from './redirects'
 
 const config: Config = {
-  title: 'Expanso Documentation',
-  tagline: 'Deploy and orchestrate intelligent data pipelines at the edge',
+  title: 'Bacalhau Documentation',
+  tagline: 'Distributed compute orchestration - bringing compute to the data',
   favicon: 'img/favicon.png',
 
-  url: 'https://docs.expanso.io',
-  baseUrl: '/',
+  // Correct URL where docs are actually hosted
+  url: 'https://bacalhau.org',
+  baseUrl: '/docs/',
   trailingSlash: false,
 
   // GitHub pages deployment config.
-  organizationName: 'bacalhau-project', // Usually your GitHub org/user name.
-  projectName: 'docs', // Usually your repo name.
+  organizationName: 'bacalhau-project',
+  projectName: 'docs',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
@@ -41,7 +42,7 @@ const config: Config = {
       {
         id: 'useCases',
         path: 'content/use-cases',
-        routeBasePath: '/',
+        routeBasePath: '/use-cases',
         sidebarPath: require.resolve('./sidebarsUseCases.ts'),
       },
     ],
@@ -54,6 +55,15 @@ const config: Config = {
         sidebarPath: require.resolve('./sidebarsCommunity.ts'),
       },
     ],
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        changefreq: 'weekly',
+        priority: 0.5,
+        ignorePatterns: ['/docs/tags/**'],
+        filename: 'sitemap.xml',
+      },
+    ],
   ],
 
   presets: [
@@ -62,16 +72,26 @@ const config: Config = {
       {
         docs: {
           path: 'docs',
-          routeBasePath: 'docs',
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebarsDocs.ts'),
           editUrl: 'https://github.com/bacalhau-project/docs/tree/main/',
           showLastUpdateTime: true,
+          // Add schema markup for articles
+          remarkPlugins: [],
+          rehypePlugins: [],
         },
         theme: {
           customCss: './src/css/custom.css',
         },
         googleTagManager: {
           containerId: 'GTM-M4ZC5QX7',
+        },
+        // Ensure sitemap generation
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          ignorePatterns: ['/tags/**'],
+          filename: 'sitemap.xml',
         },
       } satisfies Preset.Options,
     ],
@@ -100,6 +120,31 @@ const config: Config = {
         href: 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap',
       },
     },
+    // Add JSON-LD structured data for organization
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Bacalhau Project',
+        url: 'https://bacalhau.org',
+        logo: 'https://bacalhau.org/img/logos/logo.svg',
+        description: 'Open-source distributed compute orchestration framework',
+        founder: {
+          '@type': 'Organization',
+          name: 'Expanso',
+          url: 'https://expanso.io'
+        },
+        parentOrganization: {
+          '@type': 'Organization',
+          name: 'Expanso',
+          url: 'https://expanso.io'
+        }
+      }),
+    },
   ],
 
   themeConfig: {
@@ -108,7 +153,6 @@ const config: Config = {
       disableSwitch: true,
       respectPrefersColorScheme: false,
     },
-    // Replace with your project's social card
     image: 'img/bacalhau-social.png',
     algolia: {
       appId: 'K2MK84JXCM',
@@ -116,12 +160,12 @@ const config: Config = {
       indexName: 'bacalhau',
       searchPagePath: 'search',
       insights: true,
-      placeholder: 'Search Expanso...'
+      placeholder: 'Search Bacalhau Docs...'
     },
     navbar: {
-      title: 'Expanso',
+      title: 'Bacalhau',
       logo: {
-        alt: 'Expanso Logo',
+        alt: 'Bacalhau Logo',
         src: 'img/logos/logo.svg',
         srcDark: 'img/logos/logo-dark.svg',
       },
@@ -164,7 +208,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://expanso.io/?_gl=1*sdzh2w*_gcl_au*ODM0MTE4NTkyLjE3NDIyOTQ5MDQ.*_ga*ODgxNjg0Mjg3LjE3NDIyOTQ5MDQ.*_ga_X1RJ0QGN3Z*czE3NDY1OTkyNDkkbzI5JGcxJHQxNzQ2NjAzMzIxJGoxMCRsMCRoMA..',
+          href: 'https://expanso.io',
           label: 'Enterprise',
           position: 'right',
         },
@@ -182,16 +226,16 @@ const config: Config = {
           title: 'Learn',
           items: [
             {
-              label: 'What is Expanso?',
-              to: '/docs/',
+              label: 'What is Bacalhau?',
+              to: '/',
             },
             {
               label: 'Architecture',
-              to: '/docs/overview/architecture',
+              to: '/overview/architecture',
             },
             {
               label: 'Quick Start',
-              to: '/docs/getting-started/quick-start',
+              to: '/getting-started/quick-start',
             },
           ],
         },
@@ -200,24 +244,23 @@ const config: Config = {
           items: [
             {
               label: 'Log Processing',
-              to: 'use-cases/log-processing',
+              to: '/use-cases/log-processing',
             },
             {
               label: 'Distributed Data Warehousing',
-              to: 'use-cases/distributed-data-warehousing',
+              to: '/use-cases/distributed-data-warehousing',
             },
-
             {
               label: 'Distributed Machine Learning',
-              to: 'use-cases/distributed-machine-learning',
+              to: '/use-cases/distributed-machine-learning',
             },
             {
               label: 'Edge Computing',
-              to: 'use-cases/edge-computing',
+              to: '/use-cases/edge-computing',
             },
             {
               label: 'Fleet Management',
-              to: 'use-cases/fleet-management',
+              to: '/use-cases/fleet-management',
             },
           ],
         },
@@ -253,14 +296,26 @@ const config: Config = {
               label: 'Enterprise Support',
               href: 'https://expanso.io/contact',
             },
+            {
+              label: 'About Expanso',
+              href: 'https://expanso.io/about',
+            },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Expanso.`,
+      copyright: `
+        <div style="margin-top: 1rem;">
+          <p>Copyright © ${new Date().getFullYear()} Bacalhau Project.</p>
+          <p style="margin-top: 0.5rem; font-size: 0.875em; opacity: 0.8;">
+            Bacalhau is built and maintained by <a href="https://expanso.io" target="_blank" rel="noopener noreferrer" style="color: #4f46e5; text-decoration: none;">Expanso</a>, 
+            the enterprise edge computing platform.
+          </p>
+        </div>
+      `,
     },
 
     prism: {
-      additionalLanguages: ['bash'],
+      additionalLanguages: ['bash', 'yaml', 'json', 'python', 'go'],
     },
   } satisfies Preset.ThemeConfig,
 }
