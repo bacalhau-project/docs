@@ -4,11 +4,11 @@ import type * as Preset from '@docusaurus/preset-classic'
 import { redirects, createRedirects } from './redirects' // Add this line
 
 const config: Config = {
-  title: 'Bacalhau',
-  tagline: 'Distributed Compute Over Data',
+  title: 'Expanso Documentation',
+  tagline: 'Deploy and orchestrate intelligent data pipelines at the edge',
   favicon: 'img/favicon.png',
 
-  url: 'https://bacalhau.org',
+  url: 'https://docs.expanso.io',
   baseUrl: '/',
   trailingSlash: false,
 
@@ -116,12 +116,12 @@ const config: Config = {
       indexName: 'bacalhau',
       searchPagePath: 'search',
       insights: true,
-      placeholder: 'Search Bacalhau...'
+      placeholder: 'Search Expanso...'
     },
     navbar: {
-      title: 'Bacalhau',
+      title: 'Expanso',
       logo: {
-        alt: 'Bacalhau Logo',
+        alt: 'Expanso Logo',
         src: 'img/logos/logo.svg',
         srcDark: 'img/logos/logo-dark.svg',
       },
@@ -182,7 +182,7 @@ const config: Config = {
           title: 'Learn',
           items: [
             {
-              label: 'What is Bacalhau?',
+              label: 'What is Expanso?',
               to: '/docs/',
             },
             {
@@ -256,7 +256,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Bacalhau Project.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Expanso.`,
     },
 
     prism: {
