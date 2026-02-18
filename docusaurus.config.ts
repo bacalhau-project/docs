@@ -10,7 +10,9 @@ const config: Config = {
 
   url: 'https://bacalhau.org',
   baseUrl: '/',
-  trailingSlash: false,
+  // true = pages served at /path/ (with slash), /path redirects → /path/
+  // Fixes GitHub Pages 404s when Google crawls slash variants of URLs
+  trailingSlash: true,
 
   // GitHub pages deployment config.
   organizationName: 'bacalhau-project', // Usually your GitHub org/user name.
@@ -72,6 +74,19 @@ const config: Config = {
         },
         googleTagManager: {
           containerId: 'GTM-M4ZC5QX7',
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          // Exclude pages that have noindex or are not useful for search
+          ignorePatterns: [
+            '/search',
+            '/search/**',
+            '/tags/**',
+            '/docs/tags/**',
+            '/community/tags/**',
+          ],
+          filename: 'sitemap.xml',
         },
       } satisfies Preset.Options,
     ],
