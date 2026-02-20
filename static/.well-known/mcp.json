@@ -25,9 +25,9 @@
     }
   ],
   "documentation": {
-    "main": "https://docs.bacalhau.org",
+    "main": "https://bacalhau.org/docs",
     "github": "https://github.com/bacalhau-project/bacalhau",
-    "llms_txt": "https://docs.bacalhau.org/llms.txt"
+    "llms_txt": "https://bacalhau.org/llms.txt"
   },
   "contact": {
     "discord": "https://bit.ly/bacalhau-project-slack",
