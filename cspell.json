@@ -35,6 +35,9 @@
     "libp2p",
     "duckdb",
     "myvalue",
-    "oom"
+    "oom",
+    "llms",
+    "ETL",
+    "ELT"
   ]
 }
