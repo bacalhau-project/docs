@@ -151,7 +151,7 @@ Submit a new job for execution.
 
 **Request Body**:
 
-- [**Job**](../specifications/job/): JSON definition of the job.
+- [**Job**](/docs/specifications/job/): JSON definition of the job.
 
 **Response**:
 
