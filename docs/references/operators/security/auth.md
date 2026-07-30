@@ -1,3 +1,7 @@
+---
+description: Configure HTTP basic authentication, API tokens, OAuth 2.0 single sign-on, and authorization for Bacalhau APIs.
+---
+
 # Authentication & Authorization
 
 ## Introduction

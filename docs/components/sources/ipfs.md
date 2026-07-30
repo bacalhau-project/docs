@@ -1,5 +1,7 @@
 ---
 slug: /sources/ipfs
+title: IPFS Input Source
+description: Fetch files and directories by IPFS content identifier and mount them as inputs to a Bacalhau task.
 ---
 
 # IPFS

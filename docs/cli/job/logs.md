@@ -1,3 +1,7 @@
+---
+description: Retrieve logs from a running or completed Bacalhau job for monitoring and debugging.
+---
+
 # Logs
 
 ## Description

@@ -55,6 +55,8 @@ function HomepageHeader() {
                             <br/><br/>
                             With the open-source software Bacalhau, you can streamline your existing workflows without rewriting by running Docker containers and WebAssembly (WASM) images as tasks. This architecture is also referred to as <strong>Compute Over Data</strong> (or CoD).
                             <br/><br/>
+                            Commercial support for Bacalhau is available through <Link href="https://expanso.io/">Expanso</Link>.
+                            <br/><br/>
                             <em>The name </em><Link href="https://en.wikipedia.org/wiki/Bacalhau"><em>&quot;Bacalhau&quot;</em></Link><em> comes from the Portuguese word for cod.</em>
                         </p>
                         <div className={styles.githubButton}>

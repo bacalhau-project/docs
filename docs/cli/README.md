@@ -1,5 +1,7 @@
 ---
 sidebar_position: 01
+title: Bacalhau CLI Reference
+description: Learn the Bacalhau command structure, global flags, output formats, configuration paths, and connection settings.
 ---
 
 # Overview

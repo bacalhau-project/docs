@@ -1,3 +1,8 @@
+---
+title: Agent Commands
+description: Use the bacalhau agent command group to inspect agent health, version, and node information.
+---
+
 # Agent
 
 The `bacalhau agent` command is a parent command that offers sub-commands to query information about the Bacalhau agent. This can be useful for debugging, monitoring, or managing the agent's behavior and health.

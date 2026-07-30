@@ -1,3 +1,7 @@
+---
+description: Submit a Bacalhau job from YAML, JSON, standard input, or command-line arguments and control template values.
+---
+
 # Run
 
 ## Description
@@ -310,7 +314,7 @@ Tasks:
     Engine:
       Type: docker
       Params:
-        Image: expanso/nginx-access-log-processor:1.0.0
+        Image: ghcr.io/bacalhau-project/nginx-access-log-query:1.0.0
         Parameters:
           - --query
           - { { .query } }
@@ -347,7 +351,7 @@ Tasks:
     Engine:
       Type: docker
       Params:
-        Image: expanso/nginx-access-log-processor:1.0.0
+        Image: ghcr.io/bacalhau-project/nginx-access-log-query:1.0.0
         Parameters:
           - --query
           - { { .query } }

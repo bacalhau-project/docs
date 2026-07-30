@@ -1,5 +1,7 @@
 ---
 slug: /publishers/ipfs
+title: IPFS Result Publisher
+description: Publish Bacalhau task results to IPFS for content-addressed, decentralized retrieval.
 ---
 
 # IPFS

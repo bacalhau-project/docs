@@ -1,5 +1,7 @@
 ---
 slug: /publishers/local
+title: Local Result Publisher
+description: Store Bacalhau task results on the compute node for local development and testing.
 ---
 # Local
 

@@ -1,3 +1,8 @@
+---
+title: Configure Job Timeouts
+description: Configure Bacalhau job timeouts to stop stalled workloads, protect compute resources, and control execution duration.
+---
+
 # Timeouts
 
 This guide explains how Bacalhau uses timeouts to manage job execution duration, protecting both users and compute resources from problematic jobs.

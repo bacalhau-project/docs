@@ -10,10 +10,6 @@ type PartnerItem = {
 
 const PartnerList: PartnerItem[] = [
     {
-        name: 'Expanso',
-        image: require('@site/static/img/partners/expanso.png').default,
-    },
-    {
         name: 'University of Maryland',
         image: require('@site/static/img/partners/maryland.png').default,
     },

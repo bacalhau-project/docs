@@ -1,3 +1,8 @@
+---
+title: List Nodes
+description: List Bacalhau network nodes with filters, ordering, and machine-readable output formats.
+---
+
 # List
 
 The `bacalhau node list` command is designed to provide users with a comprehensive list of network nodes along with details based on specified flags.

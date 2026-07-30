@@ -9,9 +9,6 @@ This section explains how to install Bacalhau on your machine, verify it's worki
 ## Install the Bacalhau Binary
 
 To install the CLI, choose your environment, and run the command(s) below.
-
-</Tabs>
-
 ### Verify the Installation
 
 ```bash
@@ -37,7 +34,7 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 - **AWS Credentials** (if you're using S3):
   - For S3 inputs or outputs, the node needs valid AWS credentials (e.g., environment variables).
 - **Running an Orchestrator & Compute**:
-  - See [Quick Start](./quick-start.mdx) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
+- See [Quick Start](https://bacalhau.org/docs/getting-started/quick-start/) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
 - **`bacalhau devstack`**:
   - Perfect for local development or running tests.
 
@@ -214,7 +211,7 @@ This Quick Start guide shows how to run your first Bacalhau job with minimal set
 
 ## 1. Installation
 
-1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](./installation.mdx) for Windows and Docker options.
+1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](https://bacalhau.org/docs/getting-started/installation/) for Windows and Docker options.
 
 ```bash
 curl -sL https://get.bacalhau.org/install.sh | bash
@@ -240,9 +237,6 @@ bacalhau serve --orchestrator --compute
 ## 3. Submit a Data Analysis Job
 
 Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
-
-</Tabs>
-
 - The job downloads a sample dataset and processes it locally
 - Bacalhau will display job progress until completion
 - You'll receive a Job ID once the job is submitted
@@ -280,4 +274,3 @@ You've just:
 2. Submitted a job using both imperative and declarative methods
 3. Tracked job progress with detailed descriptions
 4. Retrieved and viewed job results
-

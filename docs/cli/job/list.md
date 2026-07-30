@@ -1,3 +1,8 @@
+---
+title: List Jobs
+description: List submitted Bacalhau jobs and control filtering, sorting, pagination, and output formatting.
+---
+
 # List
 
 ## Description

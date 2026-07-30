@@ -19,9 +19,6 @@ In Bacalhau, you need to configure two key components for handling outputs:
 
 1. A **Publisher** defines where your job's output files are stored after execution
 2. **Result Paths** specify which directories should be captured as job results.&#x20;
-
-</Tabs>
-
 ### Retrieving Local Outputs
 
 After your job completes, retrieve outputs using the `bacalhau job get` command:
@@ -46,21 +43,12 @@ Bacalhau supports multiple publisher types to accommodate different needs and in
 ### S3 Publisher
 
 The S3 Publisher uploads outputs to an Amazon S3 bucket or any S3-compatible storage service, such as MinIO. The compute node must have permission to write to the bucket, and the orchestrator must have permission to provide pre-signed URLs to download the results.
-
-</Tabs>
-
 ### IPFS Publisher
 
 The IPFS Publisher uploads outputs to the InterPlanetary File System. Both the client (downloading the result) and the compute node must be connected to an IPFS daemon.
-
-</Tabs>
-
 ### Local Publisher
 
 The Local Publisher saves outputs to the local filesystem of the compute node that ran your job. This is intended for **local testing only**, as it requires the client downloading the results to be on the same network as the compute node.
-
-</Tabs>
-
 If you are using the local publish, make SURE you have set the path to be available to your job.
 
 For example, in your config file for your node, you probably want to mount in the local file system:
@@ -72,7 +60,7 @@ AllowListedLocalPaths: - /outputs:rw - /etc/\*.conf:ro
 
 ```
 
-You can read more about that here: [Understanding Publishers and Results](publishing-results.mdx#understanding-publishers-and-result-paths)
+You can read more about that here: [Understanding Publishers and Results](https://bacalhau.org/docs/guides/publishing-results/#understanding-publishers-and-result-paths)
 
 ## Troubleshooting
 
@@ -1005,7 +993,7 @@ This guide explains how to use existing Docker containers and create custom ones
 
 ## Prerequisites
 
-1. [Install the Bacalhau client](/getting-started/installation.mdx)
+1. [Install the Bacalhau client](https://bacalhau.org/docs/getting-started/installation/)
 2. [Docker](https://docs.docker.com/install/) (for both building custom containers and running on compute nodes)
 
 ## Understanding Docker Workloads in Bacalhau
@@ -1691,4 +1679,3 @@ Utilizing the `Timeouts` judiciously helps in managing resource utilization and 
 ## working-with-nodes
 
 [Content truncated - see full docs]
-
