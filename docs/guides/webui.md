@@ -1,3 +1,7 @@
+---
+description: Enable and use the Bacalhau web interface to monitor jobs, executions, and nodes in a deployment.
+---
+
 # Web UI
 
 ## Overview

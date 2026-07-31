@@ -1,3 +1,7 @@
+---
+description: Download a Bacalhau job's published results and retrieve its standard output and standard error streams.
+---
+
 # Get
 
 ## Description

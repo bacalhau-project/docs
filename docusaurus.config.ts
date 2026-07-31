@@ -94,6 +94,30 @@ const config: Config = {
 
   headTags: [
     {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareSourceCode',
+        name: 'Bacalhau',
+        url: 'https://bacalhau.org/',
+        codeRepository: 'https://github.com/bacalhau-project/bacalhau',
+        license: 'https://www.apache.org/licenses/LICENSE-2.0',
+        programmingLanguage: 'Go',
+        description:
+          'Open-source distributed compute orchestration software that runs workloads near the data they process.',
+        keywords: [
+          'compute over data',
+          'distributed computing',
+          'data locality',
+          'edge computing',
+          'workload orchestration',
+        ],
+      }),
+    },
+    {
       tagName: 'link',
       attributes: {
         rel: 'preconnect',
@@ -179,11 +203,6 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://expanso.io/?_gl=1*sdzh2w*_gcl_au*ODM0MTE4NTkyLjE3NDIyOTQ5MDQ.*_ga*ODgxNjg0Mjg3LjE3NDIyOTQ5MDQ.*_ga_X1RJ0QGN3Z*czE3NDY1OTkyNDkkbzI5JGcxJHQxNzQ2NjAzMzIxJGoxMCRsMCRoMA..',
-          label: 'Enterprise',
-          position: 'right',
-        },
-        {
           href: 'https://github.com/bacalhau-project/bacalhau',
           position: 'right',
           className: 'header-github-link',
@@ -254,19 +273,6 @@ const config: Config = {
             {
               label: 'LinkedIn',
               href: 'https://www.linkedin.com/showcase/bacalhau-project/posts',
-            },
-          ],
-        },
-        {
-          title: 'Expanso',
-          items: [
-            {
-              label: 'Expanso.io',
-              href: 'https://expanso.io',
-            },
-            {
-              label: 'Enterprise Support',
-              href: 'https://expanso.io/contact',
             },
           ],
         },

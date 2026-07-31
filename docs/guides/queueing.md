@@ -1,3 +1,7 @@
+---
+description: Configure how long Bacalhau jobs wait for compute nodes that satisfy capacity and placement constraints.
+---
+
 # Queueing
 
 ## Introduction

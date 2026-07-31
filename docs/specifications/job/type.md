@@ -291,7 +291,7 @@ Tasks:
       Params:
 
         # Image: docker image to be used in the task.
-        Image: expanso/nginx-access-log-processor:1.0.0
+        Image: ghcr.io/bacalhau-project/nginx-access-log-query:1.0.0
 
 
         # Entrypoint defines a command that will be executed when container starts. 
@@ -483,7 +483,7 @@ Tasks:
       Params:
 
         # Image: docker image to be used in the task.
-        Image: expanso/nginx-access-log-agent:1.0.0
+        Image: ghcr.io/bacalhau-project/nginx-access-log-agent:1.0.0
 
 
         # Entrypoint defines a command that will be executed when container starts. 

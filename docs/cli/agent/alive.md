@@ -1,3 +1,7 @@
+---
+description: Check whether a Bacalhau agent is responding and retrieve its current liveness and health information.
+---
+
 # Alive
 
 ## Description

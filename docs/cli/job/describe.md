@@ -1,3 +1,8 @@
+---
+title: Describe a Job
+description: Retrieve the complete specification and current status of a Bacalhau job by its identifier.
+---
+
 # Describe
 
 ## Description

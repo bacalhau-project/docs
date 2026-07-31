@@ -1,33 +1,17 @@
 {
   "name": "Bacalhau Documentation",
-  "description": "MCP server for Bacalhau distributed compute documentation - CLI reference, API docs, examples, and tutorials",
+  "description": "Discovery metadata for the Bacalhau open-source distributed compute documentation",
   "version": "1.0.0",
-  "server": {
-    "url": "https://mcp.expanso.io",
-    "transport": "https"
-  },
-  "capabilities": {
-    "tools": true,
-    "resources": true
-  },
-  "tools": [
-    {
-      "name": "search_bacalhau_docs",
-      "description": "Search Bacalhau documentation for answers about distributed compute, CLI commands, and API usage"
-    },
-    {
-      "name": "get_cli_help",
-      "description": "Get detailed help for Bacalhau CLI commands"
-    },
-    {
-      "name": "get_example",
-      "description": "Get code examples for running jobs with Bacalhau"
-    }
-  ],
+  "mcp_server": null,
+  "note": "Bacalhau does not currently publish an MCP server. Use the documentation and LLM-readable text resources below.",
   "documentation": {
     "main": "https://bacalhau.org/docs",
     "github": "https://github.com/bacalhau-project/bacalhau",
-    "llms_txt": "https://bacalhau.org/llms.txt"
+    "llms_txt": "https://bacalhau.org/llms.txt",
+    "getting_started": "https://bacalhau.org/llms/getting-started.txt",
+    "cli": "https://bacalhau.org/llms/cli.txt",
+    "api": "https://bacalhau.org/llms/api.txt",
+    "concepts": "https://bacalhau.org/llms/concepts.txt"
   },
   "contact": {
     "discord": "https://bit.ly/bacalhau-project-slack",

@@ -1,5 +1,7 @@
 ---
 sidebar_position: 10
+title: Bacalhau HTTP API Reference
+description: Use the versioned Bacalhau HTTP API to submit and inspect jobs and manage nodes programmatically.
 ---
 
 # Overview

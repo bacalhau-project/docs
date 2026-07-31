@@ -1,3 +1,8 @@
+---
+title: Job Timeout Specification
+description: Define execution time limits for Bacalhau tasks with the Timeouts object in a job specification.
+---
+
 # Timeouts
 
 The `Timeouts` object provides a mechanism to impose timing constraints on specific task operations, particularly execution. By setting these timeouts, users can ensure tasks don't run indefinitely and align them with intended durations.

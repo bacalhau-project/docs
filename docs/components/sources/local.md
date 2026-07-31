@@ -1,5 +1,7 @@
 ---
 slug: /sources/local
+title: Local Input Source
+description: Mount files and directories already present on a Bacalhau compute node as task inputs.
 ---
 
 # Local

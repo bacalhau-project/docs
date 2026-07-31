@@ -20,8 +20,8 @@ bacalhau job list
 - [Getting Started](/llms/getting-started.txt): Installation, quickstart, first jobs
 - [CLI Reference](/llms/cli.txt): All bacalhau commands and options
 - [API Reference](/llms/api.txt): REST API documentation
-- [Examples](/llms/examples.txt): Code examples and tutorials
 - [Concepts](/llms/concepts.txt): Architecture and core concepts
+- [Guides and FAQs](/llms/other.txt): Data sources, result publishing, configuration, operations, and troubleshooting
 
 ## Key Concepts
 
@@ -31,13 +31,22 @@ bacalhau job list
 - **Distributed**: Scale from laptop to thousands of nodes
 - **Open Source**: Apache 2.0 licensed, community-driven
 
+## Common Questions
+
+### What is compute over data?
+
+Compute over data runs processing near the systems where data is generated or stored, reducing unnecessary transfers of raw data to a central compute environment.
+
+### What is Bacalhau?
+
+Bacalhau is an open-source distributed compute orchestration framework. Orchestrator nodes schedule jobs, and compute nodes run Docker containers or WebAssembly modules near their input data.
+
+### When is Bacalhau useful?
+
+Bacalhau is useful when moving raw data is slow, expensive, unreliable, or restricted, including distributed log processing, fleet operations, regional analytics, machine learning, and edge workloads.
+
 ## Resources
 
 - GitHub: https://github.com/bacalhau-project/bacalhau
 - Discord: https://bit.ly/bacalhau-project-slack
 - Website: https://bacalhau.org
-
-## Related
-
-- [Expanso Platform](https://docs.expanso.io/llms.txt): Enterprise features
-- [Examples](https://examples.expanso.io/llms.txt): Code examples

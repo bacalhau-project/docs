@@ -8,7 +8,7 @@ Bacalhau has a presence on all major social media networks, so you can follow us
 
 ## YouTube
 
-The [Bacalhau](https://www.youtube.com/@bacalhauproject) and [Expanso](https://www.youtube.com/@ExpansoIO) YouTube channels are home to a wealth of information about the Bacalhau project — everything from developer demos, educational videos, events, etc. You can explore and learn more about Bacalhau.
+The [Bacalhau YouTube channel](https://www.youtube.com/@bacalhauproject) hosts developer demos, educational videos, event recordings, and other information about the project.
 
 ## Blog
 
@@ -16,11 +16,11 @@ Our blog contains product updates, company news, and educational content on how 
 
 ## X (Formerly Twitter)
 
-You can follow our X accounts [@BacalhauProject](https://x.com/BacalhauProject) and [@ExpansoIO](https://x.com/ExpansoIO) to get Bacalhau news, product updates, etc in tweet-sized bites.
+Follow [@BacalhauProject](https://x.com/BacalhauProject) for project news and updates.
 
 ## LinkedIn
 
-Connect with us on [LinkedIn](https://www.linkedin.com/company/expanso-io) to stay informed about the latest news, industry trends, and exclusive job opportunities!
+Follow the [Bacalhau Project on LinkedIn](https://www.linkedin.com/showcase/bacalhau-project/posts) for project news and community updates.
 
 ## Need Support?
 

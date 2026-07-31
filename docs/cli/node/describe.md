@@ -1,3 +1,8 @@
+---
+title: Describe a Node
+description: Retrieve detailed state, capabilities, and configuration information for a Bacalhau node by its identifier.
+---
+
 # Describe
 
 The `bacalhau node describe` command offers users the ability to retrieve detailed information about a specific node using its unique identifier.

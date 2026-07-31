@@ -1,3 +1,7 @@
+---
+description: Manage Bacalhau orchestrator and compute node registration, approval, health, and cluster membership.
+---
+
 # Node Management
 
 ## Overview

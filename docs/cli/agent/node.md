@@ -1,3 +1,8 @@
+---
+title: Agent Node Command
+description: Retrieve the local Bacalhau agent node information in table, JSON, or YAML format.
+---
+
 # Node
 
 ## Description

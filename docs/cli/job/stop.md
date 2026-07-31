@@ -1,3 +1,7 @@
+---
+description: Stop a previously submitted Bacalhau job by its identifier.
+---
+
 # Stop
 
 ## Description

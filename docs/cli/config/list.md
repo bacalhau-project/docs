@@ -1,3 +1,7 @@
+---
+description: List the configuration keys and values that a Bacalhau node will apply on its next restart.
+---
+
 # Config List
 
 ## Description

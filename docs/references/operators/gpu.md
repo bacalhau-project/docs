@@ -1,3 +1,7 @@
+---
+description: Configure Bacalhau compute nodes to run Docker workloads on NVIDIA, AMD, or Intel GPUs.
+---
+
 # GPU Workloads
 
 ## Overview

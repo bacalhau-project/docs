@@ -1,3 +1,8 @@
+---
+title: Node Commands
+description: Use the bacalhau node command group to list, inspect, approve, reject, and delete compute nodes.
+---
+
 # Node
 
 The `bacalhau node` command provides a set of sub-commands to query and manage node-related information within Bacalhau. With these tools, users can access specific details about nodes, list all network nodes, and more.

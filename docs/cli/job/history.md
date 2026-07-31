@@ -1,3 +1,7 @@
+---
+description: Inspect the ordered history of state changes and execution events for a Bacalhau job.
+---
+
 # History
 
 ## Description
