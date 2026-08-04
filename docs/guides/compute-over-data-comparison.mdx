@@ -1,0 +1,62 @@
+---
+title: Bacalhau compared with Kubernetes, KubeEdge, Nomad, Ray, and Trino
+description: Choose a distributed-computing tool by data location, workload type, and operating model.
+---
+
+import StructuredData from '@site/src/components/StructuredData'
+
+<StructuredData
+  title="Bacalhau compared with Kubernetes, KubeEdge, Nomad, Ray, and Trino"
+  description="A technical comparison of Bacalhau with Kubernetes, KubeEdge, Nomad, Ray, and Trino for compute-over-data workloads."
+  path="/docs/guides/compute-over-data-comparison/"
+  faq={[
+    { question: 'Is Bacalhau a replacement for Kubernetes?', answer: 'No. Bacalhau schedules data-aware jobs across its compute nodes. Kubernetes remains a strong choice for long-running container platforms and their surrounding ecosystem.' },
+    { question: 'When is Bacalhau a better fit than a query engine?', answer: 'Use Bacalhau when you need to run arbitrary container or WASM tasks near distributed data. Use a query engine when its SQL execution model and connectors meet the requirement.' },
+  ]}
+/>
+
+# Bacalhau compared with Kubernetes, KubeEdge, Nomad, Ray, and Trino
+
+Bacalhau is an independent, Apache-2.0-licensed distributed compute project. It coordinates container and WASM jobs across compute nodes, with placement informed by available resources, job requirements, and data access. It is not a renamed Kubernetes distribution, a data warehouse, or a managed cloud service.
+
+## Start with the workload boundary
+
+| Tool | Primary strength | Prefer it when | Tradeoff to plan for |
+| --- | --- | --- | --- |
+| Bacalhau | Running arbitrary jobs close to distributed data | Batch, ops, daemon, or service workloads need data-aware placement | You operate the nodes, storage credentials, and job policy |
+| Kubernetes | General-purpose container platform | You need a large ecosystem for long-lived applications | Data locality is normally modeled through your storage and scheduling design |
+| KubeEdge | Kubernetes extension for edge nodes | Existing Kubernetes control-plane patterns must extend to devices | It retains Kubernetes operational complexity |
+| Nomad | Simple workload scheduling | A homogeneous fleet and broad workload types are the main concern | Data-source-aware job design remains your responsibility |
+| Ray | Distributed Python and AI workloads | Actors, tasks, and Python-native ML are central | It is not a general data-locality control plane |
+| Trino | Federated SQL queries | The problem can be expressed in SQL over supported sources | It does not run arbitrary containerized transformations |
+
+The comparison is not a feature checklist. A common design is to retain Kubernetes or Nomad for application services, use a SQL engine for interactive analysis, and use Bacalhau for a bounded job that must execute where data can be accessed.
+
+## A small, auditable starting point
+
+Label nodes only with facts your operators maintain, then constrain a job to the required boundary:
+
+```bash
+bacalhau serve --compute -c Labels="region=eu-west,data-boundary=eu"
+
+bacalhau docker run \
+  --constraints "region=eu-west" \
+  --constraints "data-boundary=eu" \
+  --input https://example.org/manifest.json:/inputs/manifest.json \
+  --output results:/outputs \
+  --publisher local \
+  alpine:3.21 sh -c 'wc -c /inputs/manifest.json > /outputs/count.txt'
+```
+
+This does not prove legal compliance by itself. Confirm network routes, identity, storage policy, encryption, and the actual location of every input and output with the systems that own those controls.
+
+## Decision checks
+
+1. Read the [architecture overview](/docs/overview/architecture/) and decide which process owns orchestration and compute.
+2. Model inputs explicitly using the [job input-source specification](/docs/specifications/job/input-source/), rather than assuming a URL is local.
+3. Use [labels and constraints](/docs/guides/labels-and-constraints/) for placement rules, and test no-match behavior before production.
+4. Define result handling with [result paths](/docs/specifications/job/result-path/) and [publishing results](/docs/guides/publishing-results/).
+
+## Limitations
+
+Data proximity can reduce unnecessary transfers, but it cannot make an unavailable dataset accessible or turn labels into an enforcement system. Measure transfer volume and execution time in your environment; do not infer either from this comparison.

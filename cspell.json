@@ -33,6 +33,8 @@
     "millicores",
     "webui",
     "libp2p",
+    "llms",
+    "trino",
     "duckdb",
     "myvalue",
     "oom"

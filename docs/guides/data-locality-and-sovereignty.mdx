@@ -1,0 +1,60 @@
+---
+title: Data locality, sovereignty, bandwidth, and egress patterns
+description: Use explicit job placement and storage design to evaluate data-locality requirements.
+---
+
+import StructuredData from '@site/src/components/StructuredData'
+
+<StructuredData
+  title="Data locality, sovereignty, bandwidth, and egress patterns"
+  description="A practical guide to data locality and sovereignty patterns for Bacalhau jobs, including their operational limits."
+  path="/docs/guides/data-locality-and-sovereignty/"
+  faq={[
+    { question: 'Does data locality guarantee data sovereignty?', answer: 'No. Locality is an architectural property. Sovereignty and compliance also depend on law, contracts, access controls, storage policy, network paths, and operational evidence.' },
+    { question: 'How can a Bacalhau job express a location preference?', answer: 'Operators can label compute nodes and submit a job with matching constraints. The labels must be truthful and backed by controls outside the scheduler.' },
+  ]}
+/>
+
+# Data locality, sovereignty, bandwidth, and egress patterns
+
+Data locality is a design decision about where inputs are accessed and work runs. Data sovereignty is broader: it concerns legal, contractual, operational, and technical controls around data. Bacalhau can help express compute placement through node labels and job constraints, but it cannot certify compliance or infer the location of a remote source.
+
+## Choose the pattern that matches the boundary
+
+| Pattern | Use it when | What to verify |
+| --- | --- | --- |
+| Site-local processing | A site hosts the data and compute | Node labels, local access path, output location, and offline behavior |
+| Region-scoped processing | Data and workers must stay within an approved region | Storage endpoint, DNS and network routes, credentials, and failover region |
+| Object-store-adjacent processing | Large objects are reachable from selected workers | Actual byte transfer, IAM scope, result publisher, and cost model |
+| Centralized processing | A controlled central copy is acceptable | Ingest policy, egress cost, retention, and recovery objectives |
+
+## Make placement explicit
+
+Start a compute node with operator-maintained labels, then require them in the job:
+
+```bash
+bacalhau serve --compute -c Labels="residency=ca,site=toronto"
+
+bacalhau docker run \
+  --constraints "residency=ca" \
+  --constraints "site=toronto" \
+  --input https://example.org/public-records.csv:/input/records.csv \
+  --output locality-results:/outputs \
+  --publisher local \
+  alpine:3.21 sh -c 'sha256sum /input/records.csv > /outputs/checksum.txt'
+```
+
+The command is intentionally simple: it proves that a constrained job can execute and publish an output. It does not prove that an HTTPS endpoint, container registry, log system, or operator workstation stayed in the same jurisdiction.
+
+## Controls that belong together
+
+| Goal | Bacalhau configuration | Complementary control |
+| --- | --- | --- |
+| Direct work to suitable nodes | Labels and [constraints](/docs/guides/labels-and-constraints/) | Change control for labels and capacity |
+| Describe a data path | [Input sources](/docs/specifications/job/input-source/) and [tasks](/docs/specifications/job/task/) | Storage IAM, network policy, and credential rotation |
+| Retain artifacts safely | [Result paths](/docs/specifications/job/result-path/) and a publisher | Encryption, retention, and downstream authorization |
+| Bound a workload lifecycle | [Job type](/docs/specifications/job/type/) and [timeouts](/docs/specifications/job/timeouts/) | Monitoring, incident response, and business continuity |
+
+## Limitations and audit evidence
+
+For each production job, retain the submitted specification, selected node, input and output endpoints, identities used, timing, and transfer measurements. Review these against your jurisdictional and contractual requirements. Bacalhau's [architecture](/docs/overview/architecture/) explains the scheduling components, while your organization remains responsible for the surrounding enforcement and evidence.

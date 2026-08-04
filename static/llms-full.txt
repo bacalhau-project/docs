@@ -1,3 +1,4656 @@
+# Bacalhau Documentation
+
+> Canonical, generated text representation of the Bacalhau documentation.
+
+# Getting Started with Bacalhau
+
+## docs/getting-started/installation.mdx
+
+# Installation
+
+This section explains how to install Bacalhau on your machine, verify it's working, and understand basic requirements. Bacalhau is distributed as a single self-contained binary that can function as a client, orchestrator node, and compute node—greatly simplifying deployment and management of your distributed compute network.
+
+## Install the Bacalhau Binary
+
+To install the CLI, choose your environment, and run the command(s) below.
+
+```bash
+curl -sL https://get.bacalhau.org/install.sh | bash
+```
+
+- This fetches the latest Bacalhau release and places it in `/usr/local/bin` or a similar path.
+- You many need sudo mode or root access to install the binary at the desired path
+
+  Windows users can download the [latest release tarball from
+  Github](https://github.com/bacalhau-project/bacalhau/releases) and extract `bacalhau.exe` to any location available in
+  the PATH environment variable.
+
+### Base Image
+
+```bash
+docker pull ghcr.io/bacalhau-project/bacalhau:latest
+```
+
+- Suitable for running orchestrators, clients or compute nodes with no Docker support
+
+### Docker in Docker
+
+```bash
+docker pull ghcr.io/bacalhau-project/bacalhau:latest-dind
+```
+
+- Suitable for running compute nodes that can run Docker based jobs
+- Require `--privileged` mode when running the container
+
+### Verify the Installation
+
+```bash
+bacalhau version
+```
+
+This should print:
+
+- The local binary version
+- The version of the orchestrator this client is connected to, if any
+- The latest available version of bacalhau in case you are running an outdated version.
+
+If you get `command not found`, verify your PATH includes the Bacalhau binary.
+
+### Upgrading Bacalhau
+
+To upgrade Bacalhau to the latest version, run the installation script. If Bacalhau is already installed, this will update it to the most recent version available.
+
+## Requirements & Tips
+
+- **Docker**:
+  - Must be installed and running on any **compute** node to handle Docker-based jobs.
+- **AWS Credentials** (if you're using S3):
+  - For S3 inputs or outputs, the node needs valid AWS credentials (e.g., environment variables).
+- **Running an Orchestrator & Compute**:
+  - See [Quick Start](./quick-start.mdx) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
+- **`bacalhau devstack`**:
+  - Perfect for local development or running tests.
+
+## Next Steps
+
+- Head over to Basic CLI Usage to learn how to submit, describe, and stop jobs.
+- Check Common Workflows for steps on mounting data (S3, local folders) and publishing outputs.
+- Explore References for advanced node management (Docker Compose, devstack, multi-node clusters).
+
+## docs/getting-started/network-setup.md
+
+# Network Setup
+
+This guide explains how to set up Bacalhau networks for various deployment scenarios, from development environments to production deployments.
+
+## Introduction
+
+Bacalhau's architecture consists of two primary node types:
+
+- **Orchestrator nodes** that schedule and manage jobs
+- **Compute nodes** that execute workloads
+
+Compute nodes connect to orchestrators, but don't need to be reachable by orchestrators or other compute nodes, making deployment simpler.
+
+## Getting Started with Bacalhau
+
+Choose the setup option that best matches your needs:
+
+| Setup Option        | Best For                           | Key Benefit                                  |
+| ------------------- | ---------------------------------- | -------------------------------------------- |
+| DevStack            | Development & testing              | Quick local setup with minimal configuration |
+| Self-Hosted Network | Custom infrastructure requirements | Complete control over all components         |
+
+### Option 1: Self-Hosted Network
+
+If you need to host your own orchestrator, follow these steps for a custom deployment.
+
+#### Setting Up an Orchestrator Node
+
+On your designated orchestrator machine:
+
+```bash
+# Start an orchestrator-only node
+bacalhau serve --orchestrator
+```
+
+Take note of this machine's IP address or hostname - you'll need it to connect compute nodes.
+
+#### Adding Compute Nodes
+
+On each machine that will execute jobs:
+
+```bash
+# Start a compute-only node connected to your orchestrator
+bacalhau serve --compute -c Compute.Orchestrators=<orchestrator-ip>:4222
+```
+
+Replace `<orchestrator-ip>` with the actual IP address or hostname of your orchestrator.
+
+#### Verifying Your Cluster
+
+Check that all nodes are connected:
+
+```bash
+# List all nodes in your network
+bacalhau node list
+```
+
+You should see your orchestrator and all compute nodes listed.
+
+:::note
+The setup described above creates an open network suitable for testing in trusted environments. For securing your network, refer to the Security Best Practices in the Reference section.
+:::
+
+### Option 2: DevStack
+
+DevStack provides a pre-configured local environment perfect for development and testing.
+
+```bash
+# Launch a complete development environment
+bacalhau devstack
+```
+
+This pre-configures a transient orchestrator and compute nodes by default, giving you a complete environment for testing with minimal setup.
+
+You can submit jobs to your DevStack just like any other Bacalhau network:
+
+```bash
+bacalhau docker run ubuntu:latest -- echo "Hello from DevStack!"
+```
+
+### Alternative Setup Methods
+
+These methods provide additional ways to set up Bacalhau for specific use cases.
+
+#### Single Hybrid Node
+
+For the simplest local setup, you can run a single node that acts as both orchestrator and compute:
+
+```bash
+# Launch a combined orchestrator and compute node
+bacalhau serve --orchestrator --compute
+```
+
+This starts Bacalhau in "hybrid mode" where:
+
+- The orchestrator handles job scheduling
+- The compute service executes containers
+- Both components run in the same process
+
+This option is useful for initial testing or for very small deployments.
+
+#### Docker Deployment
+
+Run Bacalhau in Docker for easier management:
+
+```bash
+# Run an orchestrator node
+docker run -p 4222:4222 ghcr.io/bacalhau-project/bacalhau:latest serve --orchestrator
+
+# Run a compute node using Docker-in-Docker
+docker run --privileged -p 4222:4222 \
+  ghcr.io/bacalhau-project/bacalhau:latest-dind \
+  serve --compute -c Compute.Orchestrators=<orchestrator-ip>:4222
+```
+
+The `bacalhau:latest-dind` image includes Docker-in-Docker capabilities required for compute nodes.
+
+#### Docker Compose Setup
+
+For a quick multi-node setup, Bacalhau provides Docker Compose examples that create a complete network suitable for testing:
+
+1.  **Clone Network Setups Repository**\
+    Clone the repository containing the network setups:
+
+    ```bash
+    git clone https://github.com/bacalhau-project/bacalhau-network-setups.git
+    ```
+
+2.  **Navigate to a Specific Setup**\
+    Change directory to your desired setup under `docker-compose`:
+
+    ```bash
+    cd bacalhau-network-setups/docker-compose/<setup-name>
+    ```
+
+3.  **Start the Network**\
+    Use Docker Compose to bring up the network:
+
+    ```bash
+    docker compose up
+    ```
+
+These setups enable deployment and testing of Bacalhau across multiple nodes, including an orchestrator and persistent data storage.
+
+### Next Steps
+
+- Secure your network with our Security Guide
+- Learn how to submit jobs to your network
+- Explore common workflows for different use cases
+
+## docs/getting-started/quick-start.mdx
+
+# Quick Start
+
+This Quick Start guide shows how to run your first Bacalhau job with minimal setup. Bacalhau's design as a single self-contained binary makes it incredibly easy to set up your own distributed compute network in minutes.
+
+## Prerequisites
+
+- Docker installed on any machine that runs a compute node
+- Bacalhau CLI installed (see below)
+
+## 1. Installation
+
+1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](./installation.mdx) for Windows and Docker options.
+
+```bash
+curl -sL https://get.bacalhau.org/install.sh | bash
+```
+
+2. Once installed, verify with:
+
+```bash
+bacalhau version
+```
+
+## 2. Start a Hybrid Node
+
+Open a terminal and run:
+
+```bash
+bacalhau serve --orchestrator --compute
+```
+
+- This command launches both an orchestrator and a compute node in one process
+- Keep it running; you'll see logs indicating it's ready
+
+## 3. Submit a Data Analysis Job
+
+Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
+
+```bash
+bacalhau docker run \
+  --input https://www.gutenberg.org/files/2701/2701-0.txt:/data/moby-dick.txt \
+  --output outputs:/outputs \
+  --publisher local \
+  ghcr.io/bacalhau-project/word-count:latest -- --output-file /outputs/moby-dick-counts.txt /data/moby-dick.txt
+```
+
+Create a `word-count.yaml` file:
+
+```yaml
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ghcr.io/bacalhau-project/word-count:latest
+        Parameters:
+          - --output-file
+          - /outputs/moby-dick-counts.txt
+          - /data/moby-dick.txt
+    Publisher:
+      Type: local
+    InputSources:
+      - Alias: input_custom
+        Target: /data/moby-dick.txt
+        Source:
+          Type: urlDownload
+          Params:
+            URL: https://www.gutenberg.org/files/2701/2701-0.txt
+    ResultPaths:
+      - Name: outputs
+        Path: /outputs
+```
+
+Then run the job using:
+
+```bash
+bacalhau job run word-count.yaml
+```
+
+- The job downloads a sample dataset and processes it locally
+- Bacalhau will display job progress until completion
+- You'll receive a Job ID once the job is submitted
+
+## 4. Inspect the Job
+
+```bash
+bacalhau job describe <jobID>
+```
+
+- Replace `<jobID>` with the actual ID printed in step 2
+- You can run `bacalhau job logs <job-id>` to just get the execution logs
+
+## 5. Retrieve Results
+
+Download and view your job results:
+
+```bash
+# Download the results
+bacalhau job get <jobID>
+
+# View the analysis output
+head job-*/outputs/moby-dick-counts.txt
+```
+
+:::note
+You should see a word frequency analysis of the Moby Dick text file!
+:::
+
+## 🎉 Success!
+
+You've just:
+
+1. Started a local Bacalhau network
+2. Submitted a job using both imperative and declarative methods
+3. Tracked job progress with detailed descriptions
+4. Retrieved and viewed job results
+
+# Bacalhau CLI Reference
+
+## docs/cli/README.md
+
+# Overview
+
+This page explains how the Bacalhau CLI is structured and which global flags are most commonly used. Understanding these fundamentals will help you work efficiently with all Bacalhau commands.
+
+## What You'll Learn
+
+- The general structure and organization of Bacalhau commands
+- How global flags affect command behavior regardless of the specific command
+- How to customize output formats and control connection settings
+- How to specify configuration files and data directories
+- Where to find more detailed command references
+
+## CLI Structure
+
+Bacalhau commands follow a consistent pattern that makes them intuitive and predictable:
+
+```bash
+bacalhau <top-level-command> <subcommand> [flags]
+```
+
+## Top-Level Commands
+
+Bacalhau's CLI groups commands into logical categories:
+
+- `agent`: Client-side commands for checking health, version, and node information
+- `job`: Core job management (create, list, describe, stop, retrieve logs, etc.)
+- `node`: Cluster node management and inspection
+- `config`: Client configuration management
+- `docker`: Imperative command for running Docker-based jobs&#x20;
+
+## Command Examples
+
+```bash
+# Get version information
+bacalhau agent version
+
+# List recent jobs
+bacalhau job list
+
+# Submit a Docker job (imperative style)
+bacalhau docker run ubuntu:latest -- echo "Hello World"
+
+# View compute nodes in the cluster
+bacalhau node list
+```
+
+## Global Flags
+
+These flags work with any command and provide consistent behavior across the CLI. They're especially useful for scripting and automation.
+
+### Connection Settings
+
+| Flag                | Description                   | Default     |
+| ------------------- | ----------------------------- | ----------- |
+| `--api-host string` | Hostname for the Bacalhau API | `localhost` |
+| `--api-port int`    | Port for the Bacalhau API     | `1234`      |
+
+Example:
+
+```bash
+bacalhau job list --api-host mycluster.example.com --api-port 8080
+```
+
+### Configuration Management
+
+| Flag                  | Description                                              | Default       |
+| --------------------- | -------------------------------------------------------- | ------------- |
+| `-c, --config string` | Config file(s) or dot separated path(s) to config values | -             |
+| `--data-dir string`   | The filesystem path where Bacalhau stores its data       | `~/.bacalhau` |
+
+Examples:
+
+```bash
+# Use a custom config file
+bacalhau job list --config /path/to/custom/config.yaml
+
+# Specify a custom data directory
+bacalhau job list --data-dir /path/to/bacalhau/data
+
+# Configure a specific value using dot notation
+bacalhau serve --orchestrator -c WebUI.Enabled=true
+```
+
+### Output Formatting
+
+| Flag              | Description                                | Example Values          |
+| ----------------- | ------------------------------------------ | ----------------------- |
+| `--output format` | Output format style                        | `json`, `yaml`, `table` |
+| `--pretty`        | Format JSON or YAML output for readability | -                       |
+
+Examples:
+
+```bash
+# Get machine-readable job list
+bacalhau job list --output json
+
+# Get pretty-printed JSON
+bacalhau job list --output json --pretty
+
+# Get YAML output
+bacalhau job list --output yaml
+```
+
+## Getting Help
+
+For detailed information about any command's available flags:
+
+```bash
+bacalhau <command> --help
+```
+
+This will show all available options, including both global flags and command-specific flags.
+
+**Tip:** For full details on each command's available flags, see the CLI Reference or type `bacalhau <command> --help`.
+
+## docs/cli/agent/README.md
+
+# Agent
+
+The `bacalhau agent` command is a parent command that offers sub-commands to query information about the Bacalhau agent. This can be useful for debugging, monitoring, or managing the agent's behavior and health.
+
+## Usage
+
+```bash
+bacalhau agent [command]
+```
+
+## Available Commands
+
+1. [**alive**](alive.md):
+
+   - Description: Retrieves the agent's liveness and health information. This can be helpful to determine if the agent is running and healthy.
+   - Usage:
+
+     ```bash
+     bacalhau agent alive
+     ```
+
+2. [**node**](node.md):
+
+   - Description: Gathers the agent's node-related information. This might include details about the machine or environment where the agent is running, available resources, supported engines, etc.
+   - Usage:
+
+     ```bash
+     bacalhau agent node
+     ```
+
+3. [**version**](version.md):
+
+   - Description: Retrieves the Bacalhau version of the agent. This can be beneficial for ensuring compatibility or checking for updates.
+   - Usage:
+
+     ```bash
+     bacalhau agent version
+     ```
+
+For more detailed information on any of the sub-commands, you can use the command:
+
+```bash
+bacalhau agent [command] --help
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Displays help information for the `agent` command.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: \`\`$HOME/.bacalhau\`
+
+## docs/cli/agent/alive.md
+
+# Alive
+
+## Description
+
+The `bacalhau agent alive` command provides information about the agent's liveness and health. This is essential for monitoring and ensuring that the agent is active and functioning correctly.
+
+## Usage
+
+```bash
+bacalhau agent alive [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Displays help information for the `alive` sub-command.
+- `--output format`:
+  - Description: Determines the format in which the output is displayed. Available formats include JSON and YAML.
+  - Options: `json`, `yaml`
+  - Default: `yaml`
+- `--pretty`:
+  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: \`\`$HOME/.bacalhau\`
+
+## Examples
+
+### Checking the Agent's Liveness and Health Info
+
+1.  **Basic Usage**:
+
+    **Command**:
+
+    ```bash
+    bacalhau agent alive
+    ```
+
+    **Output**:
+
+    ```
+    status: OK
+    ```
+
+2.  **Output in JSON format**:
+
+    **Command**:
+
+    ```bash
+    bacalhau agent alive --output json --pretty
+    ```
+
+    **Output**:
+
+    ```json
+    {
+      "Status": "OK"
+    }
+    ```
+
+## docs/cli/agent/node.md
+
+# Node
+
+## Description
+
+The `bacalhau agent node` command retrieves information about the agent's node, providing insights into the agent's environment and aiding in debugging.
+
+## Usage
+
+```bash
+bacalhau agent node [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Displays help information for the `node` sub-command.
+- `--output format`:
+  - Defines the output format (either JSON or YAML).
+  - Options: `json`, `yaml`
+  - Default: `yaml`
+- `--pretty`:
+  - Beautifies the output when using JSON or YAML formats.
+
+## Global Flags
+
+- `--api-host string`:
+  - The host for REST communication. Overrides the `BACALHAU_API_HOST` environment variable.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - The port for REST communication. Overridden if `BACALHAU_API_PORT` environment variable is set.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Specifies the log format. Choices are: `default`, `station`, `json`, `combined`, `event`.
+  - Default: `default`
+- `--repo string`:
+  - Path to the bacalhau repository.
+  - Default: \`\`$HOME/.bacalhau\`
+
+## Examples
+
+1.  **Retrieve Node Information in Default Format (YAML)**
+
+    ```bash
+    bacalhau agent node
+    ```
+
+2.  **Retrieve Node Information in JSON Format**
+
+    ```bash
+    bacalhau agent node --output json
+    ```
+
+3.  **Retrieve Node Information in Pretty-printed JSON Format**
+
+    ```bash
+    bacalhau agent node --output json --pretty
+    ```
+
+## docs/cli/agent/version.md
+
+# Version
+
+The `bacalhau agent version` command is used to obtain the version of the bacalhau agent.
+
+## Description:
+
+Using this command, users can quickly retrieve the version of the agent, allowing them to confirm the specific release of the software they are using.
+
+## Usage:
+
+```bash
+bacalhau agent version [flags]
+```
+
+## Flags:
+
+- **`-h`, `--help`**:
+  - Show help for the `version` command.
+- **`--output format`**:
+  - Defines the output format of the command's results. Accepted formats include "json" and "yaml".
+- **`--pretty`**:
+  - Used for pretty printing the output, enhancing readability. This flag is applicable only for the "json" and "yaml" output formats.
+
+## Global Flags:
+
+- **`--api-host string`**:
+  - Designates the host for client-server communication via REST. If the `BACALHAU_API_HOST` environment variable is present, this flag will be disregarded.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- **`--api-port int`**:
+  - Defines the port for client-server communication through REST. This flag becomes irrelevant if the `BACALHAU_API_PORT` environment variable is specified.
+  - Default: `1234`
+- **`--log-mode logging-mode`**:
+  - Specifies the desired logging format.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- **`--repo string`**:
+  - Indicates the path to the bacalhau repository.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  **Retrieve the agent version**:
+
+    Execute the command to get the agent version:
+
+    ```bash
+    bacalhau agent version
+    ```
+
+    Expected output:
+
+    ```bash
+    Bacalhau v0.0.0-xxxxxxx
+    BuildDate 2023-09-22 16:03:44 +0000 UTC
+    GitCommit 0fe81cb488f666845ac72c73a4b804aaa658e511
+    ```
+
+2.  **Retrieve the agent version in JSON format**:
+
+    ```bash
+    bacalhau agent version --output json
+    ```
+
+    Expected output:
+
+    ```bash
+    {"major":"0","minor":"0","gitversion":"v0.0.0-xxxxxxx","gitcommit":"0fe81cb488f666845ac72c73a4b804aaa658e511","builddate":"2023-09-22T16:03:44Z","goos":"linux","goarch":"amd64"}
+    ```
+
+3.  **Retrieve the agent version in Pretty-printed JSON format**:
+
+    ```bash
+    bacalhau agent version --output json --pretty
+    ```
+
+    Expected output:
+
+    ```bash
+    {
+      "major": "0",
+      "minor": "0",
+      "gitversion": "v0.0.0-xxxxxxx",
+      "gitcommit": "0fe81cb488f666845ac72c73a4b804aaa658e511",
+      "builddate": "2023-09-22T16:03:44Z",
+      "goos": "linux",
+      "goarch": "amd64"
+    }
+    ```
+
+## docs/cli/config/README.md
+
+# Config
+
+The `bacalhau config` command is a parent command that offers sub-commands to modify and query information about the Bacalhau config. This can be useful for debugging, monitoring, or managing the nodes configuration.
+
+## Usage
+
+```bash
+bacalhau config [command]
+```
+
+## Available Commands
+
+1. [**list**](list.md):
+
+   - Description: Lists the configuration keys and values of the bacalhau node. This command is useful for understanding how configuration keys map to their respective values, aiding in the use of the `bacalhau config set` command.
+   - Usage:
+
+     ```bash
+     bacalhau config list
+     ```
+
+2. [**set**](set.md):
+
+   - Description: Sets a value in the bacalhau node's configuration file. This command is used to modify the configuration file that the bacalhau node will reference for its settings.
+   - Usage:
+
+     ```bash
+     bacalhau config set <key> <value>
+     ```
+
+## docs/cli/config/list.md
+
+# Config List
+
+## Description
+
+The `bacalhau config list` command lists the configuration keys and values of the bacalhau node. This command is useful for understanding how configuration keys map to their respective values, aiding in the use of the `bacalhau config set` command.
+
+Note: Configuration values displayed by this command represent the settings that will be applied when the bacalhau node is next restarted. It is important to note that these values may not reflect the current operational configuration of an active bacalhau node. The displayed configuration is relevant and accurate for a node that is either not currently running or that has been restarted after the execution of this command.
+
+## Usage
+
+```bash
+bacalhau config list [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Displays help information for the `list` sub-command.
+- `--hide-header`:
+  - Description: Do not print the column headers when displaying the results.
+  - Default: `false`
+- `--no-style`:
+  - Description: Removes all styling from the table output, displaying raw data.
+  - Default: `false`
+- `--output format`:
+  - Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
+  - Options: `json`, `yaml`, `table`
+  - Default: `table`
+- `--pretty`:
+  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
+  - Default: `true`
+- `--wide`:
+  - Description: Prints full values in the table results without truncating any information.
+  - Default: `false`
+
+## Examples
+
+### Listing the Bacalhau nodes configuration settings
+
+1.  **Basic Usage**:
+
+    **Command**:
+
+    ```bash
+    bacalhau config list
+    ```
+
+    **Output**:
+
+    ```bash
+     KEY          VALUE
+     <key_name> <key_value>
+    ...
+    ```
+
+2.  **Output in JSON format**:
+
+    **Command**:
+
+    ```bash
+    bacalhau config list --output json --pretty
+    ```
+
+    **Output**:
+
+    ```json
+    [
+      {
+        "Key": "<key_name>",
+        "Value": <key_value>
+      },
+      ...
+    ]
+    ```
+
+## docs/cli/config/set.md
+
+# Config Set
+
+## Description:
+
+The `bacalhau config set` command sets a value in the bacalhau node's configuration file. This command is used to modify the configuration file that the bacalhau node will reference for its settings. Key names in the configuration are case-insensitive. Additionally, the command validates the value being set based on the type of the configuration key, ensuring that only appropriate and valid configurations are applied.
+
+:::note
+Changes made using this command will be applied to the configuration file, but they do not immediately affect the running configuration of an active bacalhau node. The modifications will take effect only after the node is restarted.
+:::
+
+## Usage
+
+```bash
+bacalhau config set <key> <value>
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Displays help information for the `set` sub-command.
+
+## Examples
+
+### Configuring the Server API Port Value
+
+```bash
+bacalhau config set node.serverapi.port 9999
+
+bacalhau config list | grep serverapi.port
+ node.serverapi.port                                             9999
+
+cat ~/.bacalhau/config.yaml
+node:
+    serverapi:
+        port: 9999
+```
+
+### Configuring the Logging Mode Value
+
+```bash
+bacalhau config set node.loggingmode json
+
+bacalhau config list | grep loggingmode
+ node.loggingmode                                                json
+
+cat ~/.bacalhau/config.yaml
+node:
+    loggingmode: json
+```
+
+### Multiple Set commands append to the file
+
+```bash
+bacalhau config set node.serverapi.port 9999
+bacalhau config set node.serverapi.host 0.0.0.0
+bacalhau config set node.loggingmode json
+
+cat ~/.bacalhau/config.yaml
+node:
+    loggingmode: json
+    serverapi:
+        host: 0.0.0.0
+        port: 9999
+```
+
+### Set command value validation
+
+#### Example of invalid logging mode value
+
+```bash
+bacalhau config set node.loggingmode some-invalid-value
+
+Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
+```
+
+#### Example of invalid time duration value
+
+```bash
+bacalhau config set node.volumesizerequesttimeout 10days
+
+Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
+```
+
+## docs/cli/job/README.md
+
+# Job
+
+The `bacalhau job` command provides a suite of sub-commands to submit, query, and manage jobs within Bacalhau. Users can deploy jobs, obtain job details, track execution logs, and more.
+
+## Usage
+
+```bash
+bacalhau job [command]
+```
+
+## Available Commands
+
+1. [**describe**](./describe.md):
+
+   - Description: Retrieves detailed information of a job using its ID.
+   - Usage:
+
+     ```bash
+     bacalhau job describe
+     ```
+
+2. [**executions**](./executions.md):
+
+   - Description: Lists all executions associated with a job, identified by its ID.
+   - Usage:
+
+     ```bash
+     bacalhau job executions
+     ```
+
+3. [**get**](./get.md):
+
+   - Description: Get the results of a job, identified by its ID.
+   - Usage:
+
+     ```bash
+     bacalhau job get
+     ```
+
+4. [**history**](./history.md):
+
+   - Description: Enumerates the historical events related to a job, identified by its ID.
+   - Usage:
+
+     ```bash
+     bacalhau job history
+     ```
+5. [**list**](./list.md):
+
+   - Description: Provides an overview of all submitted jobs.
+   - Usage:
+
+     ```bash
+     bacalhau job list
+     ```
+
+6. [**logs**](./logs.md):
+
+   - Description: Fetches and streams the logs from a currently executing job.
+   - Usage:
+
+     ```bash
+     bacalhau job logs
+     ```
+
+7. [**run**](./run.md):
+
+   - Description: Submits a job for execution using either a JSON or YAML configuration file.
+   - Usage:
+
+     ```bash
+     bacalhau job run
+     ```
+
+8. [**stop**](./stop.md):
+
+   - Description: Halts a previously submitted job.
+   - Usage:
+
+     ```bash
+     bacalhau job stop
+     ```
+
+For comprehensive details on any of the sub-commands, run:
+
+```bash
+bacalhau job [command] --help
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Shows the help information for the `job` command.
+
+## Global Flags
+
+1. `--api-host string`:
+   - Description: Determines the host for RESTful communication between the client and server. This flag is overlooked if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `bootstrap.production.bacalhau.org`
+2. `--api-port int`:
+   - Description: Designates the port for RESTful communication. This flag is bypassed if the `BACALHAU_API_PORT` environment variable is active.
+   - Default: `1234`
+3. `--log-mode logging-mode`:
+   - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
+   - Default: `default`
+4. `--repo string`:
+   - Description: Specifies the path to the bacalhau repository.
+   - Default: `$HOME/.bacalhau`
+
+## docs/cli/job/describe.md
+
+# Describe
+
+## Description
+
+The `bacalhau job describe` command provides a detailed description of a specific job in YAML format. This description can be particularly useful when wanting to understand the attributes and current status of a specific job. To list all available jobs, the `bacalhau job list` command can be used.
+
+## Usage
+
+```bash
+bacalhau job describe [id] [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Display help for the `describe` command.
+- `--output format`:
+  - Description: Specifies the desired output format for the command. Supported values are `json` and `yaml`.
+  - Default: `yaml`
+- `--pretty`:
+  - Description: Pretty prints the output. This option is applicable only to `json` and `yaml` output formats.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host for the client and server to communicate through via REST. If the `BACALHAU_API_HOST` environment variable is set, this flag will be ignored.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for the client and server to communicate on using REST. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Specifies the desired log format. Supported values include `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **Describe a Job with Full ID**:
+
+    ```bash
+    bacalhau job describe j-e3f8c209-d683-4a41-b840-f09b88d087b9
+    ```
+
+2.  **Describe a Job with Shortened ID**:
+
+    ```bash
+    bacalhau job describe j-47805f5c
+    ```
+
+3.  **Describe a Job with JSON Output**:
+
+    ```bash
+    bacalhau job describe --output json --pretty j-b6ad164a
+    ```
+
+## docs/cli/job/executions.md
+
+# Executions
+
+## Description
+
+The `bacalhau job executions` command retrieves a list of executions for a specific job based on its ID. This can be essential when tracking the various runs and their respective states for a particular job.
+
+## Usage
+
+```bash
+bacalhau job executions [id] [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Display help for the `executions` command.
+- `--hide-header`:
+  - Description: Do not print the column headers when displaying the results.
+- `--limit uint32`:
+  - Description: Restricts the number of results returned.
+  - Default: `20`
+- `--next-token string`:
+  - Description: Uses the specified token for pagination. Useful for fetching the next set of results.
+- `--no-style`:
+  - Description: Removes all styling from the table output, displaying raw data.
+- `--order-by string`:
+  - Description: Orders results based on a specific field. Valid fields are: `modify_time`, `create_time`, `id`, and `state`.
+- `--order-reversed`:
+  - Description: Reverses the order of the results. Useful in conjunction with `--order-by`.
+- `--output format`:
+  - Description: Specifies the desired output format for the command. Supported values are `table`, `csv`, `json`, and `yaml`.
+  - Default: `table`
+- `--pretty`:
+  - Description: Pretty prints the output. This option is applicable only to `json` and `yaml` output formats.
+- `--wide`:
+  - Description: Prints full values in the table results without truncating any information.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host for the client and server to communicate through via REST. If the `BACALHAU_API_HOST` environment variable is set, this flag will be ignored.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for the client and server to communicate on using REST. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Specifies the desired log format. Supported values include `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **List executions for a specific Job**:
+
+    ```bash
+    bacalhau job executions j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881
+    ```
+
+    Expected output:
+
+    ```bash
+    CREATED   MODIFIED  ID          NODE ID   REV.  COMPUTE    DESIRED  COMMENT
+                                                    STATE      STATE
+    16:46:03  16:46:04  e-99362435  QmTSJgdN  6     Completed  Stopped
+    16:46:03  16:46:04  e-75dd20bb  QmXRdLru  6     Completed  Stopped
+    16:46:03  16:46:04  e-03870df5  QmVXwmdZ  6     Completed  Stopped
+    ```
+
+2.  **Order executions by state for a specific job**:
+
+    Execute the command:
+
+    ```bash
+    bacalhau job executions j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --order-by state
+    ```
+
+    Expected output:
+
+    ```bash
+    CREATED   MODIFIED  ID          NODE ID   REV.  COMPUTE    DESIRED  COMMENT
+                                                    STATE      STATE
+    16:46:03  16:46:04  e-03870df5  QmVXwmdZ  6     Completed  Stopped
+    16:46:03  16:46:04  e-75dd20bb  QmXRdLru  6     Completed  Stopped
+    16:46:03  16:46:04  e-99362435  QmTSJgdN  6     Completed  Stopped
+    ```
+
+3.  **List executions with YAML output**:
+
+    ```bash
+    bacalhau job executions j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --output yaml
+    ```
+
+    Expected output:
+
+    ```yaml
+    ... [The YAML formatted output] ...
+    ```
+
+## docs/cli/job/get.md
+
+# Get
+
+## Description
+
+The `bacalhau job get` command is used to get the results of the job, including stdout and stderr.
+
+## Usage
+
+```bash
+bacalhau job get [id] [flags]
+```
+
+## Flags
+
+- `--download-timeout-secs duration`:
+  - Description: Timeout duration for IPFS downloads. (default 5m0s)
+- `-h`, `--help`:
+  - Description: Display help for the `list` command.
+- `output-dir string`:
+  - Description: Directory to write the output to.
+- `--raw`:
+  - Description: Download raw result CIDs instead of merging multiple CIDs into a single result.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Points to the bacalhau repository location.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **Get the results of a job**:
+
+    `bacalhau job get 51225160-807e-48b8-88c9-28311c7899e1`
+
+2. **Get the results of a job, using a short ID**:
+
+    `bacalhau job get 51225160`
+
+## docs/cli/job/history.md
+
+# History
+
+## Description
+
+The `bacalhau job history` command lists the history events of a specific job based on its ID. This feature allows users to track changes, executions, and other significant milestones associated with a particular job.
+
+## Usage
+
+```bash
+bacalhau job history [id] [flags]
+```
+
+## Flags
+
+- `--event-type string`:
+  - Description: Specifies the type of history events to retrieve. Available options include `all`, `job`, and `execution`.
+  - Default: `all`
+- `--execution-id string`:
+  - Description: Filters results by a specific execution ID.
+- `-h`, `--help`:
+  - Description: Display help for the `history` command.
+- `--hide-header`:
+  - Description: Opts out of printing the column headers in the results.
+- `--limit uint32`:
+  - Description: Limits the number of results returned.
+- `--next-token string`:
+  - Description: Uses the provided token for pagination.
+- `--no-style`:
+  - Description: Strips all styling from the table output.
+- `--node-id string`:
+  - Description: Filters the results by a specific node ID.
+- `--order-by string`:
+  - Description: Organizes results based on a chosen field.
+- `--order-reversed`:
+  - Description: Reverses the order of the displayed results.
+- `--output format`:
+  - Description: Dictates the desired output format for the command. Options are `table`, `csv`, `json`, and `yaml`.
+  - Default: `table`
+- `--pretty`:
+  - Description: Offers a more visually pleasing output for `json` and `yaml` formats.
+- `--wide`:
+  - Description: Presents full values in the table results, preventing truncation.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Points to the bacalhau repository location.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **Retrieve the history of a specific job**:
+
+    Execute the command to get the job history:
+
+    ```bash
+    bacalhau job history j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881
+    ```
+
+    Expected output:
+
+    ```plaintext
+    TIME      LEVEL           EXEC. ID    ...     NEW STATE          COMMENT
+    ... [The output rows like the ones you've shown] ...
+    16:46:04  JobLevel                              2     Pending            Completed
+    ```
+
+2.  **Filter the history by event type**:
+
+    Filter the job history by the event type:
+
+    ```bash
+    bacalhau job history j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --event-type job
+    ```
+
+    Expected output:
+
+    ```plaintext
+    TIME      LEVEL     EXEC. ID  NODE ID  REV.  PREVIOUS STATE  NEW STATE  COMMENT
+    16:46:03  JobLevel                     1     Pending         Pending    Job created
+    16:46:04  JobLevel                     2     Pending         Completed
+    ```
+
+3.  **Filter the history by execution ID**:
+
+    Filter the job history by a specific execution ID:
+
+    ```bash
+    bacalhau job history j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --execution-id e-99362435
+    ```
+
+    Expected output:
+
+    ```plaintext
+    TIME      LEVEL           EXEC. ID    ...     NEW STATE          COMMENT
+    ... [The output rows for the specific execution ID] ...
+    16:46:04  ExecutionLevel  e-99362435  QmTSJgdN  6     BidAccepted        Completed
+    ```
+
+4.  **Retrieve the history in YAML format**:
+
+    Get the job history in YAML format:
+
+    ```bash
+    bacalhau job history j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --output yaml
+    ```
+
+    Expected output:
+
+    ```yaml
+    ... [The YAML formatted output] ...
+    ```
+
+## docs/cli/job/list.md
+
+# List
+
+## Description
+
+The `bacalhau job list` command provides a listing of all submitted jobs. This command offers an overview of all tasks and processes registered in the system, allowing users to monitor and manage their jobs effectively.
+
+## Usage
+
+```bash
+bacalhau job list [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Display help for the `list` command.
+- `--hide-header`:
+  - Description: Opts out of printing the column headers in the results.
+- `--labels string`:
+  - Description: Filters jobs by labels. It's designed to function similar to Kubernetes label selectors.
+  - Default: `bacalhau_canary != true`
+- `--limit uint32`:
+  - Description: Limits the number of results returned.
+  - Default: `10`
+- `--next-token string`:
+  - Description: Uses the provided token for pagination.
+- `--no-style`:
+  - Description: Strips all styling from the table output.
+- `--order-by string`:
+  - Description: Organizes results based on a chosen field. Valid fields are `id` and `created_at`.
+- `--order-reversed`:
+  - Description: Reverses the order of the displayed results.
+- `--output format`:
+  - Description: Dictates the desired output format for the command. Options are `table`, `csv`, `json`, and `yaml`.
+  - Default: `table`
+- `--pretty`:
+  - Description: Offers a more visually pleasing output for `json` and `yaml` formats.
+- `--wide`:
+  - Description: Presents full values in the table results, preventing truncation.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Points to the bacalhau repository location.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **List all jobs**:
+
+    Execute the command to list all the jobs:
+
+    ```bash
+    bacalhau job list
+    ```
+
+    Expected output:
+
+    ```plaintext
+    CREATED   ID          JOB     TYPE   STATE
+    08:19:07  d78a4cb4    docker  batch  Completed
+    04:17:21  e45f31a7    docker  batch  Completed
+    04:53:50  f4993f62    docker  batch  Completed
+    ... (trimmed for brevity) ...
+    ```
+
+2.  **Limit the list to the last two jobs**:
+
+    Limit the list to display only the last two jobs:
+
+    ```bash
+    bacalhau job list --limit 2
+    ```
+
+    Expected output:
+
+    ```plaintext
+    CREATED   ID          JOB     TYPE   STATE
+    03:14:16  19a26187    docker  batch  Completed
+    21:47:21  2a53a13b    docker  batch  Completed
+    ```
+
+3.  **Order the list by creation date in descending order**:
+
+    Order the jobs by their creation date in a descending manner:
+
+    ```bash
+    bacalhau job list --order-by created_at --order-reversed
+    ```
+
+    Expected output:
+
+    ```plaintext
+    CREATED   ID          JOB     TYPE   STATE
+    17:44:16  90e14efd    docker  batch  Completed
+    17:44:08  8204570c    docker  batch  Completed
+    17:43:50  f196521d    docker  batch  Completed
+    ... (trimmed for brevity) ...
+    ```
+
+4.  **Filter the jobs by specific labels**:
+
+    Display jobs that have specific labels:
+
+    ```bash
+    bacalhau job list --labels "region in (us-east-1, us-east-2),env = prod"
+    ```
+
+    Expected output:
+
+    ```plaintext
+    ... (filtered jobs) ...
+    ```
+
+5.  **Display the list in JSON format with pretty printing**:
+
+    Get a limited list of jobs in a formatted JSON output:
+
+    ```bash
+    bacalhau job list --limit 3 --output json --pretty
+    ```
+
+    Expected output:
+
+    ```plaintext
+    ... [The JSON formatted output] ...
+    ```
+
+## docs/cli/job/logs.md
+
+# Logs
+
+## Description
+
+The `bacalhau job logs` command allows users to retrieve logs from a job that has been previously submitted. This command is useful for tracking and debugging the progress and state of a running or completed job.
+
+## Usage
+
+```bash
+bacalhau job logs [id] [flags]
+```
+
+## Flags
+
+1. `-f`, `--follow`:
+   - Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
+2. `-h`, `--help`:
+   - Description: Display help information for the `logs` command.
+
+## Global Flags
+
+1. `--api-host string`:
+   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `bootstrap.production.bacalhau.org`
+2. `--api-port int`:
+   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
+   - Default: `1234`
+3. `--log-mode logging-mode`:
+   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
+   - Default: `default`
+4. `--repo string`:
+   - Description: Specifies the path to the bacalhau repository.
+   - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **Display Logs for a Previously Submitted Job with Full ID**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job logs j-51225160-807e-48b8-88c9-28311c7899e1
+    ```
+
+    **Expected Output:**
+
+    ```bash
+    [2023-09-24 09:01:32] INFO - Application started successfully.
+    [2023-09-24 09:01:33] DEBUG - Initializing database connections.
+    [2023-09-24 09:01:35] WARN - API rate limit approaching.
+    [2023-09-24 09:02:01] ERROR - Failed to retrieve data from endpoint: /api/v1/data.
+    [2023-09-24 09:05:00] INFO - Data sync completed with 4500 new records.
+    ```
+
+2.  **Follow Logs in Real-Time**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job logs --follow j-51225160-807e-48b8-88c9-28311c7899e1
+    ```
+
+    **Expected Output**:
+
+    ```bash
+    [2023-09-24 11:30:02] INFO - User 'john_doe' logged in successfully.
+    [2023-09-24 11:30:15] DEBUG - Fetching data from cache for key: userSettings_john_doe.
+    [2023-09-24 11:31:05] WARN - High memory usage detected: 85% of allocated resources.
+    ... [Logs continue to appear in real-time] ...
+    ```
+
+3.  **Display Logs Using a Shortened ID**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job logs j-ebd9bf2f
+    ```
+
+    **Expected Output:**
+
+    ```bash
+    [2023-09-24 10:15:12] INFO - Application initialization sequence started.
+    [2023-09-24 10:15:13] DEBUG - Loading configurations from /config/app.json.
+    [2023-09-24 10:15:14] INFO - Connected to message broker successfully.
+    [2023-09-24 10:16:00] ERROR - Failed to send email notification to user@example.com.
+    ```
+
+## docs/cli/job/run.md
+
+# Run
+
+## Description
+
+The `bacalhau job run` command facilitates the initiation of a job from a file or directly from the standard input (stdin). The command supports both JSON and YAML data formats. This command is particularly useful for quickly executing a job without the need for manual configurations.
+
+## Usage
+
+```bash
+bacalhau job run [flags]
+```
+
+## Flags
+
+- `--dry-run`:
+  - Description: With this flag, the job will not be submitted. Instead, it will display what would have been submitted, providing a way to preview before actual submission.
+- `-f`, `--follow`:
+  - Description: If provided, the command will continuously display the output from the job as it runs.
+- `--id-only`:
+  - Description: On successful job submission, only the Job ID will be printed.
+- `--node-details`:
+  - Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
+- `--show-warnings`:
+  - Description: Shows any warnings that occur during the job submission.
+- `--wait`:
+  - Description: Waits for the job to finish execution. To set this to false, use --wait=false
+  - Default: `true`
+- `--wait-timeout-secs int`:
+  - Description: If `--wait` is provided, this flag sets the maximum time (in seconds) the command will wait for the job to finish before it terminates.
+  - Default: `600` seconds
+- `-h`, `--help`:
+  - Description: Displays help information for the `run` command.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+**Sample Job (`job.yaml`)**
+
+A sample job used in the following examples is provided below:
+
+```bash
+cat job.yaml
+```
+
+```yaml
+name: A Simple Docker Job
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    engine:
+      type: docker
+      params:
+        Image: ubuntu:latest
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - echo Hello Bacalhau!
+```
+
+This configuration describes a batch job that runs a Docker task. It utilizes the `ubuntu:latest` image and executes the command `echo Hello Bacalhau!`.
+
+1.  **Running a Job using a YAML Configuration**:
+
+    To run a job with a configuration provided in a `job.yaml` file:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Job successfully submitted. Job ID: j-2d0f513a-9eb1-49c2-8bc8-246c6fb41520
+    Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+     Communicating with the network  ................  done ✅  0.1s
+        Creating job for submission  ................  done ✅  0.6s
+
+    To get more details about the run, execute:
+     bacalhau job describe j-2d0f513a-9eb1-49c2-8bc8-246c6fb41520
+
+    To get more details about the run executions, execute:
+     bacalhau job executions j-2d0f513a-9eb1-49c2-8bc8-246c6fb41520
+    ```
+
+2.  **Running a Job and Following its Logs**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --follow
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Job successfully submitted. Job ID: j-b89df816-7564-4f04-b270-e6cda89eda72
+    Waiting for logs... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+    Hello Bacalhau!
+    ```
+
+3.  **Running a Job Without Waiting**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --wait=false
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    j-3fd396b3-e92e-42ca-bd87-0dc9eb15e6f9
+    ```
+
+4.  **Fetching Only the Job ID Upon Submission**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --id-only
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    j-5976ffb6-3465-4fec-8b3b-2c822cbaf417
+    ```
+
+5.  **Fetching Only the Job ID and Wait for Completion**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --id-only --wait
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    j-293f1302-3298-4aca-b06d-33fd1e3f9d2c
+    ```
+
+6.  **Running a Job with Node Details**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --node-details
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Job successfully submitted. Job ID: j-05e65dd3-4e9e-4e20-a104-3c91ba934435
+    Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+     Communicating with the network  ................  done ✅  0.1s
+        Creating job for submission  ................  done ✅  0.6s
+
+    Job Results By Node:
+    • Node QmVXwmdZ:
+     Hello Bacalhau!
+
+    To get more details about the run, execute:
+     bacalhau job describe j-05e65dd3-4e9e-4e20-a104-3c91ba934435
+
+    To get more details about the run executions, execute:
+     bacalhau job executions j-05e65dd3-4e9e-4e20-a104-3c91ba934435
+    ```
+
+7.  **Rerunning a previously submitting job**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job describe j-05e65dd3-4e9e-4e20-a104-3c91ba934435 | bacalhau job run
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Reading from /dev/stdin; send Ctrl-d to stop.Job successfully submitted. Job ID: j-d8625929-83f4-411a-b9aa-7bcfecb27a8b
+    Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+     Communicating with the network  ................  done ✅  0.1s
+        Creating job for submission  ................  done ✅  0.6s
+
+    To get more details about the run, execute:
+     bacalhau job describe j-d8625929-83f4-411a-b9aa-7bcfecb27a8b
+
+    To get more details about the run executions, execute:
+     bacalhau job executions j-d8625929-83f4-411a-b9aa-7bcfecb27a8b
+    ```
+
+## Job Templating
+
+The `bacalhau job run` command also supports templating, which allows users to dynamically inject variables into their job specifications. Additional flags related to templating include:
+
+- `--no-template`:
+  - Description: Disable the templating feature. When this flag is set, the job spec will be used as-is, without any placeholder replacements.
+- `-E, --template-envs`:
+  - Description: Specify a regular expression pattern for selecting environment variables to be included as template variables in the job spec. e.g. `--template-envs ".*"` will include all environment variables.
+- `-V, --template-vars`:
+  - Description: Replace a placeholder in the job spec with a value. e.g. `--template-vars foo=bar`
+
+### Overview
+
+Templating is particularly useful when running multiple jobs with varying parameters such as DuckDB query, S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually.
+
+### Templating Implementation
+
+The templating functionality in Bacalhau is built upon the Go text/template package. This powerful library offers a wide range of features for manipulating and formatting text based on template definitions and input variables.
+
+For more detailed information about the Go text/template library and its syntax, please refer to the official documentation: [Go text/template Package](https://golang.org/pkg/text/template/).
+
+### Basic Templating Example
+
+**Sample Job Spec with Templating Variables**:
+
+```yaml
+Name: docker job
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ubuntu:latest
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - echo {{.greeting}} {{.name}}
+```
+
+**Running with Templating**:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello,name=World"
+```
+
+**Defining Flag Multiple Times**:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello" --template-vars "name=World"
+```
+
+**Disabling Templating**:
+
+```
+bacalhau job run job.yaml --no-template
+```
+
+### Using Environment Variables for Templates
+
+You can also use environment variables for templating:
+
+```
+
+bacalhau job run job.yaml --template-envs "*"
+```
+
+**Passing A Subset of Environment Variables**:
+
+```
+bacalhau job run job.yaml --template-envs "greeting|name"
+```
+
+### Dry Run to Preview Templated Spec
+
+To preview the final templated job spec without actually submitting the job, you can use the `--dry-run` flag:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello,name=World" --dry-run
+```
+
+This will output the processed job specification, showing you how the placeholders have been replaced with the provided values.
+
+### Advanced Templating Examples
+
+#### Query Live Logs
+
+```yaml
+Name: Live logs processing
+Type: ops
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ghcr.io/bacalhau-project/nginx-access-log-query:1.0.0
+        Parameters:
+          - --query
+          - { { .query } }
+          - --start-time
+          - { { or (index . "start-time") "" } }
+          - --end-time
+          - { { or (index . "end-time") "" } }
+    InputSources:
+      - Target: /logs
+        Source:
+          Type: localDirectory
+          Params:
+            SourcePath: /data/log-orchestration/logs
+```
+
+This is an ops job that runs on all nodes that match the job selection criteria. It accepts duckdb query variable, and two optional start-time and end-time variables to define the time range for the query.
+
+To run this job, you can use the following command:
+
+```
+bacalhau job run job.yaml \
+  -V "query=SELECT status FROM logs WHERE status LIKE '5__'" \
+  -V "start-time=-5m"
+```
+
+#### Query S3 Logs
+
+```yaml
+Name: S3 logs processing
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ghcr.io/bacalhau-project/nginx-access-log-query:1.0.0
+        Parameters:
+          - --query
+          - { { .query } }
+    InputSources:
+      - Target: /logs
+        Source:
+          Type: s3
+          Params:
+            Bucket: { { .AccessLogBucket } }
+            Key: { { .AccessLogPrefix } }
+            Filter: { { or (index . "AccessLogPattern") ".*" } }
+            Region: { { .AWSRegion } }
+```
+
+This is a batch job that runs on a single node. It accepts the duckdb query variable, and four other variables to define the S3 bucket, prefix, and pattern for the logs and the AWS region.
+
+To run this job, you can use the following command:
+
+```
+bacalhau job run job.yaml  \
+    -V "AccessLogBucket=my-bucket" \
+    -V "AWSRegion=us-east-1" \
+    -V "AccessLogPrefix=2023-11-19-*"  \
+    -V "AccessLogPattern=^[10-12].*"
+```
+
+## docs/cli/job/stop.md
+
+# Stop
+
+## Description
+
+The `bacalhau job stop` command allows users to terminate a previously submitted job. This is useful in scenarios where there's a need to halt a running job, perhaps due to misconfiguration or changed priorities.
+
+## Usage
+
+```bash
+bacalhau job stop [id] [flags]
+```
+
+## Flags
+
+- `--quiet`:
+  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
+- `-h`, `--help`:
+  - Description: Displays help information for the `stop` command.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **Stop a Specific Job**:
+
+    If you wish to halt the execution of a job, you can utilize the `stop` command. Here's how you can achieve that:
+
+    **Command:**
+
+    ```bash
+    bacalhau job stop j-10eb97de-14cd-4db4-96ec-561bb943309a
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Checking job status
+
+      Connecting to network  ................  done ✅  0.0s
+        Verifying job state  ................  done ✅  0.2s
+                Stopping job ................  done ✅  0.1s
+
+    Job stop successfully submitted with evaluation ID: 397fd425-8b1a-491e-952a-0632492e7ece
+    ```
+
+2.  **Silently Stop a Job**:
+
+    If you prefer to terminate a job without seeing any verbose feedback or messages, the `--quiet` option can be used.
+
+    **Command:**
+
+    ```bash
+    bacalhau job stop j-63b5ec0c-b5bf-4398-a152-b46c07abe52a --quiet
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    [No output displayed as the operation is run quietly.]
+    ```
+
+## docs/cli/node/README.md
+
+# Node
+
+The `bacalhau node` command provides a set of sub-commands to query and manage node-related information within Bacalhau. With these tools, users can access specific details about nodes, list all network nodes, and more.
+
+## Usage
+
+```bash
+bacalhau node [command]
+```
+
+## Available Commands
+
+1. [**approve**](approve.md):
+
+   - Description: Approves a single node to join the cluster.
+   - Usage:
+
+     ```bash
+     bacalhau node approve
+     ```
+
+2. [**delete**](delete.md):
+
+   - Description: Deletes a node from the cluster using its ID.
+   - Usage:
+
+     ```bash
+     bacalhau node delete
+     ```
+
+3. [**describe**](describe.md):
+
+   - Description: Retrieves detailed information of a node using its ID.
+   - Usage:
+
+     ```bash
+     bacalhau node describe
+     ```
+
+4. [**list**](list.md):
+
+   - Description: Lists the details of all nodes present in the network.
+   - Usage:
+
+     ```bash
+     bacalhau node list
+     ```
+
+5. [**reject**](reject.md):
+
+- Description: Reject a specific node's request to join the cluster.
+- Usage:
+
+  ```bash
+  bacalhau node reject
+  ```
+
+For comprehensive details on any of the sub-commands, run:
+
+```bash
+bacalhau node [command] --help
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Shows the help information for the `node` command.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host for RESTful communication between the client and server. The flag will be ignored if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Designates the port for RESTful communication. The flag will be bypassed if the `BACALHAU_API_PORT` environment variable is active.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Specifies the path to the bacalhau repository.
+  - Default: `/Users/walid/.bacalhau`
+
+## docs/cli/node/approve.md
+
+# Approve
+
+The `bacalhau node approve` command offers administrators the ability to approve the cluster membership for a node using its name.
+
+## Description
+
+Using the `approve` sub-command under the `bacalhau node` umbrella, users can allow a node in the pending state to join the cluster and receive work. This feature is crucial for system administrators to manage the cluster.
+
+## Usage
+
+```bash
+bacalhau node approve [id] [flags]
+```
+
+## Flags
+
+- `[id]`:
+  - The unique identifier of the node you wish to describe.
+- `-h`, `--help`:
+  - Displays the help documentation for the `describe` command.
+- `-m message`:
+  - A message to be attached to the approval action.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- `--api-port int`:
+  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Determines the log format preference.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- `--repo string`:
+  - Points to the bacalhau repository's path.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  Approve a Node with ID `nodeID123`:
+
+    ```bash
+    bacalhau node approve nodeID123
+    ```
+
+2.  Approve a Node with an audit message:
+
+    ```bash
+    bacalhau node approve nodeID123 -m "okay"
+    ```
+
+## docs/cli/node/delete.md
+
+# Delete
+
+The `bacalhau node delete` command offers administrators the ability to remove a node from the cluster using its name.
+
+## Description
+
+Using the `delete` sub-command, administrators can remove a node from the list of available compute nodes in the cluster. This feature is necessary for the management of the infrastructure.
+
+## Usage
+
+```bash
+bacalhau node delete [id] [flags]
+```
+
+## Flags
+
+- `[id]`:
+  - The unique identifier of the node you wish to describe.
+- `-h`, `--help`:
+  - Displays the help documentation for the `describe` command.
+- `-m message`:
+  - A message to be attached to the deletion action.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- `--api-port int`:
+  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Determines the log format preference.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- `--repo string`:
+  - Points to the bacalhau repository's path.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  Delete the Node with ID `nodeID123`:
+
+    ```bash
+    bacalhau node delete nodeID123
+    ```
+
+2.  Delete a Node with an audit message:
+
+    ```bash
+    bacalhau node delete nodeID123 -m "bad actor"
+    ```
+
+## docs/cli/node/describe.md
+
+# Describe
+
+The `bacalhau node describe` command offers users the ability to retrieve detailed information about a specific node using its unique identifier.
+
+## Description
+
+Using the `describe` sub-command under the `bacalhau node` umbrella, users can get comprehensive details of a node by providing its ID. This information is crucial for system administrators and network managers to understand the state, specifications, and other attributes of nodes in their infrastructure.
+
+## Usage
+
+```bash
+bacalhau node describe [id] [flags]
+```
+
+## Flags
+
+- `[id]`:
+  - The unique identifier of the node you wish to describe.
+- `-h`, `--help`:
+  - Displays the help documentation for the `describe` command.
+- `--output format`:
+  - Defines the desired format for the command's output.
+  - Options: `"json"` or `"yaml"`
+  - Default: `"yaml"`
+- `--pretty`:
+  - When this flag is used, the command will pretty print the output. This is applicable only for outputs in `json` and `yaml` formats.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- `--api-port int`:
+  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Determines the log format preference.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- `--repo string`:
+  - Points to the bacalhau repository's path.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  Describing a Node with ID `nodeID123`:
+
+    ```bash
+    bacalhau node describe nodeID123
+    ```
+
+2.  Describing a Node with Output in JSON Format:
+
+    ```bash
+    bacalhau node describe nodeID123 --output json
+    ```
+
+3.  Pretty Printing the Description of a Node:
+
+    ```bash
+    bacalhau node describe nodeID123 --pretty
+    ```
+
+## docs/cli/node/list.md
+
+# List
+
+The `bacalhau node list` command is designed to provide users with a comprehensive list of network nodes along with details based on specified flags.
+
+## Description
+
+The `list` sub-command under the `bacalhau node` category enumerates information about nodes in the network. It supports various filtering, ordering, and output formatting options, allowing users to tailor the output to their needs.
+
+## Usage
+
+```bash
+bacalhau node list [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Show the help message for the `list` command.
+- `--hide-header`:
+  - Do not display the column headers in the output.
+- `--filter-approval`:
+  - Only show nodes with the specified approval status. Valid values are: `approved`, `pending`, `rejected`.
+- `--filter-status`:
+  - Only show nodes with the specified state. Valid values are: `healthy`, `unhealthy`, `unknown`.
+- `--labels string`:
+  - Filter nodes based on labels. This follows the filtering format provided by Kubernetes, as shown in their documentation about labels.
+- `--limit uint32`:
+  - Restrict the number of results displayed.
+- `--next-token string`:
+  - Provide the next token for pagination.
+- `--no-style`:
+  - Output the table without any style.
+- `--order-by string`:
+  - Sort the results based on a specific field. Valid sorting fields are: `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu`.
+- `--order-reversed`:
+  - Display the results in reverse order.
+- `--output format`:
+  - Choose the output format. Available options: `table`, `csv`, `json`, `yaml`.
+  - Default: `table`.
+- `--pretty`:
+  - Enhance the visual appeal of the output. This is applicable only to `json` and `yaml` formats.
+- `--show strings`:
+  - Determine the column groups to be displayed. Acceptable values are: `labels`, `version`, `features`, `capacity`.
+  - Default: `labels`, `capacity`.
+- `--wide`:
+  - Display full values in the output table, without truncation.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specify the host for client-server communication via REST. This gets ignored if the `BACALHAU_API_HOST` environment variable is defined.
+  - Default: `"bootstrap.production.bacalhau.org"`.
+- `--api-port int`:
+  - Specify the port for RESTful communication between client and server. Gets overlooked if the `BACALHAU_API_PORT` environment variable is set.
+  - Default: `1234`.
+- `--log-mode logging-mode`:
+  - Choose the desired log format.
+  - Options: `'default', 'station', 'json', 'combined', 'event'`.
+  - Default: `'default'`.
+- `--repo string`:
+  - Point to the directory path of the bacalhau repository.
+  - Default: `"`$HOME/.bacalhau"\`.
+
+## Examples
+
+1.  **Retrieve the list of nodes**:
+
+    Execute the command to get a list of all nodes:
+
+    ```bash
+    bacalhau node list
+    ```
+
+    Expected output:
+
+    ```plaintext
+     ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
+     QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+                        git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
+     QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+                        git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
+     QmXRdLru  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   78.0 GB /    0 /
+                        git-lfs=True owner=bacalhau                         3.2     12.5 GB     78.0 GB      0
+     ... [Additional nodes information] ...
+    ```
+
+2.  **Filter the list of nodes by labels**:
+
+    Execute the command to get a list of nodes with specific labels:
+
+    ```bash
+    bacalhau node list --labels "Operating-System=linux,owner=bacalhau"
+    ```
+
+    Expected output:
+
+    ```plaintext
+    ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
+    QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+                       git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
+    ... [Additional nodes information] ...
+    ```
+
+3.  **Order the list of nodes by available memory**:
+
+    Execute the command to get the list of nodes ordered by available memory:
+
+    ```bash
+    bacalhau node list --order-by available_memory
+    ```
+
+    Expected output:
+
+    ```plaintext
+    ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
+    QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+                       git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
+    ... [Additional nodes information] ...
+    ```
+
+4.  **Limit the number of nodes displayed and output in JSON format**:
+
+    Execute the command to get a limited list of nodes in JSON format:
+
+    ```bash
+    bacalhau node list  --limit 3 --output json --pretty
+    ```
+
+    Expected output:
+
+    ```json
+    [
+      {
+        "PeerInfo": {
+          "ID": "QmTSJgdN7zCPAqBCkmdsdpFbiJV8bJ6zhoxK9N5xfar1sz",
+          ... [Additional node details] ...
+        },
+        ... [Other nodes] ...
+      }
+    ]
+    ```
+
+## docs/cli/node/reject.md
+
+# Reject
+
+The `bacalhau node reject` command offers administrators the ability to reject a compute node's request to join the cluster.
+
+## Description
+
+Using the `reject` sub-command, administrators can reject a node in the pending state from joining the cluster and receiving work. This feature is crucial for system administrators to manage the cluster and will stop the node from taking part in the cluster until approved.
+
+## Usage
+
+```bash
+bacalhau node rejected [id] [flags]
+```
+
+## Flags
+
+- `[id]`:
+  - The unique identifier of the node you wish to describe.
+- `-h`, `--help`:
+  - Displays the help documentation for the `describe` command.
+- `-m message`:
+  - A message to be attached to the rejection action.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- `--api-port int`:
+  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Determines the log format preference.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- `--repo string`:
+  - Points to the bacalhau repository's path.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  Reject a Node with ID `nodeID123`:
+
+    ```bash
+    bacalhau node reject nodeID123
+    ```
+
+2.  Reject a Node with an audit message:
+
+    ```bash
+    bacalhau node reject nodeID123 -m "potentially bad"
+    ```
+
+# Bacalhau API Reference
+
+## docs/api/README.md
+
+# Overview
+
+:::warning
+Note that in version 1.4.0 API logic and endpoints have changed. Check out the release notes and updated API description in the API documentation section.
+:::
+
+Welcome to the official API documentation for Bacalhau. This guide provides a detailed insight into Bacalhau's RESTful HTTP APIs and demonstrates how to make the most out of them.
+
+## Overview
+
+Bacalhau prioritizes an "API-first" design, enabling users to interact with their deployed systems programmatically. In the `v1.4.0` the API model was changed to include only two endpoints, focused on orchestrating, querying and managing your network nodes and jobs. Each endpoint has a clear, separate environment and goal, allowing to manage coordination between nodes, jobs, and executions more effectively.
+
+- **Endpoint Prefix**: All APIs are versioned and prefixed with `/api/v1`.
+- **Default Port**: By default, Bacalhau listens on port `1234`.
+
+## **API endpoints**
+
+### **Orchestrator**
+
+The Majority of Bacalhau’s functionality is channeled through the `Orchestrator` endpoint and its operations. It handles user requests and schedules and it is critical for creating, managing, monitoring, and analyzing jobs within Bacalhau. It also provides mechanisms to query information about the nodes in the cluster.
+
+```bash
+api/v1/orchestrator/
+```
+
+Here’s the job submission format, where you can tag a YAML file with the job specifications or input the commands with your CLI
+
+```bash
+# Submit a job
+curl -X PUT \
+     -H "Content-Type: application/json" \
+     -d '{
+          "Job": {
+            "Name": "test-job",
+            "Namespace": "default",
+            "Type": "batch",
+            "Count": 1,
+            "Labels": {
+              "foo": "bar",
+              "env": "dev"
+            },
+            "Tasks": [
+              {
+                "Name": "task1",
+                "Engine": {
+                  "Type": "docker",
+                  "Params": {
+                    "Image": "ubuntu:latest",
+                    "Entrypoint": [
+                      "echo",
+                      "hello"
+                    ]
+                  }
+                },
+                "Publisher": {
+                  "Type": "noop",
+                  "Params": {}
+                },
+                "ResourcesConfig": {
+                  "CPU": "0.1",
+                  "Memory": "10mb"
+                },
+                "Network": {
+                  "Type": "None"
+                },
+                "Timeouts": {
+                  "ExecutionTimeout": 30
+                }
+              }
+            ]
+          }
+        }' \
+     http://0.0.0.0:20000/api/v1/orchestrator/jobs
+
+{"JobID":"28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a","EvaluationID":"996b12e4-bcc5-4d74-ac21-0c421dafb7de"}
+```
+
+### Agent
+
+This endpoint offers a convenient route to collate detailed information about the Bacalhau node you're interacting with, whether it's acting as the orchestrator or a compute node. It provides you with insights into the node's health, capabilities, and the deployed Bacalhau version.
+
+```bash
+api/v1/agent/node
+```
+
+Here’s the command structure for querying your current node. You can check on its status and collate information on its health and capabilities:
+
+```bash
+# Is alive
+curl 0.0.0.0:20000/api/v1/agent/alive
+```
+
+## Features
+
+### Pagination
+
+To handle large datasets, Bacalhau supports pagination. Users can define the `limit` in their request and then utilize the `next_token` from the response to fetch subsequent data chunks.
+
+### Ordering
+
+To sort the results of list-based queries, use the `order_by` parameter. By default, the list will be sorted in ascending order. If you want to reverse it, use the `reverse` parameter. Note that the fields available for sorting might vary depending on the specific API endpoint.
+
+### Pretty JSON Output
+
+By default, Bacalhau's APIs provide a minimized JSON response. If you want to view the output in a more readable format, append `pretty` to the query string.
+
+### HTTP Methods
+
+Being RESTful in nature, Bacalhau's API endpoints rely on standard HTTP methods to perform various actions:
+
+1. **GET**: Fetch data.
+2. **PUT**: Update or create data.
+3. **DELETE**: Remove data.
+
+The behavior of an API depends on its HTTP method. For example, `/api/v1/orchestrator/jobs`:
+
+1. **GET**: Lists all jobs.
+2. **PUT**: Submits a new job.
+3. **DELETE**: Stops a job.
+
+### HTTP Response Codes
+
+Understanding HTTP response codes is crucial. A `2xx` series indicates a successful operation, `4xx` indicates client-side errors, and `5xx` points to server-side issues. Always refer to the message accompanying the code for more information.
+
+:::warning
+Since `/api/v1/requester/*` was changed to `/api/v1/orchestrator/` in `v1.4.0`, all `/api/v1/requester/*` requests will result in 410 error.
+:::
+
+## docs/api/agent.md
+
+# Agent
+
+The Bacalhau Agent APIs provide a convenient means to retrieve information about the Bacalhau node you are communicating with, whether it serves as the orchestrator or functions as a compute node. These APIs offer valuable insights into the node's health, capabilities, and deployed Bacalhau version.
+
+## Is Alive
+
+**Endpoint:** `GET /api/v1/agent/alive`
+
+This API can be used to determine if the agent is operational and responding as expected.
+
+**Response**:
+
+```json
+{
+  "Status": "OK"
+}
+```
+
+## Deployed Bacalhau Version
+
+**Endpoint:** `GET /api/v1/agent/version`
+
+This API provides details about the Bacalhau version, including major and minor version numbers, Git version, Git commit, build date, and platform information.
+
+**Response**:
+
+```json
+{
+  "Major": "1",
+  "Minor": "1",
+  "GitVersion": "v1.1.0",
+  "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+  "BuildDate": "2023-09-25T07:59:00Z",
+  "GOOS": "linux",
+  "GOARCH": "amd64"
+}
+```
+
+## Node Info
+
+**Endpoint:** `GET /api/v1/agent/node`
+
+This API provides detailed information about the node, including its peer ID and network addresses, node type (e.g., Compute), labels, compute node capabilities, and the deployed Bacalhau version.
+
+**Response**:
+
+```json
+{
+  "PeerInfo": {
+    "ID": "QmdZQ7ZbhnvWY1J12XYKGHApJ6aufKyLNSvf8jZBrBaAVL",
+    "Addrs": [
+      "/ip4/35.245.245.245/tcp/1235"
+    ]
+  },
+  "NodeType": "Compute",
+  "Labels": {
+    "Architecture": "amd64",
+    "Operating-System": "linux",
+    "git-lfs": "True",
+    "owner": "bacalhau"
+  },
+  "ComputeNodeInfo": {
+    "ExecutionEngines": [
+      "docker",
+      "wasm"
+    ],
+    "Publishers": [
+      "noop",
+      "ipfs",
+      "s3"
+    ],
+    "StorageSources": [
+      "repoclonelfs",
+      "s3",
+      "ipfs",
+      "urldownload",
+      "inline",
+      "repoclone"
+    ],
+    "MaxCapacity": {
+      "CPU": 12.8,
+      "Memory": 53931121049,
+      "Disk": 721417073459,
+      "GPU": 0
+    },
+    "AvailableCapacity": {
+      "CPU": 12.8,
+      "Memory": 53931121049,
+      "Disk": 721417073459,
+      "GPU": 0
+    },
+    "MaxJobRequirements": {
+      "CPU": 12.8,
+      "Memory": 53931121049,
+      "Disk": 721417073459,
+      "GPU": 0
+    },
+    "RunningExecutions": 0,
+    "EnqueuedExecutions": 0
+  },
+  "BacalhauVersion": {
+    "Major": "1",
+    "Minor": "1",
+    "GitVersion": "v1.1.0",
+    "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+    "BuildDate": "2023-09-25T07:59:00Z",
+    "GOOS": "linux",
+    "GOARCH": "amd64"
+  }
+}
+```
+
+## docs/api/jobs.md
+
+# Jobs
+
+## Describe Job
+
+**Endpoint:** `GET /api/v1/orchestrator/jobs/:jobID`
+
+Retrieve the specification and current status of a particular job.
+
+**Parameters**:
+
+1. `jobID`: Identifier of the job to describe. This can be full ID of the job (e.g. `j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a`) or just the short format (e.g. `j-28c08f7f`) if it's unique.
+
+**Response**:
+
+**Job**: Specification for the requested [job](/specifications/job/README.md).
+
+**Example**:
+
+```bash
+curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-d586d2cc-6fc9-42c4-9dd9-a78df1d7cd01
+{
+  "Job": {
+    "ID": "j-d586d2cc-6fc9-42c4-9dd9-a78df1d7cd01",
+    "Name": "A sample job",
+    "Namespace": "default",
+    "Type": "batch",
+    "Priority": 0,
+    "Count": 1,
+    "Constraints": [],
+    "Meta": {
+      "bacalhau.org/requester.id": "QmdZQ7ZbhnvWY1J12XYKGHApJ6aufKyLNSvf8jZBrBaAVL",
+      "bacalhau.org/requester.publicKey": "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVRKPgCfY2fgfrkHkFjeWcqno+MDpmp8DgVaY672BqJl/dZFNU9lBg2P8Znh8OTtHPPBUBk566vU3KchjW7m3uK4OudXrYEfSfEPnCGmL6GuLiZjLf+eXGEez7qPaoYqo06gD8ROdD8VVse27E96LlrpD1xKshHhqQTxKoq1y6Rx4DpbkSt966BumovWJ70w+Nt9ZkPPydRCxVnyWS1khECFQxp5Ep3NbbKtxHNX5HeULzXN5q0EQO39UN6iBhiI34eZkH7PoAm3Vk5xns//FjTAvQw6wZUu8LwvZTaihs+upx2zZysq6CEBKoeNZqed9+Tf+qHow0P5pxmiu+or+DAgMBAAE="
+    },
+    "Labels": {
+      "env": "prod",
+      "name": "demo"
+    },
+    "Tasks": [
+      {
+        "Name": "main",
+        "Engine": {
+          "Type": "docker",
+          "Params": {
+            "Entrypoint": [
+              "/bin/bash"
+            ],
+            "Image": "ubuntu:latest",
+            "Parameters": [
+              "-c",
+              "echo hello world"
+            ]
+          }
+        },
+        "Publisher": {
+          "Type": "",
+          "Params": {}
+        },
+        "Env": {},
+        "Meta": {},
+        "InputSources": [],
+        "ResultPaths": [],
+        "Resources": {
+          "CPU": "",
+          "Memory": "",
+          "Disk": "",
+          "GPU": ""
+        },
+        "Network": {
+          "Type": "None"
+        },
+        "Timeouts": {
+          "ExecutionTimeout": 1800
+        }
+      }
+    ],
+    "State": {
+      "StateType": "Completed",
+      "Message": ""
+    },
+    "Version": 0,
+    "Revision": 2,
+    "CreateTime": 1695883778909107178,
+    "ModifyTime": 1695883779369191994
+  }
+}
+```
+
+## List Jobs
+
+**Endpoint:** `GET /api/v1/orchestrator/jobs`
+
+Retrieve a list of jobs.
+
+**Parameters**:
+
+1. `namespace`: Specify a namespace to filter the jobs. Use `*` to display jobs from all namespaces.
+2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](/specifications/job/label.md) for usage details.
+3. `limit`: Set the maximum number of jobs to return. Default is set to 10.
+4. `next_token`: Utilize this parameter for pagination continuation.
+5. `order_by`: Determine the ordering of jobs. Choose between `id` or `create_time` (default is `create_time`).
+6. `reverse`: Opt to reverse the default order of displayed jobs.
+
+**Response**:
+
+- [**Jobs**](/specifications/job/README.md): List of matching jobs.
+- **NextToken** `(string)`: Pagination token.
+
+**Example**:
+
+List jobs with limit set to 3:
+
+```bash
+curl 127.0.0.1:1234/api/v1/orchestrator/jobs?limit=3
+{
+  "Jobs": [
+    {
+      "ID": "j-f6331e9a-727d-4175-8350-095b6b372408",
+      # ...
+    },
+    {
+      "ID": "j-f7853204-a553-4991-a1a3-816b88fdbfc7",
+      # ...
+    },
+    {
+      "ID": "j-f791ad14-af5b-4c26-8c93-15cc23dca811",
+      # ...
+    }
+  ],
+  "NextToken": ""
+}
+```
+
+List with label filtering
+
+```bash
+curl --get 127.0.0.1:1234/api/v1/orchestrator/jobs --data-urlencode 'labels=env in (prod,dev)'
+```
+
+## Create Job
+
+**Endpoint:** `PUT /api/v1/orchestrator/jobs`
+
+Submit a new job for execution.
+
+**Request Body**:
+
+- [**Job**](/docs/specifications/job/): JSON definition of the job.
+
+**Response**:
+
+1. **JobID** `(string)`: Identifier for the new job.
+2. **EvaluationID** `(string)`: Identifier for the evaluation to schedule the job.
+3. **Warnings** `(string[])`: Any warnings during job submission.
+
+**Example**:
+
+```bash
+curl -X PUT \
+     -H "Content-Type: application/json" \
+     -d '{
+          "Job": {
+            "Name": "test-job",
+            "Type": "batch",
+            "Count": 1,
+            "Labels": {
+              "foo": "bar",
+              "env": "dev"
+            },
+            "Tasks": [
+              {
+                "Name": "task1",
+                "Engine": {
+                  "Type": "docker",
+                  "Params": {
+                    "Image": "ubuntu:latest",
+                    "Entrypoint": [
+                      "echo",
+                      "hello"
+                    ]
+                  }
+                },
+                "Publisher": {
+                  "Type": "noop"
+                }
+              }
+            ],
+            "CreateTime": 1234
+          }
+        }' \
+     127.0.0.1:1234/api/v1/orchestrator/jobs
+
+ {
+  "JobID": "j-9809ae4b-d4fa-47c6-823b-86c924e60604",
+  "EvaluationID": "5dac9fe0-2358-4ec7-bec9-6747dfa2b33e",
+  "Warnings": [
+    "job create time is ignored when submitting a job"
+  ]
+}
+```
+
+## Stop Job
+
+**Endpoint:** `DELETE /api/v1/orchestrator/jobs/:jobID`
+
+Terminate a specific job asynchronously.
+
+**Parameters**:
+
+1. `:jobID`: Identifier of the job to describe. This can be full ID of the job (e.g. `j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a`) or just the short format (e.g. `j-28c08f7f`) if it's unique.
+2. `reason`: A message for debugging and traceability.
+
+**Response**:
+
+- **EvaluationID** `(string)`: Identifier for the evaluation to stop the job.
+
+**Example**:
+
+```bash
+curl -X DELETE 127.0.0.1:1234/api/v1/orchestrator/jobs/j-50ee38d5-2812-4365-aceb-7b47b8f3858e
+{
+  "EvaluationID": "1316fdfe-97c4-43bc-8e0b-50a7f02f18bb"
+}
+```
+
+## Job History
+
+**Endpoint:** `GET /api/v1/orchestrator/jobs/:jobID/history`
+
+Retrieve historical events for a specific job.
+
+**Parameters**:
+
+1. `since`: Timestamp to start (default: 0).
+2. `event_type`: Filter by event type: `job`, `execution`, or `all` (default).
+3. `execution_id`: Filter by execution ID.
+4. `node_id`: Filter by node ID.
+5. `limit`: Maximum events to return.
+6. `next_token`: For pagination.
+
+**Response**:
+
+- **History**: List of matching historical events.
+- **NextToken** `(string)\*\*: Pagination token.
+
+**Example**:
+
+List events for a specific execution
+
+```bash
+curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-4cd1566f-84cb-4830-a96b-1349f5b54b1b/history\?execution_id=e-82f7813f-58da-4323-8261-886af35284c4
+{
+  "NextToken": "",
+  "History": [
+    {
+      "Type": "ExecutionLevel",
+      "JobID": "j-4cd1566f-84cb-4830-a96b-1349f5b54b1b",
+      "NodeID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "ExecutionID": "e-82f7813f-58da-4323-8261-886af35284c4",
+      "JobState": null,
+      "ExecutionState": {
+        "Previous": 1,
+        "New": 1
+      },
+      "NewRevision": 1,
+      "Comment": "",
+      "Time": "2023-09-28T07:23:01.352803607Z"
+    },
+    {
+      "Type": "ExecutionLevel",
+      "JobID": "j-4cd1566f-84cb-4830-a96b-1349f5b54b1b",
+      "NodeID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "ExecutionID": "e-82f7813f-58da-4323-8261-886af35284c4",
+      "JobState": null,
+      "ExecutionState": {
+        "Previous": 1,
+        "New": 2
+      },
+      "NewRevision": 2,
+      "Comment": "",
+      "Time": "2023-09-28T07:23:01.446196661Z"
+    },
+    {
+      "Type": "ExecutionLevel",
+      "JobID": "j-4cd1566f-84cb-4830-a96b-1349f5b54b1b",
+      "NodeID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "ExecutionID": "e-82f7813f-58da-4323-8261-886af35284c4",
+      "JobState": null,
+      "ExecutionState": {
+        "Previous": 2,
+        "New": 3
+      },
+      "NewRevision": 3,
+      "Comment": "",
+      "Time": "2023-09-28T07:23:01.604862596Z"
+    },
+    {
+      "Type": "ExecutionLevel",
+      "JobID": "j-4cd1566f-84cb-4830-a96b-1349f5b54b1b",
+      "NodeID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "ExecutionID": "e-82f7813f-58da-4323-8261-886af35284c4",
+      "JobState": null,
+      "ExecutionState": {
+        "Previous": 3,
+        "New": 3
+      },
+      "NewRevision": 4,
+      "Comment": "",
+      "Time": "2023-09-28T07:23:01.611816334Z"
+    },
+    {
+      "Type": "ExecutionLevel",
+      "JobID": "j-4cd1566f-84cb-4830-a96b-1349f5b54b1b",
+      "NodeID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "ExecutionID": "e-82f7813f-58da-4323-8261-886af35284c4",
+      "JobState": null,
+      "ExecutionState": {
+        "Previous": 3,
+        "New": 5
+      },
+      "NewRevision": 5,
+      "Comment": "",
+      "Time": "2023-09-28T07:23:01.705013737Z"
+    },
+    {
+      "Type": "ExecutionLevel",
+      "JobID": "j-4cd1566f-84cb-4830-a96b-1349f5b54b1b",
+      "NodeID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "ExecutionID": "e-82f7813f-58da-4323-8261-886af35284c4",
+      "JobState": null,
+      "ExecutionState": {
+        "Previous": 5,
+        "New": 7
+      },
+      "NewRevision": 6,
+      "Comment": "",
+      "Time": "2023-09-28T07:23:02.483265228Z"
+    }
+  ]
+}
+```
+
+## Job Executions
+
+**Endpoint:** `GET /api/v1/orchestrator/jobs/:jobID/executions`
+
+Retrieve all executions for a particular job.
+
+**Parameters**:
+
+1. `limit`: Maximum executions to return.
+2. `next_token`: For pagination.
+3. `order_by`: Order by `modify_time` (default), `create_time`, `id`, `state`.
+4. `reverse`: Reverse the order.
+
+**Response**:
+
+- **Executions**: List of relevant executions.
+- **NextToken** `(string)\*\*: Pagination token.
+
+**Example**
+
+List executions for a batch job with 3 executions (i.e. `count=3`)
+
+```bash
+curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-412c34b4-da77-4a46-886c-76e03615a04e/executions
+{
+  "NextToken": "",
+  "Executions": [
+    {
+      "ID": "e-cdd9fb3e-3183-4069-8bc9-679b6bcce4db",
+      "Namespace": "default",
+      "EvalID": "",
+      "Name": "",
+      "NodeID": "QmYgxZiySj3MRkwLSL4X2MF5F9f2PMhAE3LV49XkfNL1o3",
+      "JobID": "j-412c34b4-da77-4a46-886c-76e03615a04e",
+      "AllocatedResources": {
+        "Tasks": {}
+      },
+      "DesiredState": {
+        "StateType": 2,
+        "Message": "execution completed"
+      },
+      "ComputeState": {
+        "StateType": 7,
+        "Message": ""
+      },
+      "PublishedResult": {
+        "Type": "",
+        "Params": null
+      },
+      "RunOutput": {
+        "stdout": "hello world\n",
+        "stdouttruncated": false,
+        "stderr": "",
+        "stderrtruncated": false,
+        "exitCode": 0,
+        "runnerError": ""
+      },
+      "PreviousExecution": "",
+      "NextExecution": "",
+      "FollowupEvalID": "",
+      "Revision": 6,
+      "CreateTime": 1695886565851709698,
+      "ModifyTime": 1695886566370340241
+    },
+    {
+      "ID": "e-836a4a50-f6cd-479f-a20d-2a12ff7fea64",
+      "Namespace": "default",
+      "EvalID": "",
+      "Name": "",
+      "NodeID": "QmXaXu9N5GNetatsvwnTfQqNtSeKAD6uCmarbh3LMRYAcF",
+      "JobID": "j-412c34b4-da77-4a46-886c-76e03615a04e",
+      "AllocatedResources": {
+        "Tasks": {}
+      },
+      "DesiredState": {
+        "StateType": 2,
+        "Message": "execution completed"
+      },
+      "ComputeState": {
+        "StateType": 7,
+        "Message": ""
+      },
+      "PublishedResult": {
+        "Type": "",
+        "Params": null
+      },
+      "RunOutput": {
+        "stdout": "hello world\n",
+        "stdouttruncated": false,
+        "stderr": "",
+        "stderrtruncated": false,
+        "exitCode": 0,
+        "runnerError": ""
+      },
+      "PreviousExecution": "",
+      "NextExecution": "",
+      "FollowupEvalID": "",
+      "Revision": 6,
+      "CreateTime": 1695886565855906980,
+      "ModifyTime": 1695886566505560693
+    },
+    {
+      "ID": "e-b7e7adc7-b28c-4af0-9002-a7fdce303634",
+      "Namespace": "default",
+      "EvalID": "",
+      "Name": "",
+      "NodeID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "JobID": "j-412c34b4-da77-4a46-886c-76e03615a04e",
+      "AllocatedResources": {
+        "Tasks": {}
+      },
+      "DesiredState": {
+        "StateType": 2,
+        "Message": "execution completed"
+      },
+      "ComputeState": {
+        "StateType": 7,
+        "Message": ""
+      },
+      "PublishedResult": {
+        "Type": "",
+        "Params": null
+      },
+      "RunOutput": {
+        "stdout": "hello world\n",
+        "stdouttruncated": false,
+        "stderr": "",
+        "stderrtruncated": false,
+        "exitCode": 0,
+        "runnerError": ""
+      },
+      "PreviousExecution": "",
+      "NextExecution": "",
+      "FollowupEvalID": "",
+      "Revision": 6,
+      "CreateTime": 1695886565853878926,
+      "ModifyTime": 1695886566583711985
+    }
+  ]
+}
+```
+
+## Job Results
+
+**Endpoint:** `GET /api/v1/orchestrator/jobs/:jobID/results`
+
+Fetch results published by all executions for the defined job. Applicable only for `batch` and `ops` jobs.
+
+**Response**:
+
+- **Results**: List of all published results.
+- **NextToken** `(string)\*\*: Pagination token.
+
+**Example**:
+
+Result of a job that used the [S3 Publisher](/components/publishers/s3.md):
+
+```bash
+curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-479d160f-f9ab-4e32-aec9-a45554126450/results
+{
+  "NextToken": "",
+  "Results": [
+    {
+      "Type": "s3",
+      "Params": {
+        "Bucket": "bacalhau-test-datasets",
+        "Key": "my-prefix/my-result-file.tar.gz",
+        "Region": "eu-west-1",
+        "ChecksumSHA256": "qKAFvkLvSc+QqHE4hFiy4qVEmXhr423lQaRBfJecsgo=",
+        "VersionID": "bNS92VdFudVI7NPsXF51Qn.RPw31TKNG"
+      }
+    }
+  ]
+}
+```
+
+## docs/api/nodes.md
+
+# Nodes
+
+## Describe Node <a href="#describe-node" id="describe-node"></a>
+
+**Endpoint:** `GET /api/v1/orchestrator/nodes/:nodeID`
+
+Retrieve information about a specific node.
+
+**Parameters**:
+
+1. `:nodeID`: Identifier of the node to describe. (e.g. `QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT`)
+
+**Response**:
+
+* **Node**: Detailed information about the requested node.
+
+**Example**:
+
+```bash
+curl 127.0.0.1:1234/api/v1/orchestrator/nodes/QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT
+{
+  "Node": {
+    "PeerInfo": {
+      "ID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
+      "Addrs": [
+        "/ip4/34.34.247.247/tcp/1235"
+      ]
+    },
+    "NodeType": "Compute",
+    "Labels": {
+      "Architecture": "amd64",
+      "Operating-System": "linux",
+      "git-lfs": "True",
+      "owner": "bacalhau"
+    },
+    "ComputeNodeInfo": {
+      "ExecutionEngines": [
+        "docker",
+        "wasm"
+      ],
+      "Publishers": [
+        "s3",
+        "noop",
+        "ipfs"
+      ],
+      "StorageSources": [
+        "urldownload",
+        "inline",
+        "repoclone",
+        "repoclonelfs",
+        "s3",
+        "ipfs"
+      ],
+      "MaxCapacity": {
+        "CPU": 3.2,
+        "Memory": 12561049190,
+        "Disk": 582010404864,
+        "GPU": 1
+      },
+      "AvailableCapacity": {
+        "CPU": 3.2,
+        "Memory": 12561049190,
+        "Disk": 582010404864,
+        "GPU": 1
+      },
+      "MaxJobRequirements": {
+        "CPU": 3.2,
+        "Memory": 12561049190,
+        "Disk": 582010404864,
+        "GPU": 1
+      },
+      "RunningExecutions": 0,
+      "EnqueuedExecutions": 0
+    },
+    "BacalhauVersion": {
+      "Major": "1",
+      "Minor": "1",
+      "GitVersion": "v1.1.0",
+      "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+      "BuildDate": "2023-09-25T07:59:00Z",
+      "GOOS": "linux",
+      "GOARCH": "amd64"
+    }
+  }
+}
+```
+
+## List Nodes <a href="#list-nodes" id="list-nodes"></a>
+
+**Endpoint:** `GET /api/v1/orchestrator/nodes`
+
+Retrieve a list of nodes.
+
+**Parameters**:
+
+1. `labels`: Use label-based criteria to filter nodes. See [Label Filtering](/guides/labels-and-constraints.md) for usage details.
+2. `limit`: Set the maximum number of jobs to return. Default is set to 10.
+3. `next_token`: Utilize this parameter for pagination continuation.
+4. `order_by`: Determine the ordering of jobs. Choose between `id`, `type`, `available_cpu`, `available_memory`, `available_disk` or `available_gpu`. (default is `id`).
+5. `reverse`: Opt to reverse the default order of displayed jobs.
+
+**Response**:
+
+* **Nodes**: List of matching nodes.
+* **NextToken** `(string)`: Pagination token.
+
+**Example**:
+
+Find two linux nodes with most available Memory
+
+```bash
+curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available_memory" --data-urlencode 'labels=Operating-System=linux'
+{
+  "NextToken": "",
+  "Nodes": [
+    {
+      "PeerInfo": {
+        "ID": "QmcC3xifiiCuGGQ9rpvefUoary9tY65x2HaNxSdeMTvM9U",
+        "Addrs": [
+          "/ip4/212.248.248.248/tcp/1235"
+        ]
+      },
+      "NodeType": "Compute",
+      "Labels": {
+        "Architecture": "amd64",
+        "Operating-System": "linux",
+        "env": "prod",
+        "git-lfs": "False",
+        "name": "saturnia_len20"
+      },
+      "ComputeNodeInfo": {
+        "ExecutionEngines": [
+          "wasm",
+          "docker"
+        ],
+        "Publishers": [
+          "noop",
+          "ipfs"
+        ],
+        "StorageSources": [
+          "urldownload",
+          "inline",
+          "ipfs"
+        ],
+        "MaxCapacity": {
+          "CPU": 102,
+          "Memory": 858993459200,
+          "Disk": 562967789568,
+          "GPU": 2
+        },
+        "AvailableCapacity": {
+          "CPU": 102,
+          "Memory": 858993459200,
+          "Disk": 562967789568,
+          "GPU": 2
+        },
+        "MaxJobRequirements": {
+          "CPU": 96,
+          "Memory": 858993459200,
+          "Disk": 562967789568,
+          "GPU": 2
+        },
+        "RunningExecutions": 0,
+        "EnqueuedExecutions": 0
+      },
+      "BacalhauVersion": {
+        "Major": "1",
+        "Minor": "1",
+        "GitVersion": "v1.1.0",
+        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+        "BuildDate": "2023-09-25T07:59:00Z",
+        "GOOS": "linux",
+        "GOARCH": "amd64"
+      }
+    },
+    {
+      "PeerInfo": {
+        "ID": "QmXaXu9N5GNetatsvwnTfQqNtSeKAD6uCmarbh3LMRYAcF",
+        "Addrs": [
+          "/ip4/35.245.245.245/tcp/1235"
+        ]
+      },
+      "NodeType": "Compute",
+      "Labels": {
+        "Architecture": "amd64",
+        "Operating-System": "linux",
+        "git-lfs": "True",
+        "owner": "bacalhau"
+      },
+      "ComputeNodeInfo": {
+        "ExecutionEngines": [
+          "docker",
+          "wasm"
+        ],
+        "Publishers": [
+          "noop",
+          "ipfs",
+          "s3"
+        ],
+        "StorageSources": [
+          "s3",
+          "ipfs",
+          "urldownload",
+          "inline",
+          "repoclone",
+          "repoclonelfs"
+        ],
+        "MaxCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931124326,
+          "Disk": 718749414195,
+          "GPU": 0
+        },
+        "AvailableCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931124326,
+          "Disk": 718749414195,
+          "GPU": 0
+        },
+        "MaxJobRequirements": {
+          "CPU": 12.8,
+          "Memory": 53931124326,
+          "Disk": 718749414195,
+          "GPU": 0
+        },
+        "RunningExecutions": 0,
+        "EnqueuedExecutions": 0
+      },
+      "BacalhauVersion": {
+        "Major": "1",
+        "Minor": "1",
+        "GitVersion": "v1.1.0",
+        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
+        "BuildDate": "2023-09-25T07:59:00Z",
+        "GOOS": "linux",
+        "GOARCH": "amd64"
+      }
+    }
+  ]
+}
+```
+
+# Bacalhau Concepts and Architecture
+
+## docs/README.md
+
+# What is Bacalhau?
+
+Bacalhau is an open-source distributed compute orchestration framework designed to bring compute to the data. Instead of moving large datasets around networks, Bacalhau makes it easy to execute jobs close to the data's location, drastically reducing latency and resource overhead.
+
+### Why It Matters
+
+* **Highly Distributed Architecture**: Deploy compute networks that span regions, cloud providers, and on-premises datacenters—all working together as a unified system.
+* **Resilient Operation**: Compute nodes operate effectively even with intermittent connectivity to orchestrators, maintaining service availability during network partitioning or isolation.
+* **Data Sovereignty & Security**: Process sensitive data within security boundaries without requiring it to leave your premises, enabling computation while preserving data control.
+* **Cross-Organizational Computation**: Allow specific vetted computations on protected datasets without exposing raw data, breaking data silos between organizations.
+* **Resource Efficiency**: By minimizing data transfers, Bacalhau saves bandwidth costs and ensures jobs run faster.
+* **High Scalability**: As your data and processing needs grow, simply add more compute nodes on demand—whether on-premises or in the cloud.
+* **Ease of Integration**: Bacalhau works with existing container images (Docker, etc.), meaning you can leverage your current workflows without major rewrites.
+
+### Key Features
+
+1. **Single Binary Simplicity**: Bacalhau is a single self-contained binary that functions as a client, orchestrator, and compute node—making it incredibly easy to set up and scale your distributed compute network.
+2. **Modular Architecture**: Bacalhau's design supports multiple execution engines (Docker, WebAssembly) and storage providers through clean interfaces, allowing for easy extension.
+3. **Orchestrator-Compute Model**: A dedicated orchestrator coordinates job scheduling, while compute nodes run tasks—all from the same binary with different runtime modes.
+4. **Flexible Storage Integrations**: Bacalhau integrates with S3, HTTP/HTTPS, and other storage systems, letting you pull data from various sources.
+5. **Multiple Job Types**: Support for batch, ops, daemon, and service job types to accommodate different workflow requirements.
+6. **Declarative & Imperative Submissions**: Define jobs in a YAML spec (declarative) or pass all arguments via CLI (imperative).
+7. **Publisher Support**: Output results to local volumes, S3, or other storage backends—so your artifacts are readily accessible.
+
+### Use Cases
+
+Bacalhau's distributed compute framework enables a wide range of applications across different industries:
+
+<details>
+
+<summary>Log Processing</summary>
+
+Process logs efficiently at scale by running distributed jobs directly at the source, reducing costs by up to 93% in bandwidth usage while improving real-time insights. Bacalhau supports various job types for log management:
+
+* **Daemon Jobs**: Continuously run on each node for real-time log aggregation and compression
+* **Service Jobs**: Handle ongoing processing tasks like log aggregation and issue detection
+* **Batch Jobs**: Execute on-demand in-depth analysis of historical log data
+* **Ops Jobs**: Enable real-time querying of live logs for urgent investigations
+
+</details>
+
+<details>
+
+<summary>Distributed Data Warehousing</summary>
+
+Query and analyze data across multiple regions by deploying compute tasks directly where your data resides. This approach reduces latency, enhances performance, and ensures compliance with data sovereignty regulations. Bacalhau integrates with modern data tools like Apache Iceberg and DuckDB to enable:
+
+* Reduced data movement with local query execution
+* Improved query performance through compute-data proximity
+* Seamless scalability with dynamic node addition
+* Compliance with data regulations through region-specific processing
+
+</details>
+
+<details>
+
+<summary>Fleet Management</summary>
+
+Efficiently manage distributed nodes across multiple environments with capabilities for:
+
+* Remote execution of commands without requiring SSH access
+* Automated software deployment and configuration updates
+* Real-time metrics and logs collection
+* Targeted job execution based on node attributes
+* Rapid incident response and automated recovery
+
+</details>
+
+<details>
+
+<summary>Distributed Machine Learning</summary>
+
+Train and deploy ML models across a distributed compute fleet, optimizing performance while keeping data in place:
+
+* Distribute training across multiple machines to handle larger models
+* Process data locally to minimize network transfers
+* Deploy inference jobs near users for low-latency predictions
+* Support federated learning for privacy-sensitive applications
+
+</details>
+
+<details>
+
+<summary>Edge Computing</summary>
+
+Run compute tasks closer to the data source for applications requiring low latency and minimal bandwidth usage:
+
+* Process and analyze sensor, IoT, or video data in real time
+* Perform pre-processing and filtering at the edge before sending refined data
+* Distribute tasks across available edge resources dynamically
+* Ensure data privacy by keeping computations near the source
+
+</details>
+
+### How It Works
+
+Bacalhau's architecture enables you to create compute networks that bridge traditional infrastructure boundaries. When you submit a job, Bacalhau intelligently determines which compute nodes are best positioned to process the data based on locality, availability, and your defined constraints—without requiring data movement or constant connectivity.
+
+This approach is particularly valuable for:
+
+* Organizations with data that cannot leave certain security boundaries
+* Multi-region operations where data transfer is expensive or impractical
+* Scenarios where multiple parties need to collaborate on analysis without sharing raw data
+* Edge computing environments with intermittent connectivity
+
+### Community
+
+Bacalhau has a very friendly community and we are always happy to help you get started:
+
+* [Join the Slack Community](https://bit.ly/bacalhau-project-slack) Go to **#bacalhau** channel – it is the easiest way to engage with other members in the community and get help.
+* [Contributing](/community/ways-to-contribute) – learn how to contribute to the Bacalhau project.
+
+## docs/components/engines/README.mdx
+
+# Engines
+
+<DocCardList />
+
+## docs/components/engines/docker.md
+
+# Docker
+
+Docker Engine is one of the execution engines supported in Bacalhau. It allows users to run tasks inside Docker containers, offering an isolated and consistent environment for execution. Below are the parameters to configure the Docker Engine.
+
+## `Docker` Engine Parameters
+
+* **Image** `(string: <required>)`: Specifies the Docker image to use for task execution. It should be an image that can be pulled by Docker.
+* **Entrypoint** `(string[]: <optional>)`: Allows overriding the default entrypoint set in the Docker image. Each string in the array represents a segment of the entrypoint command.
+* **Parameters** `(string[]: <optional>)`: Additional command-line arguments to be included in the container’s startup command, appended after the entrypoint.
+* **EnvironmentVariables** `(string[]: <optional>)`: Sets environment variables within the Docker container during task execution. Each string should be formatted as `KEY=value`.
+* **WorkingDirectory** `(string: <optional>)`: Sets the path inside the container where the task executes. If not specified, it defaults to the working directory defined in the Docker image.
+
+### Example
+
+Here’s an example of configuring the Docker Engine within a job or task using YAML:
+
+```yaml
+Engine:
+  Type: "Docker"
+  Params:
+    Image: "ubuntu:20.04"
+    Entrypoint:
+      - "/bin/bash"
+      - "-c"
+    Parameters:
+      - "echo Hello, World!"
+    EnvironmentVariables:
+      - "MY_ENV_VAR=myvalue"
+    WorkingDirectory: "/app"
+```
+
+In this example, the task will be executed inside an Ubuntu 20.04 Docker container. The entrypoint is overridden to execute a bash shell that runs an echo command. An environment variable MY\_ENV\_VAR is set with the value myvalue, and the working directory inside the container is set to /app.
+
+## docs/components/engines/wasm.md
+
+# WebAssembly (WASM)
+
+The WASM Engine in Bacalhau allows tasks to be executed in a WebAssembly environment, offering compatibility and speed. This engine supports WASM and WASI (WebAssembly System Interface) jobs, making it highly adaptable for various use cases. Below are the parameters for configuring the WASM Engine.
+
+## `WASM` Engine Parameters
+
+- **EntryModule** `(`[`InputSource`](../../specifications/job/input-source.md) `: required)`: Specifies the WASM module that contains the start function or the main execution code of the task. The InputSource should point to the location of the WASM binary.
+- **Entrypoint** `(string: <optional>)`: The name of the function within the EntryModule to execute. For WASI jobs, this should typically be `_start`. The entrypoint function should have zero parameters and zero results.
+- **Parameters** `(string[]: <optional>)`: An array of strings containing arguments that will be supplied to the program as ARGV. This allows parameterized execution of the WASM task.
+- **EnvironmentVariables** `(map[string]string: <optional>)`: A mapping of environment variable keys to their values, made available within the executing WASM environment.
+- **ImportModules** `(`[`InputSource`](../../specifications/job/input-source.md)`[] : optional)`: An array of InputSources pointing to additional WASM modules. The exports from these modules will be available as imports to the EntryModule, enabling modular and reusable WASM code.
+
+## Examples
+
+### Using S3 bucket
+
+```yaml
+Engine:
+Type: 'WASM'
+Params:
+  EntryModule:
+    Source:
+      Type: 's3'
+      Params:
+        Bucket: 'my-bucket'
+        Key: 'entry.wasm'
+  Entrypoint: '_start'
+  Parameters:
+    - '--option'
+    - 'value'
+  EnvironmentVariables:
+    VAR1: 'value1'
+    VAR2: 'value2'
+  ImportModules:
+    - Source:
+        Type: 'localDirectory'
+        Params:
+          Path: '/local/path/to/module.wasm'
+```
+
+In this example, the task is configured to run in a WASM environment. The EntryModule is fetched from an S3 bucket, the entrypoint is `_start`, and parameters and environment variables are passed into the WASM environment. Additionally, an ImportModule is loaded from a local directory, making its exports available to the EntryModule.
+
+## Using Local Provider
+
+```yaml
+Engine:
+  Type: wasm
+  Params:
+    EntryModule:
+      Source:
+        Type: 'localDirectory'
+        Params:
+          SourcePath: '/app/main.wasm'
+      Target: '/main.wasm'
+    Entrypoint: 'start_app'
+    Parameters:
+      - '--assets'
+      - '/app/data'
+InputSources:
+  - Source:
+      Type: 'urlDownload'
+      Params:
+        URL: 'https://example.com/data/file.txt'
+    Target: '/app/data'
+```
+
+In this example, the main WASM module is fetched from the local file system on the compute node. The entrypoint function is `start_app`, and it is given two arguments `"--assets"` and `"/app/data"`. Additionally, the WASM environment has access to `/app/data/file.txt` file downloaded from the given URL.
+
+:::info
+Parameters are passed to the WASM module as command-line arguments. To access these arguments in your WASM module, you'll need to implement the appropriate code based on your programming language. For example, in Rust, you can retrieve the parameters as follows:
+
+```rust
+use std::env;
+
+fn _start() {
+  let args: Vec<String> = env::args().collect();
+  // &args[0] is the program name, &args[1] is the first parameter
+}
+```
+
+:::
+
+## docs/components/publishers/README.mdx
+
+# Publishers
+
+<DocCardList />
+
+## docs/components/publishers/ipfs.md
+
+# IPFS
+
+The IPFS Publisher in Bacalhau amplifies the versatility of task result storage by integrating with the [InterPlanetary File System (IPFS)](https://ipfs.tech/). IPFS is a protocol and network designed to create a peer-to-peer method of storing and sharing hypermedia in a distributed file system. Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure.
+
+## `IPFS` Publisher Parameters
+
+For the IPFS publisher, no specific parameters need to be defined in the publisher specification. The user only needs to indicate the publisher type as IPFS, and Bacalhau handles the rest. Here is an example of how to set up an IPFS Publisher in a job specification.
+
+```yaml
+Publisher:
+  Type: ipfs
+```
+
+## Published Result Specification
+
+Once the job is executed, the results are published to IPFS, and a unique CID (Content Identifier) is generated for each file or piece of data. This CID acts as an address to the file in the IPFS network and can be used to access the file globally.
+
+### Result Parameters
+
+- CID `(string)`: This is the unique content identifier generated by IPFS, which can be used to access the published content from anywhere in the world. Every data piece stored on IPFS has its unique CID. Here's a sample of how the published result might appear:
+
+```yaml
+PublishedResult:
+  Type: ipfs
+  Params:
+    CID: 'QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco'
+```
+
+In this example, the task results will be stored in IPFS, and can be referenced and retrieved using the specified CID. This is indicative of Bacalhau's commitment to offering flexible, reliable, and decentralized options for result storage, catering to a diverse set of user needs and preferences.
+
+## docs/components/publishers/local.md
+
+# Local
+
+Bacalhau's Local Publisher provides a useful option for storing task results on the compute node, allowing for ease of access and retrieval for testing or trying our Bacalhau.
+
+:::warning
+The Local Publisher should not be used for Production use as it is not a reliable storage option. For production use, we recommend using a more reliable option such as an S3-compatible storage service.&#x20;
+:::
+
+## Local Publisher Parameters
+
+The local publisher requires no specific parameters to be defined in the publisher specification. The user only needs to indicate the publisher type as "local", and Bacalhau handles the rest. Here is an example of how to set up a Local Publisher in a job specification.
+
+```yaml
+Publisher:
+  Type: local
+```
+
+## Published Result Specification
+
+Once the job is executed, the results are published to the local compute node, and stored as compressed tar file, which can be accessed and retrieved over HTTP from the command line using the `get` command. TAhis will download and extract the contents for the user from the remove compute node.
+
+### Result Parameters
+
+**URL** `(string)`: This is the HTTP URL to the results of the computation, which is hosted on the compute node where it ran. Here's a sample of how the published result might appear:
+
+```yaml
+PublishedResult:
+  Type: local
+  Params:
+    URL: "http://192.168.0.11:6001/e-c4b80d04-ff2b-49d6-9b99-d3a8e669a6bf.tgz"
+```
+
+In this example, the task results will be stored on the compute node, and can be referenced and retrieved using the specified URL.
+
+## Caveats
+
+1. By default the compute node will attempt to use a public address for the HTTP server delivering task output, but there is no guarantee that the compute node is accessible on that address. If the compute node is behind a NAT or firewall, the user may need to manually specify the address to use for the HTTP server in the `config.yaml` file.
+2. There is no lifecycle management for the content stored on the compute node. The user is responsible for managing the content and ensuring that it is removed when no longer needed before the compute node runs out of disk space.
+3. If the address/port of the compute node changes, then previously stored content will no longer be accessible. The user will need to manually update the address in the `config.yaml` file and re-publish the content to make it accessible again.
+
+## docs/components/publishers/s3.md
+
+# S3
+
+Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. The integration is designed to be highly flexible, ensuring users can choose the storage option that aligns with their needs, privacy preferences, and operational requirements.
+
+## Publisher Parameters
+
+1. **Bucket** `(string: <required>)`: The name of the S3 bucket where the task results will be stored.
+2. **Key** `(string: <required>)`: The object key within the specified bucket where the task results will be stored.
+3. **Endpoint** `(string: <optional>)`: The endpoint URL of the S3 service (useful for S3-compatible services).
+4. **Region** `(string: <optional>)`: The region where the S3 bucket is located.
+
+## Published Result Spec
+
+Results published to S3 are stored as objects that can also be used as inputs to other Bacalhau jobs by using [S3 Input Source](../../specifications/job/input-source.md). The published result specification includes the following parameters:
+
+1. **Bucket**: Confirms the name of the bucket containing the stored results.
+2. **Key**: Identifies the unique object key within the specified bucket.
+3. **Region**: Notes the AWS region of the bucket.
+4. **Endpoint**: Records the endpoint URL for S3-compatible storage services.
+5. **VersionID**: The version ID of the stored object, enabling versioning support for retrieving specific versions of stored data.
+6. **ChecksumSHA256**: The SHA-256 checksum of the stored object, providing a method to verify data integrity.
+
+## Dynamic Naming
+
+With the S3 Publisher in Bacalhau, you have the flexibility to use dynamic naming for the objects you publish to S3. This allows you to incorporate specific job and execution details into the object key, making it easier to trace, manage, and organize your published artifacts.
+
+Bacalhau supports the following dynamic placeholders that will be replaced with their actual values during the publishing process:
+
+1. `{executionID}`: Replaced with the specific execution ID.
+2. `{jobID}`: Replaced with the ID of the job.
+3. `{nodeID}`: Replaced with the ID of the node where the execution took place
+4. `{date}`: Replaced with the current date in the format `YYYYMMDD`.
+5. `{time}`: Replaced with the current time in the format `HHMMSS`.
+
+Additionally, if you are publishing an archive and the object key does not end with `.tar.gz`, it will be automatically appended. Conversely, if you're not archiving and the key doesn't end with a `/`, a trailing slash will be added.
+
+### Example
+
+Imagine you've specified the following object key pattern for publishing:
+
+```bash
+results/{jobID}/{date}/{time}/
+```
+
+Given a job with ID `abc123`, executed on `2023-09-26` at `14:05:30`, the published object key would be:
+
+```bash
+results/abc123/20230926/140530/
+```
+
+This dynamic naming feature offers a powerful way to create organized, intuitive naming conventions for your Bacalhau published objects in S3.
+
+## Examples
+
+### Declarative Examples
+
+Here's an example YAML configuration that outlines the process of using the S3 Publisher with Bacalhau:
+
+```yaml
+Publisher:
+  Type: 's3'
+  Params:
+    Bucket: 'my-task-results'
+    Key: 'task123/result.tar.gz'
+    Endpoint: 'https://s3.us-west-2.amazonaws.com'
+```
+
+In this configuration, task results will be published to the specified S3 bucket and object key. If you're using an S3-compatible service, simply update the `Endpoint` parameter with the appropriate URL.
+
+The results will be compressed into a single object, and the published result specification will look like:
+
+```yaml
+PublishedResult:
+  Type: 's3'
+  Params:
+    Bucket: 'my-task-results'
+    Key: 'task123/result.tar.gz'
+    Endpoint: 'https://s3.us-west-2.amazonaws.com'
+    Region: 'us-west-2'
+    ChecksumSHA256: '0x9a3a...'
+    VersionID: '3/L4kqtJlcpXroDTDmJ+rmDbwQaHWyOb...'
+```
+
+### Imperative Examples
+
+The Bacalhau command-line interface (CLI) provides an imperative approach to specify the S3 Publisher. Below are a few examples showcasing how to define an S3 publisher using CLI commands:
+
+1.  **Basic Docker job writing to S3 with default configurations**:
+
+    ```bash
+    bacalhau docker run -p s3://bucket/key ubuntu ...
+    ```
+
+    This command writes to the S3 bucket using default endpoint and region settings.
+
+2.  **Docker job writing to S3 with a specific endpoint and region**:
+
+    ```bash
+    bacalhau docker run -p s3://bucket/key,opt=endpoint=http://s3.example.com,opt=region=us-east-1 ubuntu ...
+    ```
+
+    This command specifies a unique endpoint and region for the S3 bucket.
+
+3.  **Using naming placeholders**:
+
+    ```bash
+    bacalhau docker run -p s3://bucket/result-{date}-{jobID} ubuntu ...
+    ```
+
+    Dynamic naming placeholders like `{date}` and `{jobID}` allow for organized naming structures, automatically replacing these placeholders with appropriate values upon execution.
+
+Remember to replace the placeholders like `bucket`, `key`, and other parameters with your specific values. These CLI commands offer a quick and customizable way to submit jobs and specify how the results should be published to S3.
+
+## Credential Requirements
+
+To support this publisher, no extra dependencies are necessary. However, valid AWS credentials are essential to sign the requests. The publisher employs the default credentials chain to retrieve credentials, primarily sourcing them from:
+
+1. **Environment variables**: AWS credentials can be specified using `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
+2. **Credentials file**: The credentials file typically located at `~/.aws/credentials` can also be used to fetch the necessary AWS credentials.
+3. **IAM Roles for Amazon EC2 Instances**: If you're running your tasks within an Amazon EC2 instance, IAM roles can be utilized to provide the necessary permissions and credentials.
+
+For a more detailed overview on AWS credential management and other ways to provide these credentials, please refer to the AWS official documentation on [standardized credentials](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html).
+
+## Required IAM Policies
+
+### Compute Nodes
+
+Compute nodes must run with the following policies to publish to S3:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:PutObject"],
+      "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+    }
+  ]
+}
+```
+
+- **PutObject Permissions:** The `s3:PutObject` permission is necessary to publish objects to the specified S3 bucket.
+- **Resource:** The `Resource` field in the policy specifies the Amazon Resource Name (ARN) of the S3 bucket. The `/*` suffix is necessary to allow publishing with any prefix within the bucket or can be replaced with a prefix to limit the scope of the policy. You can also specify multiple resources in the policy to allow publishing to multiple buckets, or `*` to allow publishing to all buckets in the account.
+
+### Requester Node
+
+To enable downloading published results using `bacalhau job get <job_id>` command, the requester node must run with the following policies:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+    }
+  ]
+}
+```
+
+- **GetObject Permissions:** The `s3:GetObject` permission is necessary for the requester node to provide a pre-signed URL to download the published results by the client.
+
+For more information on IAM policies specific to Amazon S3 buckets and users, please refer to the [AWS documentation on Using IAM Policies with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-iam-policies.html).
+
+## docs/components/publishers/s3managed.md
+
+# Managed S3
+
+Bacalhau's S3 Managed Publisher provides a secure method to publish job results to AWS S3 storage service without requiring compute nodes to have AWS credentials. Only the orchestrator requires access to the S3 bucket, significantly enhancing security in distributed environments. This publisher supports both AWS S3 and other S3-compatible services like MinIO.
+
+## Publisher Parameters
+The S3 managed publisher requires no specific parameters to be defined in the job publisher specification. The user only needs to indicate the publisher type as `s3managed`:
+
+```yaml
+Publisher:
+  Type: "s3managed"
+```
+
+## Orchestrator Configuration
+
+The S3 Managed Publisher must be configured in the orchestrator with the following parameters:
+
+1. **Bucket** `(string: <required>)`: The name of the S3 bucket where job results will be stored.
+2. **Key** `(string: <optional>)`: The object key within the specified bucket where the task results will be stored.
+3. **Region** `(string: <required>)`: The region where the S3 bucket is located.
+4. **Endpoint** `(string: <optional>)`: The endpoint URL of the S3 service (for S3-compatible services).
+5. **PreSignedURLExpiration** `(string: "1h")`: The duration for which the generated pre-signed URLs are valid. Optional, default duration is 1 hour.
+
+### YAML Configuration Example
+
+```yaml
+Publishers:
+  Types:
+    S3Managed:
+      Bucket: "my-result-bucket"
+      Key: "bacalhau-managed-publisher"
+      Region: "us-east-1"
+      Endpoint: "https://custom-s3.example.com"
+      PreSignedURLExpiration: "1h"
+```
+
+### CLI Configuration Example
+
+```bash
+bacalhau serve \
+  -c Publishers.Types.S3Managed.Bucket="my-result-bucket" \
+  -c Publishers.Types.S3Managed.Key="bacalhau-managed-publisher" \
+  -c Publishers.Types.S3Managed.Region="us-east-1" \
+  -c Publishers.Types.S3Managed.Endpoint="https://custom-s3.example.com" \
+  -c Publishers.Types.S3Managed.PreSignedURLExpiration="1h"
+```
+
+## Required AWS Resources
+### S3 Bucket
+
+To support this publisher, the S3 bucket specified in the orchestrator configuration must exist. The orchestrator will not attempt to create a bucket if it doesn't exist.
+
+### AWS Credentials
+
+The orchestrator needs to be given AWS credentials that grant both read and write access to the bucket. The orchestrator utilizes the default chain to retrieve them:
+1. **Environment variables**: AWS credentials can be specified using `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
+2. **Credentials file**: The credentials file typically located at `~/.aws/credentials`.
+3. **IAM Roles for Amazon EC2 Instances**: If you're running your tasks within an Amazon EC2 instance, IAM roles can be utilized to provide the necessary permissions and credentials.
+
+For a more detailed overview on AWS credential management and other ways to provide these credentials, please refer to the AWS official documentation on [standardized credentials](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html).
+
+### IAM Policy
+To use this publisher, only the orchestrator node needs permissions to access the bucket. The compute nodes and requester nodes do not need any additional permissions.
+
+#### Orchestrator Node
+AWS credentials provided to the orchestrator node must grant the following permissions:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::my-result-bucket/bacalhau-managed-publisher/*"
+    }
+  ]
+}
+```
+
+## Examples
+
+The job specification for using the S3 Managed Publisher is straightforward. Unlike the standard S3 publisher, no additional parameters are required in the job specification:
+
+```yaml
+name: managed-publisher-job
+type: batch
+count: 1
+tasks:
+  - name: main
+    engine:
+      type: docker
+      params:
+        image: busybox:1.37.0
+        entrypoint:
+          - /bin/sh
+        parameters:
+          - -c
+          - echo Hello, I was stored by Managed Publisher!
+    publisher:
+      type: s3managed
+```
+
+## Caveats
+Currently, Bacalhau does not provide lifecycle management for the results stored in the bucket used by this publisher. The user is responsible for managing the content and ensuring it is removed when no longer needed to avoid additional costs.
+
+## docs/components/sources/README.mdx
+
+# Sources
+
+<DocCardList />
+
+## docs/components/sources/ipfs.md
+
+# IPFS
+
+The IPFS Input Source enables users to easily integrate data hosted on the [InterPlanetary File System (IPFS)](https://ipfs.tech) into Bacalhau jobs. By specifying the Content Identifier (CID) of the desired IPFS file or directory, users can have the content fetched and made available in the task's execution environment, ensuring efficient and decentralized data access.
+
+## Source Specification Parameters
+
+Here are the parameters that you can define for an IPFS input source:
+
+- **CID** `(string: <required>)`: The Content Identifier that uniquely pinpoints the file or directory on the IPFS network. Bacalhau retrieves the content associated with this CID for use in the task.
+
+### Example
+
+Below is an example of how to define an IPFS input source in YAML format.
+
+```yaml
+InputSources:
+  - Source:
+      Type: 'ipfs'
+      Params:
+        CID: 'QmY7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjY3fZ'
+  - Target: '/data'
+```
+
+In this configuration, the data associated with the specified CID is fetched from the IPFS network and made available in the task's environment at the "/data" path.
+
+### Example (Imperative/CLI)
+
+Utilizing IPFS as an input source in Bacalhau via the CLI is straightforward. Below are example commands that demonstrate how to define the IPFS input source:
+
+1.  **Mount an IPFS CID to the default `/inputs` directory**:
+
+    ```bash
+    bacalhau docker run -i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72 ubuntu ...
+    ```
+
+2.  **Mount an IPFS CID to a custom `/data` directory**:
+
+    ```bash
+    bacalhau docker run -i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72:/data ubuntu ...
+    ```
+
+These commands provide a seamless mechanism to fetch and mount data from IPFS directly into your task's execution environment using the Bacalhau CLI.
+
+## docs/components/sources/local.md
+
+# Local
+
+The `local` input source allows Bacalhau jobs to access files and directories already present on the compute node. This is especially useful for utilizing locally stored datasets, configuration files, logs, or other necessary resources without fetching them from a remote source, ensuring faster job initialization and execution.
+
+:::info
+Note: The `local` provider can also be used with the name `localDirectory` and they are currently interchangeable. However, the `localDirectory` name is planned to be deprecated in future releases, so using `local` is recommended.
+:::
+
+## Source Specification Parameters
+
+The `local` input source accepts the following parameters:
+
+* **SourcePath** `(string: <required>)`: The absolute path on the compute node where the Local file or directory is located. Bacalhau will access this path to read data, and if permitted, write data as well.
+* **ReadWrite** `(bool: false)`: A boolean flag that, when set to true, gives Bacalhau both read and write access to the specified Local file or directory. If set to false, Bacalhau will have read-only access.
+* **CreateAs** `(string: "noCreate")`: A create strategy to be used when the `SourcePath` is empty. Possible values are:
+  * `"dir"`: Creates a directory at the specified path
+  * `"file"`: Creates a file at the specified path
+  * `"noCreate"`: Does not create anything if the path is empty
+
+:::info
+Note: Bacalhau will only create a file or directory if `ReadWrite` is set to `true`. The `CreateAs` parameter has no effect when `ReadWrite` is `false`.
+:::
+
+## Compute Node Configuration
+
+For security reasons, compute nodes must be explicitly configured to allow access to local file system. This requires configuring the `Compute.AllowListedLocalPaths` property with the paths that should be accessible and their permissions (`:rw` for read-write or `:ro` for read-only).
+
+For example:
+```bash
+bacalhau config set Compute.AllowListedLocalPaths=/etc/config:rw,/etc/*.conf:ro
+```
+
+If permission errors occur when using local paths, verify that the compute node has the appropriate path allowlisted in its configuration.
+
+### Examples (Jobs)
+
+Below are examples of defining a `local` input source in YAML format.
+
+#### Basic Read-Only Directory Mount
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/etc/config"
+        ReadWrite: false
+    Target: "/config"
+```
+
+This example configures Bacalhau to access the `/etc/config` directory on the compute node. The content of this directory becomes available at the `/config` path within the task's environment, with read-only access.
+
+#### Read-Write Access with Directory Creation
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/var/data/job_input"
+        ReadWrite: true
+        CreateAs: "dir"
+    Target: "/app/input"
+```
+
+This configuration allows read and write access to the local `/var/data/job_input` directory. If this directory doesn't exist, Bacalhau creates an empty one and makes it available at the `/app/input` path within the task's environment.
+
+#### File Mount With Automatic Creation
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/var/log/job.log"
+        ReadWrite: true
+        CreateAs: "file"
+    Target: "/app/logs/job.log"
+```
+
+This example mounts a specific file with read-write permissions and creates the file if it doesn't exist.
+
+#### File Mount Without Automatic Creation
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/var/log/job.log"
+        ReadWrite: true
+        CreateAs: "noCreate"
+    Target: "/app/logs/job.log"
+```
+
+Specifying `noCreate` explicitly (or omitting the `CreateAs` parameter) prevents Bacalhau from creating an empty file if it doesn't exist. In this case, the job will not execute on nodes that do not have an existing file at `/var/log/job.log`.
+
+### Example (Imperative/CLI)
+
+The Bacalhau CLI supports defining local input sources using the following imperative approach:
+
+1.  **Mount readonly file to `/config`**:
+
+    ```bash
+    bacalhau docker run -i file:///etc/config:/config ubuntu ...
+    ```
+2.  **Mount writable file to default `/input`**:
+
+    ```bash
+    bacalhau docker run -i file:///var/checkpoints:/myCheckpoints,opt=rw=true ubuntu ...
+    ```
+
+## docs/components/sources/s3.md
+
+# S3
+
+The S3 Input Source provides a seamless way to utilize data stored in S3 or any S3-compatible storage service as input for Bacalhau jobs. Users can specify files or entire prefixes stored in S3 buckets to be fetched and mounted directly into the task's execution environment. This capability ensures that your tasks have immediate access to the necessary data.
+
+## Source Specification Parameters
+
+Here are the parameters that you can define for an S3 input source:
+
+- **Bucket** `(string: <required>)`: The name of the S3 bucket where the data is stored.
+- **Key**`(string: <optional>)`: The object key or prefix within the bucket. Supports trailing wildcard for fetching multiple objects with matching prefixes.
+- **Filter**`(string: <optional>)`: A regex pattern to filter the objects to be fetched. If a **Key** is also provided as a prefix, the filter pattern will be applied to object keys after the prefix.
+- **Region**`(string: <optional>)`: The AWS region where the S3 bucket is hosted.
+- **Endpoint**`(string: <optional>)`: The endpoint URL of the S3 or S3-compatible service.
+- **VersionID**`(string: <optional>)`: The specific version of the object if versioning is enabled on the bucket. Only applicable when fetching a single object, and not a prefix or a pattern of objects.
+- **ChecksumSHA256**`(string: <optional>)`: The SHA-256 checksum of the object to ensure data integrity. Only applicable when fetching a single object, and not a prefix or a pattern of objects.
+
+## Fetching Mechanism
+
+- **Single Object**: If the key points to a single object, that object is fetched and made available to the task. e.g. `s3://myBucket/dir/file-001.txt`
+- **Prefix Matching**: If the key ends with a slash (/), it's interpreted as a prefix, and all objects with keys that start with that prefix are fetched, mimicking the behavior of fetching all objects in a "directory". e.g. `s3://myBucket/dir/`
+- **Wildcard**: Supports a trailing wildcard (`*`). All objects with keys matching the prefix are fetched, facilitating batch processing or analysis of multiple files. e.g. `s3://myBucket/dir/log-2023-09-*`
+
+## Examples
+
+### Declarative Examples
+
+When using the Bacalhau YAML configuration to define the S3 input source, you can employ the following declarative approach.
+
+Below is an example of how to define an S3 input source in YAML format.
+
+```yaml
+InputSources:
+  - Source:
+      Type: 's3'
+      Params:
+        Bucket: 'my-bucket'
+        Key: 'logs/'
+        Endpoint: 'https://s3.us-west-2.amazonaws.com'
+        ChecksumSHA256: 'e3b0c44b542b...'
+  - Target: '/data'
+```
+
+All objects that match the `logs/` pattern will be placed in the `/data` directory that is available in the task environment.
+
+### Imperative Examples
+
+When using the Bacalhau CLI to define the S3 input source, you can employ the following imperative approach. Below are example commands demonstrating how to define the S3 input source with various configurations:
+
+1.  **Mount an S3 object to a specific path**:
+
+    ```bash
+    bacalhau docker run -i src=s3://bucket/key,dst=/my/input/path ubuntu ...
+    ```
+
+2.  **Mount an S3 object with a specific endpoint and region**:
+
+    ```bash
+    bacalhau docker run -i src=s3://bucket/key,dst=/my/input/path,opt=endpoint=http://s3.example.com,opt=region=us-east-1 ubuntu ...
+    ```
+
+3.  **Mount an S3 object using long flag names**:
+
+    ```bash
+    bacalhau docker run --input source=s3://bucket/key,destination=/my/input/path ubuntu ...
+    ```
+
+With these commands, you can seamlessly fetch and mount data from S3 into your task's execution environment directly through the CLI.
+
+## Credential Requirements
+
+To support this storage provider, no extra dependencies are necessary. However, valid AWS credentials are essential to sign the requests. The storage provider employs the default credentials chain to retrieve credentials, primarily sourcing them from:
+
+1. **Environment variables**: AWS credentials can be specified using `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
+2. **Credentials file**: The credentials file typically located at `~/.aws/credentials` can also be used to fetch the necessary AWS credentials.
+3. **IAM Roles for Amazon EC2 Instances**: If you're running your tasks within an Amazon EC2 instance, IAM roles can be utilized to provide the necessary permissions and credentials.
+
+For a more detailed overview on AWS credential management and other ways to provide these credentials, please refer to the AWS official documentation on [standardized credentials](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html).
+
+## Required IAM Policies
+
+Compute nodes must run with the following policies to support S3 input source:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::BUCKET_NAME"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:GetObjectVersion"],
+      "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+    }
+  ]
+}
+```
+
+- **ListBucket Permission:** The `s3:ListBucket` permission is necessary to list the objects within the specified S3 bucket, allowing prefixes and wildcard expressions as the S3 Key for fetching.
+- **GetObject and GetObjectVersion Permissions:** The `s3:GetObject` and `s3:GetObjectVersion` permissions enable the fetching of object data and its versions, respectively.
+- **Resource:** The `Resource` field in the policy specifies the Amazon Resource Name (ARN) of the S3 bucket. The `/*` suffix is necessary to allow fetching of all objects within the bucket or can be replaced with a prefix to limit the scope of the policy. You can also specify multiple resources in the policy to allow fetching from multiple buckets, or `*` to allow fetching from all buckets in the account.
+
+For more information on IAM policies specific to Amazon S3 buckets and users, please refer to the [AWS documentation on Using IAM Policies with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-iam-policies.html).
+
+## S3-Compatible Services
+
+This feature isn't limited to AWS S3 - it supports all S3-compatible storage services. It means you can pull data from the likes of Google Cloud Storage and open-source solutions like MinIO, giving you the flexibility to utilize a diverse range of data sources.
+
+### Using Google Cloud Storage
+
+To seamlessly integrate Google Cloud Storage with Bacalhau, follow these steps:
+
+1. **Obtain HMAC Keys:** To access Google Cloud Storage, you'll need HMAC (Hash-based Message Authentication Code) keys. Refer to the [Google Cloud documentation](https://cloud.google.com/storage/docs/authentication/hmackeys) for detailed instructions on creating a service account and generating HMAC keys.
+2. **Provide HMAC Keys to Bacalhau:** You can provide the HMAC keys to Bacalhau using the same options as AWS credentials, as documented in the [Credential Requirements](s3.md#credential-requirements) section.
+3. **Configure the S3 Input Source:** In your S3 input source configuration, set the endpoint for Google Cloud Storage to `https://storage.googleapis.com`, as shown in the example below:
+
+```yaml
+InputSources:
+  - Source:
+      Type: 's3'
+      Params:
+        Bucket: 'my-bucket'
+        Key: 'data/'
+        Endpoint: 'https://storage.googleapis.com'
+  - Target: '/data'
+```
+
+## docs/components/sources/url.md
+
+# URL
+
+The URL Input Source provides a straightforward method for Bacalhau jobs to access and incorporate data available over HTTP/HTTPS. By specifying a URL, users can ensure the required file is retrieved and prepared in the task's execution environment, enabling direct and efficient data utilization.
+
+## Source Specification Parameters
+
+Here are the parameters that you can define for a URL input source:
+
+- **URL** `(string: <required>)`: The HTTP/HTTPS URL pointing directly to the file you want to retrieve. Only a single file can be downloaded per URL input source.
+
+:::info
+Note: Bacalhau will attempt to infer the filename from the URL or the HTTP headers. This inferred filename is used when placing the file in the target directory.
+:::
+
+### Example
+
+Below is an example of how to define a URL input source in YAML format.
+
+```yaml
+InputSources:
+  - Source:
+      Type: 'urlDownload'
+      Params:
+        URL: 'https://example.com/data/file.txt'
+    Target: '/data'
+```
+
+In this setup, the file available at the specified URL is downloaded and stored in the "/data" directory within the task's environment. The actual path to the downloaded file will be "/data/file.txt".
+
+### Example (Imperative/CLI)
+
+When using the Bacalhau CLI to define the URL input source, you can employ the following imperative approach. Below are example commands demonstrating how to define the URL input source with various configurations:
+
+1.  **Fetch data from an HTTP endpoint**: This command demonstrates fetching a file from a specific HTTP URL. The file will be mounted in the default `/inputs` directory.
+
+    ```bash
+    bacalhau docker run -i http://example.com/data.txt ubuntu -- cat /inputs/data.txt
+    ```
+
+2.  **Fetch data from an HTTPS endpoint and specify mount path**: This example fetches a file from a secure URL and mounts it to a custom directory path.
+
+    ```bash
+    bacalhau docker run -i https://secure.example.com/data.txt:/data ubuntu -- cat /data/data.txt
+    ```
+
+    In this case, the file "data.txt" is downloaded and placed in the "/data" directory, resulting in the path "/data/data.txt" within the container.
+
+## docs/overview/architecture.md
+
+# Architecture
+
+Bacalhau employs a distributed, node-based architecture that brings compute operations closer to data. Built around a single self-contained binary that serves multiple roles, Bacalhau makes it remarkably simple to deploy and scale a distributed compute network.
+
+## High-Level Overview
+
+1. **User Submits a Job**: The user, through the Bacalhau CLI or API, sends a job definition to the Orchestrator. Jobs can be submitted in two ways:
+   * **Imperative**: `bacalhau docker run ...` with command-line arguments
+   * **Declarative**: `bacalhau job run <job-spec>` using a YAML specification file
+2. **Orchestrator Schedules Tasks**: Based on resource availability, data location, and job requirements, the Orchestrator assigns tasks to Compute Nodes.
+3. **Compute Nodes Execute Tasks**: Each Compute Node pulls the necessary image(s), mounts or fetches input data (local, S3, etc.), and runs the task in an isolated environment.
+4. **Results Publication**: Once the task completes, outputs are published to configured storage. The Orchestrator updates the job's status accordingly.
+
+All of these components run from the same Bacalhau binary, just in different modes, making deployment remarkably simple.
+
+## Core Components
+
+### Orchestrators
+
+* **Core Role**: Receives job submissions, maintains job state, and coordinates scheduling
+* **NATS Server**: Acts as a messaging infrastructure hub
+* **Communication**: Broadcasts scheduling decisions and listens for status updates
+
+### Compute Nodes
+
+* **Primary Function**: Execute containerized or WASM-based workloads
+* **Resource Management**: Advertise available CPU, memory, GPU, and storage capacity
+* **Data Handling**: Fetch or mount input data from various sources and publish results
+* **Isolation**: Run tasks in Docker containers or WASM environments
+
+## Modular Architecture
+
+Bacalhau features a pluggable architecture with well-defined interfaces that enable extension without modifying core code:
+
+* **Execution Engine Interface**: Currently supports Docker and WebAssembly (WASM) workloads, with a clean API for adding new execution environments
+* **Storage Provider Interface**: Plug in various storage backends (S3, HTTP/HTTPS, local paths, IPFS) for both input and output handling
+* **Publisher Interface**: Easily add new ways to publish and share computation results
+
+## Data-Centric Design
+
+A key differentiator of Bacalhau is its data-centric approach:
+
+* **Data Locality**: The system intelligently schedules jobs on nodes with local access to data
+* **Minimal Transfer**: Moves computation to data rather than moving large datasets
+* **Data Sovereignty**: Process sensitive data within security boundaries without requiring it to leave premises
+* **Cross-Organizational Computation**: Enable collaborative analysis on protected datasets without exposing raw data
+
+## Network Resilience
+
+Bacalhau's architecture is designed to maintain operations even during network disruptions:
+
+* **Event-Driven State**: All system events are stored in local ledgers and shared during normal operation
+* **Independent Operation**: Nodes continue functioning during network outages
+* **State Reconciliation**: When network partitions heal, nodes exchange missed events
+* **Local Decision Making**: Orchestrators can make scheduling decisions with available information
+
+## Deployment Models
+
+Bacalhau's single-binary architecture supports flexible deployment configurations:
+
+* **Single Node**: Run orchestrator and compute services on one machine (ideal for development)
+* **Regional Cluster**: Distributed compute nodes within a single geographic region
+* **Global Cluster**: Compute network spanning multiple regions and data centers
+
+## Security Considerations
+
+* **Execution Environments**: Tasks run in Docker containers or WASM environments with appropriate resource limits
+* **Access Control**: Each node requires valid credentials for accessing private data sources
+* **Data Boundaries**: Computation happens within defined security perimeters, protecting sensitive information
+
+## Observability
+
+* **Metrics & Logging**: Each node can expose metrics on resource usage and job performance
+* **Event Tracking**: Orchestrators record job lifecycle events for monitoring and auditing
+
+## docs/overview/key-concepts.md
+
+# Key Concepts
+
+Bacalhau is built around a few core ideas and terminologies. If you're new to Bacalhau, here's what you need to know:
+
+## Distributed Compute Orchestration
+
+Bacalhau coordinates computing workloads across a network of machines, intelligently matching jobs to resources.
+
+* Bacalhau acts as a dispatcher: You submit jobs (e.g., container workloads), and it finds the best node to run them based on available resources, data location, and constraints.
+
+## Bring the Compute to the Data
+
+Instead of moving data to compute, Bacalhau moves compute to where data lives, reducing network overhead and improving efficiency.
+
+* Traditionally, big data solutions shuffle large datasets across networks to a central compute cluster.
+* Bacalhau inverts this approach: it places compute tasks where the data already resides—whether in local storage, an S3 bucket, or other storage providers—reducing unnecessary data movement.
+
+## Jobs & Executions
+
+Bacalhau organizes work in a hierarchy that enables efficient resource allocation and parallelization.
+
+* A **Job** defines the overall workflow (e.g., "run a Docker image with these arguments").
+* A job can be broken into multiple **Executions** that run in parallel across different compute nodes.
+* Bacalhau optimizes these executions based on data locality and available resources.
+
+## Job Types
+
+Bacalhau supports various execution patterns to accommodate different workload requirements:
+
+* **Batch Jobs**: One-time execution of a workload, typically for data processing tasks that run to completion.
+* **Ops Jobs**: Administrative or operational tasks, often for system maintenance or monitoring.
+* **Daemon Jobs**: Long-running background processes that perform ongoing work.
+* **Service Jobs**: Web services or APIs that need to remain available and respond to requests.
+
+## Node Types
+
+The Bacalhau network consists of specialized components, each with specific responsibilities:
+
+* **Orchestrator Node**: Receives job submissions, schedules executions, and monitors state. Started with `bacalhau serve --orchestrator`.
+* **Compute Node**: Executes workloads locally, typically requiring Docker or another runtime. Started with `bacalhau serve --compute`.
+* **Hybrid Node**: Serves both roles at once—often used for local dev or small setups. Started with `bacalhau serve --orchestrator --compute`.
+
+## Execution Engines
+
+Bacalhau runs your code through pluggable runtime environments:
+
+* Bacalhau supports multiple execution engines through its modular architecture:
+  * **Docker**: For container-based workloads
+  * **WebAssembly (WASM)**: For lightweight, sandboxed execution
+* The framework is designed to accommodate additional engines as needed.
+
+## Storage Providers
+
+Bacalhau can access data from various sources through a clean, extensible interface:
+
+* Bacalhau can mount data from various sources through its flexible storage provider interface:
+  * S3-compatible storage
+  * HTTP/HTTPS URLs
+  * Local filesystems
+  * IPFS
+  * And more via storage provider plugins
+
+## Publisher
+
+After execution, Bacalhau ensures your results are accessible where you need them:
+
+* After a job finishes, its results can be published to a specific backend—like local disk, S3 or IPFS—so they're easy to retrieve.
+
+## Communication Layer
+
+A reliable messaging system allows Bacalhau components to coordinate effectively:
+
+* Bacalhau uses NATS.io as its communication backbone:
+  * Orchestrators act as NATS servers
+  * Compute nodes connect as NATS clients
+  * This provides reliable, scalable messaging between components
+
 # Additional Bacalhau Documentation
 
 ## content/use-cases/integrations/duckdb.mdx

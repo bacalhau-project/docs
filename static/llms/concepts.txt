@@ -1,6 +1,948 @@
-# Bacalhau Concepts & Architecture
+# Bacalhau Concepts and Architecture
 
-## architecture
+## docs/README.md
+
+# What is Bacalhau?
+
+Bacalhau is an open-source distributed compute orchestration framework designed to bring compute to the data. Instead of moving large datasets around networks, Bacalhau makes it easy to execute jobs close to the data's location, drastically reducing latency and resource overhead.
+
+### Why It Matters
+
+* **Highly Distributed Architecture**: Deploy compute networks that span regions, cloud providers, and on-premises datacenters—all working together as a unified system.
+* **Resilient Operation**: Compute nodes operate effectively even with intermittent connectivity to orchestrators, maintaining service availability during network partitioning or isolation.
+* **Data Sovereignty & Security**: Process sensitive data within security boundaries without requiring it to leave your premises, enabling computation while preserving data control.
+* **Cross-Organizational Computation**: Allow specific vetted computations on protected datasets without exposing raw data, breaking data silos between organizations.
+* **Resource Efficiency**: By minimizing data transfers, Bacalhau saves bandwidth costs and ensures jobs run faster.
+* **High Scalability**: As your data and processing needs grow, simply add more compute nodes on demand—whether on-premises or in the cloud.
+* **Ease of Integration**: Bacalhau works with existing container images (Docker, etc.), meaning you can leverage your current workflows without major rewrites.
+
+### Key Features
+
+1. **Single Binary Simplicity**: Bacalhau is a single self-contained binary that functions as a client, orchestrator, and compute node—making it incredibly easy to set up and scale your distributed compute network.
+2. **Modular Architecture**: Bacalhau's design supports multiple execution engines (Docker, WebAssembly) and storage providers through clean interfaces, allowing for easy extension.
+3. **Orchestrator-Compute Model**: A dedicated orchestrator coordinates job scheduling, while compute nodes run tasks—all from the same binary with different runtime modes.
+4. **Flexible Storage Integrations**: Bacalhau integrates with S3, HTTP/HTTPS, and other storage systems, letting you pull data from various sources.
+5. **Multiple Job Types**: Support for batch, ops, daemon, and service job types to accommodate different workflow requirements.
+6. **Declarative & Imperative Submissions**: Define jobs in a YAML spec (declarative) or pass all arguments via CLI (imperative).
+7. **Publisher Support**: Output results to local volumes, S3, or other storage backends—so your artifacts are readily accessible.
+
+### Use Cases
+
+Bacalhau's distributed compute framework enables a wide range of applications across different industries:
+
+<details>
+
+<summary>Log Processing</summary>
+
+Process logs efficiently at scale by running distributed jobs directly at the source, reducing costs by up to 93% in bandwidth usage while improving real-time insights. Bacalhau supports various job types for log management:
+
+* **Daemon Jobs**: Continuously run on each node for real-time log aggregation and compression
+* **Service Jobs**: Handle ongoing processing tasks like log aggregation and issue detection
+* **Batch Jobs**: Execute on-demand in-depth analysis of historical log data
+* **Ops Jobs**: Enable real-time querying of live logs for urgent investigations
+
+</details>
+
+<details>
+
+<summary>Distributed Data Warehousing</summary>
+
+Query and analyze data across multiple regions by deploying compute tasks directly where your data resides. This approach reduces latency, enhances performance, and ensures compliance with data sovereignty regulations. Bacalhau integrates with modern data tools like Apache Iceberg and DuckDB to enable:
+
+* Reduced data movement with local query execution
+* Improved query performance through compute-data proximity
+* Seamless scalability with dynamic node addition
+* Compliance with data regulations through region-specific processing
+
+</details>
+
+<details>
+
+<summary>Fleet Management</summary>
+
+Efficiently manage distributed nodes across multiple environments with capabilities for:
+
+* Remote execution of commands without requiring SSH access
+* Automated software deployment and configuration updates
+* Real-time metrics and logs collection
+* Targeted job execution based on node attributes
+* Rapid incident response and automated recovery
+
+</details>
+
+<details>
+
+<summary>Distributed Machine Learning</summary>
+
+Train and deploy ML models across a distributed compute fleet, optimizing performance while keeping data in place:
+
+* Distribute training across multiple machines to handle larger models
+* Process data locally to minimize network transfers
+* Deploy inference jobs near users for low-latency predictions
+* Support federated learning for privacy-sensitive applications
+
+</details>
+
+<details>
+
+<summary>Edge Computing</summary>
+
+Run compute tasks closer to the data source for applications requiring low latency and minimal bandwidth usage:
+
+* Process and analyze sensor, IoT, or video data in real time
+* Perform pre-processing and filtering at the edge before sending refined data
+* Distribute tasks across available edge resources dynamically
+* Ensure data privacy by keeping computations near the source
+
+</details>
+
+### How It Works
+
+Bacalhau's architecture enables you to create compute networks that bridge traditional infrastructure boundaries. When you submit a job, Bacalhau intelligently determines which compute nodes are best positioned to process the data based on locality, availability, and your defined constraints—without requiring data movement or constant connectivity.
+
+This approach is particularly valuable for:
+
+* Organizations with data that cannot leave certain security boundaries
+* Multi-region operations where data transfer is expensive or impractical
+* Scenarios where multiple parties need to collaborate on analysis without sharing raw data
+* Edge computing environments with intermittent connectivity
+
+### Community
+
+Bacalhau has a very friendly community and we are always happy to help you get started:
+
+* [Join the Slack Community](https://bit.ly/bacalhau-project-slack) Go to **#bacalhau** channel – it is the easiest way to engage with other members in the community and get help.
+* [Contributing](/community/ways-to-contribute) – learn how to contribute to the Bacalhau project.
+
+## docs/components/engines/README.mdx
+
+# Engines
+
+<DocCardList />
+
+## docs/components/engines/docker.md
+
+# Docker
+
+Docker Engine is one of the execution engines supported in Bacalhau. It allows users to run tasks inside Docker containers, offering an isolated and consistent environment for execution. Below are the parameters to configure the Docker Engine.
+
+## `Docker` Engine Parameters
+
+* **Image** `(string: <required>)`: Specifies the Docker image to use for task execution. It should be an image that can be pulled by Docker.
+* **Entrypoint** `(string[]: <optional>)`: Allows overriding the default entrypoint set in the Docker image. Each string in the array represents a segment of the entrypoint command.
+* **Parameters** `(string[]: <optional>)`: Additional command-line arguments to be included in the container’s startup command, appended after the entrypoint.
+* **EnvironmentVariables** `(string[]: <optional>)`: Sets environment variables within the Docker container during task execution. Each string should be formatted as `KEY=value`.
+* **WorkingDirectory** `(string: <optional>)`: Sets the path inside the container where the task executes. If not specified, it defaults to the working directory defined in the Docker image.
+
+### Example
+
+Here’s an example of configuring the Docker Engine within a job or task using YAML:
+
+```yaml
+Engine:
+  Type: "Docker"
+  Params:
+    Image: "ubuntu:20.04"
+    Entrypoint:
+      - "/bin/bash"
+      - "-c"
+    Parameters:
+      - "echo Hello, World!"
+    EnvironmentVariables:
+      - "MY_ENV_VAR=myvalue"
+    WorkingDirectory: "/app"
+```
+
+In this example, the task will be executed inside an Ubuntu 20.04 Docker container. The entrypoint is overridden to execute a bash shell that runs an echo command. An environment variable MY\_ENV\_VAR is set with the value myvalue, and the working directory inside the container is set to /app.
+
+## docs/components/engines/wasm.md
+
+# WebAssembly (WASM)
+
+The WASM Engine in Bacalhau allows tasks to be executed in a WebAssembly environment, offering compatibility and speed. This engine supports WASM and WASI (WebAssembly System Interface) jobs, making it highly adaptable for various use cases. Below are the parameters for configuring the WASM Engine.
+
+## `WASM` Engine Parameters
+
+- **EntryModule** `(`[`InputSource`](../../specifications/job/input-source.md) `: required)`: Specifies the WASM module that contains the start function or the main execution code of the task. The InputSource should point to the location of the WASM binary.
+- **Entrypoint** `(string: <optional>)`: The name of the function within the EntryModule to execute. For WASI jobs, this should typically be `_start`. The entrypoint function should have zero parameters and zero results.
+- **Parameters** `(string[]: <optional>)`: An array of strings containing arguments that will be supplied to the program as ARGV. This allows parameterized execution of the WASM task.
+- **EnvironmentVariables** `(map[string]string: <optional>)`: A mapping of environment variable keys to their values, made available within the executing WASM environment.
+- **ImportModules** `(`[`InputSource`](../../specifications/job/input-source.md)`[] : optional)`: An array of InputSources pointing to additional WASM modules. The exports from these modules will be available as imports to the EntryModule, enabling modular and reusable WASM code.
+
+## Examples
+
+### Using S3 bucket
+
+```yaml
+Engine:
+Type: 'WASM'
+Params:
+  EntryModule:
+    Source:
+      Type: 's3'
+      Params:
+        Bucket: 'my-bucket'
+        Key: 'entry.wasm'
+  Entrypoint: '_start'
+  Parameters:
+    - '--option'
+    - 'value'
+  EnvironmentVariables:
+    VAR1: 'value1'
+    VAR2: 'value2'
+  ImportModules:
+    - Source:
+        Type: 'localDirectory'
+        Params:
+          Path: '/local/path/to/module.wasm'
+```
+
+In this example, the task is configured to run in a WASM environment. The EntryModule is fetched from an S3 bucket, the entrypoint is `_start`, and parameters and environment variables are passed into the WASM environment. Additionally, an ImportModule is loaded from a local directory, making its exports available to the EntryModule.
+
+## Using Local Provider
+
+```yaml
+Engine:
+  Type: wasm
+  Params:
+    EntryModule:
+      Source:
+        Type: 'localDirectory'
+        Params:
+          SourcePath: '/app/main.wasm'
+      Target: '/main.wasm'
+    Entrypoint: 'start_app'
+    Parameters:
+      - '--assets'
+      - '/app/data'
+InputSources:
+  - Source:
+      Type: 'urlDownload'
+      Params:
+        URL: 'https://example.com/data/file.txt'
+    Target: '/app/data'
+```
+
+In this example, the main WASM module is fetched from the local file system on the compute node. The entrypoint function is `start_app`, and it is given two arguments `"--assets"` and `"/app/data"`. Additionally, the WASM environment has access to `/app/data/file.txt` file downloaded from the given URL.
+
+:::info
+Parameters are passed to the WASM module as command-line arguments. To access these arguments in your WASM module, you'll need to implement the appropriate code based on your programming language. For example, in Rust, you can retrieve the parameters as follows:
+
+```rust
+use std::env;
+
+fn _start() {
+  let args: Vec<String> = env::args().collect();
+  // &args[0] is the program name, &args[1] is the first parameter
+}
+```
+
+:::
+
+## docs/components/publishers/README.mdx
+
+# Publishers
+
+<DocCardList />
+
+## docs/components/publishers/ipfs.md
+
+# IPFS
+
+The IPFS Publisher in Bacalhau amplifies the versatility of task result storage by integrating with the [InterPlanetary File System (IPFS)](https://ipfs.tech/). IPFS is a protocol and network designed to create a peer-to-peer method of storing and sharing hypermedia in a distributed file system. Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure.
+
+## `IPFS` Publisher Parameters
+
+For the IPFS publisher, no specific parameters need to be defined in the publisher specification. The user only needs to indicate the publisher type as IPFS, and Bacalhau handles the rest. Here is an example of how to set up an IPFS Publisher in a job specification.
+
+```yaml
+Publisher:
+  Type: ipfs
+```
+
+## Published Result Specification
+
+Once the job is executed, the results are published to IPFS, and a unique CID (Content Identifier) is generated for each file or piece of data. This CID acts as an address to the file in the IPFS network and can be used to access the file globally.
+
+### Result Parameters
+
+- CID `(string)`: This is the unique content identifier generated by IPFS, which can be used to access the published content from anywhere in the world. Every data piece stored on IPFS has its unique CID. Here's a sample of how the published result might appear:
+
+```yaml
+PublishedResult:
+  Type: ipfs
+  Params:
+    CID: 'QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco'
+```
+
+In this example, the task results will be stored in IPFS, and can be referenced and retrieved using the specified CID. This is indicative of Bacalhau's commitment to offering flexible, reliable, and decentralized options for result storage, catering to a diverse set of user needs and preferences.
+
+## docs/components/publishers/local.md
+
+# Local
+
+Bacalhau's Local Publisher provides a useful option for storing task results on the compute node, allowing for ease of access and retrieval for testing or trying our Bacalhau.
+
+:::warning
+The Local Publisher should not be used for Production use as it is not a reliable storage option. For production use, we recommend using a more reliable option such as an S3-compatible storage service.&#x20;
+:::
+
+## Local Publisher Parameters
+
+The local publisher requires no specific parameters to be defined in the publisher specification. The user only needs to indicate the publisher type as "local", and Bacalhau handles the rest. Here is an example of how to set up a Local Publisher in a job specification.
+
+```yaml
+Publisher:
+  Type: local
+```
+
+## Published Result Specification
+
+Once the job is executed, the results are published to the local compute node, and stored as compressed tar file, which can be accessed and retrieved over HTTP from the command line using the `get` command. TAhis will download and extract the contents for the user from the remove compute node.
+
+### Result Parameters
+
+**URL** `(string)`: This is the HTTP URL to the results of the computation, which is hosted on the compute node where it ran. Here's a sample of how the published result might appear:
+
+```yaml
+PublishedResult:
+  Type: local
+  Params:
+    URL: "http://192.168.0.11:6001/e-c4b80d04-ff2b-49d6-9b99-d3a8e669a6bf.tgz"
+```
+
+In this example, the task results will be stored on the compute node, and can be referenced and retrieved using the specified URL.
+
+## Caveats
+
+1. By default the compute node will attempt to use a public address for the HTTP server delivering task output, but there is no guarantee that the compute node is accessible on that address. If the compute node is behind a NAT or firewall, the user may need to manually specify the address to use for the HTTP server in the `config.yaml` file.
+2. There is no lifecycle management for the content stored on the compute node. The user is responsible for managing the content and ensuring that it is removed when no longer needed before the compute node runs out of disk space.
+3. If the address/port of the compute node changes, then previously stored content will no longer be accessible. The user will need to manually update the address in the `config.yaml` file and re-publish the content to make it accessible again.
+
+## docs/components/publishers/s3.md
+
+# S3
+
+Bacalhau's S3 Publisher provides users with a secure and efficient method to publish task results to any S3-compatible storage service. This publisher supports not just AWS S3, but other S3-compatible services offered by cloud providers like Google Cloud Storage and Azure Blob Storage, as well as open-source options like MinIO. The integration is designed to be highly flexible, ensuring users can choose the storage option that aligns with their needs, privacy preferences, and operational requirements.
+
+## Publisher Parameters
+
+1. **Bucket** `(string: <required>)`: The name of the S3 bucket where the task results will be stored.
+2. **Key** `(string: <required>)`: The object key within the specified bucket where the task results will be stored.
+3. **Endpoint** `(string: <optional>)`: The endpoint URL of the S3 service (useful for S3-compatible services).
+4. **Region** `(string: <optional>)`: The region where the S3 bucket is located.
+
+## Published Result Spec
+
+Results published to S3 are stored as objects that can also be used as inputs to other Bacalhau jobs by using [S3 Input Source](../../specifications/job/input-source.md). The published result specification includes the following parameters:
+
+1. **Bucket**: Confirms the name of the bucket containing the stored results.
+2. **Key**: Identifies the unique object key within the specified bucket.
+3. **Region**: Notes the AWS region of the bucket.
+4. **Endpoint**: Records the endpoint URL for S3-compatible storage services.
+5. **VersionID**: The version ID of the stored object, enabling versioning support for retrieving specific versions of stored data.
+6. **ChecksumSHA256**: The SHA-256 checksum of the stored object, providing a method to verify data integrity.
+
+## Dynamic Naming
+
+With the S3 Publisher in Bacalhau, you have the flexibility to use dynamic naming for the objects you publish to S3. This allows you to incorporate specific job and execution details into the object key, making it easier to trace, manage, and organize your published artifacts.
+
+Bacalhau supports the following dynamic placeholders that will be replaced with their actual values during the publishing process:
+
+1. `{executionID}`: Replaced with the specific execution ID.
+2. `{jobID}`: Replaced with the ID of the job.
+3. `{nodeID}`: Replaced with the ID of the node where the execution took place
+4. `{date}`: Replaced with the current date in the format `YYYYMMDD`.
+5. `{time}`: Replaced with the current time in the format `HHMMSS`.
+
+Additionally, if you are publishing an archive and the object key does not end with `.tar.gz`, it will be automatically appended. Conversely, if you're not archiving and the key doesn't end with a `/`, a trailing slash will be added.
+
+### Example
+
+Imagine you've specified the following object key pattern for publishing:
+
+```bash
+results/{jobID}/{date}/{time}/
+```
+
+Given a job with ID `abc123`, executed on `2023-09-26` at `14:05:30`, the published object key would be:
+
+```bash
+results/abc123/20230926/140530/
+```
+
+This dynamic naming feature offers a powerful way to create organized, intuitive naming conventions for your Bacalhau published objects in S3.
+
+## Examples
+
+### Declarative Examples
+
+Here's an example YAML configuration that outlines the process of using the S3 Publisher with Bacalhau:
+
+```yaml
+Publisher:
+  Type: 's3'
+  Params:
+    Bucket: 'my-task-results'
+    Key: 'task123/result.tar.gz'
+    Endpoint: 'https://s3.us-west-2.amazonaws.com'
+```
+
+In this configuration, task results will be published to the specified S3 bucket and object key. If you're using an S3-compatible service, simply update the `Endpoint` parameter with the appropriate URL.
+
+The results will be compressed into a single object, and the published result specification will look like:
+
+```yaml
+PublishedResult:
+  Type: 's3'
+  Params:
+    Bucket: 'my-task-results'
+    Key: 'task123/result.tar.gz'
+    Endpoint: 'https://s3.us-west-2.amazonaws.com'
+    Region: 'us-west-2'
+    ChecksumSHA256: '0x9a3a...'
+    VersionID: '3/L4kqtJlcpXroDTDmJ+rmDbwQaHWyOb...'
+```
+
+### Imperative Examples
+
+The Bacalhau command-line interface (CLI) provides an imperative approach to specify the S3 Publisher. Below are a few examples showcasing how to define an S3 publisher using CLI commands:
+
+1.  **Basic Docker job writing to S3 with default configurations**:
+
+    ```bash
+    bacalhau docker run -p s3://bucket/key ubuntu ...
+    ```
+
+    This command writes to the S3 bucket using default endpoint and region settings.
+
+2.  **Docker job writing to S3 with a specific endpoint and region**:
+
+    ```bash
+    bacalhau docker run -p s3://bucket/key,opt=endpoint=http://s3.example.com,opt=region=us-east-1 ubuntu ...
+    ```
+
+    This command specifies a unique endpoint and region for the S3 bucket.
+
+3.  **Using naming placeholders**:
+
+    ```bash
+    bacalhau docker run -p s3://bucket/result-{date}-{jobID} ubuntu ...
+    ```
+
+    Dynamic naming placeholders like `{date}` and `{jobID}` allow for organized naming structures, automatically replacing these placeholders with appropriate values upon execution.
+
+Remember to replace the placeholders like `bucket`, `key`, and other parameters with your specific values. These CLI commands offer a quick and customizable way to submit jobs and specify how the results should be published to S3.
+
+## Credential Requirements
+
+To support this publisher, no extra dependencies are necessary. However, valid AWS credentials are essential to sign the requests. The publisher employs the default credentials chain to retrieve credentials, primarily sourcing them from:
+
+1. **Environment variables**: AWS credentials can be specified using `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
+2. **Credentials file**: The credentials file typically located at `~/.aws/credentials` can also be used to fetch the necessary AWS credentials.
+3. **IAM Roles for Amazon EC2 Instances**: If you're running your tasks within an Amazon EC2 instance, IAM roles can be utilized to provide the necessary permissions and credentials.
+
+For a more detailed overview on AWS credential management and other ways to provide these credentials, please refer to the AWS official documentation on [standardized credentials](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html).
+
+## Required IAM Policies
+
+### Compute Nodes
+
+Compute nodes must run with the following policies to publish to S3:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:PutObject"],
+      "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+    }
+  ]
+}
+```
+
+- **PutObject Permissions:** The `s3:PutObject` permission is necessary to publish objects to the specified S3 bucket.
+- **Resource:** The `Resource` field in the policy specifies the Amazon Resource Name (ARN) of the S3 bucket. The `/*` suffix is necessary to allow publishing with any prefix within the bucket or can be replaced with a prefix to limit the scope of the policy. You can also specify multiple resources in the policy to allow publishing to multiple buckets, or `*` to allow publishing to all buckets in the account.
+
+### Requester Node
+
+To enable downloading published results using `bacalhau job get <job_id>` command, the requester node must run with the following policies:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+    }
+  ]
+}
+```
+
+- **GetObject Permissions:** The `s3:GetObject` permission is necessary for the requester node to provide a pre-signed URL to download the published results by the client.
+
+For more information on IAM policies specific to Amazon S3 buckets and users, please refer to the [AWS documentation on Using IAM Policies with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-iam-policies.html).
+
+## docs/components/publishers/s3managed.md
+
+# Managed S3
+
+Bacalhau's S3 Managed Publisher provides a secure method to publish job results to AWS S3 storage service without requiring compute nodes to have AWS credentials. Only the orchestrator requires access to the S3 bucket, significantly enhancing security in distributed environments. This publisher supports both AWS S3 and other S3-compatible services like MinIO.
+
+## Publisher Parameters
+The S3 managed publisher requires no specific parameters to be defined in the job publisher specification. The user only needs to indicate the publisher type as `s3managed`:
+
+```yaml
+Publisher:
+  Type: "s3managed"
+```
+
+## Orchestrator Configuration
+
+The S3 Managed Publisher must be configured in the orchestrator with the following parameters:
+
+1. **Bucket** `(string: <required>)`: The name of the S3 bucket where job results will be stored.
+2. **Key** `(string: <optional>)`: The object key within the specified bucket where the task results will be stored.
+3. **Region** `(string: <required>)`: The region where the S3 bucket is located.
+4. **Endpoint** `(string: <optional>)`: The endpoint URL of the S3 service (for S3-compatible services).
+5. **PreSignedURLExpiration** `(string: "1h")`: The duration for which the generated pre-signed URLs are valid. Optional, default duration is 1 hour.
+
+### YAML Configuration Example
+
+```yaml
+Publishers:
+  Types:
+    S3Managed:
+      Bucket: "my-result-bucket"
+      Key: "bacalhau-managed-publisher"
+      Region: "us-east-1"
+      Endpoint: "https://custom-s3.example.com"
+      PreSignedURLExpiration: "1h"
+```
+
+### CLI Configuration Example
+
+```bash
+bacalhau serve \
+  -c Publishers.Types.S3Managed.Bucket="my-result-bucket" \
+  -c Publishers.Types.S3Managed.Key="bacalhau-managed-publisher" \
+  -c Publishers.Types.S3Managed.Region="us-east-1" \
+  -c Publishers.Types.S3Managed.Endpoint="https://custom-s3.example.com" \
+  -c Publishers.Types.S3Managed.PreSignedURLExpiration="1h"
+```
+
+## Required AWS Resources
+### S3 Bucket
+
+To support this publisher, the S3 bucket specified in the orchestrator configuration must exist. The orchestrator will not attempt to create a bucket if it doesn't exist.
+
+### AWS Credentials
+
+The orchestrator needs to be given AWS credentials that grant both read and write access to the bucket. The orchestrator utilizes the default chain to retrieve them:
+1. **Environment variables**: AWS credentials can be specified using `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
+2. **Credentials file**: The credentials file typically located at `~/.aws/credentials`.
+3. **IAM Roles for Amazon EC2 Instances**: If you're running your tasks within an Amazon EC2 instance, IAM roles can be utilized to provide the necessary permissions and credentials.
+
+For a more detailed overview on AWS credential management and other ways to provide these credentials, please refer to the AWS official documentation on [standardized credentials](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html).
+
+### IAM Policy
+To use this publisher, only the orchestrator node needs permissions to access the bucket. The compute nodes and requester nodes do not need any additional permissions.
+
+#### Orchestrator Node
+AWS credentials provided to the orchestrator node must grant the following permissions:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::my-result-bucket/bacalhau-managed-publisher/*"
+    }
+  ]
+}
+```
+
+## Examples
+
+The job specification for using the S3 Managed Publisher is straightforward. Unlike the standard S3 publisher, no additional parameters are required in the job specification:
+
+```yaml
+name: managed-publisher-job
+type: batch
+count: 1
+tasks:
+  - name: main
+    engine:
+      type: docker
+      params:
+        image: busybox:1.37.0
+        entrypoint:
+          - /bin/sh
+        parameters:
+          - -c
+          - echo Hello, I was stored by Managed Publisher!
+    publisher:
+      type: s3managed
+```
+
+## Caveats
+Currently, Bacalhau does not provide lifecycle management for the results stored in the bucket used by this publisher. The user is responsible for managing the content and ensuring it is removed when no longer needed to avoid additional costs.
+
+## docs/components/sources/README.mdx
+
+# Sources
+
+<DocCardList />
+
+## docs/components/sources/ipfs.md
+
+# IPFS
+
+The IPFS Input Source enables users to easily integrate data hosted on the [InterPlanetary File System (IPFS)](https://ipfs.tech) into Bacalhau jobs. By specifying the Content Identifier (CID) of the desired IPFS file or directory, users can have the content fetched and made available in the task's execution environment, ensuring efficient and decentralized data access.
+
+## Source Specification Parameters
+
+Here are the parameters that you can define for an IPFS input source:
+
+- **CID** `(string: <required>)`: The Content Identifier that uniquely pinpoints the file or directory on the IPFS network. Bacalhau retrieves the content associated with this CID for use in the task.
+
+### Example
+
+Below is an example of how to define an IPFS input source in YAML format.
+
+```yaml
+InputSources:
+  - Source:
+      Type: 'ipfs'
+      Params:
+        CID: 'QmY7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjY3fZ'
+  - Target: '/data'
+```
+
+In this configuration, the data associated with the specified CID is fetched from the IPFS network and made available in the task's environment at the "/data" path.
+
+### Example (Imperative/CLI)
+
+Utilizing IPFS as an input source in Bacalhau via the CLI is straightforward. Below are example commands that demonstrate how to define the IPFS input source:
+
+1.  **Mount an IPFS CID to the default `/inputs` directory**:
+
+    ```bash
+    bacalhau docker run -i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72 ubuntu ...
+    ```
+
+2.  **Mount an IPFS CID to a custom `/data` directory**:
+
+    ```bash
+    bacalhau docker run -i ipfs://QmeZRGhe4PmjctYVSVHuEiA9oSXnqmYa4kQubSHgWbjv72:/data ubuntu ...
+    ```
+
+These commands provide a seamless mechanism to fetch and mount data from IPFS directly into your task's execution environment using the Bacalhau CLI.
+
+## docs/components/sources/local.md
+
+# Local
+
+The `local` input source allows Bacalhau jobs to access files and directories already present on the compute node. This is especially useful for utilizing locally stored datasets, configuration files, logs, or other necessary resources without fetching them from a remote source, ensuring faster job initialization and execution.
+
+:::info
+Note: The `local` provider can also be used with the name `localDirectory` and they are currently interchangeable. However, the `localDirectory` name is planned to be deprecated in future releases, so using `local` is recommended.
+:::
+
+## Source Specification Parameters
+
+The `local` input source accepts the following parameters:
+
+* **SourcePath** `(string: <required>)`: The absolute path on the compute node where the Local file or directory is located. Bacalhau will access this path to read data, and if permitted, write data as well.
+* **ReadWrite** `(bool: false)`: A boolean flag that, when set to true, gives Bacalhau both read and write access to the specified Local file or directory. If set to false, Bacalhau will have read-only access.
+* **CreateAs** `(string: "noCreate")`: A create strategy to be used when the `SourcePath` is empty. Possible values are:
+  * `"dir"`: Creates a directory at the specified path
+  * `"file"`: Creates a file at the specified path
+  * `"noCreate"`: Does not create anything if the path is empty
+
+:::info
+Note: Bacalhau will only create a file or directory if `ReadWrite` is set to `true`. The `CreateAs` parameter has no effect when `ReadWrite` is `false`.
+:::
+
+## Compute Node Configuration
+
+For security reasons, compute nodes must be explicitly configured to allow access to local file system. This requires configuring the `Compute.AllowListedLocalPaths` property with the paths that should be accessible and their permissions (`:rw` for read-write or `:ro` for read-only).
+
+For example:
+```bash
+bacalhau config set Compute.AllowListedLocalPaths=/etc/config:rw,/etc/*.conf:ro
+```
+
+If permission errors occur when using local paths, verify that the compute node has the appropriate path allowlisted in its configuration.
+
+### Examples (Jobs)
+
+Below are examples of defining a `local` input source in YAML format.
+
+#### Basic Read-Only Directory Mount
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/etc/config"
+        ReadWrite: false
+    Target: "/config"
+```
+
+This example configures Bacalhau to access the `/etc/config` directory on the compute node. The content of this directory becomes available at the `/config` path within the task's environment, with read-only access.
+
+#### Read-Write Access with Directory Creation
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/var/data/job_input"
+        ReadWrite: true
+        CreateAs: "dir"
+    Target: "/app/input"
+```
+
+This configuration allows read and write access to the local `/var/data/job_input` directory. If this directory doesn't exist, Bacalhau creates an empty one and makes it available at the `/app/input` path within the task's environment.
+
+#### File Mount With Automatic Creation
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/var/log/job.log"
+        ReadWrite: true
+        CreateAs: "file"
+    Target: "/app/logs/job.log"
+```
+
+This example mounts a specific file with read-write permissions and creates the file if it doesn't exist.
+
+#### File Mount Without Automatic Creation
+
+```yaml
+InputSources:
+  - Source:
+      Type: "local"
+      Params:
+        SourcePath: "/var/log/job.log"
+        ReadWrite: true
+        CreateAs: "noCreate"
+    Target: "/app/logs/job.log"
+```
+
+Specifying `noCreate` explicitly (or omitting the `CreateAs` parameter) prevents Bacalhau from creating an empty file if it doesn't exist. In this case, the job will not execute on nodes that do not have an existing file at `/var/log/job.log`.
+
+### Example (Imperative/CLI)
+
+The Bacalhau CLI supports defining local input sources using the following imperative approach:
+
+1.  **Mount readonly file to `/config`**:
+
+    ```bash
+    bacalhau docker run -i file:///etc/config:/config ubuntu ...
+    ```
+2.  **Mount writable file to default `/input`**:
+
+    ```bash
+    bacalhau docker run -i file:///var/checkpoints:/myCheckpoints,opt=rw=true ubuntu ...
+    ```
+
+## docs/components/sources/s3.md
+
+# S3
+
+The S3 Input Source provides a seamless way to utilize data stored in S3 or any S3-compatible storage service as input for Bacalhau jobs. Users can specify files or entire prefixes stored in S3 buckets to be fetched and mounted directly into the task's execution environment. This capability ensures that your tasks have immediate access to the necessary data.
+
+## Source Specification Parameters
+
+Here are the parameters that you can define for an S3 input source:
+
+- **Bucket** `(string: <required>)`: The name of the S3 bucket where the data is stored.
+- **Key**`(string: <optional>)`: The object key or prefix within the bucket. Supports trailing wildcard for fetching multiple objects with matching prefixes.
+- **Filter**`(string: <optional>)`: A regex pattern to filter the objects to be fetched. If a **Key** is also provided as a prefix, the filter pattern will be applied to object keys after the prefix.
+- **Region**`(string: <optional>)`: The AWS region where the S3 bucket is hosted.
+- **Endpoint**`(string: <optional>)`: The endpoint URL of the S3 or S3-compatible service.
+- **VersionID**`(string: <optional>)`: The specific version of the object if versioning is enabled on the bucket. Only applicable when fetching a single object, and not a prefix or a pattern of objects.
+- **ChecksumSHA256**`(string: <optional>)`: The SHA-256 checksum of the object to ensure data integrity. Only applicable when fetching a single object, and not a prefix or a pattern of objects.
+
+## Fetching Mechanism
+
+- **Single Object**: If the key points to a single object, that object is fetched and made available to the task. e.g. `s3://myBucket/dir/file-001.txt`
+- **Prefix Matching**: If the key ends with a slash (/), it's interpreted as a prefix, and all objects with keys that start with that prefix are fetched, mimicking the behavior of fetching all objects in a "directory". e.g. `s3://myBucket/dir/`
+- **Wildcard**: Supports a trailing wildcard (`*`). All objects with keys matching the prefix are fetched, facilitating batch processing or analysis of multiple files. e.g. `s3://myBucket/dir/log-2023-09-*`
+
+## Examples
+
+### Declarative Examples
+
+When using the Bacalhau YAML configuration to define the S3 input source, you can employ the following declarative approach.
+
+Below is an example of how to define an S3 input source in YAML format.
+
+```yaml
+InputSources:
+  - Source:
+      Type: 's3'
+      Params:
+        Bucket: 'my-bucket'
+        Key: 'logs/'
+        Endpoint: 'https://s3.us-west-2.amazonaws.com'
+        ChecksumSHA256: 'e3b0c44b542b...'
+  - Target: '/data'
+```
+
+All objects that match the `logs/` pattern will be placed in the `/data` directory that is available in the task environment.
+
+### Imperative Examples
+
+When using the Bacalhau CLI to define the S3 input source, you can employ the following imperative approach. Below are example commands demonstrating how to define the S3 input source with various configurations:
+
+1.  **Mount an S3 object to a specific path**:
+
+    ```bash
+    bacalhau docker run -i src=s3://bucket/key,dst=/my/input/path ubuntu ...
+    ```
+
+2.  **Mount an S3 object with a specific endpoint and region**:
+
+    ```bash
+    bacalhau docker run -i src=s3://bucket/key,dst=/my/input/path,opt=endpoint=http://s3.example.com,opt=region=us-east-1 ubuntu ...
+    ```
+
+3.  **Mount an S3 object using long flag names**:
+
+    ```bash
+    bacalhau docker run --input source=s3://bucket/key,destination=/my/input/path ubuntu ...
+    ```
+
+With these commands, you can seamlessly fetch and mount data from S3 into your task's execution environment directly through the CLI.
+
+## Credential Requirements
+
+To support this storage provider, no extra dependencies are necessary. However, valid AWS credentials are essential to sign the requests. The storage provider employs the default credentials chain to retrieve credentials, primarily sourcing them from:
+
+1. **Environment variables**: AWS credentials can be specified using `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
+2. **Credentials file**: The credentials file typically located at `~/.aws/credentials` can also be used to fetch the necessary AWS credentials.
+3. **IAM Roles for Amazon EC2 Instances**: If you're running your tasks within an Amazon EC2 instance, IAM roles can be utilized to provide the necessary permissions and credentials.
+
+For a more detailed overview on AWS credential management and other ways to provide these credentials, please refer to the AWS official documentation on [standardized credentials](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html).
+
+## Required IAM Policies
+
+Compute nodes must run with the following policies to support S3 input source:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::BUCKET_NAME"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:GetObjectVersion"],
+      "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+    }
+  ]
+}
+```
+
+- **ListBucket Permission:** The `s3:ListBucket` permission is necessary to list the objects within the specified S3 bucket, allowing prefixes and wildcard expressions as the S3 Key for fetching.
+- **GetObject and GetObjectVersion Permissions:** The `s3:GetObject` and `s3:GetObjectVersion` permissions enable the fetching of object data and its versions, respectively.
+- **Resource:** The `Resource` field in the policy specifies the Amazon Resource Name (ARN) of the S3 bucket. The `/*` suffix is necessary to allow fetching of all objects within the bucket or can be replaced with a prefix to limit the scope of the policy. You can also specify multiple resources in the policy to allow fetching from multiple buckets, or `*` to allow fetching from all buckets in the account.
+
+For more information on IAM policies specific to Amazon S3 buckets and users, please refer to the [AWS documentation on Using IAM Policies with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-iam-policies.html).
+
+## S3-Compatible Services
+
+This feature isn't limited to AWS S3 - it supports all S3-compatible storage services. It means you can pull data from the likes of Google Cloud Storage and open-source solutions like MinIO, giving you the flexibility to utilize a diverse range of data sources.
+
+### Using Google Cloud Storage
+
+To seamlessly integrate Google Cloud Storage with Bacalhau, follow these steps:
+
+1. **Obtain HMAC Keys:** To access Google Cloud Storage, you'll need HMAC (Hash-based Message Authentication Code) keys. Refer to the [Google Cloud documentation](https://cloud.google.com/storage/docs/authentication/hmackeys) for detailed instructions on creating a service account and generating HMAC keys.
+2. **Provide HMAC Keys to Bacalhau:** You can provide the HMAC keys to Bacalhau using the same options as AWS credentials, as documented in the [Credential Requirements](s3.md#credential-requirements) section.
+3. **Configure the S3 Input Source:** In your S3 input source configuration, set the endpoint for Google Cloud Storage to `https://storage.googleapis.com`, as shown in the example below:
+
+```yaml
+InputSources:
+  - Source:
+      Type: 's3'
+      Params:
+        Bucket: 'my-bucket'
+        Key: 'data/'
+        Endpoint: 'https://storage.googleapis.com'
+  - Target: '/data'
+```
+
+## docs/components/sources/url.md
+
+# URL
+
+The URL Input Source provides a straightforward method for Bacalhau jobs to access and incorporate data available over HTTP/HTTPS. By specifying a URL, users can ensure the required file is retrieved and prepared in the task's execution environment, enabling direct and efficient data utilization.
+
+## Source Specification Parameters
+
+Here are the parameters that you can define for a URL input source:
+
+- **URL** `(string: <required>)`: The HTTP/HTTPS URL pointing directly to the file you want to retrieve. Only a single file can be downloaded per URL input source.
+
+:::info
+Note: Bacalhau will attempt to infer the filename from the URL or the HTTP headers. This inferred filename is used when placing the file in the target directory.
+:::
+
+### Example
+
+Below is an example of how to define a URL input source in YAML format.
+
+```yaml
+InputSources:
+  - Source:
+      Type: 'urlDownload'
+      Params:
+        URL: 'https://example.com/data/file.txt'
+    Target: '/data'
+```
+
+In this setup, the file available at the specified URL is downloaded and stored in the "/data" directory within the task's environment. The actual path to the downloaded file will be "/data/file.txt".
+
+### Example (Imperative/CLI)
+
+When using the Bacalhau CLI to define the URL input source, you can employ the following imperative approach. Below are example commands demonstrating how to define the URL input source with various configurations:
+
+1.  **Fetch data from an HTTP endpoint**: This command demonstrates fetching a file from a specific HTTP URL. The file will be mounted in the default `/inputs` directory.
+
+    ```bash
+    bacalhau docker run -i http://example.com/data.txt ubuntu -- cat /inputs/data.txt
+    ```
+
+2.  **Fetch data from an HTTPS endpoint and specify mount path**: This example fetches a file from a secure URL and mounts it to a custom directory path.
+
+    ```bash
+    bacalhau docker run -i https://secure.example.com/data.txt:/data ubuntu -- cat /data/data.txt
+    ```
+
+    In this case, the file "data.txt" is downloaded and placed in the "/data" directory, resulting in the path "/data/data.txt" within the container.
+
+## docs/overview/architecture.md
 
 # Architecture
 
@@ -77,8 +1019,7 @@ Bacalhau's single-binary architecture supports flexible deployment configuration
 * **Metrics & Logging**: Each node can expose metrics on resource usage and job performance
 * **Event Tracking**: Orchestrators record job lifecycle events for monitoring and auditing
 
-
-## key-concepts
+## docs/overview/key-concepts.md
 
 # Key Concepts
 
@@ -156,4 +1097,3 @@ A reliable messaging system allows Bacalhau components to coordinate effectively
   * Orchestrators act as NATS servers
   * Compute nodes connect as NATS clients
   * This provides reliable, scalable messaging between components
-

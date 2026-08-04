@@ -17,6 +17,8 @@ bacalhau job list
 
 ## Documentation Sections
 
+- [Complete documentation](/llms-full.txt): The full, generated Bacalhau documentation corpus
+
 - [Getting Started](/llms/getting-started.txt): Installation, quickstart, first jobs
 - [CLI Reference](/llms/cli.txt): All bacalhau commands and options
 - [API Reference](/llms/api.txt): REST API documentation

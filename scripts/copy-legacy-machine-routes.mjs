@@ -3,7 +3,7 @@ import { join } from 'node:path'
 
 const buildDirectory = new URL('../build/', import.meta.url)
 const legacyDocsDirectory = new URL('../build/docs/', import.meta.url)
-const machineFiles = ['robots.txt', 'sitemap.xml', 'llms.txt']
+const machineFiles = ['robots.txt', 'sitemap.xml', 'llms.txt', 'llms-full.txt']
 
 await mkdir(legacyDocsDirectory, { recursive: true })
 
