@@ -1,6 +1,6 @@
 # Bacalhau CLI Reference
 
-## README
+## docs/cli/README.md
 
 # Overview
 
@@ -117,41 +117,7 @@ This will show all available options, including both global flags and command-sp
 
 **Tip:** For full details on each command's available flags, see the CLI Reference or type `bacalhau <command> --help`.
 
-
-## README
-
-# Config
-
-The `bacalhau config` command is a parent command that offers sub-commands to modify and query information about the Bacalhau config. This can be useful for debugging, monitoring, or managing the nodes configuration.
-
-## Usage
-
-```bash
-bacalhau config [command]
-```
-
-## Available Commands
-
-1. [**list**](list.md):
-
-   - Description: Lists the configuration keys and values of the bacalhau node. This command is useful for understanding how configuration keys map to their respective values, aiding in the use of the `bacalhau config set` command.
-   - Usage:
-
-     ```bash
-     bacalhau config list
-     ```
-
-2. [**set**](set.md):
-
-   - Description: Sets a value in the bacalhau node's configuration file. This command is used to modify the configuration file that the bacalhau node will reference for its settings.
-   - Usage:
-
-     ```bash
-     bacalhau config set <key> <value>
-     ```
-
-
-## README
+## docs/cli/agent/README.md
 
 # Agent
 
@@ -218,8 +184,426 @@ bacalhau agent [command] --help
   - Description: Defines the path to the bacalhau repository.
   - Default: \`\`$HOME/.bacalhau\`
 
+## docs/cli/agent/alive.md
 
-## README
+# Alive
+
+## Description
+
+The `bacalhau agent alive` command provides information about the agent's liveness and health. This is essential for monitoring and ensuring that the agent is active and functioning correctly.
+
+## Usage
+
+```bash
+bacalhau agent alive [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Displays help information for the `alive` sub-command.
+- `--output format`:
+  - Description: Determines the format in which the output is displayed. Available formats include JSON and YAML.
+  - Options: `json`, `yaml`
+  - Default: `yaml`
+- `--pretty`:
+  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: \`\`$HOME/.bacalhau\`
+
+## Examples
+
+### Checking the Agent's Liveness and Health Info
+
+1.  **Basic Usage**:
+
+    **Command**:
+
+    ```bash
+    bacalhau agent alive
+    ```
+
+    **Output**:
+
+    ```
+    status: OK
+    ```
+
+2.  **Output in JSON format**:
+
+    **Command**:
+
+    ```bash
+    bacalhau agent alive --output json --pretty
+    ```
+
+    **Output**:
+
+    ```json
+    {
+      "Status": "OK"
+    }
+    ```
+
+## docs/cli/agent/node.md
+
+# Node
+
+## Description
+
+The `bacalhau agent node` command retrieves information about the agent's node, providing insights into the agent's environment and aiding in debugging.
+
+## Usage
+
+```bash
+bacalhau agent node [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Displays help information for the `node` sub-command.
+- `--output format`:
+  - Defines the output format (either JSON or YAML).
+  - Options: `json`, `yaml`
+  - Default: `yaml`
+- `--pretty`:
+  - Beautifies the output when using JSON or YAML formats.
+
+## Global Flags
+
+- `--api-host string`:
+  - The host for REST communication. Overrides the `BACALHAU_API_HOST` environment variable.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - The port for REST communication. Overridden if `BACALHAU_API_PORT` environment variable is set.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Specifies the log format. Choices are: `default`, `station`, `json`, `combined`, `event`.
+  - Default: `default`
+- `--repo string`:
+  - Path to the bacalhau repository.
+  - Default: \`\`$HOME/.bacalhau\`
+
+## Examples
+
+1.  **Retrieve Node Information in Default Format (YAML)**
+
+    ```bash
+    bacalhau agent node
+    ```
+
+2.  **Retrieve Node Information in JSON Format**
+
+    ```bash
+    bacalhau agent node --output json
+    ```
+
+3.  **Retrieve Node Information in Pretty-printed JSON Format**
+
+    ```bash
+    bacalhau agent node --output json --pretty
+    ```
+
+## docs/cli/agent/version.md
+
+# Version
+
+The `bacalhau agent version` command is used to obtain the version of the bacalhau agent.
+
+## Description:
+
+Using this command, users can quickly retrieve the version of the agent, allowing them to confirm the specific release of the software they are using.
+
+## Usage:
+
+```bash
+bacalhau agent version [flags]
+```
+
+## Flags:
+
+- **`-h`, `--help`**:
+  - Show help for the `version` command.
+- **`--output format`**:
+  - Defines the output format of the command's results. Accepted formats include "json" and "yaml".
+- **`--pretty`**:
+  - Used for pretty printing the output, enhancing readability. This flag is applicable only for the "json" and "yaml" output formats.
+
+## Global Flags:
+
+- **`--api-host string`**:
+  - Designates the host for client-server communication via REST. If the `BACALHAU_API_HOST` environment variable is present, this flag will be disregarded.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- **`--api-port int`**:
+  - Defines the port for client-server communication through REST. This flag becomes irrelevant if the `BACALHAU_API_PORT` environment variable is specified.
+  - Default: `1234`
+- **`--log-mode logging-mode`**:
+  - Specifies the desired logging format.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- **`--repo string`**:
+  - Indicates the path to the bacalhau repository.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  **Retrieve the agent version**:
+
+    Execute the command to get the agent version:
+
+    ```bash
+    bacalhau agent version
+    ```
+
+    Expected output:
+
+    ```bash
+    Bacalhau v0.0.0-xxxxxxx
+    BuildDate 2023-09-22 16:03:44 +0000 UTC
+    GitCommit 0fe81cb488f666845ac72c73a4b804aaa658e511
+    ```
+
+2.  **Retrieve the agent version in JSON format**:
+
+    ```bash
+    bacalhau agent version --output json
+    ```
+
+    Expected output:
+
+    ```bash
+    {"major":"0","minor":"0","gitversion":"v0.0.0-xxxxxxx","gitcommit":"0fe81cb488f666845ac72c73a4b804aaa658e511","builddate":"2023-09-22T16:03:44Z","goos":"linux","goarch":"amd64"}
+    ```
+
+3.  **Retrieve the agent version in Pretty-printed JSON format**:
+
+    ```bash
+    bacalhau agent version --output json --pretty
+    ```
+
+    Expected output:
+
+    ```bash
+    {
+      "major": "0",
+      "minor": "0",
+      "gitversion": "v0.0.0-xxxxxxx",
+      "gitcommit": "0fe81cb488f666845ac72c73a4b804aaa658e511",
+      "builddate": "2023-09-22T16:03:44Z",
+      "goos": "linux",
+      "goarch": "amd64"
+    }
+    ```
+
+## docs/cli/config/README.md
+
+# Config
+
+The `bacalhau config` command is a parent command that offers sub-commands to modify and query information about the Bacalhau config. This can be useful for debugging, monitoring, or managing the nodes configuration.
+
+## Usage
+
+```bash
+bacalhau config [command]
+```
+
+## Available Commands
+
+1. [**list**](list.md):
+
+   - Description: Lists the configuration keys and values of the bacalhau node. This command is useful for understanding how configuration keys map to their respective values, aiding in the use of the `bacalhau config set` command.
+   - Usage:
+
+     ```bash
+     bacalhau config list
+     ```
+
+2. [**set**](set.md):
+
+   - Description: Sets a value in the bacalhau node's configuration file. This command is used to modify the configuration file that the bacalhau node will reference for its settings.
+   - Usage:
+
+     ```bash
+     bacalhau config set <key> <value>
+     ```
+
+## docs/cli/config/list.md
+
+# Config List
+
+## Description
+
+The `bacalhau config list` command lists the configuration keys and values of the bacalhau node. This command is useful for understanding how configuration keys map to their respective values, aiding in the use of the `bacalhau config set` command.
+
+Note: Configuration values displayed by this command represent the settings that will be applied when the bacalhau node is next restarted. It is important to note that these values may not reflect the current operational configuration of an active bacalhau node. The displayed configuration is relevant and accurate for a node that is either not currently running or that has been restarted after the execution of this command.
+
+## Usage
+
+```bash
+bacalhau config list [flags]
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Displays help information for the `list` sub-command.
+- `--hide-header`:
+  - Description: Do not print the column headers when displaying the results.
+  - Default: `false`
+- `--no-style`:
+  - Description: Removes all styling from the table output, displaying raw data.
+  - Default: `false`
+- `--output format`:
+  - Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
+  - Options: `json`, `yaml`, `table`
+  - Default: `table`
+- `--pretty`:
+  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
+  - Default: `true`
+- `--wide`:
+  - Description: Prints full values in the table results without truncating any information.
+  - Default: `false`
+
+## Examples
+
+### Listing the Bacalhau nodes configuration settings
+
+1.  **Basic Usage**:
+
+    **Command**:
+
+    ```bash
+    bacalhau config list
+    ```
+
+    **Output**:
+
+    ```bash
+     KEY          VALUE
+     <key_name> <key_value>
+    ...
+    ```
+
+2.  **Output in JSON format**:
+
+    **Command**:
+
+    ```bash
+    bacalhau config list --output json --pretty
+    ```
+
+    **Output**:
+
+    ```json
+    [
+      {
+        "Key": "<key_name>",
+        "Value": <key_value>
+      },
+      ...
+    ]
+    ```
+
+## docs/cli/config/set.md
+
+# Config Set
+
+## Description:
+
+The `bacalhau config set` command sets a value in the bacalhau node's configuration file. This command is used to modify the configuration file that the bacalhau node will reference for its settings. Key names in the configuration are case-insensitive. Additionally, the command validates the value being set based on the type of the configuration key, ensuring that only appropriate and valid configurations are applied.
+
+:::note
+Changes made using this command will be applied to the configuration file, but they do not immediately affect the running configuration of an active bacalhau node. The modifications will take effect only after the node is restarted.
+:::
+
+## Usage
+
+```bash
+bacalhau config set <key> <value>
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Displays help information for the `set` sub-command.
+
+## Examples
+
+### Configuring the Server API Port Value
+
+```bash
+bacalhau config set node.serverapi.port 9999
+
+bacalhau config list | grep serverapi.port
+ node.serverapi.port                                             9999
+
+cat ~/.bacalhau/config.yaml
+node:
+    serverapi:
+        port: 9999
+```
+
+### Configuring the Logging Mode Value
+
+```bash
+bacalhau config set node.loggingmode json
+
+bacalhau config list | grep loggingmode
+ node.loggingmode                                                json
+
+cat ~/.bacalhau/config.yaml
+node:
+    loggingmode: json
+```
+
+### Multiple Set commands append to the file
+
+```bash
+bacalhau config set node.serverapi.port 9999
+bacalhau config set node.serverapi.host 0.0.0.0
+bacalhau config set node.loggingmode json
+
+cat ~/.bacalhau/config.yaml
+node:
+    loggingmode: json
+    serverapi:
+        host: 0.0.0.0
+        port: 9999
+```
+
+### Set command value validation
+
+#### Example of invalid logging mode value
+
+```bash
+bacalhau config set node.loggingmode some-invalid-value
+
+Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
+```
+
+#### Example of invalid time duration value
+
+```bash
+bacalhau config set node.volumesizerequesttimeout 10days
+
+Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
+```
+
+## docs/cli/job/README.md
 
 # Job
 
@@ -330,281 +714,7 @@ bacalhau job [command] --help
    - Description: Specifies the path to the bacalhau repository.
    - Default: `$HOME/.bacalhau`
 
-
-## README
-
-# Node
-
-The `bacalhau node` command provides a set of sub-commands to query and manage node-related information within Bacalhau. With these tools, users can access specific details about nodes, list all network nodes, and more.
-
-## Usage
-
-```bash
-bacalhau node [command]
-```
-
-## Available Commands
-
-1. [**approve**](approve.md):
-
-   - Description: Approves a single node to join the cluster.
-   - Usage:
-
-     ```bash
-     bacalhau node approve
-     ```
-
-2. [**delete**](delete.md):
-
-   - Description: Deletes a node from the cluster using its ID.
-   - Usage:
-
-     ```bash
-     bacalhau node delete
-     ```
-
-3. [**describe**](describe.md):
-
-   - Description: Retrieves detailed information of a node using its ID.
-   - Usage:
-
-     ```bash
-     bacalhau node describe
-     ```
-
-4. [**list**](list.md):
-
-   - Description: Lists the details of all nodes present in the network.
-   - Usage:
-
-     ```bash
-     bacalhau node list
-     ```
-
-5. [**reject**](reject.md):
-
-- Description: Reject a specific node's request to join the cluster.
-- Usage:
-
-  ```bash
-  bacalhau node reject
-  ```
-
-For comprehensive details on any of the sub-commands, run:
-
-```bash
-bacalhau node [command] --help
-```
-
-## Flags
-
-- `-h`, `--help`:
-  - Description: Shows the help information for the `node` command.
-
-## Global Flags
-
-- `--api-host string`:
-  - Description: Specifies the host for RESTful communication between the client and server. The flag will be ignored if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Designates the port for RESTful communication. The flag will be bypassed if the `BACALHAU_API_PORT` environment variable is active.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Specifies the path to the bacalhau repository.
-  - Default: `/Users/walid/.bacalhau`
-
-
-## alive
-
-# Alive
-
-## Description
-
-The `bacalhau agent alive` command provides information about the agent's liveness and health. This is essential for monitoring and ensuring that the agent is active and functioning correctly.
-
-## Usage
-
-```bash
-bacalhau agent alive [flags]
-```
-
-## Flags
-
-- `-h`, `--help`:
-  - Description: Displays help information for the `alive` sub-command.
-- `--output format`:
-  - Description: Determines the format in which the output is displayed. Available formats include JSON and YAML.
-  - Options: `json`, `yaml`
-  - Default: `yaml`
-- `--pretty`:
-  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
-
-## Global Flags
-
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
-
-## Examples
-
-### Checking the Agent's Liveness and Health Info
-
-1.  **Basic Usage**:
-
-    **Command**:
-
-    ```bash
-    bacalhau agent alive
-    ```
-
-    **Output**:
-
-    ```
-    status: OK
-    ```
-
-2.  **Output in JSON format**:
-
-    **Command**:
-
-    ```bash
-    bacalhau agent alive --output json --pretty
-    ```
-
-    **Output**:
-
-    ```json
-    {
-      "Status": "OK"
-    }
-    ```
-
-
-## approve
-
-# Approve
-
-The `bacalhau node approve` command offers administrators the ability to approve the cluster membership for a node using its name.
-
-## Description
-
-Using the `approve` sub-command under the `bacalhau node` umbrella, users can allow a node in the pending state to join the cluster and receive work. This feature is crucial for system administrators to manage the cluster.
-
-## Usage
-
-```bash
-bacalhau node approve [id] [flags]
-```
-
-## Flags
-
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
-- `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the approval action.
-
-## Global Flags
-
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
-
-## Examples
-
-1.  Approve a Node with ID `nodeID123`:
-
-    ```bash
-    bacalhau node approve nodeID123
-    ```
-
-2.  Approve a Node with an audit message:
-
-    ```bash
-    bacalhau node approve nodeID123 -m "okay"
-    ```
-
-
-## delete
-
-# Delete
-
-The `bacalhau node delete` command offers administrators the ability to remove a node from the cluster using its name.
-
-## Description
-
-Using the `delete` sub-command, administrators can remove a node from the list of available compute nodes in the cluster. This feature is necessary for the management of the infrastructure.
-
-## Usage
-
-```bash
-bacalhau node delete [id] [flags]
-```
-
-## Flags
-
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
-- `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the deletion action.
-
-## Global Flags
-
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
-
-## Examples
-
-1.  Delete the Node with ID `nodeID123`:
-
-    ```bash
-    bacalhau node delete nodeID123
-    ```
-
-2.  Delete a Node with an audit message:
-
-    ```bash
-    bacalhau node delete nodeID123 -m "bad actor"
-    ```
-
-
-## describe
+## docs/cli/job/describe.md
 
 # Describe
 
@@ -663,74 +773,7 @@ bacalhau job describe [id] [flags]
     bacalhau job describe --output json --pretty j-b6ad164a
     ```
 
-
-## describe
-
-# Describe
-
-The `bacalhau node describe` command offers users the ability to retrieve detailed information about a specific node using its unique identifier.
-
-## Description
-
-Using the `describe` sub-command under the `bacalhau node` umbrella, users can get comprehensive details of a node by providing its ID. This information is crucial for system administrators and network managers to understand the state, specifications, and other attributes of nodes in their infrastructure.
-
-## Usage
-
-```bash
-bacalhau node describe [id] [flags]
-```
-
-## Flags
-
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
-- `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `--output format`:
-  - Defines the desired format for the command's output.
-  - Options: `"json"` or `"yaml"`
-  - Default: `"yaml"`
-- `--pretty`:
-  - When this flag is used, the command will pretty print the output. This is applicable only for outputs in `json` and `yaml` formats.
-
-## Global Flags
-
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
-
-## Examples
-
-1.  Describing a Node with ID `nodeID123`:
-
-    ```bash
-    bacalhau node describe nodeID123
-    ```
-
-2.  Describing a Node with Output in JSON Format:
-
-    ```bash
-    bacalhau node describe nodeID123 --output json
-    ```
-
-3.  Pretty Printing the Description of a Node:
-
-    ```bash
-    bacalhau node describe nodeID123 --pretty
-    ```
-
-
-## executions
+## docs/cli/job/executions.md
 
 # Executions
 
@@ -832,8 +875,7 @@ bacalhau job executions [id] [flags]
     ... [The YAML formatted output] ...
     ```
 
-
-## get
+## docs/cli/job/get.md
 
 # Get
 
@@ -883,8 +925,7 @@ bacalhau job get [id] [flags]
 
     `bacalhau job get 51225160`
 
-
-## history
+## docs/cli/job/history.md
 
 # History
 
@@ -1008,86 +1049,7 @@ bacalhau job history [id] [flags]
     ... [The YAML formatted output] ...
     ```
 
-
-## list
-
-# Config List
-
-## Description
-
-The `bacalhau config list` command lists the configuration keys and values of the bacalhau node. This command is useful for understanding how configuration keys map to their respective values, aiding in the use of the `bacalhau config set` command.
-
-Note: Configuration values displayed by this command represent the settings that will be applied when the bacalhau node is next restarted. It is important to note that these values may not reflect the current operational configuration of an active bacalhau node. The displayed configuration is relevant and accurate for a node that is either not currently running or that has been restarted after the execution of this command.
-
-## Usage
-
-```bash
-bacalhau config list [flags]
-```
-
-## Flags
-
-- `-h`, `--help`:
-  - Description: Displays help information for the `list` sub-command.
-- `--hide-header`:
-  - Description: Do not print the column headers when displaying the results.
-  - Default: `false`
-- `--no-style`:
-  - Description: Removes all styling from the table output, displaying raw data.
-  - Default: `false`
-- `--output format`:
-  - Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
-  - Options: `json`, `yaml`, `table`
-  - Default: `table`
-- `--pretty`:
-  - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
-  - Default: `true`
-- `--wide`:
-  - Description: Prints full values in the table results without truncating any information.
-  - Default: `false`
-
-## Examples
-
-### Listing the Bacalhau nodes configuration settings
-
-1.  **Basic Usage**:
-
-    **Command**:
-
-    ```bash
-    bacalhau config list
-    ```
-
-    **Output**:
-
-    ```bash
-     KEY          VALUE
-     <key_name> <key_value>
-    ...
-    ```
-
-2.  **Output in JSON format**:
-
-    **Command**:
-
-    ```bash
-    bacalhau config list --output json --pretty
-    ```
-
-    **Output**:
-
-    ```json
-    [
-      {
-        "Key": "<key_name>",
-        "Value": <key_value>
-      },
-      ...
-    ]
-    ```
-
-
-## list
+## docs/cli/job/list.md
 
 # List
 
@@ -1226,8 +1188,810 @@ bacalhau job list [flags]
     ... [The JSON formatted output] ...
     ```
 
+## docs/cli/job/logs.md
 
-## list
+# Logs
+
+## Description
+
+The `bacalhau job logs` command allows users to retrieve logs from a job that has been previously submitted. This command is useful for tracking and debugging the progress and state of a running or completed job.
+
+## Usage
+
+```bash
+bacalhau job logs [id] [flags]
+```
+
+## Flags
+
+1. `-f`, `--follow`:
+   - Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
+2. `-h`, `--help`:
+   - Description: Display help information for the `logs` command.
+
+## Global Flags
+
+1. `--api-host string`:
+   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `bootstrap.production.bacalhau.org`
+2. `--api-port int`:
+   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
+   - Default: `1234`
+3. `--log-mode logging-mode`:
+   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
+   - Default: `default`
+4. `--repo string`:
+   - Description: Specifies the path to the bacalhau repository.
+   - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **Display Logs for a Previously Submitted Job with Full ID**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job logs j-51225160-807e-48b8-88c9-28311c7899e1
+    ```
+
+    **Expected Output:**
+
+    ```bash
+    [2023-09-24 09:01:32] INFO - Application started successfully.
+    [2023-09-24 09:01:33] DEBUG - Initializing database connections.
+    [2023-09-24 09:01:35] WARN - API rate limit approaching.
+    [2023-09-24 09:02:01] ERROR - Failed to retrieve data from endpoint: /api/v1/data.
+    [2023-09-24 09:05:00] INFO - Data sync completed with 4500 new records.
+    ```
+
+2.  **Follow Logs in Real-Time**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job logs --follow j-51225160-807e-48b8-88c9-28311c7899e1
+    ```
+
+    **Expected Output**:
+
+    ```bash
+    [2023-09-24 11:30:02] INFO - User 'john_doe' logged in successfully.
+    [2023-09-24 11:30:15] DEBUG - Fetching data from cache for key: userSettings_john_doe.
+    [2023-09-24 11:31:05] WARN - High memory usage detected: 85% of allocated resources.
+    ... [Logs continue to appear in real-time] ...
+    ```
+
+3.  **Display Logs Using a Shortened ID**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job logs j-ebd9bf2f
+    ```
+
+    **Expected Output:**
+
+    ```bash
+    [2023-09-24 10:15:12] INFO - Application initialization sequence started.
+    [2023-09-24 10:15:13] DEBUG - Loading configurations from /config/app.json.
+    [2023-09-24 10:15:14] INFO - Connected to message broker successfully.
+    [2023-09-24 10:16:00] ERROR - Failed to send email notification to user@example.com.
+    ```
+
+## docs/cli/job/run.md
+
+# Run
+
+## Description
+
+The `bacalhau job run` command facilitates the initiation of a job from a file or directly from the standard input (stdin). The command supports both JSON and YAML data formats. This command is particularly useful for quickly executing a job without the need for manual configurations.
+
+## Usage
+
+```bash
+bacalhau job run [flags]
+```
+
+## Flags
+
+- `--dry-run`:
+  - Description: With this flag, the job will not be submitted. Instead, it will display what would have been submitted, providing a way to preview before actual submission.
+- `-f`, `--follow`:
+  - Description: If provided, the command will continuously display the output from the job as it runs.
+- `--id-only`:
+  - Description: On successful job submission, only the Job ID will be printed.
+- `--node-details`:
+  - Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
+- `--show-warnings`:
+  - Description: Shows any warnings that occur during the job submission.
+- `--wait`:
+  - Description: Waits for the job to finish execution. To set this to false, use --wait=false
+  - Default: `true`
+- `--wait-timeout-secs int`:
+  - Description: If `--wait` is provided, this flag sets the maximum time (in seconds) the command will wait for the job to finish before it terminates.
+  - Default: `600` seconds
+- `-h`, `--help`:
+  - Description: Displays help information for the `run` command.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+**Sample Job (`job.yaml`)**
+
+A sample job used in the following examples is provided below:
+
+```bash
+cat job.yaml
+```
+
+```yaml
+name: A Simple Docker Job
+type: batch
+count: 1
+tasks:
+  - name: My main task
+    engine:
+      type: docker
+      params:
+        Image: ubuntu:latest
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - echo Hello Bacalhau!
+```
+
+This configuration describes a batch job that runs a Docker task. It utilizes the `ubuntu:latest` image and executes the command `echo Hello Bacalhau!`.
+
+1.  **Running a Job using a YAML Configuration**:
+
+    To run a job with a configuration provided in a `job.yaml` file:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Job successfully submitted. Job ID: j-2d0f513a-9eb1-49c2-8bc8-246c6fb41520
+    Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+     Communicating with the network  ................  done ✅  0.1s
+        Creating job for submission  ................  done ✅  0.6s
+
+    To get more details about the run, execute:
+     bacalhau job describe j-2d0f513a-9eb1-49c2-8bc8-246c6fb41520
+
+    To get more details about the run executions, execute:
+     bacalhau job executions j-2d0f513a-9eb1-49c2-8bc8-246c6fb41520
+    ```
+
+2.  **Running a Job and Following its Logs**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --follow
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Job successfully submitted. Job ID: j-b89df816-7564-4f04-b270-e6cda89eda72
+    Waiting for logs... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+    Hello Bacalhau!
+    ```
+
+3.  **Running a Job Without Waiting**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --wait=false
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    j-3fd396b3-e92e-42ca-bd87-0dc9eb15e6f9
+    ```
+
+4.  **Fetching Only the Job ID Upon Submission**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --id-only
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    j-5976ffb6-3465-4fec-8b3b-2c822cbaf417
+    ```
+
+5.  **Fetching Only the Job ID and Wait for Completion**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --id-only --wait
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    j-293f1302-3298-4aca-b06d-33fd1e3f9d2c
+    ```
+
+6.  **Running a Job with Node Details**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job run job.yaml --node-details
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Job successfully submitted. Job ID: j-05e65dd3-4e9e-4e20-a104-3c91ba934435
+    Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+     Communicating with the network  ................  done ✅  0.1s
+        Creating job for submission  ................  done ✅  0.6s
+
+    Job Results By Node:
+    • Node QmVXwmdZ:
+     Hello Bacalhau!
+
+    To get more details about the run, execute:
+     bacalhau job describe j-05e65dd3-4e9e-4e20-a104-3c91ba934435
+
+    To get more details about the run executions, execute:
+     bacalhau job executions j-05e65dd3-4e9e-4e20-a104-3c91ba934435
+    ```
+
+7.  **Rerunning a previously submitting job**:
+
+    **Command:**
+
+    ```bash
+    bacalhau job describe j-05e65dd3-4e9e-4e20-a104-3c91ba934435 | bacalhau job run
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Reading from /dev/stdin; send Ctrl-d to stop.Job successfully submitted. Job ID: j-d8625929-83f4-411a-b9aa-7bcfecb27a8b
+    Checking job status... (Enter Ctrl+C to exit at any time, your job will continue running):
+
+     Communicating with the network  ................  done ✅  0.1s
+        Creating job for submission  ................  done ✅  0.6s
+
+    To get more details about the run, execute:
+     bacalhau job describe j-d8625929-83f4-411a-b9aa-7bcfecb27a8b
+
+    To get more details about the run executions, execute:
+     bacalhau job executions j-d8625929-83f4-411a-b9aa-7bcfecb27a8b
+    ```
+
+## Job Templating
+
+The `bacalhau job run` command also supports templating, which allows users to dynamically inject variables into their job specifications. Additional flags related to templating include:
+
+- `--no-template`:
+  - Description: Disable the templating feature. When this flag is set, the job spec will be used as-is, without any placeholder replacements.
+- `-E, --template-envs`:
+  - Description: Specify a regular expression pattern for selecting environment variables to be included as template variables in the job spec. e.g. `--template-envs ".*"` will include all environment variables.
+- `-V, --template-vars`:
+  - Description: Replace a placeholder in the job spec with a value. e.g. `--template-vars foo=bar`
+
+### Overview
+
+Templating is particularly useful when running multiple jobs with varying parameters such as DuckDB query, S3 buckets, prefixes, and time ranges without the need to edit each job specification file manually.
+
+### Templating Implementation
+
+The templating functionality in Bacalhau is built upon the Go text/template package. This powerful library offers a wide range of features for manipulating and formatting text based on template definitions and input variables.
+
+For more detailed information about the Go text/template library and its syntax, please refer to the official documentation: [Go text/template Package](https://golang.org/pkg/text/template/).
+
+### Basic Templating Example
+
+**Sample Job Spec with Templating Variables**:
+
+```yaml
+Name: docker job
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ubuntu:latest
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - echo {{.greeting}} {{.name}}
+```
+
+**Running with Templating**:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello,name=World"
+```
+
+**Defining Flag Multiple Times**:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello" --template-vars "name=World"
+```
+
+**Disabling Templating**:
+
+```
+bacalhau job run job.yaml --no-template
+```
+
+### Using Environment Variables for Templates
+
+You can also use environment variables for templating:
+
+```
+
+bacalhau job run job.yaml --template-envs "*"
+```
+
+**Passing A Subset of Environment Variables**:
+
+```
+bacalhau job run job.yaml --template-envs "greeting|name"
+```
+
+### Dry Run to Preview Templated Spec
+
+To preview the final templated job spec without actually submitting the job, you can use the `--dry-run` flag:
+
+```
+bacalhau job run job.yaml --template-vars "greeting=Hello,name=World" --dry-run
+```
+
+This will output the processed job specification, showing you how the placeholders have been replaced with the provided values.
+
+### Advanced Templating Examples
+
+#### Query Live Logs
+
+```yaml
+Name: Live logs processing
+Type: ops
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ghcr.io/bacalhau-project/nginx-access-log-query:1.0.0
+        Parameters:
+          - --query
+          - { { .query } }
+          - --start-time
+          - { { or (index . "start-time") "" } }
+          - --end-time
+          - { { or (index . "end-time") "" } }
+    InputSources:
+      - Target: /logs
+        Source:
+          Type: localDirectory
+          Params:
+            SourcePath: /data/log-orchestration/logs
+```
+
+This is an ops job that runs on all nodes that match the job selection criteria. It accepts duckdb query variable, and two optional start-time and end-time variables to define the time range for the query.
+
+To run this job, you can use the following command:
+
+```
+bacalhau job run job.yaml \
+  -V "query=SELECT status FROM logs WHERE status LIKE '5__'" \
+  -V "start-time=-5m"
+```
+
+#### Query S3 Logs
+
+```yaml
+Name: S3 logs processing
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ghcr.io/bacalhau-project/nginx-access-log-query:1.0.0
+        Parameters:
+          - --query
+          - { { .query } }
+    InputSources:
+      - Target: /logs
+        Source:
+          Type: s3
+          Params:
+            Bucket: { { .AccessLogBucket } }
+            Key: { { .AccessLogPrefix } }
+            Filter: { { or (index . "AccessLogPattern") ".*" } }
+            Region: { { .AWSRegion } }
+```
+
+This is a batch job that runs on a single node. It accepts the duckdb query variable, and four other variables to define the S3 bucket, prefix, and pattern for the logs and the AWS region.
+
+To run this job, you can use the following command:
+
+```
+bacalhau job run job.yaml  \
+    -V "AccessLogBucket=my-bucket" \
+    -V "AWSRegion=us-east-1" \
+    -V "AccessLogPrefix=2023-11-19-*"  \
+    -V "AccessLogPattern=^[10-12].*"
+```
+
+## docs/cli/job/stop.md
+
+# Stop
+
+## Description
+
+The `bacalhau job stop` command allows users to terminate a previously submitted job. This is useful in scenarios where there's a need to halt a running job, perhaps due to misconfiguration or changed priorities.
+
+## Usage
+
+```bash
+bacalhau job stop [id] [flags]
+```
+
+## Flags
+
+- `--quiet`:
+  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
+- `-h`, `--help`:
+  - Description: Displays help information for the `stop` command.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Defines the path to the bacalhau repository.
+  - Default: `$HOME/.bacalhau`
+
+## Examples
+
+1.  **Stop a Specific Job**:
+
+    If you wish to halt the execution of a job, you can utilize the `stop` command. Here's how you can achieve that:
+
+    **Command:**
+
+    ```bash
+    bacalhau job stop j-10eb97de-14cd-4db4-96ec-561bb943309a
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    Checking job status
+
+      Connecting to network  ................  done ✅  0.0s
+        Verifying job state  ................  done ✅  0.2s
+                Stopping job ................  done ✅  0.1s
+
+    Job stop successfully submitted with evaluation ID: 397fd425-8b1a-491e-952a-0632492e7ece
+    ```
+
+2.  **Silently Stop a Job**:
+
+    If you prefer to terminate a job without seeing any verbose feedback or messages, the `--quiet` option can be used.
+
+    **Command:**
+
+    ```bash
+    bacalhau job stop j-63b5ec0c-b5bf-4398-a152-b46c07abe52a --quiet
+    ```
+
+    **Expected Output:**
+
+    ```plaintext
+    [No output displayed as the operation is run quietly.]
+    ```
+
+## docs/cli/node/README.md
+
+# Node
+
+The `bacalhau node` command provides a set of sub-commands to query and manage node-related information within Bacalhau. With these tools, users can access specific details about nodes, list all network nodes, and more.
+
+## Usage
+
+```bash
+bacalhau node [command]
+```
+
+## Available Commands
+
+1. [**approve**](approve.md):
+
+   - Description: Approves a single node to join the cluster.
+   - Usage:
+
+     ```bash
+     bacalhau node approve
+     ```
+
+2. [**delete**](delete.md):
+
+   - Description: Deletes a node from the cluster using its ID.
+   - Usage:
+
+     ```bash
+     bacalhau node delete
+     ```
+
+3. [**describe**](describe.md):
+
+   - Description: Retrieves detailed information of a node using its ID.
+   - Usage:
+
+     ```bash
+     bacalhau node describe
+     ```
+
+4. [**list**](list.md):
+
+   - Description: Lists the details of all nodes present in the network.
+   - Usage:
+
+     ```bash
+     bacalhau node list
+     ```
+
+5. [**reject**](reject.md):
+
+- Description: Reject a specific node's request to join the cluster.
+- Usage:
+
+  ```bash
+  bacalhau node reject
+  ```
+
+For comprehensive details on any of the sub-commands, run:
+
+```bash
+bacalhau node [command] --help
+```
+
+## Flags
+
+- `-h`, `--help`:
+  - Description: Shows the help information for the `node` command.
+
+## Global Flags
+
+- `--api-host string`:
+  - Description: Specifies the host for RESTful communication between the client and server. The flag will be ignored if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `bootstrap.production.bacalhau.org`
+- `--api-port int`:
+  - Description: Designates the port for RESTful communication. The flag will be bypassed if the `BACALHAU_API_PORT` environment variable is active.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
+  - Default: `default`
+- `--repo string`:
+  - Description: Specifies the path to the bacalhau repository.
+  - Default: `/Users/walid/.bacalhau`
+
+## docs/cli/node/approve.md
+
+# Approve
+
+The `bacalhau node approve` command offers administrators the ability to approve the cluster membership for a node using its name.
+
+## Description
+
+Using the `approve` sub-command under the `bacalhau node` umbrella, users can allow a node in the pending state to join the cluster and receive work. This feature is crucial for system administrators to manage the cluster.
+
+## Usage
+
+```bash
+bacalhau node approve [id] [flags]
+```
+
+## Flags
+
+- `[id]`:
+  - The unique identifier of the node you wish to describe.
+- `-h`, `--help`:
+  - Displays the help documentation for the `describe` command.
+- `-m message`:
+  - A message to be attached to the approval action.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- `--api-port int`:
+  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Determines the log format preference.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- `--repo string`:
+  - Points to the bacalhau repository's path.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  Approve a Node with ID `nodeID123`:
+
+    ```bash
+    bacalhau node approve nodeID123
+    ```
+
+2.  Approve a Node with an audit message:
+
+    ```bash
+    bacalhau node approve nodeID123 -m "okay"
+    ```
+
+## docs/cli/node/delete.md
+
+# Delete
+
+The `bacalhau node delete` command offers administrators the ability to remove a node from the cluster using its name.
+
+## Description
+
+Using the `delete` sub-command, administrators can remove a node from the list of available compute nodes in the cluster. This feature is necessary for the management of the infrastructure.
+
+## Usage
+
+```bash
+bacalhau node delete [id] [flags]
+```
+
+## Flags
+
+- `[id]`:
+  - The unique identifier of the node you wish to describe.
+- `-h`, `--help`:
+  - Displays the help documentation for the `describe` command.
+- `-m message`:
+  - A message to be attached to the deletion action.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- `--api-port int`:
+  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Determines the log format preference.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- `--repo string`:
+  - Points to the bacalhau repository's path.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  Delete the Node with ID `nodeID123`:
+
+    ```bash
+    bacalhau node delete nodeID123
+    ```
+
+2.  Delete a Node with an audit message:
+
+    ```bash
+    bacalhau node delete nodeID123 -m "bad actor"
+    ```
+
+## docs/cli/node/describe.md
+
+# Describe
+
+The `bacalhau node describe` command offers users the ability to retrieve detailed information about a specific node using its unique identifier.
+
+## Description
+
+Using the `describe` sub-command under the `bacalhau node` umbrella, users can get comprehensive details of a node by providing its ID. This information is crucial for system administrators and network managers to understand the state, specifications, and other attributes of nodes in their infrastructure.
+
+## Usage
+
+```bash
+bacalhau node describe [id] [flags]
+```
+
+## Flags
+
+- `[id]`:
+  - The unique identifier of the node you wish to describe.
+- `-h`, `--help`:
+  - Displays the help documentation for the `describe` command.
+- `--output format`:
+  - Defines the desired format for the command's output.
+  - Options: `"json"` or `"yaml"`
+  - Default: `"yaml"`
+- `--pretty`:
+  - When this flag is used, the command will pretty print the output. This is applicable only for outputs in `json` and `yaml` formats.
+
+## Global Flags
+
+- `--api-host string`:
+  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
+  - Default: `"bootstrap.production.bacalhau.org"`
+- `--api-port int`:
+  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
+  - Default: `1234`
+- `--log-mode logging-mode`:
+  - Determines the log format preference.
+  - Options: `'default','station','json','combined','event'`
+  - Default: `'default'`
+- `--repo string`:
+  - Points to the bacalhau repository's path.
+  - Default: `"`$HOME/.bacalhau"\`
+
+## Examples
+
+1.  Describing a Node with ID `nodeID123`:
+
+    ```bash
+    bacalhau node describe nodeID123
+    ```
+
+2.  Describing a Node with Output in JSON Format:
+
+    ```bash
+    bacalhau node describe nodeID123 --output json
+    ```
+
+3.  Pretty Printing the Description of a Node:
+
+    ```bash
+    bacalhau node describe nodeID123 --pretty
+    ```
+
+## docs/cli/node/list.md
 
 # List
 
@@ -1371,160 +2135,7 @@ bacalhau node list [flags]
     ]
     ```
 
-
-## logs
-
-# Logs
-
-## Description
-
-The `bacalhau job logs` command allows users to retrieve logs from a job that has been previously submitted. This command is useful for tracking and debugging the progress and state of a running or completed job.
-
-## Usage
-
-```bash
-bacalhau job logs [id] [flags]
-```
-
-## Flags
-
-1. `-f`, `--follow`:
-   - Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
-2. `-h`, `--help`:
-   - Description: Display help information for the `logs` command.
-
-## Global Flags
-
-1. `--api-host string`:
-   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
-2. `--api-port int`:
-   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
-   - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
-   - Default: `$HOME/.bacalhau`
-
-## Examples
-
-1.  **Display Logs for a Previously Submitted Job with Full ID**:
-
-    **Command:**
-
-    ```bash
-    bacalhau job logs j-51225160-807e-48b8-88c9-28311c7899e1
-    ```
-
-    **Expected Output:**
-
-    ```bash
-    [2023-09-24 09:01:32] INFO - Application started successfully.
-    [2023-09-24 09:01:33] DEBUG - Initializing database connections.
-    [2023-09-24 09:01:35] WARN - API rate limit approaching.
-    [2023-09-24 09:02:01] ERROR - Failed to retrieve data from endpoint: /api/v1/data.
-    [2023-09-24 09:05:00] INFO - Data sync completed with 4500 new records.
-    ```
-
-2.  **Follow Logs in Real-Time**:
-
-    **Command:**
-
-    ```bash
-    bacalhau job logs --follow j-51225160-807e-48b8-88c9-28311c7899e1
-    ```
-
-    **Expected Output**:
-
-    ```bash
-    [2023-09-24 11:30:02] INFO - User 'john_doe' logged in successfully.
-    [2023-09-24 11:30:15] DEBUG - Fetching data from cache for key: userSettings_john_doe.
-    [2023-09-24 11:31:05] WARN - High memory usage detected: 85% of allocated resources.
-    ... [Logs continue to appear in real-time] ...
-    ```
-
-3.  **Display Logs Using a Shortened ID**:
-
-    **Command:**
-
-    ```bash
-    bacalhau job logs j-ebd9bf2f
-    ```
-
-    **Expected Output:**
-
-    ```bash
-    [2023-09-24 10:15:12] INFO - Application initialization sequence started.
-    [2023-09-24 10:15:13] DEBUG - Loading configurations from /config/app.json.
-    [2023-09-24 10:15:14] INFO - Connected to message broker successfully.
-    [2023-09-24 10:16:00] ERROR - Failed to send email notification to user@example.com.
-    ```
-
-
-## node
-
-# Node
-
-## Description
-
-The `bacalhau agent node` command retrieves information about the agent's node, providing insights into the agent's environment and aiding in debugging.
-
-## Usage
-
-```bash
-bacalhau agent node [flags]
-```
-
-## Flags
-
-- `-h`, `--help`:
-  - Displays help information for the `node` sub-command.
-- `--output format`:
-  - Defines the output format (either JSON or YAML).
-  - Options: `json`, `yaml`
-  - Default: `yaml`
-- `--pretty`:
-  - Beautifies the output when using JSON or YAML formats.
-
-## Global Flags
-
-- `--api-host string`:
-  - The host for REST communication. Overrides the `BACALHAU_API_HOST` environment variable.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - The port for REST communication. Overridden if `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Specifies the log format. Choices are: `default`, `station`, `json`, `combined`, `event`.
-  - Default: `default`
-- `--repo string`:
-  - Path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
-
-## Examples
-
-1.  **Retrieve Node Information in Default Format (YAML)**
-
-    ```bash
-    bacalhau agent node
-    ```
-
-2.  **Retrieve Node Information in JSON Format**
-
-    ```bash
-    bacalhau agent node --output json
-    ```
-
-3.  **Retrieve Node Information in Pretty-printed JSON Format**
-
-    ```bash
-    bacalhau agent node --output json --pretty
-    ```
-
-
-## reject
+## docs/cli/node/reject.md
 
 # Reject
 
@@ -1578,264 +2189,3 @@ bacalhau node rejected [id] [flags]
     ```bash
     bacalhau node reject nodeID123 -m "potentially bad"
     ```
-
-
-## run
-
-[Content truncated - see full docs]
-
-
-## set
-
-# Config Set
-
-## Description:
-
-The `bacalhau config set` command sets a value in the bacalhau node's configuration file. This command is used to modify the configuration file that the bacalhau node will reference for its settings. Key names in the configuration are case-insensitive. Additionally, the command validates the value being set based on the type of the configuration key, ensuring that only appropriate and valid configurations are applied.
-
-:::note
-Changes made using this command will be applied to the configuration file, but they do not immediately affect the running configuration of an active bacalhau node. The modifications will take effect only after the node is restarted.
-:::
-
-## Usage
-
-```bash
-bacalhau config set <key> <value>
-```
-
-## Flags
-
-- `-h`, `--help`:
-  - Description: Displays help information for the `set` sub-command.
-
-## Examples
-
-### Configuring the Server API Port Value
-
-```bash
-bacalhau config set node.serverapi.port 9999
-
-bacalhau config list | grep serverapi.port
- node.serverapi.port                                             9999
-
-cat ~/.bacalhau/config.yaml
-node:
-    serverapi:
-        port: 9999
-```
-
-### Configuring the Logging Mode Value
-
-```bash
-bacalhau config set node.loggingmode json
-
-bacalhau config list | grep loggingmode
- node.loggingmode                                                json
-
-cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
-```
-
-### Multiple Set commands append to the file
-
-```bash
-bacalhau config set node.serverapi.port 9999
-bacalhau config set node.serverapi.host 0.0.0.0
-bacalhau config set node.loggingmode json
-
-cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
-    serverapi:
-        host: 0.0.0.0
-        port: 9999
-```
-
-### Set command value validation
-
-#### Example of invalid logging mode value
-
-```bash
-bacalhau config set node.loggingmode some-invalid-value
-
-Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
-```
-
-#### Example of invalid time duration value
-
-```bash
-bacalhau config set node.volumesizerequesttimeout 10days
-
-Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
-```
-
-
-## stop
-
-# Stop
-
-## Description
-
-The `bacalhau job stop` command allows users to terminate a previously submitted job. This is useful in scenarios where there's a need to halt a running job, perhaps due to misconfiguration or changed priorities.
-
-## Usage
-
-```bash
-bacalhau job stop [id] [flags]
-```
-
-## Flags
-
-- `--quiet`:
-  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
-- `-h`, `--help`:
-  - Description: Displays help information for the `stop` command.
-
-## Global Flags
-
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
-
-## Examples
-
-1.  **Stop a Specific Job**:
-
-    If you wish to halt the execution of a job, you can utilize the `stop` command. Here's how you can achieve that:
-
-    **Command:**
-
-    ```bash
-    bacalhau job stop j-10eb97de-14cd-4db4-96ec-561bb943309a
-    ```
-
-    **Expected Output:**
-
-    ```plaintext
-    Checking job status
-
-    	Connecting to network  ................  done ✅  0.0s
-    	  Verifying job state  ................  done ✅  0.2s
-    	          Stopping job ................  done ✅  0.1s
-
-    Job stop successfully submitted with evaluation ID: 397fd425-8b1a-491e-952a-0632492e7ece
-    ```
-
-2.  **Silently Stop a Job**:
-
-    If you prefer to terminate a job without seeing any verbose feedback or messages, the `--quiet` option can be used.
-
-    **Command:**
-
-    ```bash
-    bacalhau job stop j-63b5ec0c-b5bf-4398-a152-b46c07abe52a --quiet
-    ```
-
-    **Expected Output:**
-
-    ```plaintext
-    [No output displayed as the operation is run quietly.]
-    ```
-
-
-## version
-
-# Version
-
-The `bacalhau agent version` command is used to obtain the version of the bacalhau agent.
-
-## Description:
-
-Using this command, users can quickly retrieve the version of the agent, allowing them to confirm the specific release of the software they are using.
-
-## Usage:
-
-```bash
-bacalhau agent version [flags]
-```
-
-## Flags:
-
-- **`-h`, `--help`**:
-  - Show help for the `version` command.
-- **`--output format`**:
-  - Defines the output format of the command's results. Accepted formats include "json" and "yaml".
-- **`--pretty`**:
-  - Used for pretty printing the output, enhancing readability. This flag is applicable only for the "json" and "yaml" output formats.
-
-## Global Flags:
-
-- **`--api-host string`**:
-  - Designates the host for client-server communication via REST. If the `BACALHAU_API_HOST` environment variable is present, this flag will be disregarded.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- **`--api-port int`**:
-  - Defines the port for client-server communication through REST. This flag becomes irrelevant if the `BACALHAU_API_PORT` environment variable is specified.
-  - Default: `1234`
-- **`--log-mode logging-mode`**:
-  - Specifies the desired logging format.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- **`--repo string`**:
-  - Indicates the path to the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`
-
-## Examples
-
-1.  **Retrieve the agent version**:
-
-    Execute the command to get the agent version:
-
-    ```bash
-    bacalhau agent version
-    ```
-
-    Expected output:
-
-    ```bash
-    Bacalhau v0.0.0-xxxxxxx
-    BuildDate 2023-09-22 16:03:44 +0000 UTC
-    GitCommit 0fe81cb488f666845ac72c73a4b804aaa658e511
-    ```
-
-2.  **Retrieve the agent version in JSON format**:
-
-    ```bash
-    bacalhau agent version --output json
-    ```
-
-    Expected output:
-
-    ```bash
-    {"major":"0","minor":"0","gitversion":"v0.0.0-xxxxxxx","gitcommit":"0fe81cb488f666845ac72c73a4b804aaa658e511","builddate":"2023-09-22T16:03:44Z","goos":"linux","goarch":"amd64"}
-    ```
-
-3.  **Retrieve the agent version in Pretty-printed JSON format**:
-
-    ```bash
-    bacalhau agent version --output json --pretty
-    ```
-
-    Expected output:
-
-    ```bash
-    {
-      "major": "0",
-      "minor": "0",
-      "gitversion": "v0.0.0-xxxxxxx",
-      "gitcommit": "0fe81cb488f666845ac72c73a4b804aaa658e511",
-      "builddate": "2023-09-22T16:03:44Z",
-      "goos": "linux",
-      "goarch": "amd64"
-    }
-    ```
-

@@ -1,0 +1,76 @@
+---
+title: Compute-over-data architecture across remote sites and object stores
+description: Design a Bacalhau deployment that places work near data without hiding operational boundaries.
+---
+
+import StructuredData from '@site/src/components/StructuredData'
+
+<StructuredData
+  title="Compute-over-data architecture across remote sites and object stores"
+  description="A practical architecture guide for running Bacalhau jobs near remote-site, object-store, and edge data."
+  path="/docs/guides/compute-over-data-architecture/"
+  faq={[
+    { question: 'Does Bacalhau automatically make remote data local?', answer: 'No. A compute node needs authorized access to an input. Bacalhau can schedule a task to a suitable node, but storage connectivity and credentials remain an operator responsibility.' },
+    { question: 'Can one Bacalhau network span multiple locations?', answer: 'Yes. Nodes can be organized across locations, but operators should test connectivity, resource capacity, placement constraints, and failure recovery for their topology.' },
+  ]}
+/>
+
+# Compute-over-data architecture across remote sites and object stores
+
+Compute-over-data means choosing a compute location with practical access to the input, instead of automatically centralizing every dataset. In Bacalhau, an orchestrator receives a job and compute nodes execute Docker or WASM tasks; inputs and outputs are described as part of the job. See the [architecture overview](/docs/overview/architecture/) for component responsibilities.
+
+## Reference topology
+
+| Layer | Responsibility | Design question |
+| --- | --- | --- |
+| Orchestrator | Receives jobs and coordinates state | Who operates its availability, identity, and audit trail? |
+| Compute nodes | Execute isolated task environments | Which sites can reach each dataset and meet runtime needs? |
+| Input storage | Provides files, objects, or URLs | Which credentials and network paths are permitted? |
+| Result publisher | Stores artifacts and results | Where may outputs reside and who can retrieve them? |
+
+Keep the network boundary explicit: object storage is not automatically mounted simply because a node is nearby, and a job constraint does not change a storage bucket policy.
+
+## Model the job rather than the marketing diagram
+
+This example uses a URL input and local publisher so the data path is visible. Substitute your controlled source and publisher only after reviewing the relevant source and result specifications.
+
+```yaml
+Type: batch
+Count: 1
+Tasks:
+  - Name: summarize
+    Engine:
+      Type: docker
+      Params:
+        Image: alpine:3.21
+        Parameters: [sh, -c, "wc -l /inputs/events.txt > /outputs/line-count.txt"]
+    InputSources:
+      - Alias: events
+        Target: /inputs/events.txt
+        Source:
+          Type: urlDownload
+          Params:
+            URL: https://example.org/events.txt
+    Publisher:
+      Type: local
+    ResultPaths:
+      - Name: outputs
+        Path: /outputs
+```
+
+Submit it with `bacalhau job run job.yaml`, then use `bacalhau job describe <job-id>` to inspect execution state. The [quick start](/docs/getting-started/quick-start/) shows the same imperative and declarative workflow.
+
+## Tradeoffs and controls
+
+| Requirement | Useful Bacalhau mechanism | Boundary outside Bacalhau |
+| --- | --- | --- |
+| Keep work at a site | Node labels and job constraints | Network segmentation and physical/data residency controls |
+| Limit a task's inputs | Explicit input sources | Storage IAM, object ACLs, and secret distribution |
+| Preserve results | Result paths and a publisher | Retention, encryption, and downstream access policy |
+| Recover from a failure | Job state and operator monitoring | Site disaster recovery and capacity planning |
+
+Read the [constraint specification](/docs/specifications/job/constraint/), [input-source specification](/docs/specifications/job/input-source/), and [publishing results guide](/docs/guides/publishing-results/) before choosing production values.
+
+## Limitations
+
+This architecture does not eliminate data transfer: container images, inputs, logs, and results can still cross a network. Instrument those paths, test loss of a site or storage endpoint, and define whether a no-match constraint must fail closed or trigger an approved fallback.

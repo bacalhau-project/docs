@@ -1,0 +1,62 @@
+---
+title: Technical buyer's guide to distributed edge orchestration
+description: Evaluate edge orchestration by placement control, workload lifecycle, data access, and operability.
+---
+
+import StructuredData from '@site/src/components/StructuredData'
+
+<StructuredData
+  title="Technical buyer's guide to distributed edge orchestration"
+  description="A technical evaluation framework for distributed edge orchestration and Bacalhau workload placement."
+  path="/docs/guides/edge-orchestration-buyers-guide/"
+  faq={[
+    { question: 'What should an edge orchestration evaluation prove?', answer: 'It should prove placement, data access, failure behavior, observability, identity, and result handling using representative sites and workloads.' },
+    { question: 'Can Bacalhau run long-lived workloads?', answer: 'Bacalhau supports multiple job types, including batch, ops, daemon, and service. Select a type based on lifecycle and test it under the operational conditions you expect.' },
+  ]}
+/>
+
+# Technical buyer's guide to distributed edge orchestration
+
+An edge orchestrator is useful only when it makes an operating boundary clearer: where code runs, which data it can reach, how it is observed, and what happens when a site is unavailable. Bacalhau is an Apache-2.0 open-source project for orchestrating Docker and WASM workloads across compute nodes; it does not replace your device-management, identity, or storage systems.
+
+## Evaluation matrix
+
+| Evaluation area | Questions to ask | Bacalhau evidence to inspect |
+| --- | --- | --- |
+| Placement | Can a workload target an approved region or capability? | [Labels and constraints](/docs/guides/labels-and-constraints/) and a deliberate no-match test |
+| Lifecycle | Is the workload batch, ops, daemon, or service? | [Job type specification](/docs/specifications/job/type/) |
+| Inputs and outputs | Are every source and result path explicit? | [Input sources](/docs/specifications/job/input-source/) and [result paths](/docs/specifications/job/result-path/) |
+| Runtime | Which images, parameters, resources, and network assumptions apply? | [Task specification](/docs/specifications/job/task/) and [network specification](/docs/specifications/job/network/) |
+| Operations | Who sees job state and acts on failures? | `bacalhau job describe`, logs, and your monitoring system |
+
+## Pilot design
+
+Begin with two sites that have different data or network conditions. Give nodes factual labels, submit a small workload with explicit constraints, then compare job state and result location. Do not begin by connecting production data.
+
+```bash
+bacalhau serve --compute -c Labels="site=plant-a,accelerator=false"
+
+bacalhau docker run \
+  --constraints "site=plant-a" \
+  --input https://example.org/telemetry.csv:/input/telemetry.csv \
+  --output pilot-results:/outputs \
+  --publisher local \
+  alpine:3.21 sh -c 'wc -l /input/telemetry.csv > /outputs/rows.txt'
+```
+
+Record the node identity, job ID, input access method, result path, elapsed time, transfer measurements, and the behavior when the matching node is unavailable. This turns a pilot into reproducible evidence rather than a demo.
+
+## Selection tradeoffs
+
+| If you prioritize | Design implication |
+| --- | --- |
+| Strict site boundaries | Combine constraints with network, storage, and identity enforcement; constraints alone are insufficient |
+| Low-touch operations | Favor a small, repeatable node configuration and a narrowly scoped pilot |
+| Heterogeneous hardware | Label only verified capabilities and test each runtime image on its target architecture |
+| Fast centralized analytics | A data warehouse or SQL engine may be a better primary tool than edge orchestration |
+
+The [quick start](/docs/getting-started/quick-start/) is a safe local starting point. Move to a multi-site design only after validating the [architecture](/docs/overview/architecture/), job timeouts, resource limits, and recovery expectations.
+
+## Limitations
+
+No orchestration tool can establish compliance or availability alone. Verify device patching, physical access, connectivity, secrets, storage policy, and incident response with the owners of those controls.

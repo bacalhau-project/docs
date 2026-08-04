@@ -1,6 +1,6 @@
 # Bacalhau API Reference
 
-## README
+## docs/api/README.md
 
 # Overview
 
@@ -130,8 +130,7 @@ Understanding HTTP response codes is crucial. A `2xx` series indicates a success
 Since `/api/v1/requester/*` was changed to `/api/v1/orchestrator/` in `v1.4.0`, all `/api/v1/requester/*` requests will result in 410 error.
 :::
 
-
-## agent
+## docs/api/agent.md
 
 # Agent
 
@@ -245,8 +244,7 @@ This API provides detailed information about the node, including its peer ID and
 }
 ```
 
-
-## jobs
+## docs/api/jobs.md
 
 # Jobs
 
@@ -394,7 +392,7 @@ Submit a new job for execution.
 
 **Request Body**:
 
-- [**Job**](../specifications/job/): JSON definition of the job.
+- [**Job**](/docs/specifications/job/): JSON definition of the job.
 
 **Response**:
 
@@ -765,8 +763,7 @@ curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-479d160f-f9ab-4e32-aec9-a45554126
 }
 ```
 
-
-## nodes
+## docs/api/nodes.md
 
 # Nodes
 
@@ -1009,4 +1006,3 @@ curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available
   ]
 }
 ```
-

@@ -1,6 +1,6 @@
 # Getting Started with Bacalhau
 
-## installation
+## docs/getting-started/installation.mdx
 
 # Installation
 
@@ -9,6 +9,35 @@ This section explains how to install Bacalhau on your machine, verify it's worki
 ## Install the Bacalhau Binary
 
 To install the CLI, choose your environment, and run the command(s) below.
+
+```bash
+curl -sL https://get.bacalhau.org/install.sh | bash
+```
+
+- This fetches the latest Bacalhau release and places it in `/usr/local/bin` or a similar path.
+- You many need sudo mode or root access to install the binary at the desired path
+
+  Windows users can download the [latest release tarball from
+  Github](https://github.com/bacalhau-project/bacalhau/releases) and extract `bacalhau.exe` to any location available in
+  the PATH environment variable.
+
+### Base Image
+
+```bash
+docker pull ghcr.io/bacalhau-project/bacalhau:latest
+```
+
+- Suitable for running orchestrators, clients or compute nodes with no Docker support
+
+### Docker in Docker
+
+```bash
+docker pull ghcr.io/bacalhau-project/bacalhau:latest-dind
+```
+
+- Suitable for running compute nodes that can run Docker based jobs
+- Require `--privileged` mode when running the container
+
 ### Verify the Installation
 
 ```bash
@@ -34,7 +63,7 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 - **AWS Credentials** (if you're using S3):
   - For S3 inputs or outputs, the node needs valid AWS credentials (e.g., environment variables).
 - **Running an Orchestrator & Compute**:
-- See [Quick Start](https://bacalhau.org/docs/getting-started/quick-start/) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
+  - See [Quick Start](./quick-start.mdx) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
 - **`bacalhau devstack`**:
   - Perfect for local development or running tests.
 
@@ -44,8 +73,7 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 - Check Common Workflows for steps on mounting data (S3, local folders) and publishing outputs.
 - Explore References for advanced node management (Docker Compose, devstack, multi-node clusters).
 
-
-## network-setup
+## docs/getting-started/network-setup.md
 
 # Network Setup
 
@@ -197,8 +225,7 @@ These setups enable deployment and testing of Bacalhau across multiple nodes, in
 - Learn how to submit jobs to your network
 - Explore common workflows for different use cases
 
-
-## quick-start
+## docs/getting-started/quick-start.mdx
 
 # Quick Start
 
@@ -211,7 +238,7 @@ This Quick Start guide shows how to run your first Bacalhau job with minimal set
 
 ## 1. Installation
 
-1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](https://bacalhau.org/docs/getting-started/installation/) for Windows and Docker options.
+1. Install Bacalhau using the one-liner below (Linux/macOS) or see the [installation guide](./installation.mdx) for Windows and Docker options.
 
 ```bash
 curl -sL https://get.bacalhau.org/install.sh | bash
@@ -237,6 +264,50 @@ bacalhau serve --orchestrator --compute
 ## 3. Submit a Data Analysis Job
 
 Bacalhau supports two primary methods of job submission: Imperative (CLI) and Declarative (YAML). We'll demonstrate a word count job on the classic novel Moby Dick.
+
+```bash
+bacalhau docker run \
+  --input https://www.gutenberg.org/files/2701/2701-0.txt:/data/moby-dick.txt \
+  --output outputs:/outputs \
+  --publisher local \
+  ghcr.io/bacalhau-project/word-count:latest -- --output-file /outputs/moby-dick-counts.txt /data/moby-dick.txt
+```
+
+Create a `word-count.yaml` file:
+
+```yaml
+Type: batch
+Count: 1
+Tasks:
+  - Name: main
+    Engine:
+      Type: docker
+      Params:
+        Image: ghcr.io/bacalhau-project/word-count:latest
+        Parameters:
+          - --output-file
+          - /outputs/moby-dick-counts.txt
+          - /data/moby-dick.txt
+    Publisher:
+      Type: local
+    InputSources:
+      - Alias: input_custom
+        Target: /data/moby-dick.txt
+        Source:
+          Type: urlDownload
+          Params:
+            URL: https://www.gutenberg.org/files/2701/2701-0.txt
+    ResultPaths:
+      - Name: outputs
+        Path: /outputs
+```
+
+Then run the job using:
+
+```bash
+bacalhau job run word-count.yaml
+```
+
 - The job downloads a sample dataset and processes it locally
 - Bacalhau will display job progress until completion
 - You'll receive a Job ID once the job is submitted
