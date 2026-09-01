@@ -34,7 +34,7 @@
     "@docusaurus/module-type-aliases": "^3.10.2",
     "@docusaurus/tsconfig": "^3.10.2",
     "@docusaurus/types": "^3.10.2",
-    "cspell": "^8.6.0",
+    "cspell": "^10.1.1",
     "typescript": "~5.8.3"
   },
   "overrides": {
