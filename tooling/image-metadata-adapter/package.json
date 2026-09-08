@@ -1,0 +1,9 @@
+{
+  "name": "@expanso/site-image-metadata",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bounded image metadata adapter for the documentation build",
+  "main": "index.cjs",
+  "exports": {".": "./index.cjs", "./fromFile": "./from-file.cjs"},
+  "dependencies": {"probe-image-size": "7.4.0"}
+}

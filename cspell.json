@@ -1,7 +1,7 @@
 {
   "version": "0.2",
   "language": "en",
-  "files": ["**/*.{md,mdx,ts,tsx,js,jsx,json}"],
+  "files": ["**/*.{md,mdx,ts,tsx,js,jsx,mjs,cjs,json}"],
   "ignorePaths": ["package-lock.json", "yarn.lock", "*.log", "static/bacalhau.json"],
   "ignoreRegExpList": [
     "/```[\\s\\S]*?```/",
@@ -37,6 +37,14 @@
     "trino",
     "duckdb",
     "myvalue",
-    "oom"
+    "oom",
+    "mcp",
+    "utm",
+    "phc",
+    "baca",
+    "lhau",
+    "icns",
+    "jxl",
+    "ihdr"
   ]
 }

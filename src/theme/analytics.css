@@ -1,0 +1,3 @@
+.analytics-choice { position: fixed; bottom: 1rem; left: 1rem; z-index: 1000; max-width: min(28rem, calc(100vw - 2rem)); padding: 1rem; border: 1px solid #888; border-radius: .5rem; color: #fff; background: #20232a; box-shadow: 0 2px 12px #0005; }
+.analytics-choice p { margin: 0 0 .75rem; }
+.analytics-choice button { cursor: pointer; padding: .5rem; border-radius: .25rem; }

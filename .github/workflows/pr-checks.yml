@@ -8,6 +8,8 @@ jobs:
   spell-check:
     name: Spell Check
     runs-on: ubuntu-latest
+    env:
+      POSTHOG_PUBLIC_KEY: phc_pr_build_validation_only
     steps:
       - name: Checkout code
         uses: actions/checkout@v5

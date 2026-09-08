@@ -1,0 +1,44 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {JSDOM} from 'jsdom';
+import {createCollector, hosts} from './collector.mjs';
+
+test('real SDK preserves ingestion token, persists only on acceptance and clears identifiers on decline', async t => {
+  const dom = new JSDOM('', {url: 'https://' + hosts[0] + '/docs/?email=private#secret'});
+  const timers = new Set();
+  const originalTimeout = globalThis.setTimeout;
+  globalThis.setTimeout = (...args) => { const timer = originalTimeout(...args); timers.add(timer); return timer; };
+  t.after(() => { for (const timer of timers) clearTimeout(timer); globalThis.setTimeout = originalTimeout; dom.window.close(); });
+  for (const key of ['window', 'document', 'location', 'screen']) globalThis[key] = key === 'window' ? dom.window : dom.window[key];
+  globalThis.self = dom.window;
+  Object.defineProperty(globalThis, 'navigator', {value: dom.window.navigator, configurable: true});
+  // Block all HTTP transports. SDK events are inspected after before_send via its public hook.
+  globalThis.fetch = dom.window.fetch = async () => new Response('{}', {status: 200});
+  dom.window.XMLHttpRequest = class { open() {} setRequestHeader() {} send() {} };
+  const {default: sdk} = await import('posthog-js/dist/module.mjs');
+  const collector = createCollector(sdk, dom.window, 'phc_local_test_only', true);
+  const ph = sdk.legacyAnalytics;
+  const sent = [];
+  ph.on('eventCaptured', data => sent.push(data));
+  collector.navigate();
+  const first = ph.get_distinct_id();
+  assert.equal(dom.window.document.cookie, '');
+  assert.equal(Object.keys(dom.window.localStorage).filter(key => key.startsWith('ph_')).length, 0);
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].properties.$process_person_profile, false);
+  assert.equal(sent[0].properties.token, 'phc_local_test_only');
+  assert.equal(sent[0].properties.$current_url, 'https://' + hosts[0] + '/docs/');
+  assert.equal(sent[0].properties.$initial_current_url, undefined);
+  collector.setConsent('granted');
+  assert.notEqual(ph.get_distinct_id(), first);
+  assert.ok(dom.window.document.cookie.includes('ph_'));
+  assert.ok(Object.keys(dom.window.localStorage).some(key => key.startsWith('ph_')));
+  const granted = ph.get_distinct_id();
+  sdk.init('phc_local_test_only', {...ph.config, capture_pageview: false}, 'reloadCheck');
+  assert.equal(sdk.reloadCheck.get_distinct_id(), granted);
+  collector.setConsent('denied');
+  assert.notEqual(ph.get_distinct_id(), granted);
+  assert.equal(dom.window.document.cookie, '');
+  assert.equal(Object.keys(dom.window.localStorage).filter(key => key.startsWith('ph_')).length, 0);
+  assert.equal(ph.config.persistence, 'memory');
+});
