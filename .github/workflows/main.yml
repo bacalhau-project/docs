@@ -23,7 +23,7 @@ jobs:
       POSTHOG_PUBLIC_KEY: ${{ secrets.POSTHOG_PUBLIC_KEY || vars.POSTHOG_PUBLIC_KEY }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
