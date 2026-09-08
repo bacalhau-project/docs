@@ -19,6 +19,8 @@ jobs:
   build:
     name: Build Docusaurus
     runs-on: ubuntu-latest
+    env:
+      POSTHOG_PUBLIC_KEY: ${{ secrets.POSTHOG_PUBLIC_KEY || vars.POSTHOG_PUBLIC_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5

@@ -20,6 +20,22 @@ runs:
       shell: bash
       run: npm ci
 
+    - name: Analytics tests
+      shell: bash
+      run: npm run test:analytics
+
+    - name: Image metadata tests
+      shell: bash
+      run: npm run test:image-metadata
+
+    - name: Dependency audit
+      shell: bash
+      run: npm audit
+
+    - name: Type check
+      shell: bash
+      run: npm run typecheck
+
     - name: Build
       shell: bash
       run: npm run build

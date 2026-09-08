@@ -3,7 +3,13 @@ import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import { redirects, createRedirects } from './redirects' // Add this line
 
+if (process.env.NODE_ENV === 'production' && !process.env.POSTHOG_PUBLIC_KEY) {
+  throw new Error('POSTHOG_PUBLIC_KEY is required for production builds');
+}
+
 const config: Config = {
+  customFields: {posthogPublicKey: process.env.POSTHOG_PUBLIC_KEY || ''},
+  clientModules: [require.resolve('./src/analytics/client.js')],
   title: 'Bacalhau',
   tagline: 'Distributed Compute Over Data',
   favicon: 'img/favicon.png',
