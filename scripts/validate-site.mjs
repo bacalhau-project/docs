@@ -1,3 +1,5 @@
+import {JSDOM} from 'jsdom'
+import {socialImage} from '../src/seo/metadata.mjs'
 import { readdir, readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -77,3 +79,24 @@ if (!installation.includes('https://get.bacalhau.org/install.sh')) {
 }
 
 console.log(`Validated ${htmlFiles.length} HTML files and ${sitemapUrls.length} sitemap URLs.`)
+
+const cards = JSON.parse(await readFile(join(buildDirectory, 'img/social/manifest.json'), 'utf8'))
+if (cards.length !== sitemapUrls.length) throw new Error('Social card coverage differs from sitemap')
+for (const card of cards) {
+  const document = new JSDOM(await readFile(join(buildDirectory, card.path, 'index.html'), 'utf8')).window.document
+  for (const selector of ['meta[property="og:image"]', 'meta[name="twitter:image"]']) {
+    const nodes = document.querySelectorAll(selector)
+    if (nodes.length !== 1 || new URL(nodes[0].content).pathname !== socialImage(card.path)) throw new Error('Incorrect social image metadata: ' + card.path)
+  }
+  for (const selector of ['meta[property="og:image:alt"]', 'meta[name="twitter:image:alt"]']) {
+    if (!document.querySelector(selector)?.content) throw new Error('Missing social image alt: ' + card.path)
+  }
+  const png = await readFile(join(buildDirectory, card.image))
+  if (png.subarray(1,4).toString() !== 'PNG' || png.readUInt32BE(16) !== 1200 || png.readUInt32BE(20) !== 630) throw new Error('Invalid social PNG: ' + card.path)
+  if (/^(Blog|Description:|Compute Node|Release Highlights)$/.test(document.querySelector('meta[name="description"]')?.content || '')) throw new Error('Placeholder description: ' + card.path)
+}
+console.log('Validated ' + cards.length + ' unique social PNGs, metadata and descriptions.')
+
+const icon = await readFile(join(buildDirectory, 'favicon.ico'))
+const originalIcon = await readFile(join(root, 'static/img/favicon.png'))
+if (icon.readUInt16LE(2) !== 1 || icon.readUInt16LE(4) !== 1 || icon.readUInt32LE(18) !== 22 || !icon.subarray(22).equals(originalIcon)) throw new Error('Invalid canonical favicon asset')

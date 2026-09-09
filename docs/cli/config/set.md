@@ -1,3 +1,7 @@
+---
+description: Set and validate a node configuration value. Learn the command syntax, key handling, examples, and when a node restart is required.
+---
+
 # Config Set
 
 ## Description:

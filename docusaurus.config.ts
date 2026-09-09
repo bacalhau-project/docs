@@ -70,6 +70,10 @@ const config: Config = {
     [
       'classic',
       {
+        blog: {
+          blogDescription: 'Project updates, technical articles, and community stories about open-source distributed computing.',
+          blogTitle: 'Project Blog',
+        },
         docs: {
           path: 'docs',
           routeBasePath: 'docs',
