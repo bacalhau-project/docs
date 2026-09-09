@@ -9,6 +9,7 @@ export default function Layout(props) {
   const {pathname} = useLocation();
   const image = useBaseUrl(socialImage(pathname), {absolute:true});
   const label = props.title || pathname.split('/').filter(Boolean).join(' · ').replaceAll('-', ' ') || 'Distributed Compute Over Data';
+  if (pathname !== '/' && pathname !== '/blog/') return <OriginalLayout {...props} />;
   return <><OriginalLayout {...props} /><Head>
     <meta property="og:image" content={image} />
     <meta name="twitter:image" content={image} />
