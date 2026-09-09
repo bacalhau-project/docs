@@ -100,3 +100,12 @@ console.log('Validated ' + cards.length + ' unique social PNGs, metadata and des
 const icon = await readFile(join(buildDirectory, 'favicon.ico'))
 const originalIcon = await readFile(join(root, 'static/img/favicon.png'))
 if (icon.readUInt16LE(2) !== 1 || icon.readUInt16LE(4) !== 1 || icon.readUInt32LE(18) !== 22 || !icon.subarray(22).equals(originalIcon)) throw new Error('Invalid canonical favicon asset')
+
+for (const file of htmlFiles) {
+  const document = new JSDOM(await readFile(file, 'utf8')).window.document
+  for (const node of document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]')) {
+    const url = new URL(node.content)
+    await requireFile(join(buildDirectory, decodeURIComponent(url.pathname)))
+  }
+}
+console.log('All HTML social image references resolve, including excluded and error pages.')
