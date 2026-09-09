@@ -97,7 +97,7 @@ export default function Home(): ReactNode {
     return (
         <Layout
           title="Distributed Compute Over Data"
-            description="Bacalhau is a platform for fast, cost efficient, and secure computation that enables users to run compute jobs where the data is generated and stored.">
+            description="Open-source distributed compute orchestration. Run workloads near their data, manage jobs across nodes, and explore documentation and use cases.">
             <HomepageHeader/>
             <main>
                 <HomepageFeatures />

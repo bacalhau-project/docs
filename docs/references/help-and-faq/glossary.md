@@ -1,4 +1,5 @@
 ---
+description: Definitions of compute nodes, requester nodes, jobs, tasks, executions, and other terms used in distributed compute orchestration.
 slug: /references/glossary
 ---
 
