@@ -50,5 +50,5 @@ Bacalhau is useful when moving raw data is slow, expensive, unreliable, or restr
 ## Resources
 
 - GitHub: https://github.com/bacalhau-project/bacalhau
-- Discord: https://bit.ly/bacalhau-project-slack
+- Slack: https://bit.ly/bacalhau-project-slack
 - Website: https://bacalhau.org

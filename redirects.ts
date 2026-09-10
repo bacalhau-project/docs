@@ -4,6 +4,8 @@ import type { RedirectItem } from '@docusaurus/plugin-client-redirects/lib/types
 // bacalhau.org/docs. These redirect pages resolve the legacy paths that moved
 // to a different section of the current documentation.
 const redirects: RedirectItem[] = [
+  // The project blog lives on its dedicated host; do not index an empty local listing.
+  { from: '/blog', to: 'https://blog.bacalhau.org/' },
   { from: '/docs/getting-started/cli/overview', to: '/docs/cli' },
   { from: '/docs/getting-started/cli', to: '/docs' },
   { from: '/docs/getting-started/architecture', to: '/docs/overview/architecture' },

@@ -60,12 +60,6 @@ export default function StructuredData({
         {
           '@type': 'ListItem',
           position: 2,
-          name: 'Guides',
-          item: `${siteUrl}/docs/guides/`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
           name: title,
           item: url,
         },
