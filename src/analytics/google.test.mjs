@@ -123,7 +123,36 @@ test('ordinary GA traffic omits debug_mode entirely instead of sending false', (
   });
   const payload = events(dom.window)[0][2];
   assert.equal(Object.hasOwn(payload, 'debug_mode'), false);
+  const config = commands(dom.window).find(args => args[0] === 'config')[2];
+  assert.equal(Object.hasOwn(config, 'debug_mode'), false);
+  assert.equal(config.traffic_type, 'external');
+  assert.equal(config.page_location, payload.page_location);
+  assert.equal(config.page_referrer, payload.page_referrer);
   assert.equal(payload.page_referrer, 'https://search.example');
   assert.equal(payload.traffic_type, 'external');
   dom.window.close();
+});
+
+test('destination config carries QA and internal context before SDK initialization and on consent changes', () => {
+  for (const internal of [false, true]) {
+    const {dom, win, collector} = setup();
+    if (internal) win.localStorage.setItem('expanso_analytics_internal', 'true');
+    collector.navigate();
+    collector.setConsent('granted');
+    collector.setConsent('denied');
+    const configs = commands(win).filter(args => args[0] === 'config');
+    assert.equal(configs.length, 3);
+    for (const [, destination, config] of configs) {
+      assert.equal(destination, googleDestination);
+      assert.equal(config.debug_mode, true);
+      assert.equal(config.analytics_test, true);
+      assert.equal(config.is_internal, internal);
+      assert.equal(config.traffic_type, internal ? 'internal' : 'analytics_test');
+      assert.equal(config.page_location, 'https://' + hosts[0] + '/');
+      assert.equal(config.page_referrer, '');
+      assert.equal(config.site_id, 'legacy_website');
+      assert.equal(config.send_page_view, false);
+    }
+    dom.window.close();
+  }
 });
