@@ -2,7 +2,8 @@ export const googleDestination = 'G-2MDP3SDFL7';
 const identityKey = 'expanso_legacy_ga_client';
 const layerName = 'legacyAnalyticsLayer';
 const eventNames = new Set(['$pageview', 'analytics_consent_updated', 'code_copy', 'search_used', 'page_not_found', 'outbound_click']);
-const propertyNames = ['site_id', 'site_host', 'environment', 'analytics_schema_version', 'consent_state', 'identity_mode', 'analytics_test', 'is_internal', 'traffic_class', 'classification_version', 'search_length', 'result_count', 'destination_host', 'destination_path', 'link_placement'];
+const sessionPropertyNames = ['site_id', 'site_host', 'environment', 'analytics_schema_version', 'consent_state', 'identity_mode', 'analytics_test', 'is_internal', 'traffic_class', 'classification_version'];
+const propertyNames = [...sessionPropertyNames, 'search_length', 'result_count', 'destination_host', 'destination_path', 'link_placement'];
 const consentSettings = state => ({analytics_storage: state === 'granted' ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'});
 function getIdentity(win) {
   try {
@@ -38,8 +39,16 @@ export function createGoogleAdapter(win, initialConsent) {
   gtag('set', 'url_passthrough', false);
   gtag('js', new Date());
   let initialized = false;
+  function sessionContext(properties) {
+    return {
+      ...Object.fromEntries(sessionPropertyNames.filter(key => properties[key] !== undefined).map(key => [key, properties[key]])),
+      ...(properties.analytics_test || properties.is_internal ? {debug_mode: true} : {}),
+      traffic_type: properties.is_internal ? 'internal' : properties.analytics_test ? 'analytics_test' : 'external',
+    };
+  }
   function configuration(properties) {
     return {
+      ...sessionContext(properties),
       send_page_view: false, client_id: identity, cookie_prefix: 'expanso_legacy', cookie_domain: 'none',
       allow_google_signals: false, allow_ad_personalization_signals: false,
       page_location: properties.$current_url, page_referrer: properties.$referrer || '',
@@ -74,8 +83,7 @@ export function createGoogleAdapter(win, initialConsent) {
         ...metadata, send_to: googleDestination, page_location: properties.$current_url,
         page_referrer: properties.$referrer || '',
         page_title: properties.site_id === 'legacy_docs' ? 'Legacy documentation' : 'Legacy website',
-        ...(properties.analytics_test || properties.is_internal ? {debug_mode: true} : {}),
-        traffic_type: properties.is_internal ? 'internal' : properties.analytics_test ? 'analytics_test' : 'external',
+        ...sessionContext(properties),
       });
     },
   };
