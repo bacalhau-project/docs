@@ -78,7 +78,7 @@ test('GA receives sanitized routes and safe actions with matching synthetic/inte
   collector.navigate();
   collector.capture('search_used', {search_length: 12, raw_query: 'private@example.org'});
   win.history.pushState({}, '', '/docs/private-person?q=private#secret'); collector.navigate();
-  collector.capture('outbound_click', {destination_host: 'example.org', raw_code: 'private code'});
+  collector.capture('outbound_click', {destination_host: 'example.org', destination_path: '[redacted]', link_placement: 'content', raw_code: 'private code'});
   collector.capture('$autocapture', {raw_query: 'secret'});
   const payloads = events(win).map(args => args[2]);
   assert.ok(payloads.every(p => p.analytics_test && p.is_internal && p.debug_mode && p.traffic_type === 'internal'));
@@ -87,6 +87,10 @@ test('GA receives sanitized routes and safe actions with matching synthetic/inte
   assert.ok(!JSON.stringify(commands(win)).includes('private'));
   assert.equal(payloads.length, captured.length);
   assert.equal(events(win)[1][2].search_length, 12);
+  for (const property of ['destination_host', 'destination_path', 'link_placement']) {
+    assert.equal(payloads.at(-1)[property], captured.at(-1)[1][property]);
+    assert.ok(payloads.at(-1)[property]);
+  }
   dom.window.close();
 });
 test('nonproduction hosts and DNT never load the Google destination', () => {

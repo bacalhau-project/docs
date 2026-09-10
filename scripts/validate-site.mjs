@@ -46,6 +46,10 @@ if (sitemapUrls.length < 100) {
   throw new Error(`Expected at least 100 sitemap URLs with lastmod; found ${sitemapUrls.length}`)
 }
 
+if (sitemap.includes('<loc>https://bacalhau.org/blog/</loc>')) throw new Error('Redirected blog must not appear in sitemap')
+const blogRedirect = new JSDOM(await readFile(join(buildDirectory, 'blog', 'index.html'), 'utf8')).window.document
+if (blogRedirect.querySelector('link[rel="canonical"]')?.href !== 'https://blog.bacalhau.org/' || !blogRedirect.querySelector('meta[http-equiv="refresh"]')?.content.includes('https://blog.bacalhau.org/')) throw new Error('Missing project blog redirect')
+
 const htmlFiles = (await filesRecursively(buildDirectory)).filter((path) =>
   path.endsWith('.html'),
 )
@@ -66,6 +70,15 @@ for (const route of [
   'data-locality-and-sovereignty',
 ]) {
   const html = await readFile(join(buildDirectory, 'docs', 'guides', route, 'index.html'), 'utf8')
+  const document = new JSDOM(html).window.document
+  for (const script of document.querySelectorAll('script[type="application/ld+json"]')) {
+    const schemas = [JSON.parse(script.textContent)].flat()
+    for (const schema of schemas.filter(value => value['@type'] === 'BreadcrumbList')) {
+      for (const item of schema.itemListElement) {
+        if (item.item) await requireFile(join(buildDirectory, new URL(item.item).pathname, 'index.html'))
+      }
+    }
+  }
   for (const schema of ['TechArticle', 'FAQPage', 'BreadcrumbList']) {
     if (!html.includes(`\"@type\":\"${schema}\"`)) {
       throw new Error(`Missing ${schema} JSON-LD on ${route}`)
