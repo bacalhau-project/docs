@@ -4,6 +4,23 @@ import type { RedirectItem } from '@docusaurus/plugin-client-redirects/lib/types
 // bacalhau.org/docs. These redirect pages resolve the legacy paths that moved
 // to a different section of the current documentation.
 const redirects: RedirectItem[] = [
+  // Exact historical routes observed in request logs with existing content successors.
+  // The legacy docs hostname already adds /docs before reaching these pages.
+  { from: '/docs/v.1.3.0/references/api/jobs', to: '/docs/api/jobs/' },
+  { from: '/docs/v.1.3.0/references/api/index', to: '/docs/api/' },
+  { from: '/docs/dev/api/nodes', to: '/docs/api/nodes/' },
+  { from: '/docs/v.1.3.0/setting-up/running-node/job-selection', to: '/docs/guides/selection-policy/' },
+  { from: '/docs/v.1.3.0/setting-up/jobs/state', to: '/docs/specifications/other/state/' },
+  { from: '/docs/v.1.3.1/references/other-specifications/publishers/ipfs', to: '/docs/publishers/ipfs/' },
+  { from: '/docs/category/publishers', to: '/docs/publishers/' },
+  { from: '/docs/v.1.3.0/references/cli-reference/cli/job/index-7', to: '/docs/cli/job/run/' },
+  { from: '/docs/v.1.3.0/references/cli-reference/cli/job/index-8', to: '/docs/cli/job/stop/' },
+  { from: '/docs/references/cli-reference/cli/config/set', to: '/docs/cli/config/set/' },
+  { from: '/docs/references/jobs/job/task/network', to: '/docs/specifications/job/network/' },
+  { from: '/docs/documentation/v1.6.x/references/jobs/job/constraint', to: '/docs/specifications/job/constraint/' },
+  { from: '/docs/v.1.3.2-1/setting-up/workload-onboarding/container/docker-workload-onboarding', to: '/docs/references/developers/workload-onboarding/docker/' },
+  { from: '/docs/getting-started/wasm-workload-onboarding', to: '/docs/references/developers/workload-onboarding/wasm/' },
+  { from: '/docs/documentation/v.1.5.0/integrations/lilypad', to: '/integrations/lilypad/' },
   // The project blog lives on its dedicated host; do not index an empty local listing.
   { from: '/blog', to: 'https://blog.bacalhau.org/' },
   { from: '/docs/getting-started/cli/overview', to: '/docs/cli' },

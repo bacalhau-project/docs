@@ -50,6 +50,36 @@ if (sitemap.includes('<loc>https://bacalhau.org/blog/</loc>')) throw new Error('
 const blogRedirect = new JSDOM(await readFile(join(buildDirectory, 'blog', 'index.html'), 'utf8')).window.document
 if (blogRedirect.querySelector('link[rel="canonical"]')?.href !== 'https://blog.bacalhau.org/' || !blogRedirect.querySelector('meta[http-equiv="refresh"]')?.content.includes('https://blog.bacalhau.org/')) throw new Error('Missing project blog redirect')
 
+// Independently pin the approved historical aliases and their content successors.
+const historicalAliases = [
+  ['/docs/v.1.3.0/references/api/jobs', '/docs/api/jobs/'],
+  ['/docs/v.1.3.0/references/api/index', '/docs/api/'],
+  ['/docs/dev/api/nodes', '/docs/api/nodes/'],
+  ['/docs/v.1.3.0/setting-up/running-node/job-selection', '/docs/guides/selection-policy/'],
+  ['/docs/v.1.3.0/setting-up/jobs/state', '/docs/specifications/other/state/'],
+  ['/docs/v.1.3.1/references/other-specifications/publishers/ipfs', '/docs/publishers/ipfs/'],
+  ['/docs/category/publishers', '/docs/publishers/'],
+  ['/docs/v.1.3.0/references/cli-reference/cli/job/index-7', '/docs/cli/job/run/'],
+  ['/docs/v.1.3.0/references/cli-reference/cli/job/index-8', '/docs/cli/job/stop/'],
+  ['/docs/references/cli-reference/cli/config/set', '/docs/cli/config/set/'],
+  ['/docs/references/jobs/job/task/network', '/docs/specifications/job/network/'],
+  ['/docs/documentation/v1.6.x/references/jobs/job/constraint', '/docs/specifications/job/constraint/'],
+  ['/docs/v.1.3.2-1/setting-up/workload-onboarding/container/docker-workload-onboarding', '/docs/references/developers/workload-onboarding/docker/'],
+  ['/docs/getting-started/wasm-workload-onboarding', '/docs/references/developers/workload-onboarding/wasm/'],
+  ['/docs/documentation/v.1.5.0/integrations/lilypad', '/integrations/lilypad/'],
+]
+for (const [alias, target] of historicalAliases) {
+  if (alias + '/' === target) throw new Error('Historical alias redirects to itself: ' + alias)
+  const aliasDocument = new JSDOM(await readFile(join(buildDirectory, alias, 'index.html'), 'utf8')).window.document
+  const canonical = aliasDocument.querySelector('link[rel="canonical"]')?.getAttribute('href')
+  const refresh = aliasDocument.querySelector('meta[http-equiv="refresh"]')?.content
+  if (canonical !== target || refresh !== '0; url=' + target) throw new Error('Incorrect historical redirect: ' + alias)
+  if (sitemap.includes('<loc>https://bacalhau.org' + alias + '/</loc>') || sitemap.includes('<loc>https://bacalhau.org' + alias + '</loc>')) throw new Error('Historical alias appears in sitemap: ' + alias)
+  const targetDocument = new JSDOM(await readFile(join(buildDirectory, target, 'index.html'), 'utf8')).window.document
+  if (targetDocument.querySelector('meta[http-equiv="refresh"]') || targetDocument.querySelector('link[rel="canonical"]')?.href !== 'https://bacalhau.org' + target || !targetDocument.querySelector('h1')) throw new Error('Historical redirect target is not a canonical content page: ' + target)
+}
+console.log('Validated ' + historicalAliases.length + ' exact historical redirects to canonical content pages.')
+
 const htmlFiles = (await filesRecursively(buildDirectory)).filter((path) =>
   path.endsWith('.html'),
 )
