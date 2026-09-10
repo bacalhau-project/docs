@@ -4,6 +4,8 @@ import type { RedirectItem } from '@docusaurus/plugin-client-redirects/lib/types
 // bacalhau.org/docs. These redirect pages resolve the legacy paths that moved
 // to a different section of the current documentation.
 const redirects: RedirectItem[] = [
+  { from: '/docs/overview/key-concets', to: '/docs/overview/key-concepts/' }, // cspell:ignore concets
+  { from: '/docs/documentation/v.1.3.1/references/cli-reference/cli/config/list', to: '/docs/cli/config/list/' },
   // Exact historical routes observed in request logs with existing content successors.
   // The legacy docs hostname already adds /docs before reaching these pages.
   { from: '/docs/v.1.3.0/references/api/jobs', to: '/docs/api/jobs/' },
