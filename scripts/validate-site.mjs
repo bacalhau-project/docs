@@ -52,6 +52,8 @@ if (blogRedirect.querySelector('link[rel="canonical"]')?.href !== 'https://blog.
 
 // Independently pin the approved historical aliases and their content successors.
 const historicalAliases = [
+  ['/docs/overview/key-concets', '/docs/overview/key-concepts/'], // cspell:ignore concets
+  ['/docs/documentation/v.1.3.1/references/cli-reference/cli/config/list', '/docs/cli/config/list/'],
   ['/docs/v.1.3.0/references/api/jobs', '/docs/api/jobs/'],
   ['/docs/v.1.3.0/references/api/index', '/docs/api/'],
   ['/docs/dev/api/nodes', '/docs/api/nodes/'],
