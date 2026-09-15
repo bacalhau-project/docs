@@ -31,7 +31,7 @@
     "lottie-web": "^5.13.0",
     "posthog-js": "1.428.7",
     "prism-react-renderer": "^2.4.1",
-    "react": "^19.2.8",
+    "react": "^19.3.0",
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
