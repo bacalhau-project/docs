@@ -47,7 +47,7 @@ export function createCollector(sdk, win, key, production, knownRoutes, googleFa
   let lastRoute;
   const google = googleFactory(win, consent);
   sdk.init(key, {
-    api_host: 'https://ph.expanso.io', capture_pageview: false, capture_pageleave: false,
+    api_host: 'https://web.t.expanso.io', capture_pageview: false, capture_pageleave: false,
     autocapture: false, disable_session_recording: true, person_profiles: 'never',
     persistence: persistence(consent), cross_subdomain_cookie: false,
     save_referrer: false, save_campaign_params: false, store_google: false,
