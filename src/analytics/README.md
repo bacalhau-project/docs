@@ -32,7 +32,7 @@ The shared collector supplies the exact same sanitized page/action envelope to b
 
 Local tests verify generated Google commands and shared routing with all network access disabled. Google receipt and Google-controlled automatic behavior still require parent-side production verification after disabling old tags and Enhanced Measurement.
 
-Run `node scripts/run-local-gates.mjs <evidence-directory>` on Node 20 to retain complete logs for install, analytics, image metadata, typecheck, spelling, build, site validation, workflow syntax, diff checks, audit, install-script review and the expected missing-key failure. Protected legacy names are redacted from logs.
+Run `node scripts/run-local-gates.mjs <evidence-directory>` on Node 20 to retain complete logs for install, analytics, image metadata, Scarf pixel, typecheck, spelling, build, site validation, workflow syntax, diff checks, audit, install-script review and the expected missing-key failure. Protected legacy names are redacted from logs.
 
 ## Scarf visit pixel
 
