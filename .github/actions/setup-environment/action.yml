@@ -32,6 +32,10 @@ runs:
       shell: bash
       run: npm run test:image-metadata
 
+    - name: Scarf pixel tests
+      shell: bash
+      run: npm run test:scarf-pixel
+
     - name: Dependency audit
       shell: bash
       run: npm audit

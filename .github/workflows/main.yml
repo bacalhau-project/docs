@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       POSTHOG_PUBLIC_KEY: ${{ secrets.POSTHOG_PUBLIC_KEY || vars.POSTHOG_PUBLIC_KEY }}
+      # Only this deploy build emits the Scarf pixel (plugins/scarf-pixel.mjs).
+      BACALHAU_SCARF_PIXEL: 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
