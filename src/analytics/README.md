@@ -32,4 +32,10 @@ The shared collector supplies the exact same sanitized page/action envelope to b
 
 Local tests verify generated Google commands and shared routing with all network access disabled. Google receipt and Google-controlled automatic behavior still require parent-side production verification after disabling old tags and Enhanced Measurement.
 
-Run `node scripts/run-local-gates.mjs <evidence-directory>` on Node 20 to retain complete logs for install, analytics, image metadata, typecheck, spelling, build, site validation, workflow syntax, diff checks, audit, install-script review and the expected missing-key failure. Protected legacy names are redacted from logs.
+Run `node scripts/run-local-gates.mjs <evidence-directory>` on Node 20 to retain complete logs for install, analytics, image metadata, Scarf pixel, typecheck, spelling, build, site validation, workflow syntax, diff checks, audit, install-script review and the expected missing-key failure. Protected legacy names are redacted from logs.
+
+## Scarf visit pixel
+
+`plugins/scarf-pixel.mjs` appends the Scarf-issued `<img>` pixel to the end of `<body>` on every rendered page. It is plain HTML with no client JavaScript, so it counts full page loads, not client-side route changes. It is not gated on the analytics preference: the pixel is cookie-free and sends only what any image request carries (IP address, user agent and, through `referrerpolicy`, the page URL). The preference panel discloses this for all visitors.
+
+Only the `build` job in `.github/workflows/main.yml` sets `BACALHAU_SCARF_PIXEL=true`; PR checks, previews and local builds never emit it. `npm run test:scarf-pixel` covers the plugin, and `npm run validate:site` fails if a flagged build lacks the exact tag on any rendered page or an unflagged build mentions `static.scarf.sh` anywhere.

@@ -2,6 +2,7 @@ import { themes as prismThemes } from 'prism-react-renderer'
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import { redirects, createRedirects } from './redirects' // Add this line
+import scarfPixelPlugin from './plugins/scarf-pixel.mjs'
 
 if (process.env.NODE_ENV === 'production' && !process.env.POSTHOG_PUBLIC_KEY) {
   throw new Error('POSTHOG_PUBLIC_KEY is required for production builds');
@@ -39,6 +40,7 @@ const config: Config = {
   },
 
   plugins: [
+    scarfPixelPlugin,
     [
       '@docusaurus/plugin-client-redirects',
       {
