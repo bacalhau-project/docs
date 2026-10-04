@@ -3,13 +3,51 @@ import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import { redirects, createRedirects } from './redirects' // Add this line
 import scarfPixelPlugin from './plugins/scarf-pixel.mjs'
+import productionAnalyticsPlugin, {productionAnalyticsEnabled} from './plugins/production-analytics.mjs'
 
-if (process.env.NODE_ENV === 'production' && !process.env.POSTHOG_PUBLIC_KEY) {
+// Every third-party analytics tag hangs off this one switch; only the live-site
+// build job in .github/workflows/main.yml turns it on.
+const productionAnalytics = productionAnalyticsEnabled()
+
+if (productionAnalytics && !process.env.POSTHOG_PUBLIC_KEY) {
   throw new Error('POSTHOG_PUBLIC_KEY is required for production builds');
 }
 
+// Google Tag Manager is only handed to the preset when analytics are on, so the
+// container (and everything it fires) never appears in a non-production build.
+const classicPreset: Preset.Options = {
+  blog: false,
+  docs: {
+    path: 'docs',
+    routeBasePath: 'docs',
+    sidebarPath: require.resolve('./sidebarsDocs.ts'),
+    editUrl: 'https://github.com/bacalhau-project/docs/tree/main/',
+    showLastUpdateTime: true,
+  },
+  theme: {
+    customCss: './src/css/custom.css',
+  },
+  sitemap: {
+    changefreq: 'weekly',
+    priority: 0.5,
+    // Exclude pages that have noindex or are not useful for search
+    ignorePatterns: [
+      '/search',
+      '/search/**',
+      '/tags/**',
+      '/docs/tags/**',
+      '/community/tags/**',
+    ],
+    filename: 'sitemap.xml',
+  },
+}
+
+if (productionAnalytics) {
+  classicPreset.googleTagManager = {containerId: 'GTM-M4ZC5QX7'}
+}
+
 const config: Config = {
-  customFields: {posthogPublicKey: process.env.POSTHOG_PUBLIC_KEY || ''},
+  customFields: {posthogPublicKey: productionAnalytics ? process.env.POSTHOG_PUBLIC_KEY : ''},
   clientModules: [require.resolve('./src/analytics/client.js')],
   title: 'Bacalhau',
   tagline: 'Distributed Compute Over Data',
@@ -40,6 +78,7 @@ const config: Config = {
   },
 
   plugins: [
+    productionAnalyticsPlugin,
     scarfPixelPlugin,
     [
       '@docusaurus/plugin-client-redirects',
@@ -68,40 +107,7 @@ const config: Config = {
     ],
   ],
 
-  presets: [
-    [
-      'classic',
-      {
-        blog: false,
-        docs: {
-          path: 'docs',
-          routeBasePath: 'docs',
-          sidebarPath: require.resolve('./sidebarsDocs.ts'),
-          editUrl: 'https://github.com/bacalhau-project/docs/tree/main/',
-          showLastUpdateTime: true,
-        },
-        theme: {
-          customCss: './src/css/custom.css',
-        },
-        googleTagManager: {
-          containerId: 'GTM-M4ZC5QX7',
-        },
-        sitemap: {
-          changefreq: 'weekly',
-          priority: 0.5,
-          // Exclude pages that have noindex or are not useful for search
-          ignorePatterns: [
-            '/search',
-            '/search/**',
-            '/tags/**',
-            '/docs/tags/**',
-            '/community/tags/**',
-          ],
-          filename: 'sitemap.xml',
-        },
-      } satisfies Preset.Options,
-    ],
-  ],
+  presets: [['classic', classicPreset]],
 
   headTags: [
     {
@@ -165,7 +171,7 @@ const config: Config = {
       apiKey: '00017896a702f2a79cf8b89a9dec5905',
       indexName: 'bacalhau',
       searchPagePath: 'search',
-      insights: true,
+      insights: productionAnalytics,
       placeholder: 'Search Bacalhau...'
     },
     navbar: {

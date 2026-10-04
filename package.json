@@ -18,7 +18,7 @@
     "validate:site": "node scripts/validate-site.mjs",
     "test:analytics": "node --test src/analytics/*.test.mjs",
     "test:image-metadata": "node --test tooling/image-metadata-adapter/*.test.mjs",
-    "test:scarf-pixel": "node --test plugins/*.test.mjs"
+    "test:plugins": "node --test plugins/*.test.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.2",

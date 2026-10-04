@@ -1,6 +1,7 @@
 import {JSDOM} from 'jsdom'
 import {socialImage} from '../src/seo/metadata.mjs'
-import {SCARF_PIXEL_SRC, scarfPixelEnabled} from '../plugins/scarf-pixel.mjs'
+import {SCARF_PIXEL_SRC} from '../plugins/scarf-pixel.mjs'
+import {ANALYTICS_MARKERS, productionAnalyticsEnabled} from '../plugins/production-analytics.mjs'
 import { readdir, readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -172,13 +173,24 @@ for (const card of cards) {
 
 console.log('Validated ' + cards.length + ' unique social PNGs, metadata and descriptions.')
 
-// The Scarf pixel ships only in the flagged production build: exactly once as
-// the last element of <body> on every rendered page, and nowhere otherwise.
-// Redirect stubs are skipped because the page they forward to counts the visit.
+// Every analytics tag ships only in the production-flagged build. There, each
+// rendered page carries the Google Tag Manager loader and the Scarf pixel
+// (exactly once, as the last element of <body>), and the client bundle carries
+// the PostHog proxy host and the Google Analytics loader. Redirect stubs are
+// skipped because the page they forward to counts the visit. Without the flag
+// no build artifact may mention any analytics host or identifier at all.
 const issuedScarfPixel = `<img referrerpolicy="no-referrer-when-downgrade" src="${SCARF_PIXEL_SRC}"`
 
-if (scarfPixelEnabled()) {
-  let pixelPages = 0
+const gtmLoader = 'https://www.googletagmanager.com/gtm.js?id=GTM-M4ZC5QX7'
+
+const gtmNoscript = 'https://www.googletagmanager.com/ns.html?id=GTM-M4ZC5QX7'
+
+const bundleMarkers = ['https://web.t.expanso.io', 'https://www.googletagmanager.com/gtag/js?id=', 'G-2MDP3SDFL7']
+
+const buildFiles = (await filesRecursively(buildDirectory)).filter(file => /\.(html|js|css|json|txt|xml|map)$/.test(file))
+
+if (productionAnalyticsEnabled()) {
+  let taggedPages = 0
 
   for (const file of htmlFiles) {
     const html = await readFile(file, 'utf8')
@@ -186,9 +198,14 @@ if (scarfPixelEnabled()) {
     const pixels = document.querySelectorAll('img[src*="static.scarf.sh"]')
 
     if (document.querySelector('meta[http-equiv="refresh"]')) {
-      if (pixels.length) throw new Error('Scarf pixel on redirect stub: ' + file)
+      if (pixels.length || html.includes('googletagmanager.com')) throw new Error('Analytics tag on redirect stub: ' + file)
       continue
     }
+
+    const gtmScripts = [...document.head.querySelectorAll('script:not([src])')].filter(script => script.textContent.includes(gtmLoader))
+    const noscriptFrames = [...document.body.querySelectorAll('noscript')].filter(node => node.innerHTML.includes(gtmNoscript))
+
+    if (gtmScripts.length !== 1 || noscriptFrames.length !== 1) throw new Error('Missing or duplicated Google Tag Manager tag: ' + file)
 
     const pixel = document.body.lastElementChild
 
@@ -198,18 +215,25 @@ if (scarfPixelEnabled()) {
       throw new Error('Missing or altered Scarf pixel at end of body: ' + file)
     }
 
-    pixelPages++
+    taggedPages++
   }
 
-  console.log('Validated the Scarf pixel at the end of body on ' + pixelPages + ' rendered pages.')
+  const bundles = await Promise.all(buildFiles.filter(file => file.endsWith('.js')).map(file => readFile(file, 'utf8')))
+
+  for (const marker of bundleMarkers) {
+    if (!bundles.some(source => source.includes(marker))) throw new Error('Production bundle lacks the analytics client: ' + marker)
+  }
+
+  console.log('Validated Google Tag Manager and the Scarf pixel on ' + taggedPages + ' rendered pages and the PostHog/Google Analytics client in the bundle.')
 } else {
-  for (const file of await filesRecursively(buildDirectory)) {
-    if (/\.(html|js|css|json|txt|xml)$/.test(file) && (await readFile(file, 'utf8')).includes('static.scarf.sh')) {
-      throw new Error('Scarf pixel present in a non-production build: ' + file)
-    }
+  for (const file of buildFiles) {
+    const source = await readFile(file, 'utf8')
+    const marker = ANALYTICS_MARKERS.find(value => source.includes(value))
+
+    if (marker) throw new Error('Analytics tag in a non-production build: ' + marker + ' in ' + file)
   }
 
-  console.log('Validated that this non-production build never references static.scarf.sh.')
+  console.log('Validated that this non-production build never references any analytics host or identifier.')
 }
 
 const icon = await readFile(join(buildDirectory, 'favicon.ico'))

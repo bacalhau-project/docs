@@ -1,19 +1,20 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import scarfPixelPlugin, {SCARF_PIXEL_ENV, SCARF_PIXEL_TAG} from './scarf-pixel.mjs'
+import scarfPixelPlugin, {SCARF_PIXEL_TAG} from './scarf-pixel.mjs'
+import {PRODUCTION_ANALYTICS_ENV} from './production-analytics.mjs'
 
 const issued =
   '<img referrerpolicy="no-referrer-when-downgrade" ' +
   'src="https://static.scarf.sh/a.png?x-pxid=b6a4d900-0e5d-432f-864d-4a926c580621"'
 
-test('emits nothing without the production flag', () => {
-  for (const env of [{}, {[SCARF_PIXEL_ENV]: ''}, {[SCARF_PIXEL_ENV]: '1'}, {[SCARF_PIXEL_ENV]: 'false'}]) {
+test('emits nothing without the production-analytics switch', () => {
+  for (const env of [{}, {[PRODUCTION_ANALYTICS_ENV]: ''}, {[PRODUCTION_ANALYTICS_ENV]: '1'}, {[PRODUCTION_ANALYTICS_ENV]: 'false'}, {BACALHAU_SCARF_PIXEL: 'true'}]) {
     assert.deepEqual(scarfPixelPlugin({}, {env}).injectHtmlTags(), {})
   }
 })
 
-test('emits the Scarf-issued tag at the end of body with the production flag', () => {
-  const tags = scarfPixelPlugin({}, {env: {[SCARF_PIXEL_ENV]: 'true'}}).injectHtmlTags()
+test('emits the Scarf-issued tag at the end of body with the production-analytics switch', () => {
+  const tags = scarfPixelPlugin({}, {env: {[PRODUCTION_ANALYTICS_ENV]: 'true'}}).injectHtmlTags()
   assert.deepEqual(tags, {postBodyTags: [SCARF_PIXEL_TAG]})
   assert.ok(SCARF_PIXEL_TAG.startsWith(issued))
 

@@ -13,22 +13,30 @@ const signature = new RegExp('baca' + 'lhau', 'gi');
 
 const redact = text => text.replace(signature, 'legacy-project');
 
-const environment = {...process.env, POSTHOG_PUBLIC_KEY: 'phc_local_build_validation'};
+// Non-production builds carry no analytics and need no PostHog key. The
+// production-flagged checks mirror the live-site deploy job and the PR gate.
+const switches = ['POSTHOG_PUBLIC_KEY', 'BACALHAU_PRODUCTION_ANALYTICS'];
+
+const environment = Object.fromEntries(Object.entries(process.env).filter(([key]) => !switches.includes(key)));
+
+const production = {BACALHAU_PRODUCTION_ANALYTICS: 'true', POSTHOG_PUBLIC_KEY: 'phc_local_build_validation'};
 
 const checks = [
   ['install', 'npm', ['ci']],
   ['analytics', 'npm', ['run', 'test:analytics']],
   ['image-metadata', 'npm', ['run', 'test:image-metadata']],
-  ['scarf-pixel', 'npm', ['run', 'test:scarf-pixel']],
+  ['plugins', 'npm', ['run', 'test:plugins']],
   ['typecheck', 'npm', ['run', 'typecheck']],
   ['spellcheck', 'npm', ['run', 'spell-check']],
   ['build', 'npm', ['run', 'build']],
   ['site', 'npm', ['run', 'validate:site']],
+  ['build-production', 'npm', ['run', 'build'], 0, production],
+  ['site-production', 'npm', ['run', 'validate:site'], 0, production],
   ['workflows', 'actionlint', []],
   ['diff', 'git', ['diff', '--check']],
   ['audit', 'npm', ['audit']],
   ['install-scripts', 'npm', ['install-scripts', 'ls']],
-  ['missing-key', 'npm', ['run', 'build'], 1],
+  ['missing-key', 'npm', ['run', 'build'], 1, {BACALHAU_PRODUCTION_ANALYTICS: 'true'}],
 ];
 
 async function hashTaskSources() {
@@ -51,12 +59,10 @@ const sourceHashesBefore = await hashTaskSources();
 
 const results = [];
 
-for (const [name, command, args, expectedExit = 0] of checks) {
+for (const [name, command, args, expectedExit = 0, overrides = {}] of checks) {
   const started = new Date().toISOString();
   console.log(`Running ${command} ${args.join(' ')}`);
-  const checkEnvironment = {...environment};
-
-  if (name === 'missing-key') delete checkEnvironment.POSTHOG_PUBLIC_KEY;
+  const checkEnvironment = {...environment, ...overrides};
 
   const result = await new Promise(resolve => {
     const child = spawn(command, args, {env: checkEnvironment, stdio: ['ignore', 'pipe', 'pipe']});
@@ -77,7 +83,7 @@ const sourceHashes = await hashTaskSources();
 
 const sourceHashesMatch = JSON.stringify(sourceHashesBefore) === JSON.stringify(sourceHashes);
 
-await writeFile(path.join(directory, 'summary.json'), JSON.stringify({node: process.version, buildKey: 'phc_local_build_validation', baseCommit, sourceHashesBefore, sourceHashes, sourceHashesMatch, results}, null, 2) + '\n');
+await writeFile(path.join(directory, 'summary.json'), JSON.stringify({node: process.version, buildKey: production.POSTHOG_PUBLIC_KEY, baseCommit, sourceHashesBefore, sourceHashes, sourceHashesMatch, results}, null, 2) + '\n');
 
 console.log(`Full gate evidence: ${directory}`);
 
