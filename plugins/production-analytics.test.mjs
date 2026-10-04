@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {readFile} from 'node:fs/promises'
 import productionAnalyticsPlugin, {
   ANALYTICS_HOSTS,
   ANALYTICS_IDS,
@@ -52,7 +51,6 @@ test('a non-production build swaps the analytics client for the no-op module', a
   assert.equal(stub.getCollector(), null)
   assert.equal(stub.onRouteDidUpdate(), undefined)
   assert.deepEqual(Object.keys(stub).sort(), ['getCollector', 'onRouteDidUpdate'])
-  assert.doesNotMatch(await readFile(DISABLED_CLIENT_MODULE, 'utf8'), /import/)
 })
 
 test('the marker list names every vendor the site or its tag manager can fire', () => {

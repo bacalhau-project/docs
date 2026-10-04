@@ -181,7 +181,9 @@ console.log('Validated ' + cards.length + ' unique social PNGs, metadata and des
 // no build artifact may mention any analytics host or identifier at all.
 const issuedScarfPixel = `<img referrerpolicy="no-referrer-when-downgrade" src="${SCARF_PIXEL_SRC}"`
 
-const gtmLoader = 'https://www.googletagmanager.com/gtm.js?id=GTM-M4ZC5QX7'
+const gtmLoader = 'googletagmanager.com/gtm.js'
+
+const gtmContainer = 'GTM-M4ZC5QX7'
 
 const gtmNoscript = 'https://www.googletagmanager.com/ns.html?id=GTM-M4ZC5QX7'
 
@@ -202,7 +204,7 @@ if (productionAnalyticsEnabled()) {
       continue
     }
 
-    const gtmScripts = [...document.head.querySelectorAll('script:not([src])')].filter(script => script.textContent.includes(gtmLoader))
+    const gtmScripts = [...document.head.querySelectorAll('script:not([src])')].filter(script => script.textContent.includes(gtmLoader) && script.textContent.includes(gtmContainer))
     const noscriptFrames = [...document.body.querySelectorAll('noscript')].filter(node => node.innerHTML.includes(gtmNoscript))
 
     if (gtmScripts.length !== 1 || noscriptFrames.length !== 1) throw new Error('Missing or duplicated Google Tag Manager tag: ' + file)
