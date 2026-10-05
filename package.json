@@ -13,6 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
+    "audit": "audit-ci --config ./audit-ci.jsonc",
     "spell-check": "cspell lint --quiet --unique --gitignore-root . \"**/*.{md,mdx,ts,tsx,js,jsx,mjs,cjs,json}\"",
     "generate:llms": "node scripts/generate-llms.mjs",
     "validate:site": "node scripts/validate-site.mjs",
@@ -40,6 +41,7 @@
     "@docusaurus/tsconfig": "^3.10.2",
     "@docusaurus/types": "^3.10.2",
     "@resvg/resvg-js": "2.6.2",
+    "audit-ci": "7.1.0",
     "cspell": "^8.6.0",
     "jsdom": "27.4.0",
     "typescript": "~5.8.3"

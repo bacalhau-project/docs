@@ -34,7 +34,7 @@ const checks = [
   ['site-production', 'npm', ['run', 'validate:site'], 0, production],
   ['workflows', 'actionlint', []],
   ['diff', 'git', ['diff', '--check']],
-  ['audit', 'npm', ['audit']],
+  ['audit', 'npm', ['run', 'audit']],
   ['install-scripts', 'npm', ['install-scripts', 'ls']],
   ['missing-key', 'npm', ['run', 'build'], 1, {BACALHAU_PRODUCTION_ANALYTICS: 'true'}],
 ];

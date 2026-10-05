@@ -38,7 +38,7 @@ runs:
 
     - name: Dependency audit
       shell: bash
-      run: npm audit
+      run: npm run audit
 
     - name: Type check
       shell: bash
