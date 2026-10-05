@@ -42,7 +42,7 @@
     "@docusaurus/types": "^3.10.2",
     "@resvg/resvg-js": "2.6.2",
     "audit-ci": "7.1.0",
-    "cspell": "^8.6.0",
+    "cspell": "^10.3.6",
     "jsdom": "27.4.0",
     "typescript": "~5.8.3"
   },
