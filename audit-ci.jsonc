@@ -1,0 +1,15 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  // Same threshold as plain `npm audit`: any advisory at low or above fails.
+  "low": true,
+  // Keep CI logs short: list found/missing allowlist entries, not the full JSON.
+  "report-type": "summary",
+  "allowlist": [
+    // GHSA-vfj7-8cjw-p6xm: braces stack-exhaustion denial of service.
+    // braces has no fixed release yet, so no `npm audit fix` can clear it.
+    // Accepted only because braces reaches this project solely through the
+    // build toolchain (@docusaurus/core -> chokidar/micromatch), never through
+    // shipped site code. Remove this entry as soon as upstream ships a fix.
+    "GHSA-vfj7-8cjw-p6xm"
+  ]
+}

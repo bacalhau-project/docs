@@ -21,8 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       POSTHOG_PUBLIC_KEY: ${{ secrets.POSTHOG_PUBLIC_KEY || vars.POSTHOG_PUBLIC_KEY }}
-      # Only this deploy build emits the Scarf pixel (plugins/scarf-pixel.mjs).
-      BACALHAU_SCARF_PIXEL: 'true'
+      # Only this live-site build emits analytics tags: Google Tag Manager, the
+      # Scarf pixel, PostHog and Google Analytics (plugins/production-analytics.mjs).
+      # PR checks, previews and local builds never set this.
+      BACALHAU_PRODUCTION_ANALYTICS: 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5

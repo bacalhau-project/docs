@@ -32,13 +32,13 @@ runs:
       shell: bash
       run: npm run test:image-metadata
 
-    - name: Scarf pixel tests
+    - name: Plugin tests
       shell: bash
-      run: npm run test:scarf-pixel
+      run: npm run test:plugins
 
     - name: Dependency audit
       shell: bash
-      run: npm audit
+      run: npm run audit
 
     - name: Type check
       shell: bash

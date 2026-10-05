@@ -8,8 +8,6 @@ jobs:
   spell-check:
     name: Spell Check
     runs-on: ubuntu-latest
-    env:
-      POSTHOG_PUBLIC_KEY: phc_pr_build_validation_only
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -19,3 +17,28 @@ jobs:
 
       - name: Run spell check
         run: npm run spell-check
+
+  analytics-gate:
+    name: Analytics Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      # Builds without the switch and fails if any analytics host or tag
+      # identifier appears anywhere in the output (npm run validate:site).
+      - name: Setup Environment
+        uses: ./.github/actions/setup-environment
+
+      # The live-site variant is built here only to prove every tag is still
+      # emitted; it is inspected on disk, never served or deployed.
+      - name: Build production-analytics variant
+        env:
+          BACALHAU_PRODUCTION_ANALYTICS: 'true'
+          POSTHOG_PUBLIC_KEY: phc_pr_build_validation_only
+        run: npm run build
+
+      - name: Validate production-analytics variant
+        env:
+          BACALHAU_PRODUCTION_ANALYTICS: 'true'
+        run: npm run validate:site

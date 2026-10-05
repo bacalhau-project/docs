@@ -1,7 +1,6 @@
 // Scarf visit-counting pixel, emitted as plain HTML at the end of <body>.
-// Only the production GitHub Pages build in .github/workflows/main.yml sets
-// the flag, so PR checks, previews and local builds never contact Scarf.
-export const SCARF_PIXEL_ENV = 'BACALHAU_SCARF_PIXEL'
+// Gated by the shared production-analytics switch (production-analytics.mjs).
+import {productionAnalyticsEnabled} from './production-analytics.mjs'
 
 // src and referrerpolicy are exactly as Scarf issued them; do not reformat.
 export const SCARF_PIXEL_SRC =
@@ -14,12 +13,8 @@ export const SCARF_PIXEL_TAG =
   'alt="" width="0" height="0" aria-hidden="true" ' +
   'style="position:absolute;width:0;height:0;border:0" />'
 
-export function scarfPixelEnabled(env = process.env) {
-  return env[SCARF_PIXEL_ENV] === 'true'
-}
-
 export default function scarfPixelPlugin(_context, {env = process.env} = {}) {
-  const enabled = scarfPixelEnabled(env)
+  const enabled = productionAnalyticsEnabled(env)
 
   return {
     name: 'scarf-pixel',
