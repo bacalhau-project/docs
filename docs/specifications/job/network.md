@@ -4,16 +4,18 @@ The `Network` object offers a method to specify the networking requirements of a
 
 ## `Network` Parameters:
 
-1. **Type** `(string: "None")`: Indicates the network configuration's nature. There are several network modes available:
+1. **Type** `(string: "Default")`: Indicates the network configuration's nature. There are several network modes available:
+   * `Default`: The compute node's executor applies its own default. Docker uses bridge networking and WebAssembly uses host networking. If the compute node rejects networked jobs, networking is disabled.
    * `None`: This mode implies that the task does not necessitate any networking capabilities.
-   * `Full`: Specifies that the task mandates unrestricted, raw IP networking without any imposed filters.
+   * `Bridge`: The task runs in an isolated network namespace connected to a bridge network, with outbound connectivity.
+   * `Host`: Specifies that the task mandates unrestricted, raw IP networking through the host's network interfaces. `Full` is a deprecated alias for `Host`.
    * `HTTP`: This mode constrains the task to only require HTTP networking with specific domains. In this model:
      * The job specifier puts forward a job, stipulating the domain(s) it intends to communicate with.
      * The compute provider assesses the inherent risk of the job based on these domains and bids accordingly.
      * At runtime, the network traffic remains strictly confined to the designated domain(s).
 
 :::info
-A typical command for this might resemble: `bacalhau docker run —network=http —domain=crates.io —domain=github.com -i ipfs://Qmy1234myd4t4,dst=/code rust/compile`&#x20;
+A typical command for this might resemble: `bacalhau docker run --network=http --domain=crates.io --domain=github.com -i ipfs://Qmy1234myd4t4:/code rust/compile`
 :::
 
 The primary risks for the compute provider center around possible violations of its terms, its hosting provider's terms, or even prevailing laws in its jurisdiction. This encompasses issues such as unauthorized access or distribution of illicit content and potential cyber-attacks.
@@ -23,5 +25,7 @@ Conversely, the job specifier's primary risk involves operating in a paid enviro
 While a compute provider might impose its limits through other means, having domains declared upfront allows it to selectively bid on jobs that it can execute without issues, improving the user experience for job specifiers.
 
 2. **Domains** `(string[]: <optional>)`: A list of domain strings, relevant primarily when the `Type` is set to **HTTP**. It dictates the specific domains the task can communicate with over HTTP.
+
+3. **Ports** `(object[]: <optional>)`: Port mappings to expose from the task. Only supported with `Host` and `Bridge` networking.
 
 Understanding and utilizing these configurations aptly can ensure that tasks are executed in an environment that aligns with their networking requirements, bolstering efficiency and security.

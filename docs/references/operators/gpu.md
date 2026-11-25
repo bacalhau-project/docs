@@ -68,13 +68,13 @@ Tasks:
       Type: docker
       Params:
         Image: 'nvidia/cuda:11.6.2-base-ubuntu20.04'
-      Entrypoint:
-        - /bin/bash
-      Parameters:
-        - -c
-        - nvidia-smi && echo 'GPU is working!'
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - nvidia-smi && echo 'GPU is working!'
     Name: TestGPU
-    ResourcesConfig:
+    Resources:
       CPU: '1'
       Memory: '1GB'
       Disk: '10GB'

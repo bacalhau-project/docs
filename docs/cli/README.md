@@ -58,8 +58,8 @@ These flags work with any command and provide consistent behavior across the CLI
 
 | Flag                | Description                   | Default     |
 | ------------------- | ----------------------------- | ----------- |
-| `--api-host string` | Hostname for the Bacalhau API | `localhost` |
-| `--api-port int`    | Port for the Bacalhau API     | `1234`      |
+| `--api-host string` | Hostname for the Bacalhau API | `0.0.0.0` |
+| `--api-port int`    | Port for the Bacalhau API     | `1234`    |
 
 Example:
 
@@ -73,6 +73,7 @@ bacalhau job list --api-host mycluster.example.com --api-port 8080
 | --------------------- | -------------------------------------------------------- | ------------- |
 | `-c, --config string` | Config file(s) or dot separated path(s) to config values | -             |
 | `--data-dir string`   | The filesystem path where Bacalhau stores its data       | `~/.bacalhau` |
+| `--profile string`    | Use a specific profile for this command                  | -             |
 
 Examples:
 

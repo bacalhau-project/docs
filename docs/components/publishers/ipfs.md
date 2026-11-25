@@ -8,9 +8,45 @@ description: Publish Bacalhau task results to IPFS for content-addressed, decent
 
 The IPFS Publisher in Bacalhau amplifies the versatility of task result storage by integrating with the [InterPlanetary File System (IPFS)](https://ipfs.tech/). IPFS is a protocol and network designed to create a peer-to-peer method of storing and sharing hypermedia in a distributed file system. Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure.
 
+## Requirements: Run Your Own IPFS Node
+
+Bacalhau does not include an IPFS node. To publish results to IPFS, a compute node needs an IPFS node that you run and manage yourself, such as [Kubo](https://docs.ipfs.tech/install/command-line/), and must be configured with the multiaddress of that node's RPC API (Kubo's `Addresses.API`, port 5001 by default):
+
+```bash
+bacalhau config set Publishers.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001
+```
+
+Or in the node's configuration file:
+
+```yaml
+Publishers:
+  Types:
+    IPFS:
+      Endpoint: /ip4/127.0.0.1/tcp/5001
+```
+
+Restart the compute node after changing the setting, then check that `ipfs` appears in the `OUTPUTS` column of `bacalhau node list --show features`. Without an endpoint, the compute node does not offer the IPFS publisher. With an endpoint that cannot be reached, the node refuses to start.
+
+Published results are only retrievable while an IPFS node that holds them stays online. Pin them on infrastructure you control, or connect your IPFS node to the public IPFS network if results must be reachable from elsewhere.
+
+### Downloading IPFS results
+
+`bacalhau job get` downloads IPFS results through an IPFS node as well, so the machine running the CLI needs its own endpoint configured:
+
+```bash
+bacalhau config set ResultDownloaders.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001
+bacalhau job get <job-id>
+```
+
+That IPFS node must be able to reach the CIDs your compute nodes published, for example by being connected to the same IPFS network.
+
+:::warning
+The IPFS RPC API gives full control over the IPFS node. Keep it bound to localhost or a private network and never expose it to the public internet.
+:::
+
 ## `IPFS` Publisher Parameters
 
-For the IPFS publisher, no specific parameters need to be defined in the publisher specification. The user only needs to indicate the publisher type as IPFS, and Bacalhau handles the rest. Here is an example of how to set up an IPFS Publisher in a job specification.
+For the IPFS publisher, no specific parameters need to be defined in the publisher specification. Once the compute node is configured as described above, the job only needs to set the publisher type to IPFS. Here is an example of how to set up an IPFS Publisher in a job specification.
 
 ```yaml
 Publisher:

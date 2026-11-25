@@ -20,35 +20,46 @@ bacalhau job run [flags]
   - Description: With this flag, the job will not be submitted. Instead, it will display what would have been submitted, providing a way to preview before actual submission.
 - `-f`, `--follow`:
   - Description: If provided, the command will continuously display the output from the job as it runs.
+- `--force`:
+  - Description: Submit the job even if the job spec has not changed since the last submission.
+- `--group-events`:
+  - Description: Group events by execution.
+- `-h`, `--help`:
+  - Description: Displays help information for the `run` command.
+- `--hide-warnings`:
+  - Description: Hide warnings when submitting a job.
 - `--id-only`:
   - Description: On successful job submission, only the Job ID will be printed.
+- `--no-template`:
+  - Description: Disable templating. The job spec is used as-is, without any placeholder replacements.
 - `--node-details`:
   - Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
-- `--show-warnings`:
-  - Description: Shows any warnings that occur during the job submission.
+- `-E`, `--template-envs string`:
+  - Description: A regular expression selecting the environment variables to make available as template variables in the job spec. For example, `--template-envs ".*"` includes all environment variables.
+- `-V`, `--template-vars stringToString`:
+  - Description: Replace a placeholder in the job spec with a value, for example `--template-vars foo=bar`.
 - `--wait`:
-  - Description: Waits for the job to finish execution. To set this to false, use --wait=false
+  - Description: Waits for the job to finish execution. To set this to false, use `--wait=false`.
   - Default: `true`
 - `--wait-timeout-secs int`:
   - Description: If `--wait` is provided, this flag sets the maximum time (in seconds) the command will wait for the job to finish before it terminates.
   - Default: `600` seconds
-- `-h`, `--help`:
-  - Description: Displays help information for the `run` command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 

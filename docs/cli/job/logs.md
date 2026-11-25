@@ -16,25 +16,34 @@ bacalhau job logs [id] [flags]
 
 ## Flags
 
-1. `-f`, `--follow`:
-   - Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
-2. `-h`, `--help`:
+1. `-e`, `--execution-id string`:
+   - Description: Retrieve logs from a specific execution of the job.
+2. `-f`, `--follow`:
+   - Description: Follow the logs in real time after fetching the current logs, similar to `tail -f` in Unix-like systems.
+3. `-h`, `--help`:
    - Description: Display help information for the `logs` command.
+4. `--namespace string`:
+   - Description: Job namespace. If not provided, the default namespace is used.
+5. `-t`, `--tail`:
+   - Description: Tail the logs from the end of the log stream.
+6. `-v`, `--version uint`:
+   - Description: The job version to filter by. By default, the latest version is used.
 
 ## Global Flags
 
 1. `--api-host string`:
-   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
 2. `--api-port int`:
-   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
    - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
    - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 

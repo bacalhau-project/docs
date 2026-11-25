@@ -25,5 +25,5 @@ bacalhau config [command]
    - Usage:
 
      ```bash
-     bacalhau config set <key> <value>
+     bacalhau config set <key>=<value>
      ```

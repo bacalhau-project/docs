@@ -35,8 +35,8 @@ curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-d586d2cc-6fc9-42c4-9dd9-a78df1d7c
     "Count": 1,
     "Constraints": [],
     "Meta": {
-      "bacalhau.org/requester.id": "QmdZQ7ZbhnvWY1J12XYKGHApJ6aufKyLNSvf8jZBrBaAVL",
-      "bacalhau.org/requester.publicKey": "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVRKPgCfY2fgfrkHkFjeWcqno+MDpmp8DgVaY672BqJl/dZFNU9lBg2P8Znh8OTtHPPBUBk566vU3KchjW7m3uK4OudXrYEfSfEPnCGmL6GuLiZjLf+eXGEez7qPaoYqo06gD8ROdD8VVse27E96LlrpD1xKshHhqQTxKoq1y6Rx4DpbkSt966BumovWJ70w+Nt9ZkPPydRCxVnyWS1khECFQxp5Ep3NbbKtxHNX5HeULzXN5q0EQO39UN6iBhiI34eZkH7PoAm3Vk5xns//FjTAvQw6wZUu8LwvZTaihs+upx2zZysq6CEBKoeNZqed9+Tf+qHow0P5pxmiu+or+DAgMBAAE="
+      "bacalhau.org/orchestrator.id": "node-0",
+      "bacalhau.org/requester.id": "node-0"
     },
     "Labels": {
       "env": "prod",
@@ -104,7 +104,7 @@ Retrieve a list of jobs.
 2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](/specifications/job/label.md) for usage details.
 3. `limit`: Set the maximum number of jobs to return. Default is set to 10.
 4. `next_token`: Utilize this parameter for pagination continuation.
-5. `order_by`: Determine the ordering of jobs. Choose between `id` or `create_time` (default is `create_time`).
+5. `order_by`: Determine the ordering of jobs. Choose between `id` or `created_at` (default is `created_at`).
 6. `reverse`: Opt to reverse the default order of displayed jobs.
 
 **Response**:
@@ -247,7 +247,7 @@ Retrieve historical events for a specific job.
 **Response**:
 
 - **History**: List of matching historical events.
-- **NextToken** `(string)\*\*: Pagination token.
+- **NextToken** `(string)`: Pagination token.
 
 **Example**:
 
@@ -356,13 +356,13 @@ Retrieve all executions for a particular job.
 
 1. `limit`: Maximum executions to return.
 2. `next_token`: For pagination.
-3. `order_by`: Order by `modify_time` (default), `create_time`, `id`, `state`.
+3. `order_by`: Order by `modified_at` (default) or `created_at`.
 4. `reverse`: Reverse the order.
 
 **Response**:
 
 - **Executions**: List of relevant executions.
-- **NextToken** `(string)\*\*: Pagination token.
+- **NextToken** `(string)`: Pagination token.
 
 **Example**
 
@@ -497,7 +497,7 @@ Fetch results published by all executions for the defined job. Applicable only f
 **Response**:
 
 - **Results**: List of all published results.
-- **NextToken** `(string)\*\*: Pagination token.
+- **NextToken** `(string)`: Pagination token.
 
 **Example**:
 

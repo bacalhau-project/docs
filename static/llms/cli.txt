@@ -56,8 +56,8 @@ These flags work with any command and provide consistent behavior across the CLI
 
 | Flag                | Description                   | Default     |
 | ------------------- | ----------------------------- | ----------- |
-| `--api-host string` | Hostname for the Bacalhau API | `localhost` |
-| `--api-port int`    | Port for the Bacalhau API     | `1234`      |
+| `--api-host string` | Hostname for the Bacalhau API | `0.0.0.0` |
+| `--api-port int`    | Port for the Bacalhau API     | `1234`    |
 
 Example:
 
@@ -71,6 +71,7 @@ bacalhau job list --api-host mycluster.example.com --api-port 8080
 | --------------------- | -------------------------------------------------------- | ------------- |
 | `-c, --config string` | Config file(s) or dot separated path(s) to config values | -             |
 | `--data-dir string`   | The filesystem path where Bacalhau stores its data       | `~/.bacalhau` |
+| `--profile string`    | Use a specific profile for this command                  | -             |
 
 Examples:
 
@@ -140,7 +141,16 @@ bacalhau agent [command]
      bacalhau agent alive
      ```
 
-2. [**node**](node.md):
+2. **config**:
+
+   - Description: Retrieves the configuration the agent is running with, in YAML (default) or JSON.
+   - Usage:
+
+     ```bash
+     bacalhau agent config
+     ```
+
+3. [**node**](node.md):
 
    - Description: Gathers the agent's node-related information. This might include details about the machine or environment where the agent is running, available resources, supported engines, etc.
    - Usage:
@@ -149,7 +159,7 @@ bacalhau agent [command]
      bacalhau agent node
      ```
 
-3. [**version**](version.md):
+4. [**version**](version.md):
 
    - Description: Retrieves the Bacalhau version of the agent. This can be beneficial for ensuring compatibility or checking for updates.
    - Usage:
@@ -168,21 +178,22 @@ bacalhau agent [command] --help
 
 - `-h`, `--help`:
   - Description: Displays help information for the `agent` command.
+- `--profile string`:
+  - Description: Use a specific profile for this command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
 
 ## docs/cli/agent/alive.md
 
@@ -211,18 +222,19 @@ bacalhau agent alive [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -285,18 +297,19 @@ bacalhau agent node [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - The host for REST communication. Overrides the `BACALHAU_API_HOST` environment variable.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - The port for REST communication. Overridden if `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Specifies the log format. Choices are: `default`, `station`, `json`, `combined`, `event`.
-  - Default: `default`
-- `--repo string`:
-  - Path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -343,21 +356,21 @@ bacalhau agent version [flags]
 - **`--pretty`**:
   - Used for pretty printing the output, enhancing readability. This flag is applicable only for the "json" and "yaml" output formats.
 
-## Global Flags:
+## Global Flags
 
-- **`--api-host string`**:
-  - Designates the host for client-server communication via REST. If the `BACALHAU_API_HOST` environment variable is present, this flag will be disregarded.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- **`--api-port int`**:
-  - Defines the port for client-server communication through REST. This flag becomes irrelevant if the `BACALHAU_API_PORT` environment variable is specified.
-  - Default: `1234`
-- **`--log-mode logging-mode`**:
-  - Specifies the desired logging format.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- **`--repo string`**:
-  - Indicates the path to the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -372,9 +385,9 @@ bacalhau agent version [flags]
     Expected output:
 
     ```bash
-    Bacalhau v0.0.0-xxxxxxx
-    BuildDate 2023-09-22 16:03:44 +0000 UTC
-    GitCommit 0fe81cb488f666845ac72c73a4b804aaa658e511
+    Bacalhau v1.9.6
+    BuildDate 2026-11-25 01:55:56 +0000 UTC
+    GitCommit a8cd25beef99a56d9b4c23af398b701241ce79e1
     ```
 
 2.  **Retrieve the agent version in JSON format**:
@@ -386,7 +399,7 @@ bacalhau agent version [flags]
     Expected output:
 
     ```bash
-    {"major":"0","minor":"0","gitversion":"v0.0.0-xxxxxxx","gitcommit":"0fe81cb488f666845ac72c73a4b804aaa658e511","builddate":"2023-09-22T16:03:44Z","goos":"linux","goarch":"amd64"}
+    {"Major":"1","Minor":"9","GitVersion":"v1.9.6","GitCommit":"a8cd25beef99a56d9b4c23af398b701241ce79e1","BuildDate":"2026-11-25T01:55:56Z","GOOS":"linux","GOARCH":"amd64"}
     ```
 
 3.  **Retrieve the agent version in Pretty-printed JSON format**:
@@ -399,13 +412,13 @@ bacalhau agent version [flags]
 
     ```bash
     {
-      "major": "0",
-      "minor": "0",
-      "gitversion": "v0.0.0-xxxxxxx",
-      "gitcommit": "0fe81cb488f666845ac72c73a4b804aaa658e511",
-      "builddate": "2023-09-22T16:03:44Z",
-      "goos": "linux",
-      "goarch": "amd64"
+      "Major": "1",
+      "Minor": "9",
+      "GitVersion": "v1.9.6",
+      "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+      "BuildDate": "2026-11-25T01:55:56Z",
+      "GOOS": "linux",
+      "GOARCH": "amd64"
     }
     ```
 
@@ -438,7 +451,7 @@ bacalhau config [command]
    - Usage:
 
      ```bash
-     bacalhau config set <key> <value>
+     bacalhau config set <key>=<value>
      ```
 
 ## docs/cli/config/list.md
@@ -468,8 +481,8 @@ bacalhau config list [flags]
   - Description: Removes all styling from the table output, displaying raw data.
   - Default: `false`
 - `--output format`:
-  - Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
-  - Options: `json`, `yaml`, `table`
+  - Description: Determines the format in which the output is displayed.
+  - Options: `table`, `csv`, `json`, `yaml`
   - Default: `table`
 - `--pretty`:
   - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
@@ -493,8 +506,8 @@ bacalhau config list [flags]
     **Output**:
 
     ```bash
-     KEY          VALUE
-     <key_name> <key_value>
+     KEY          VALUE        DESCRIPTION
+     <key_name>   <key_value>  <key_description>
     ...
     ```
 
@@ -512,7 +525,8 @@ bacalhau config list [flags]
     [
       {
         "Key": "<key_name>",
-        "Value": <key_value>
+        "Value": <key_value>,
+        "Description": "<key_description>"
       },
       ...
     ]
@@ -533,74 +547,86 @@ Changes made using this command will be applied to the configuration file, but t
 ## Usage
 
 ```bash
-bacalhau config set <key> <value>
+bacalhau config set <key>=<value> [flags]
 ```
+
+The older space-separated form, `bacalhau config set <key> <value>`, still works but is deprecated.
 
 ## Flags
 
+- `-c`, `--config string`:
+  - Description: Path to the config file to modify.
+  - Default: `$BACALHAU_DIR/config.yaml`
 - `-h`, `--help`:
   - Description: Displays help information for the `set` sub-command.
 
 ## Examples
 
-### Configuring the Server API Port Value
+### Configuring the API Port Value
 
 ```bash
-bacalhau config set node.serverapi.port 9999
+bacalhau config set API.Port=9999
 
-bacalhau config list | grep serverapi.port
- node.serverapi.port                                             9999
+bacalhau config list | grep API.Port
+ API.Port      9999      Port specifies the port number on which the API server listens ...
 
 cat ~/.bacalhau/config.yaml
-node:
-    serverapi:
-        port: 9999
+api:
+    port: 9999
 ```
 
 ### Configuring the Logging Mode Value
 
 ```bash
-bacalhau config set node.loggingmode json
-
-bacalhau config list | grep loggingmode
- node.loggingmode                                                json
+bacalhau config set Logging.Mode=json
 
 cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
+logging:
+    mode: json
 ```
 
 ### Multiple Set commands append to the file
 
 ```bash
-bacalhau config set node.serverapi.port 9999
-bacalhau config set node.serverapi.host 0.0.0.0
-bacalhau config set node.loggingmode json
+bacalhau config set API.Port=9999
+bacalhau config set API.Host=0.0.0.0
+bacalhau config set Logging.Mode=json
 
 cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
-    serverapi:
-        host: 0.0.0.0
-        port: 9999
+api:
+    host: 0.0.0.0
+    port: 9999
+logging:
+    mode: json
+```
+
+### Setting list and map values
+
+Separate multiple values with commas:
+
+```bash
+bacalhau config set Compute.Orchestrators=nats://10.0.0.1:4222,nats://10.0.0.2:4222
+bacalhau config set Labels=region=us-west,env=prod
 ```
 
 ### Set command value validation
 
-#### Example of invalid logging mode value
+#### Example of an unknown key
 
 ```bash
-bacalhau config set node.loggingmode some-invalid-value
+bacalhau config set Node.LoggingMode=json
 
-Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
+Error: "node.loggingmode" is not a valid config key
+Hint:  Run 'bacalhau config list' for the complete list of valid config keys
 ```
 
 #### Example of invalid time duration value
 
 ```bash
-bacalhau config set node.volumesizerequesttimeout 10days
+bacalhau config set Compute.Heartbeat.Interval=10days
 
-Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
+Error: config key: "compute.heartbeat.interval" expects a valid duration value, received: "10days"
+Hint:  Accepted formats: 'h' (hours), 'm' (minutes), 's' (seconds), 'ms' (milliseconds), etc. Example: '2h45m', '30s', '100ms
 ```
 
 ## docs/cli/job/README.md
@@ -652,6 +678,7 @@ bacalhau job [command]
      ```bash
      bacalhau job history
      ```
+
 5. [**list**](./list.md):
 
    - Description: Provides an overview of all submitted jobs.
@@ -670,7 +697,16 @@ bacalhau job [command]
      bacalhau job logs
      ```
 
-7. [**run**](./run.md):
+7. **rerun**:
+
+   - Description: Reruns an existing job, identified by its ID or name. Use `--version` to rerun a specific job version.
+   - Usage:
+
+     ```bash
+     bacalhau job rerun <job-id-or-name>
+     ```
+
+8. [**run**](./run.md):
 
    - Description: Submits a job for execution using either a JSON or YAML configuration file.
    - Usage:
@@ -679,7 +715,7 @@ bacalhau job [command]
      bacalhau job run
      ```
 
-8. [**stop**](./stop.md):
+9. [**stop**](./stop.md):
 
    - Description: Halts a previously submitted job.
    - Usage:
@@ -687,6 +723,24 @@ bacalhau job [command]
      ```bash
      bacalhau job stop
      ```
+
+10. **validate**:
+
+    - Description: Validates a JSON or YAML job specification without submitting it.
+    - Usage:
+
+      ```bash
+      bacalhau job validate ./job.yaml
+      ```
+
+11. **versions**:
+
+    - Description: Lists the versions of a job, identified by its ID or name.
+    - Usage:
+
+      ```bash
+      bacalhau job versions <job-id-or-name>
+      ```
 
 For comprehensive details on any of the sub-commands, run:
 
@@ -698,20 +752,21 @@ bacalhau job [command] --help
 
 - `-h`, `--help`:
   - Description: Shows the help information for the `job` command.
+- `--profile string`:
+  - Description: Use a specific profile for this command.
 
 ## Global Flags
 
 1. `--api-host string`:
-   - Description: Determines the host for RESTful communication between the client and server. This flag is overlooked if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
 2. `--api-port int`:
-   - Description: Designates the port for RESTful communication. This flag is bypassed if the `BACALHAU_API_PORT` environment variable is active.
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
    - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
    - Default: `$HOME/.bacalhau`
 
 ## docs/cli/job/describe.md
@@ -732,26 +787,31 @@ bacalhau job describe [id] [flags]
 
 - `-h`, `--help`:
   - Description: Display help for the `describe` command.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
 - `--output format`:
   - Description: Specifies the desired output format for the command. Supported values are `json` and `yaml`.
   - Default: `yaml`
 - `--pretty`:
   - Description: Pretty prints the output. This option is applicable only to `json` and `yaml` output formats.
+- `-v`, `--version uint`:
+  - Description: The job version to filter by. By default, the latest version is used.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host for the client and server to communicate through via REST. If the `BACALHAU_API_HOST` environment variable is set, this flag will be ignored.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for the client and server to communicate on using REST. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Specifies the desired log format. Supported values include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -789,6 +849,8 @@ bacalhau job executions [id] [flags]
 
 ## Flags
 
+- `--all-versions`:
+  - Description: Return results for all job versions. By default, only the latest job version is included. `--version` takes precedence if both are set.
 - `-h`, `--help`:
   - Description: Display help for the `executions` command.
 - `--hide-header`:
@@ -796,12 +858,14 @@ bacalhau job executions [id] [flags]
 - `--limit uint32`:
   - Description: Restricts the number of results returned.
   - Default: `20`
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
 - `--next-token string`:
   - Description: Uses the specified token for pagination. Useful for fetching the next set of results.
 - `--no-style`:
   - Description: Removes all styling from the table output, displaying raw data.
 - `--order-by string`:
-  - Description: Orders results based on a specific field. Valid fields are: `modify_time`, `create_time`, `id`, and `state`.
+  - Description: Orders results based on a specific field. Valid fields are `modified_at` and `created_at`.
 - `--order-reversed`:
   - Description: Reverses the order of the results. Useful in conjunction with `--order-by`.
 - `--output format`:
@@ -809,23 +873,26 @@ bacalhau job executions [id] [flags]
   - Default: `table`
 - `--pretty`:
   - Description: Pretty prints the output. This option is applicable only to `json` and `yaml` output formats.
+- `-v`, `--version uint`:
+  - Description: The job version to filter by. By default, the latest version is used.
 - `--wide`:
   - Description: Prints full values in the table results without truncating any information.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host for the client and server to communicate through via REST. If the `BACALHAU_API_HOST` environment variable is set, this flag will be ignored.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for the client and server to communicate on using REST. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Specifies the desired log format. Supported values include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -845,12 +912,12 @@ bacalhau job executions [id] [flags]
     16:46:03  16:46:04  e-03870df5  QmVXwmdZ  6     Completed  Stopped
     ```
 
-2.  **Order executions by state for a specific job**:
+2.  **Order executions by creation time for a specific job**:
 
     Execute the command:
 
     ```bash
-    bacalhau job executions j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --order-by state
+    bacalhau job executions j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --order-by created_at
     ```
 
     Expected output:
@@ -892,28 +959,32 @@ bacalhau job get [id] [flags]
 ## Flags
 
 - `--download-timeout-secs duration`:
-  - Description: Timeout duration for IPFS downloads. (default 5m0s)
+  - Description: Timeout duration for IPFS downloads.
+  - Default: `5m0s`
 - `-h`, `--help`:
-  - Description: Display help for the `list` command.
-- `output-dir string`:
+  - Description: Display help for the `get` command.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
+- `--output-dir string`:
   - Description: Directory to write the output to.
 - `--raw`:
   - Description: Download raw result CIDs instead of merging multiple CIDs into a single result.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -941,6 +1012,8 @@ bacalhau job history [id] [flags]
 
 ## Flags
 
+- `--all-versions`:
+  - Description: Return results for all job versions. By default, only the latest job version is included. `--version` takes precedence if both are set.
 - `--event-type string`:
   - Description: Specifies the type of history events to retrieve. Available options include `all`, `job`, and `execution`.
   - Default: `all`
@@ -952,12 +1025,12 @@ bacalhau job history [id] [flags]
   - Description: Opts out of printing the column headers in the results.
 - `--limit uint32`:
   - Description: Limits the number of results returned.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
 - `--next-token string`:
   - Description: Uses the provided token for pagination.
 - `--no-style`:
   - Description: Strips all styling from the table output.
-- `--node-id string`:
-  - Description: Filters the results by a specific node ID.
 - `--order-by string`:
   - Description: Organizes results based on a chosen field.
 - `--order-reversed`:
@@ -967,23 +1040,26 @@ bacalhau job history [id] [flags]
   - Default: `table`
 - `--pretty`:
   - Description: Offers a more visually pleasing output for `json` and `yaml` formats.
+- `-v`, `--version uint`:
+  - Description: The job version to filter by. By default, the latest version is used.
 - `--wide`:
   - Description: Presents full values in the table results, preventing truncation.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1093,18 +1169,19 @@ bacalhau job list [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1204,25 +1281,34 @@ bacalhau job logs [id] [flags]
 
 ## Flags
 
-1. `-f`, `--follow`:
-   - Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
-2. `-h`, `--help`:
+1. `-e`, `--execution-id string`:
+   - Description: Retrieve logs from a specific execution of the job.
+2. `-f`, `--follow`:
+   - Description: Follow the logs in real time after fetching the current logs, similar to `tail -f` in Unix-like systems.
+3. `-h`, `--help`:
    - Description: Display help information for the `logs` command.
+4. `--namespace string`:
+   - Description: Job namespace. If not provided, the default namespace is used.
+5. `-t`, `--tail`:
+   - Description: Tail the logs from the end of the log stream.
+6. `-v`, `--version uint`:
+   - Description: The job version to filter by. By default, the latest version is used.
 
 ## Global Flags
 
 1. `--api-host string`:
-   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
 2. `--api-port int`:
-   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
    - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
    - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1298,35 +1384,46 @@ bacalhau job run [flags]
   - Description: With this flag, the job will not be submitted. Instead, it will display what would have been submitted, providing a way to preview before actual submission.
 - `-f`, `--follow`:
   - Description: If provided, the command will continuously display the output from the job as it runs.
+- `--force`:
+  - Description: Submit the job even if the job spec has not changed since the last submission.
+- `--group-events`:
+  - Description: Group events by execution.
+- `-h`, `--help`:
+  - Description: Displays help information for the `run` command.
+- `--hide-warnings`:
+  - Description: Hide warnings when submitting a job.
 - `--id-only`:
   - Description: On successful job submission, only the Job ID will be printed.
+- `--no-template`:
+  - Description: Disable templating. The job spec is used as-is, without any placeholder replacements.
 - `--node-details`:
   - Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
-- `--show-warnings`:
-  - Description: Shows any warnings that occur during the job submission.
+- `-E`, `--template-envs string`:
+  - Description: A regular expression selecting the environment variables to make available as template variables in the job spec. For example, `--template-envs ".*"` includes all environment variables.
+- `-V`, `--template-vars stringToString`:
+  - Description: Replace a placeholder in the job spec with a value, for example `--template-vars foo=bar`.
 - `--wait`:
-  - Description: Waits for the job to finish execution. To set this to false, use --wait=false
+  - Description: Waits for the job to finish execution. To set this to false, use `--wait=false`.
   - Default: `true`
 - `--wait-timeout-secs int`:
   - Description: If `--wait` is provided, this flag sets the maximum time (in seconds) the command will wait for the job to finish before it terminates.
   - Default: `600` seconds
-- `-h`, `--help`:
-  - Description: Displays help information for the `run` command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1671,25 +1768,28 @@ bacalhau job stop [id] [flags]
 
 ## Flags
 
-- `--quiet`:
-  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
 - `-h`, `--help`:
   - Description: Displays help information for the `stop` command.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
+- `--quiet`:
+  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1800,21 +1900,22 @@ bacalhau node [command] --help
 
 - `-h`, `--help`:
   - Description: Shows the help information for the `node` command.
+- `--profile string`:
+  - Description: Use a specific profile for this command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host for RESTful communication between the client and server. The flag will be ignored if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Designates the port for RESTful communication. The flag will be bypassed if the `BACALHAU_API_PORT` environment variable is active.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Specifies the path to the bacalhau repository.
-  - Default: `/Users/walid/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
 
 ## docs/cli/node/approve.md
 
@@ -1834,28 +1935,26 @@ bacalhau node approve [id] [flags]
 
 ## Flags
 
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
 - `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the approval action.
+  - Description: Displays the help documentation for the `approve` command.
+- `-m`, `--message string`:
+  - Description: A message to attach to the approve action.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1889,28 +1988,26 @@ bacalhau node delete [id] [flags]
 
 ## Flags
 
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
 - `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the deletion action.
+  - Description: Displays the help documentation for the `delete` command.
+- `-m`, `--message string`:
+  - Description: A message to attach to the delete action.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1957,19 +2054,19 @@ bacalhau node describe [id] [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2013,10 +2110,10 @@ bacalhau node list [flags]
   - Show the help message for the `list` command.
 - `--hide-header`:
   - Do not display the column headers in the output.
-- `--filter-approval`:
+- `--filter-approval string`:
   - Only show nodes with the specified approval status. Valid values are: `approved`, `pending`, `rejected`.
-- `--filter-status`:
-  - Only show nodes with the specified state. Valid values are: `healthy`, `unhealthy`, `unknown`.
+- `--filter-status string`:
+  - Only show nodes with the specified connection status. Valid values are: `connected`, `disconnected`.
 - `--labels string`:
   - Filter nodes based on labels. This follows the filtering format provided by Kubernetes, as shown in their documentation about labels.
 - `--limit uint32`:
@@ -2026,7 +2123,7 @@ bacalhau node list [flags]
 - `--no-style`:
   - Output the table without any style.
 - `--order-by string`:
-  - Sort the results based on a specific field. Valid sorting fields are: `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu`.
+  - Sort the results based on a specific field. Valid sorting fields are: `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu`, `status`.
 - `--order-reversed`:
   - Display the results in reverse order.
 - `--output format`:
@@ -2042,19 +2139,19 @@ bacalhau node list [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specify the host for client-server communication via REST. This gets ignored if the `BACALHAU_API_HOST` environment variable is defined.
-  - Default: `"bootstrap.production.bacalhau.org"`.
-- `--api-port int`:
-  - Specify the port for RESTful communication between client and server. Gets overlooked if the `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`.
-- `--log-mode logging-mode`:
-  - Choose the desired log format.
-  - Options: `'default', 'station', 'json', 'combined', 'event'`.
-  - Default: `'default'`.
-- `--repo string`:
-  - Point to the directory path of the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`.
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2070,11 +2167,11 @@ bacalhau node list [flags]
 
     ```plaintext
      ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-     QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+     QmTSJgdN  Compute  os_arch=amd64 os_type=linux                         3.2 /   11.7 GB /   77.8 GB /    1 /
                         git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
-     QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+     QmVXwmdZ  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   77.8 GB /    0 /
                         git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
-     QmXRdLru  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   78.0 GB /    0 /
+     QmXRdLru  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   78.0 GB /    0 /
                         git-lfs=True owner=bacalhau                         3.2     12.5 GB     78.0 GB      0
      ... [Additional nodes information] ...
     ```
@@ -2084,14 +2181,14 @@ bacalhau node list [flags]
     Execute the command to get a list of nodes with specific labels:
 
     ```bash
-    bacalhau node list --labels "Operating-System=linux,owner=bacalhau"
+    bacalhau node list --labels "os_type=linux,owner=bacalhau"
     ```
 
     Expected output:
 
     ```plaintext
     ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-    QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+    QmTSJgdN  Compute  os_arch=amd64 os_type=linux                         3.2 /   11.7 GB /   77.8 GB /    1 /
                        git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
     ... [Additional nodes information] ...
     ```
@@ -2108,7 +2205,7 @@ bacalhau node list [flags]
 
     ```plaintext
     ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-    QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+    QmVXwmdZ  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   77.8 GB /    0 /
                        git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
     ... [Additional nodes information] ...
     ```
@@ -2126,10 +2223,13 @@ bacalhau node list [flags]
     ```json
     [
       {
-        "PeerInfo": {
-          "ID": "QmTSJgdN7zCPAqBCkmdsdpFbiJV8bJ6zhoxK9N5xfar1sz",
+        "Info": {
+          "NodeID": "node-1",
+          "NodeType": "Compute",
           ... [Additional node details] ...
         },
+        "Membership": "APPROVED",
+        "Connection": "CONNECTED",
         ... [Other nodes] ...
       }
     ]
@@ -2148,33 +2248,31 @@ Using the `reject` sub-command, administrators can reject a node in the pending 
 ## Usage
 
 ```bash
-bacalhau node rejected [id] [flags]
+bacalhau node reject [id] [flags]
 ```
 
 ## Flags
 
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
 - `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the rejection action.
+  - Description: Displays the help documentation for the `reject` command.
+- `-m`, `--message string`:
+  - Description: A message to attach to the reject action.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 

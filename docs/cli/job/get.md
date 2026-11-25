@@ -17,28 +17,32 @@ bacalhau job get [id] [flags]
 ## Flags
 
 - `--download-timeout-secs duration`:
-  - Description: Timeout duration for IPFS downloads. (default 5m0s)
+  - Description: Timeout duration for IPFS downloads.
+  - Default: `5m0s`
 - `-h`, `--help`:
-  - Description: Display help for the `list` command.
-- `output-dir string`:
+  - Description: Display help for the `get` command.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
+- `--output-dir string`:
   - Description: Directory to write the output to.
 - `--raw`:
   - Description: Download raw result CIDs instead of merging multiple CIDs into a single result.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 

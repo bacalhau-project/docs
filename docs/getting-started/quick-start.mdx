@@ -10,7 +10,7 @@ This Quick Start guide shows how to run your first Bacalhau job with minimal set
 
 ## Prerequisites
 
-- Docker installed on any machine that runs a compute node
+- Docker installed and running on any machine that runs a compute node (check with `docker info`). Start Docker before Bacalhau: a compute node that starts without Docker only runs WebAssembly jobs.
 - Bacalhau CLI installed (see below)
 
 ## 1. Installation
@@ -102,7 +102,7 @@ bacalhau job run word-count.yaml
 bacalhau job describe <jobID>
 ```
 
-- Replace `<jobID>` with the actual ID printed in step 2
+- Replace `<jobID>` with the actual ID printed in step 3
 - You can run `bacalhau job logs <job-id>` to just get the execution logs
 
 ## 5. Retrieve Results

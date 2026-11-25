@@ -134,7 +134,16 @@ The following table lists all configuration options in alphabetical order.
 | -------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | `API.Auth.AccessPolicyPath`                        | `""`                                 | Path to policy file for API access control                                                                  |
 | `API.Auth.Methods`                                 | `{"ClientKey":{"Type":"challenge"}}` | Authentication methods mapping                                                                              |
-| `API.Auth.Oauth2`                                  | `{}`                                 | OAuth 2.0 configuration                                                                                     |
+| `API.Auth.Oauth2.Audience`                         | `""`                                 | Expected `aud` claim in the JWT token                                                                       |
+| `API.Auth.Oauth2.DeviceAuthorizationEndpoint`      | `""`                                 | Device authorization (device code) endpoint of the provider                                                 |
+| `API.Auth.Oauth2.DeviceClientID`                   | `""`                                 | Client ID used for the device code flow                                                                     |
+| `API.Auth.Oauth2.Issuer`                           | `""`                                 | Expected issuer; must match the issuer in the JWT token                                                     |
+| `API.Auth.Oauth2.JWKSUri`                          | `""`                                 | JWKS URI used to verify token signatures                                                                    |
+| `API.Auth.Oauth2.PollingInterval`                  | `0`                                  | Seconds between CLI checks for device code approval                                                         |
+| `API.Auth.Oauth2.ProviderID`                       | `""`                                 | Identifier of the OAuth 2.0 identity provider, for your own reference                                       |
+| `API.Auth.Oauth2.ProviderName`                     | `""`                                 | Display name of the OAuth 2.0 identity provider                                                             |
+| `API.Auth.Oauth2.Scopes`                           | `[]`                                 | Scopes requested in the token exchange                                                                      |
+| `API.Auth.Oauth2.TokenEndpoint`                    | `""`                                 | Endpoint used to obtain the JWT token                                                                       |
 | `API.Auth.Users`                                   | `[]`                                 | List of users for basic authentication                                                                      |
 | `API.Host`                                         | `"0.0.0.0"`                          | Hostname or IP address on which the API server listens                                                      |
 | `API.Port`                                         | `1234`                               | Port number on which the API server listens                                                                 |
@@ -153,8 +162,10 @@ The following table lists all configuration options in alphabetical order.
 | `Compute.AllowListedLocalPaths`                    | `[]`                                 | Local paths allowed for mounting in format `path[:mode]`. Mode can be `ro` (read-only) or `rw` (read-write) |
 | `Compute.Auth.Token`                               | `""`                                 | Token for orchestrator access                                                                               |
 | `Compute.Enabled`                                  | `false`                              | Enable compute capabilities                                                                                 |
+| `Compute.Env.AllowList`                            | `[]`                                 | Host environment variables that may be forwarded to jobs. Supports glob patterns such as `AWS_*`            |
 | `Compute.Heartbeat.InfoUpdateInterval`             | `"1m"`                               | Interval for updating node information                                                                      |
 | `Compute.Heartbeat.Interval`                       | `"15s"`                              | Interval between heartbeats sent to orchestrator                                                            |
+| `Compute.Heartbeat.ResourceUpdateInterval`         | `0s`                                 | Deprecated: use `Compute.Heartbeat.Interval` instead                                                        |
 | `Compute.Network.AdvertisedAddress`                | `""`                                 | Address that this compute node advertises to other nodes                                                    |
 | `Compute.Network.PortRangeEnd`                     | `32000`                              | Last port in the range (inclusive) that can be allocated to jobs                                            |
 | `Compute.Network.PortRangeStart`                   | `20000`                              | First port in the range (inclusive) that can be allocated to jobs                                           |
@@ -171,10 +182,10 @@ The following table lists all configuration options in alphabetical order.
 | `InputSources.MaxRetryCount`                       | `3`                                  | Maximum retry attempts for source access                                                                    |
 | `InputSources.ReadTimeout`                         | `"5m"`                               | Timeout for reading from sources                                                                            |
 | `InputSources.Types.IPFS.Endpoint`                 | `""`                                 | IPFS API endpoint for input sources                                                                         |
-| `JobAdmissionControl.AcceptNetworkedJobs`          | `false`                              | Accept jobs that require network access                                                                     |
-| `JobAdmissionControl.Locality`                     | `"Anywhere"`                         | Data locality requirement: `"Anywhere"` or `"Local"`                                                        |
+| `JobAdmissionControl.Locality`                     | `"anywhere"`                         | Data locality requirement: `"anywhere"` or `"local"`                                                        |
 | `JobAdmissionControl.ProbeExec`                    | `""`                                 | External program path for job admission decisions                                                           |
 | `JobAdmissionControl.ProbeHTTP`                    | `""`                                 | HTTP endpoint for job admission decisions                                                                   |
+| `JobAdmissionControl.RejectNetworkedJobs`          | `false`                              | Reject jobs that require network access                                                                     |
 | `JobAdmissionControl.RejectStatelessJobs`          | `false`                              | Reject jobs without input data                                                                              |
 | `JobDefaults.Batch.Priority`                       | `0`                                  | Default priority for batch jobs                                                                             |
 | `JobDefaults.Batch.Task.Publisher.Params`          | `{}`                                 | Default publisher parameters for batch jobs                                                                 |
@@ -220,7 +231,6 @@ The following table lists all configuration options in alphabetical order.
 | `Orchestrator.EvaluationBroker.MaxRetryCount`      | `10`                                 | Maximum evaluation retry attempts                                                                           |
 | `Orchestrator.EvaluationBroker.VisibilityTimeout`  | `"1m"`                               | How long an evaluation can be claimed                                                                       |
 | `Orchestrator.Host`                                | `"0.0.0.0"`                          | Hostname/IP for orchestrator connections                                                                    |
-| `Orchestrator.License.LocalPath`                   | `""`                                 | Local license file path                                                                                     |
 | `Orchestrator.NodeManager.DisconnectTimeout`       | `"1m"`                               | Time before marking node as disconnected                                                                    |
 | `Orchestrator.NodeManager.ManualApproval`          | `false`                              | Require manual approval for compute nodes                                                                   |
 | `Orchestrator.Port`                                | `4222`                               | Port for orchestrator connections                                                                           |
@@ -239,6 +249,11 @@ The following table lists all configuration options in alphabetical order.
 | `Publishers.Types.Local.Port`                      | `6001`                               | Local publisher port                                                                                        |
 | `Publishers.Types.S3.PreSignedURLDisabled`         | `false`                              | Disable pre-signed URLs for S3 publisher                                                                    |
 | `Publishers.Types.S3.PreSignedURLExpiration`       | `""`                                 | Pre-signed URL expiration time                                                                              |
+| `Publishers.Types.S3Managed.Bucket`                | `""`                                 | S3 bucket name for the managed S3 publisher                                                                 |
+| `Publishers.Types.S3Managed.Endpoint`              | `""`                                 | Optional custom S3 endpoint for the managed S3 publisher                                                    |
+| `Publishers.Types.S3Managed.Key`                   | `""`                                 | Optional prefix for objects stored in the bucket                                                            |
+| `Publishers.Types.S3Managed.PreSignedURLExpiration` | `"1h"`                               | Pre-signed URL expiration time for the managed S3 publisher                                                 |
+| `Publishers.Types.S3Managed.Region`                | `""`                                 | Region of the managed S3 publisher bucket                                                                   |
 | `ResultDownloaders.Disabled`                       | `[]`                                 | List of disabled result downloader types                                                                    |
 | `ResultDownloaders.Timeout`                        | `""`                                 | Timeout for download operations                                                                             |
 | `ResultDownloaders.Types.IPFS.Endpoint`            | `""`                                 | IPFS API endpoint for downloading results                                                                   |

@@ -32,10 +32,10 @@ This API provides details about the Bacalhau version, including major and minor 
 ```json
 {
   "Major": "1",
-  "Minor": "1",
-  "GitVersion": "v1.1.0",
-  "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-  "BuildDate": "2023-09-25T07:59:00Z",
+  "Minor": "9",
+  "GitVersion": "v1.9.6",
+  "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+  "BuildDate": "2026-11-25T01:55:56Z",
   "GOOS": "linux",
   "GOARCH": "amd64"
 }
@@ -45,70 +45,71 @@ This API provides details about the Bacalhau version, including major and minor 
 
 **Endpoint:** `GET /api/v1/agent/node`
 
-This API provides detailed information about the node, including its peer ID and network addresses, node type (e.g., Compute), labels, compute node capabilities, and the deployed Bacalhau version.
+This API provides detailed information about the node, including its node ID, node type (e.g., Compute), labels, supported protocols, compute node capabilities, and the deployed Bacalhau version.
 
 **Response**:
 
 ```json
 {
-  "PeerInfo": {
-    "ID": "QmdZQ7ZbhnvWY1J12XYKGHApJ6aufKyLNSvf8jZBrBaAVL",
-    "Addrs": [
-      "/ip4/35.245.245.245/tcp/1235"
-    ]
-  },
+  "NodeID": "node-1",
   "NodeType": "Compute",
   "Labels": {
-    "Architecture": "amd64",
-    "Operating-System": "linux",
-    "git-lfs": "True",
-    "owner": "bacalhau"
+    "name": "node-1",
+    "os_arch": "amd64",
+    "os_type": "linux",
+    "region": "us-west"
   },
+  "SupportedProtocols": [
+    "bprotocol/v2",
+    "ncl/v1"
+  ],
   "ComputeNodeInfo": {
     "ExecutionEngines": [
-      "docker",
-      "wasm"
+      "wasm",
+      "docker"
     ],
     "Publishers": [
+      "local",
+      "s3",
+      "s3managed",
       "noop",
-      "ipfs",
-      "s3"
+      "ipfs"
     ],
     "StorageSources": [
-      "repoclonelfs",
-      "s3",
-      "ipfs",
-      "urldownload",
       "inline",
-      "repoclone"
+      "urldownload",
+      "s3",
+      "ipfs"
     ],
     "MaxCapacity": {
       "CPU": 12.8,
       "Memory": 53931121049,
       "Disk": 721417073459,
-      "GPU": 0
+      "GPU": 1
     },
+    "QueueCapacity": {},
     "AvailableCapacity": {
       "CPU": 12.8,
       "Memory": 53931121049,
       "Disk": 721417073459,
-      "GPU": 0
+      "GPU": 1
     },
     "MaxJobRequirements": {
       "CPU": 12.8,
       "Memory": 53931121049,
       "Disk": 721417073459,
-      "GPU": 0
+      "GPU": 1
     },
     "RunningExecutions": 0,
-    "EnqueuedExecutions": 0
+    "EnqueuedExecutions": 0,
+    "address": ""
   },
   "BacalhauVersion": {
     "Major": "1",
-    "Minor": "1",
-    "GitVersion": "v1.1.0",
-    "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-    "BuildDate": "2023-09-25T07:59:00Z",
+    "Minor": "9",
+    "GitVersion": "v1.9.6",
+    "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+    "BuildDate": "2026-11-25T01:55:56Z",
     "GOOS": "linux",
     "GOARCH": "amd64"
   }

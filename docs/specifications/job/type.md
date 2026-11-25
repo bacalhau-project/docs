@@ -79,7 +79,7 @@ Labels:
 # Should be specified in a following format: key - operator - value
 # Optional.
 Constraints:
-- Key: "Operating-System"
+- Key: "os_type"
   Operator: "="
   Values: ["linux"]
 

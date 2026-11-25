@@ -62,7 +62,7 @@ curl -X PUT \
                   "Type": "noop",
                   "Params": {}
                 },
-                "ResourcesConfig": {
+                "Resources": {
                   "CPU": "0.1",
                   "Memory": "10mb"
                 },
@@ -76,9 +76,9 @@ curl -X PUT \
             ]
           }
         }' \
-     http://0.0.0.0:20000/api/v1/orchestrator/jobs
+     http://127.0.0.1:1234/api/v1/orchestrator/jobs
 
-{"JobID":"28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a","EvaluationID":"996b12e4-bcc5-4d74-ac21-0c421dafb7de"}
+{"JobID":"j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a","EvaluationID":"996b12e4-bcc5-4d74-ac21-0c421dafb7de"}
 ```
 
 ### Agent
@@ -93,7 +93,7 @@ Here’s the command structure for querying your current node. You can check on 
 
 ```bash
 # Is alive
-curl 0.0.0.0:20000/api/v1/agent/alive
+curl 127.0.0.1:1234/api/v1/agent/alive
 ```
 
 ## Features

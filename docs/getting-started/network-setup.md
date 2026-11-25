@@ -69,6 +69,10 @@ The setup described above creates an open network suitable for testing in truste
 
 DevStack provides a pre-configured local environment perfect for development and testing.
 
+:::note
+To run Docker jobs, Docker must be installed and running before you start DevStack, and `docker info` must succeed in the same shell. Compute nodes detect Docker only when they start; without it they accept WebAssembly jobs only, and Docker jobs fail with `does not support docker, only wasm`. See [Running Locally with Devstack](../references/developers/running-locally.md#check-docker-before-you-start) for setup checks.
+:::
+
 ```bash
 # Launch a complete development environment
 bacalhau devstack
@@ -76,7 +80,12 @@ bacalhau devstack
 
 This pre-configures a transient orchestrator and compute nodes by default, giving you a complete environment for testing with minimal setup.
 
-You can submit jobs to your DevStack just like any other Bacalhau network:
+Confirm that the compute nodes registered the Docker engine (the `ENGINES` column should list `docker`), then submit jobs to your DevStack just like any other Bacalhau network:
+
+```bash
+bacalhau node list --show features
+```
+
 
 ```bash
 bacalhau docker run ubuntu:latest -- echo "Hello from DevStack!"

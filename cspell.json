@@ -24,6 +24,8 @@
     "prism",
     "tsconfig",
     "ipfs",
+    "opa",
+    "kubo",
     "expanso",
     "idx",
     "boinc",

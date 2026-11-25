@@ -1837,6 +1837,10 @@ Tasks:
 
 IPFS provides content-addressable, peer-to-peer storage for decentralized data sharing.
 
+:::note
+Bacalhau does not include an IPFS node. Compute nodes only accept IPFS inputs when they are configured with the RPC API address of an IPFS node you run, through `InputSources.Types.IPFS.Endpoint`. See [IPFS Input Source requirements](/docs/sources/ipfs#requirements-run-your-own-ipfs-node).
+:::
+
 ```bash
 bacalhau docker run \
 --input ipfs://QmZ4tDuvesekSs4qM5ZBKpXiZGun7S2CYtEZRB3DYXkjGx:/data \
@@ -1902,7 +1906,7 @@ Best practices:
 
 - **Credentials**: Some mount sources (S3) require proper credentials or connectivity
 - **Data Locality**: Use Bacalhau label selectors to run jobs on nodes that have or close to the data
-- **IPFS Network**: Compute nodes must be connected to an IPFS daemon to support this storage type
+- **IPFS Node**: Bacalhau does not include an IPFS node. Compute nodes need an IPFS node you run and `InputSources.Types.IPFS.Endpoint` set to its RPC API address to support this storage type
 - **Size Limits**: Very large inputs may require increased disk allocations using `--disk`
 
 ## Next Steps
@@ -1921,9 +1925,13 @@ By default, Bacalhau jobs have network access. This is configured at the node le
 
 To run Docker jobs on Bacalhau with different network access levels, you can specify one of the following:
 
-1. **host**: unfiltered network access for any protocol `--network=host` (default)
-2. **http**: HTTP(S)-only network access to a specified list of domains `--network=http`
-3. **none**: no network access `--network=none`
+1. **default**: the compute node's executor decides. Docker jobs get bridge networking and WebAssembly jobs get host networking. This is what you get when you omit `--network`.
+2. **bridge**: an isolated network namespace with outbound connectivity `--network=bridge`
+3. **host**: unfiltered network access for any protocol through the host's interfaces `--network=host` (`full` is a deprecated alias)
+4. **http**: HTTP(S)-only network access to a specified list of domains `--network=http`
+5. **none**: no network access `--network=none`
+
+If a compute node sets `JobAdmissionControl.RejectNetworkedJobs=true`, it rejects jobs that request network access.
 
 :::info
 Specifying `none` will still allow Bacalhau to download and upload data before and after the job using a Publisher.
@@ -2266,7 +2274,7 @@ Tasks:
 
 ### IPFS Publisher
 
-The IPFS Publisher uploads outputs to the InterPlanetary File System. Both the client (downloading the result) and the compute node must be connected to an IPFS daemon.
+The IPFS Publisher uploads outputs to the InterPlanetary File System. Bacalhau does not include an IPFS node, so you must run your own and configure both sides to use it: compute nodes through `Publishers.Types.IPFS.Endpoint`, and the client that downloads results with `bacalhau job get` through `ResultDownloaders.Types.IPFS.Endpoint`. See [IPFS Result Publisher requirements](/docs/publishers/ipfs#requirements-run-your-own-ipfs-node).
 
 ```bash
 bacalhau docker run \
@@ -2333,11 +2341,11 @@ If you are using the local publish, make SURE you have set the path to be availa
 
 For example, in your config file for your node, you probably want to mount in the local file system:
 
-```
-
+```yaml
 Compute:
-AllowListedLocalPaths: - /outputs:rw - /etc/\*.conf:ro
-
+  AllowListedLocalPaths:
+    - /outputs:rw
+    - /etc/*.conf:ro
 ```
 
 You can read more about that here: [Understanding Publishers and Results](publishing-results.mdx#understanding-publishers-and-result-paths)
@@ -2363,10 +2371,10 @@ For S3 publisher problems:
 
 For IPFS publisher issues:
 
-1. Ensure IPFS daemon is running on both compute node and client
-2. Check for network connectivity between nodes
-3. Verify you have enough disk space for pinning
-```
+1. Ensure an IPFS node is running for both the compute node and the client, and that `Publishers.Types.IPFS.Endpoint` (compute node) and `ResultDownloaders.Types.IPFS.Endpoint` (client) point at its RPC API, for example `/ip4/127.0.0.1/tcp/5001`
+2. Check that `ipfs` appears in the `OUTPUTS` column of `bacalhau node list --show features`
+3. Check for network connectivity between the IPFS nodes
+4. Verify you have enough disk space for pinning
 
 ## docs/guides/queueing.md
 
@@ -2431,11 +2439,11 @@ Tasks:
 You can also define timeouts for your jobs directly through the CLI using the `--queue-timeout` flag. This provides a convenient way to specify queueing behavior on a per-job basis without modifying configuration files:
 
 ```bash
-bacalhau docker run ubuntu sleep 90 --queue-timeout 1800
+bacalhau docker run --queue-timeout 1800 ubuntu -- sleep 90
 ```
 
 :::warning
-Timeouts in Bacalhau are generally governed by the `TotalTimeout` value for your YAML specifications and the `--timeout` flag for your CLI commands. The default total timeout value is 30 minutes. Setting a queue timeout larger than the total timeout without increasing the total timeout value will result in a validation error.
+When a total timeout is set, either as `TotalTimeout` in your job specification or through the node default `JobDefaults.<job type>.Task.Timeouts.TotalTimeout`, the execution timeout (`--timeout`) plus the queue timeout must not exceed it. Otherwise the job fails validation. No total timeout is set by default.
 :::
 
 ## Monitoring Queued Jobs
@@ -2469,10 +2477,10 @@ Namespace     = default
 Type          = batch
 State         = Queued
 Message       = Job queued. not enough nodes to run job. requested: 1, available: 4, suitable: 0.
-• 3 of 4 nodes: labels map[Architecture:amd64 Operating-System:linux owner:bacalhau]
+• 3 of 4 nodes: labels map[os_arch:amd64 os_type:linux owner:bacalhau]
   don't match required selectors [name = walid]
-• Node Qma5yQAk: labels map[Architecture:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
-  Operating-System:linux owner:bacalhau] don't match required selectors [name = walid]
+• Node Qma5yQAk: labels map[os_arch:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
+  os_type:linux owner:bacalhau] don't match required selectors [name = walid]
 ```
 
 Once appropriate node resources become available, these jobs will transition to either a `Running` or `Completed` status, allowing more jobs to be assigned to matching nodes.
@@ -2498,12 +2506,12 @@ Job History
  2024-06-24 13:36:40  1     Pending    Submission  Job submitted
  2024-06-24 13:36:40  2     Queued     Queueing    Job queued. not enough nodes to run job. requested: 1,
                                                    available: 4, suitable: 0.
-                                                   • 3 of 4 nodes: labels map[Architecture:amd64
-                                                   Operating-System:linux owner:bacalhau]
+                                                   • 3 of 4 nodes: labels map[os_arch:amd64
+                                                   os_type:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
-                                                   • Node Qma5yQAk: labels map[Architecture:amd64
+                                                   • Node Qma5yQAk: labels map[os_arch:amd64
                                                    GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
-                                                   Operating-System:linux owner:bacalhau]
+                                                   os_type:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
  2024-06-24 13:39:40  3     Running
  2024-06-24 13:41:40  4     Completed
@@ -3362,8 +3370,8 @@ Bacalhau's devstack provides a quick way to spin up a local testing environment 
 
 ## Prerequisites
 
-- **Docker Engine**: Must be installed and running
 - **Bacalhau**: Latest version installed
+- **Docker Engine**: Installed, running, and reachable by the user that starts devstack. Docker is only needed for Docker jobs; without it, devstack still starts but its compute nodes can only run WebAssembly (WASM) jobs.
 
 ## Installation
 
@@ -3371,6 +3379,29 @@ If you haven't installed Bacalhau yet:
 
 ```bash
 curl -sL https://get.bacalhau.org/install.sh | bash
+```
+
+## Check Docker Before You Start
+
+Each compute node checks for a Docker daemon once, when it starts. If it cannot reach one, the node only offers the WASM engine and keeps doing so until it is restarted, even if Docker comes up later. Docker jobs then fail with:
+
+```
+Error: not enough nodes to run job. requested: 1, available: 3, suitable: 0.
+• 3 of 3 nodes: does not support docker, only wasm
+```
+
+Before starting devstack, confirm that Docker answers from the same shell:
+
+```bash
+docker info
+```
+
+If `docker info` fails, start Docker (for example, open Docker Desktop, or run `sudo systemctl start docker` on Linux) and try again. On Linux, also make sure your user can access the Docker socket without `sudo`, for example by adding it to the `docker` group.
+
+Bacalhau connects to Docker through the standard `DOCKER_HOST` environment variable, or `unix:///var/run/docker.sock` when `DOCKER_HOST` is unset. It does not read Docker CLI contexts. If your Docker runtime listens on a different socket (Docker Desktop without the default socket enabled, Colima, OrbStack, Podman, or rootless Docker), point `DOCKER_HOST` at the socket of your current Docker context before starting devstack:
+
+```bash
+
 ```
 
 ## Starting the Devstack
@@ -3388,7 +3419,11 @@ Devstack is ready!
 No. of requester only nodes: 1
 No. of compute only nodes: 3
 No. of hybrid nodes: 0
+To use the devstack, run the following commands in your shell:
+
 ```
+
+Use `--orchestrators`, `--computes`, and `--hybrids` to change the number of each node type, for example `bacalhau devstack --orchestrators 0 --computes 0 --hybrids 1` for a single hybrid node.
 
 ## Using Your Devstack
 
@@ -3401,16 +3436,20 @@ bacalhau node list
 You should see the nodes in your devstack:
 
 ```
-ID      TYPE       APPROVAL  STATUS     LABELS
-node-0  Requester  APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-0 name=node-0
-node-1  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-1 name=node-1
-node-2  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-2 name=node-2
-node-3  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-3 name=node-3
+ ID      TYPE       APPROVAL  STATUS     LABELS                                    CPU   MEMORY  DISK  GPU
+ node-0  Requester  APPROVED  CONNECTED  env=devstack id=node-0 name=node-0 ...
+ node-1  Compute    APPROVED  CONNECTED  env=devstack id=node-1 name=node-1 ...    ...   ...     ...   ...
+ node-2  Compute    APPROVED  CONNECTED  env=devstack id=node-2 name=node-2 ...    ...   ...     ...   ...
+ node-3  Compute    APPROVED  CONNECTED  env=devstack id=node-3 name=node-3 ...    ...   ...     ...   ...
 ```
+
+Check which execution engines the compute nodes registered:
+
+```bash
+bacalhau node list --show features
+```
+
+The `ENGINES` column of each compute node must include `docker` before you submit Docker jobs. If it only shows `wasm`, stop devstack, fix Docker access as described in [Check Docker Before You Start](#check-docker-before-you-start), and start devstack again.
 
 ## Running a Simple Job
 
@@ -3442,6 +3481,10 @@ Set default resource requirements for all batch jobs:
 bacalhau devstack -c JobDefaults.Batch.Task.Resources.CPU="250m" -c JobDefaults.Batch.Task.Resources.Memory="512Mb"
 ```
 
+### Avoiding Port Conflicts
+
+Devstack uses the standard ports (1234 for the API and 4222 for the orchestrator) so that the CLI works without extra settings. If another Bacalhau node already uses them, start devstack with `--random-ports` and export the `BACALHAU_API_HOST` and `BACALHAU_API_PORT` values it prints.
+
 ## Accessing the Web UI
 
 The Web UI is enabled by default in devstack for easier monitoring and management. Access it by opening your browser and navigating to:
@@ -3459,6 +3502,8 @@ The Web UI allows you to:
 ## Stopping Devstack
 
 When you're done, simply press `Ctrl+C` in the terminal where devstack is running to shut everything down.
+
+If devstack exits abnormally, the next start can fail with `found file .../bacalhau-devstack.port - Devstack likely already running`. When no devstack is running, delete the `bacalhau-devstack.port` and `bacalhau-devstack.pid` files from your system temporary directory (`$TMPDIR` on macOS, `/tmp` on Linux) and start it again.
 
 ## docs/references/developers/workload-onboarding/docker.md
 
@@ -3704,7 +3749,7 @@ bacalhau config set Labels=foo=bar,baz=qaz
 
 ## How do I specify the orchestrator for my compute node?
 
-The `Compute.Orchestrator` field in the config tells the Bacalhau compute node where to connect:
+The `Compute.Orchestrators` field in the config tells the Bacalhau compute node where to connect:
 
 ```bash
 bacalhau config set Compute.Orchestrators=my-great-orchestrator.com
@@ -3733,7 +3778,7 @@ Yes! You can run programs using WebAssembly instead. Refer to the [WebAssembly o
 Use the job describe command with your job ID:
 
 ```bash
-bacalhau job describe b4491a4a-7b55-4fa7-a5af-80f3c99bc379
+bacalhau job describe j-b4491a4a-7b55-4fa7-a5af-80f3c99bc379
 ```
 
 If your job writes to stdout or stderr while running, you can also view the output with the `logs` command.
@@ -3861,6 +3906,23 @@ Ensure there are active compute nodes with sufficient resources.
 2. **Add more compute nodes**: Add capacity to your cluster
 3. **Check network connectivity**: Ensure nodes can communicate with each other
 4. **Modify job requirements**: Adjust constraints to match available resources
+
+### Nodes Do Not Support Docker
+
+A Docker job fails to schedule with an error such as:
+
+```
+Error: not enough nodes to run job. requested: 1, available: 3, suitable: 0.
+• 3 of 3 nodes: does not support docker, only wasm
+```
+
+The compute nodes could not reach a Docker daemon when they started, so they only registered the WebAssembly engine. Check with `bacalhau node list --show features`: the `ENGINES` column lists what each node can run.
+
+To fix it:
+
+1. Make sure Docker is running and `docker info` succeeds as the user that runs Bacalhau.
+2. If Docker listens on a non-default socket (Docker Desktop without the default socket, Colima, OrbStack, Podman, or rootless Docker), set `DOCKER_HOST`, for example `export DOCKER_HOST=$(docker context inspect --format '{{.Endpoints.docker.Host}}')`.
+3. Restart the compute nodes (or `bacalhau devstack`). Nodes detect Docker only at startup.
 
 ## Input Data Access Issues
 
@@ -4223,7 +4285,16 @@ The following table lists all configuration options in alphabetical order.
 | -------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | `API.Auth.AccessPolicyPath`                        | `""`                                 | Path to policy file for API access control                                                                  |
 | `API.Auth.Methods`                                 | `{"ClientKey":{"Type":"challenge"}}` | Authentication methods mapping                                                                              |
-| `API.Auth.Oauth2`                                  | `{}`                                 | OAuth 2.0 configuration                                                                                     |
+| `API.Auth.Oauth2.Audience`                         | `""`                                 | Expected `aud` claim in the JWT token                                                                       |
+| `API.Auth.Oauth2.DeviceAuthorizationEndpoint`      | `""`                                 | Device authorization (device code) endpoint of the provider                                                 |
+| `API.Auth.Oauth2.DeviceClientID`                   | `""`                                 | Client ID used for the device code flow                                                                     |
+| `API.Auth.Oauth2.Issuer`                           | `""`                                 | Expected issuer; must match the issuer in the JWT token                                                     |
+| `API.Auth.Oauth2.JWKSUri`                          | `""`                                 | JWKS URI used to verify token signatures                                                                    |
+| `API.Auth.Oauth2.PollingInterval`                  | `0`                                  | Seconds between CLI checks for device code approval                                                         |
+| `API.Auth.Oauth2.ProviderID`                       | `""`                                 | Identifier of the OAuth 2.0 identity provider, for your own reference                                       |
+| `API.Auth.Oauth2.ProviderName`                     | `""`                                 | Display name of the OAuth 2.0 identity provider                                                             |
+| `API.Auth.Oauth2.Scopes`                           | `[]`                                 | Scopes requested in the token exchange                                                                      |
+| `API.Auth.Oauth2.TokenEndpoint`                    | `""`                                 | Endpoint used to obtain the JWT token                                                                       |
 | `API.Auth.Users`                                   | `[]`                                 | List of users for basic authentication                                                                      |
 | `API.Host`                                         | `"0.0.0.0"`                          | Hostname or IP address on which the API server listens                                                      |
 | `API.Port`                                         | `1234`                               | Port number on which the API server listens                                                                 |
@@ -4242,8 +4313,10 @@ The following table lists all configuration options in alphabetical order.
 | `Compute.AllowListedLocalPaths`                    | `[]`                                 | Local paths allowed for mounting in format `path[:mode]`. Mode can be `ro` (read-only) or `rw` (read-write) |
 | `Compute.Auth.Token`                               | `""`                                 | Token for orchestrator access                                                                               |
 | `Compute.Enabled`                                  | `false`                              | Enable compute capabilities                                                                                 |
+| `Compute.Env.AllowList`                            | `[]`                                 | Host environment variables that may be forwarded to jobs. Supports glob patterns such as `AWS_*`            |
 | `Compute.Heartbeat.InfoUpdateInterval`             | `"1m"`                               | Interval for updating node information                                                                      |
 | `Compute.Heartbeat.Interval`                       | `"15s"`                              | Interval between heartbeats sent to orchestrator                                                            |
+| `Compute.Heartbeat.ResourceUpdateInterval`         | `0s`                                 | Deprecated: use `Compute.Heartbeat.Interval` instead                                                        |
 | `Compute.Network.AdvertisedAddress`                | `""`                                 | Address that this compute node advertises to other nodes                                                    |
 | `Compute.Network.PortRangeEnd`                     | `32000`                              | Last port in the range (inclusive) that can be allocated to jobs                                            |
 | `Compute.Network.PortRangeStart`                   | `20000`                              | First port in the range (inclusive) that can be allocated to jobs                                           |
@@ -4260,10 +4333,10 @@ The following table lists all configuration options in alphabetical order.
 | `InputSources.MaxRetryCount`                       | `3`                                  | Maximum retry attempts for source access                                                                    |
 | `InputSources.ReadTimeout`                         | `"5m"`                               | Timeout for reading from sources                                                                            |
 | `InputSources.Types.IPFS.Endpoint`                 | `""`                                 | IPFS API endpoint for input sources                                                                         |
-| `JobAdmissionControl.AcceptNetworkedJobs`          | `false`                              | Accept jobs that require network access                                                                     |
-| `JobAdmissionControl.Locality`                     | `"Anywhere"`                         | Data locality requirement: `"Anywhere"` or `"Local"`                                                        |
+| `JobAdmissionControl.Locality`                     | `"anywhere"`                         | Data locality requirement: `"anywhere"` or `"local"`                                                        |
 | `JobAdmissionControl.ProbeExec`                    | `""`                                 | External program path for job admission decisions                                                           |
 | `JobAdmissionControl.ProbeHTTP`                    | `""`                                 | HTTP endpoint for job admission decisions                                                                   |
+| `JobAdmissionControl.RejectNetworkedJobs`          | `false`                              | Reject jobs that require network access                                                                     |
 | `JobAdmissionControl.RejectStatelessJobs`          | `false`                              | Reject jobs without input data                                                                              |
 | `JobDefaults.Batch.Priority`                       | `0`                                  | Default priority for batch jobs                                                                             |
 | `JobDefaults.Batch.Task.Publisher.Params`          | `{}`                                 | Default publisher parameters for batch jobs                                                                 |
@@ -4309,7 +4382,6 @@ The following table lists all configuration options in alphabetical order.
 | `Orchestrator.EvaluationBroker.MaxRetryCount`      | `10`                                 | Maximum evaluation retry attempts                                                                           |
 | `Orchestrator.EvaluationBroker.VisibilityTimeout`  | `"1m"`                               | How long an evaluation can be claimed                                                                       |
 | `Orchestrator.Host`                                | `"0.0.0.0"`                          | Hostname/IP for orchestrator connections                                                                    |
-| `Orchestrator.License.LocalPath`                   | `""`                                 | Local license file path                                                                                     |
 | `Orchestrator.NodeManager.DisconnectTimeout`       | `"1m"`                               | Time before marking node as disconnected                                                                    |
 | `Orchestrator.NodeManager.ManualApproval`          | `false`                              | Require manual approval for compute nodes                                                                   |
 | `Orchestrator.Port`                                | `4222`                               | Port for orchestrator connections                                                                           |
@@ -4328,6 +4400,11 @@ The following table lists all configuration options in alphabetical order.
 | `Publishers.Types.Local.Port`                      | `6001`                               | Local publisher port                                                                                        |
 | `Publishers.Types.S3.PreSignedURLDisabled`         | `false`                              | Disable pre-signed URLs for S3 publisher                                                                    |
 | `Publishers.Types.S3.PreSignedURLExpiration`       | `""`                                 | Pre-signed URL expiration time                                                                              |
+| `Publishers.Types.S3Managed.Bucket`                | `""`                                 | S3 bucket name for the managed S3 publisher                                                                 |
+| `Publishers.Types.S3Managed.Endpoint`              | `""`                                 | Optional custom S3 endpoint for the managed S3 publisher                                                    |
+| `Publishers.Types.S3Managed.Key`                   | `""`                                 | Optional prefix for objects stored in the bucket                                                            |
+| `Publishers.Types.S3Managed.PreSignedURLExpiration` | `"1h"`                               | Pre-signed URL expiration time for the managed S3 publisher                                                 |
+| `Publishers.Types.S3Managed.Region`                | `""`                                 | Region of the managed S3 publisher bucket                                                                   |
 | `ResultDownloaders.Disabled`                       | `[]`                                 | List of disabled result downloader types                                                                    |
 | `ResultDownloaders.Timeout`                        | `""`                                 | Timeout for download operations                                                                             |
 | `ResultDownloaders.Types.IPFS.Endpoint`            | `""`                                 | IPFS API endpoint for downloading results                                                                   |
@@ -4405,13 +4482,13 @@ Tasks:
       Type: docker
       Params:
         Image: 'nvidia/cuda:11.6.2-base-ubuntu20.04'
-      Entrypoint:
-        - /bin/bash
-      Parameters:
-        - -c
-        - nvidia-smi && echo 'GPU is working!'
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - nvidia-smi && echo 'GPU is working!'
     Name: TestGPU
-    ResourcesConfig:
+    Resources:
       CPU: '1'
       Memory: '1GB'
       Disk: '10GB'
@@ -5030,7 +5107,7 @@ Consider a scenario where a job should only run on nodes with a GPU and an opera
 constraints:
   - key: "hardware.gpu"
     operator: "exists"
-  - key: "Operating-System"
+  - key: "os_type"
     operator: "="
     values: ["linux"]
   - key: "region"
@@ -5175,17 +5252,21 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 ### Bacalhau Auto-Generated Keys:
 
-1. **bacalhau.org/requester.id**: A unique identifier for the orchestrator that handled the job.
-2. **bacalhau.org/requester.publicKey**: The public key of the requester, aiding in security and validation.
-3. **bacalhau.org/client.id**: The ID for the client submitting the job, enhancing traceability.
+1. **bacalhau.org/orchestrator.id**: The ID of the orchestrator node that accepted the job.
+2. **bacalhau.org/requester.id**: The same orchestrator ID under its legacy key, kept for backward compatibility.
+3. **bacalhau.org/client.installation.id** and **bacalhau.org/client.instance.id**: Identify the client installation and client instance that submitted the job, when the client provides them.
+4. **bacalhau.org/server.installation.id** and **bacalhau.org/server.instance.id**: Identify the orchestrator installation and instance that handled the job.
+
+Keys under the `bacalhau.org/` prefix are reserved for Bacalhau.
 
 #### Example:
 
 ```json
 "Meta": {
-    "bacalhau.org/requester.id": "QmfZwnVWYjHSchAVxJqXn18Bvd1cpG2ATRYceBBvUGZf2f",
-    "bacalhau.org/requester.publicKey": "CAASpgIwggEiMA0GCSqG...BcyEhfEZKnAgMBAAE=",
-    "bacalhau.org/client.id": "dfadea67ab6d8c65761c3d879119e11f157923036f945d969d19a51066dc663a"
+    "bacalhau.org/orchestrator.id": "node-0",
+    "bacalhau.org/requester.id": "node-0",
+    "bacalhau.org/client.installation.id": "c5a5f4a4-2b6e-4c58-9a57-4c1f0c3b8d21",
+    "bacalhau.org/client.instance.id": "0d2c1b5e-6f3a-4e7b-8c9d-1a2b3c4d5e6f"
 }
 ```
 
@@ -5193,7 +5274,7 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 1. **Identification**: The metadata aids in uniquely identifying jobs and tasks, connecting them to their originators and executors.
 2. **Context Enhancement**: Metadata can supplement jobs and tasks with additional data, offering insights and context that aren't captured by standard parameters.
-3. **Security Enhancement**: Auto-generated keys like the requester's public key contribute to the secure handling and execution of jobs and tasks.
+3. **Traceability**: Auto-generated keys record which orchestrator and client handled a job, which helps when debugging across a cluster.
 
 While the `Meta` block is distinct from the [`Labels`](label.md) block used for filtering, its contribution to providing context, security, and traceability is integral in managing and understanding the diverse jobs and tasks within the Bacalhau ecosystem effectively.
 
@@ -5205,16 +5286,18 @@ The `Network` object offers a method to specify the networking requirements of a
 
 ## `Network` Parameters:
 
-1. **Type** `(string: "None")`: Indicates the network configuration's nature. There are several network modes available:
+1. **Type** `(string: "Default")`: Indicates the network configuration's nature. There are several network modes available:
+   * `Default`: The compute node's executor applies its own default. Docker uses bridge networking and WebAssembly uses host networking. If the compute node rejects networked jobs, networking is disabled.
    * `None`: This mode implies that the task does not necessitate any networking capabilities.
-   * `Full`: Specifies that the task mandates unrestricted, raw IP networking without any imposed filters.
+   * `Bridge`: The task runs in an isolated network namespace connected to a bridge network, with outbound connectivity.
+   * `Host`: Specifies that the task mandates unrestricted, raw IP networking through the host's network interfaces. `Full` is a deprecated alias for `Host`.
    * `HTTP`: This mode constrains the task to only require HTTP networking with specific domains. In this model:
      * The job specifier puts forward a job, stipulating the domain(s) it intends to communicate with.
      * The compute provider assesses the inherent risk of the job based on these domains and bids accordingly.
      * At runtime, the network traffic remains strictly confined to the designated domain(s).
 
 :::info
-A typical command for this might resemble: `bacalhau docker run —network=http —domain=crates.io —domain=github.com -i ipfs://Qmy1234myd4t4,dst=/code rust/compile`&#x20;
+A typical command for this might resemble: `bacalhau docker run --network=http --domain=crates.io --domain=github.com -i ipfs://Qmy1234myd4t4:/code rust/compile`
 :::
 
 The primary risks for the compute provider center around possible violations of its terms, its hosting provider's terms, or even prevailing laws in its jurisdiction. This encompasses issues such as unauthorized access or distribution of illicit content and potential cyber-attacks.
@@ -5224,6 +5307,8 @@ Conversely, the job specifier's primary risk involves operating in a paid enviro
 While a compute provider might impose its limits through other means, having domains declared upfront allows it to selectively bid on jobs that it can execute without issues, improving the user experience for job specifiers.
 
 2. **Domains** `(string[]: <optional>)`: A list of domain strings, relevant primarily when the `Type` is set to **HTTP**. It dictates the specific domains the task can communicate with over HTTP.
+
+3. **Ports** `(object[]: <optional>)`: Port mappings to expose from the task. Only supported with `Host` and `Bridge` networking.
 
 Understanding and utilizing these configurations aptly can ensure that tasks are executed in an environment that aligns with their networking requirements, bolstering efficiency and security.
 
@@ -5357,7 +5442,7 @@ Labels:
 # Should be specified in a following format: key - operator - value
 # Optional.
 Constraints:
-- Key: "Operating-System"
+- Key: "os_type"
   Operator: "="
   Values: ["linux"]
 

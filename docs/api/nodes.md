@@ -12,78 +12,89 @@ Retrieve information about a specific node.
 
 **Parameters**:
 
-1. `:nodeID`: Identifier of the node to describe. (e.g. `QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT`)
+1. `:nodeID`: Identifier of the node to describe. (e.g. `node-1`)
 
 **Response**:
 
-* **Node**: Detailed information about the requested node.
+* **Node**: Detailed information about the requested node: its `Info` (ID, type, labels, compute capabilities and version), `Membership` approval state, `Connection` status and `ConnectionState` heartbeat details.
 
 **Example**:
 
 ```bash
-curl 127.0.0.1:1234/api/v1/orchestrator/nodes/QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT
+curl 127.0.0.1:1234/api/v1/orchestrator/nodes/node-1
 {
   "Node": {
-    "PeerInfo": {
-      "ID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
-      "Addrs": [
-        "/ip4/34.34.247.247/tcp/1235"
-      ]
-    },
-    "NodeType": "Compute",
-    "Labels": {
-      "Architecture": "amd64",
-      "Operating-System": "linux",
-      "git-lfs": "True",
-      "owner": "bacalhau"
-    },
-    "ComputeNodeInfo": {
-      "ExecutionEngines": [
-        "docker",
-        "wasm"
-      ],
-      "Publishers": [
-        "s3",
-        "noop",
-        "ipfs"
-      ],
-      "StorageSources": [
-        "urldownload",
-        "inline",
-        "repoclone",
-        "repoclonelfs",
-        "s3",
-        "ipfs"
-      ],
-      "MaxCapacity": {
-        "CPU": 3.2,
-        "Memory": 12561049190,
-        "Disk": 582010404864,
-        "GPU": 1
+    "Info": {
+      "NodeID": "node-1",
+      "NodeType": "Compute",
+      "Labels": {
+        "name": "node-1",
+        "os_arch": "amd64",
+        "os_type": "linux",
+        "region": "us-west"
       },
-      "AvailableCapacity": {
-        "CPU": 3.2,
-        "Memory": 12561049190,
-        "Disk": 582010404864,
-        "GPU": 1
+      "SupportedProtocols": [
+        "bprotocol/v2",
+        "ncl/v1"
+      ],
+      "ComputeNodeInfo": {
+        "ExecutionEngines": [
+          "wasm",
+          "docker"
+        ],
+        "Publishers": [
+          "local",
+          "s3",
+          "s3managed",
+          "noop",
+          "ipfs"
+        ],
+        "StorageSources": [
+          "inline",
+          "urldownload",
+          "s3",
+          "ipfs"
+        ],
+        "MaxCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931121049,
+          "Disk": 721417073459,
+          "GPU": 1
+        },
+        "QueueCapacity": {},
+        "AvailableCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931121049,
+          "Disk": 721417073459,
+          "GPU": 1
+        },
+        "MaxJobRequirements": {
+          "CPU": 12.8,
+          "Memory": 53931121049,
+          "Disk": 721417073459,
+          "GPU": 1
+        },
+        "RunningExecutions": 0,
+        "EnqueuedExecutions": 0,
+        "address": ""
       },
-      "MaxJobRequirements": {
-        "CPU": 3.2,
-        "Memory": 12561049190,
-        "Disk": 582010404864,
-        "GPU": 1
-      },
-      "RunningExecutions": 0,
-      "EnqueuedExecutions": 0
+      "BacalhauVersion": {
+        "Major": "1",
+        "Minor": "9",
+        "GitVersion": "v1.9.6",
+        "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+        "BuildDate": "2026-11-25T01:55:56Z",
+        "GOOS": "linux",
+        "GOARCH": "amd64"
+      }
     },
-    "BacalhauVersion": {
-      "Major": "1",
-      "Minor": "1",
-      "GitVersion": "v1.1.0",
-      "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-      "BuildDate": "2023-09-25T07:59:00Z",
-      "GOOS": "linux",
-      "GOARCH": "amd64"
+    "Membership": "APPROVED",
+    "Connection": "CONNECTED",
+    "ConnectionState": {
+      "Status": "CONNECTED",
+      "LastHeartbeat": "2026-11-25T01:35:26.860014Z",
+      "ConnectedSince": "2026-11-25T01:35:21.857935Z",
+      "DisconnectedSince": "0001-01-01T00:00:00Z"
     }
   }
 }
@@ -98,10 +109,12 @@ Retrieve a list of nodes.
 **Parameters**:
 
 1. `labels`: Use label-based criteria to filter nodes. See [Label Filtering](/guides/labels-and-constraints.md) for usage details.
-2. `limit`: Set the maximum number of jobs to return. Default is set to 10.
+2. `limit`: Set the maximum number of nodes to return.
 3. `next_token`: Utilize this parameter for pagination continuation.
-4. `order_by`: Determine the ordering of jobs. Choose between `id`, `type`, `available_cpu`, `available_memory`, `available_disk` or `available_gpu`. (default is `id`).
-5. `reverse`: Opt to reverse the default order of displayed jobs.
+4. `order_by`: Determine the ordering of nodes. Choose between `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu` or `status`. (default is `id`).
+5. `reverse`: Opt to reverse the default order of displayed nodes.
+6. `filter-approval`: Only return nodes with this approval state: `approved`, `pending` or `rejected`.
+7. `filter-status`: Only return nodes with this connection status: `connected` or `disconnected`.
 
 **Response**:
 
@@ -113,131 +126,156 @@ Retrieve a list of nodes.
 Find two linux nodes with most available Memory
 
 ```bash
-curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available_memory" --data-urlencode 'labels=Operating-System=linux'
+curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available_memory&reverse=true" --data-urlencode 'labels=os_type=linux'
 {
   "NextToken": "",
   "Nodes": [
     {
-      "PeerInfo": {
-        "ID": "QmcC3xifiiCuGGQ9rpvefUoary9tY65x2HaNxSdeMTvM9U",
-        "Addrs": [
-          "/ip4/212.248.248.248/tcp/1235"
-        ]
-      },
-      "NodeType": "Compute",
-      "Labels": {
-        "Architecture": "amd64",
-        "Operating-System": "linux",
-        "env": "prod",
-        "git-lfs": "False",
-        "name": "saturnia_len20"
-      },
-      "ComputeNodeInfo": {
-        "ExecutionEngines": [
-          "wasm",
-          "docker"
-        ],
-        "Publishers": [
-          "noop",
-          "ipfs"
-        ],
-        "StorageSources": [
-          "urldownload",
-          "inline",
-          "ipfs"
-        ],
-        "MaxCapacity": {
-          "CPU": 102,
-          "Memory": 858993459200,
-          "Disk": 562967789568,
-          "GPU": 2
+      "Info": {
+        "NodeID": "node-1",
+        "NodeType": "Compute",
+        "Labels": {
+          "name": "node-1",
+          "os_arch": "amd64",
+          "os_type": "linux",
+          "region": "us-west"
         },
-        "AvailableCapacity": {
-          "CPU": 102,
-          "Memory": 858993459200,
-          "Disk": 562967789568,
-          "GPU": 2
+        "SupportedProtocols": [
+          "bprotocol/v2",
+          "ncl/v1"
+        ],
+        "ComputeNodeInfo": {
+          "ExecutionEngines": [
+            "wasm",
+            "docker"
+          ],
+          "Publishers": [
+            "local",
+            "s3",
+            "s3managed",
+            "noop",
+            "ipfs"
+          ],
+          "StorageSources": [
+            "inline",
+            "urldownload",
+            "s3",
+            "ipfs"
+          ],
+          "MaxCapacity": {
+            "CPU": 12.8,
+            "Memory": 53931121049,
+            "Disk": 721417073459,
+            "GPU": 1
+          },
+          "QueueCapacity": {},
+          "AvailableCapacity": {
+            "CPU": 12.8,
+            "Memory": 53931121049,
+            "Disk": 721417073459,
+            "GPU": 1
+          },
+          "MaxJobRequirements": {
+            "CPU": 12.8,
+            "Memory": 53931121049,
+            "Disk": 721417073459,
+            "GPU": 1
+          },
+          "RunningExecutions": 0,
+          "EnqueuedExecutions": 0,
+          "address": ""
         },
-        "MaxJobRequirements": {
-          "CPU": 96,
-          "Memory": 858993459200,
-          "Disk": 562967789568,
-          "GPU": 2
-        },
-        "RunningExecutions": 0,
-        "EnqueuedExecutions": 0
+        "BacalhauVersion": {
+          "Major": "1",
+          "Minor": "9",
+          "GitVersion": "v1.9.6",
+          "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+          "BuildDate": "2026-11-25T01:55:56Z",
+          "GOOS": "linux",
+          "GOARCH": "amd64"
+        }
       },
-      "BacalhauVersion": {
-        "Major": "1",
-        "Minor": "1",
-        "GitVersion": "v1.1.0",
-        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-        "BuildDate": "2023-09-25T07:59:00Z",
-        "GOOS": "linux",
-        "GOARCH": "amd64"
+      "Membership": "APPROVED",
+      "Connection": "CONNECTED",
+      "ConnectionState": {
+        "Status": "CONNECTED",
+        "LastHeartbeat": "2026-11-25T01:35:26.860014Z",
+        "ConnectedSince": "2026-11-25T01:35:21.857935Z",
+        "DisconnectedSince": "0001-01-01T00:00:00Z"
       }
     },
     {
-      "PeerInfo": {
-        "ID": "QmXaXu9N5GNetatsvwnTfQqNtSeKAD6uCmarbh3LMRYAcF",
-        "Addrs": [
-          "/ip4/35.245.245.245/tcp/1235"
-        ]
-      },
-      "NodeType": "Compute",
-      "Labels": {
-        "Architecture": "amd64",
-        "Operating-System": "linux",
-        "git-lfs": "True",
-        "owner": "bacalhau"
-      },
-      "ComputeNodeInfo": {
-        "ExecutionEngines": [
-          "docker",
-          "wasm"
-        ],
-        "Publishers": [
-          "noop",
-          "ipfs",
-          "s3"
-        ],
-        "StorageSources": [
-          "s3",
-          "ipfs",
-          "urldownload",
-          "inline",
-          "repoclone",
-          "repoclonelfs"
-        ],
-        "MaxCapacity": {
-          "CPU": 12.8,
-          "Memory": 53931124326,
-          "Disk": 718749414195,
-          "GPU": 0
+      "Info": {
+        "NodeID": "node-2",
+        "NodeType": "Compute",
+        "Labels": {
+          "name": "node-2",
+          "os_arch": "amd64",
+          "os_type": "linux",
+          "region": "us-east"
         },
-        "AvailableCapacity": {
-          "CPU": 12.8,
-          "Memory": 53931124326,
-          "Disk": 718749414195,
-          "GPU": 0
+        "SupportedProtocols": [
+          "bprotocol/v2",
+          "ncl/v1"
+        ],
+        "ComputeNodeInfo": {
+          "ExecutionEngines": [
+            "wasm",
+            "docker"
+          ],
+          "Publishers": [
+            "local",
+            "s3",
+            "s3managed",
+            "noop",
+            "ipfs"
+          ],
+          "StorageSources": [
+            "inline",
+            "urldownload",
+            "s3",
+            "ipfs"
+          ],
+          "MaxCapacity": {
+            "CPU": 3.2,
+            "Memory": 12561049190,
+            "Disk": 582010404864,
+            "GPU": 0
+          },
+          "QueueCapacity": {},
+          "AvailableCapacity": {
+            "CPU": 3.2,
+            "Memory": 12561049190,
+            "Disk": 582010404864,
+            "GPU": 0
+          },
+          "MaxJobRequirements": {
+            "CPU": 3.2,
+            "Memory": 12561049190,
+            "Disk": 582010404864,
+            "GPU": 0
+          },
+          "RunningExecutions": 0,
+          "EnqueuedExecutions": 0,
+          "address": ""
         },
-        "MaxJobRequirements": {
-          "CPU": 12.8,
-          "Memory": 53931124326,
-          "Disk": 718749414195,
-          "GPU": 0
-        },
-        "RunningExecutions": 0,
-        "EnqueuedExecutions": 0
+        "BacalhauVersion": {
+          "Major": "1",
+          "Minor": "9",
+          "GitVersion": "v1.9.6",
+          "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+          "BuildDate": "2026-11-25T01:55:56Z",
+          "GOOS": "linux",
+          "GOARCH": "amd64"
+        }
       },
-      "BacalhauVersion": {
-        "Major": "1",
-        "Minor": "1",
-        "GitVersion": "v1.1.0",
-        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-        "BuildDate": "2023-09-25T07:59:00Z",
-        "GOOS": "linux",
-        "GOARCH": "amd64"
+      "Membership": "APPROVED",
+      "Connection": "CONNECTED",
+      "ConnectionState": {
+        "Status": "CONNECTED",
+        "LastHeartbeat": "2026-11-25T01:35:26.860014Z",
+        "ConnectedSince": "2026-11-25T01:35:21.857935Z",
+        "DisconnectedSince": "0001-01-01T00:00:00Z"
       }
     }
   ]

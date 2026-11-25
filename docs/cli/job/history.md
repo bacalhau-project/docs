@@ -16,6 +16,8 @@ bacalhau job history [id] [flags]
 
 ## Flags
 
+- `--all-versions`:
+  - Description: Return results for all job versions. By default, only the latest job version is included. `--version` takes precedence if both are set.
 - `--event-type string`:
   - Description: Specifies the type of history events to retrieve. Available options include `all`, `job`, and `execution`.
   - Default: `all`
@@ -27,12 +29,12 @@ bacalhau job history [id] [flags]
   - Description: Opts out of printing the column headers in the results.
 - `--limit uint32`:
   - Description: Limits the number of results returned.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
 - `--next-token string`:
   - Description: Uses the provided token for pagination.
 - `--no-style`:
   - Description: Strips all styling from the table output.
-- `--node-id string`:
-  - Description: Filters the results by a specific node ID.
 - `--order-by string`:
   - Description: Organizes results based on a chosen field.
 - `--order-reversed`:
@@ -42,23 +44,26 @@ bacalhau job history [id] [flags]
   - Default: `table`
 - `--pretty`:
   - Description: Offers a more visually pleasing output for `json` and `yaml` formats.
+- `-v`, `--version uint`:
+  - Description: The job version to filter by. By default, the latest version is used.
 - `--wide`:
   - Description: Presents full values in the table results, preventing truncation.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 

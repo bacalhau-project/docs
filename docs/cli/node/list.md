@@ -23,10 +23,10 @@ bacalhau node list [flags]
   - Show the help message for the `list` command.
 - `--hide-header`:
   - Do not display the column headers in the output.
-- `--filter-approval`:
+- `--filter-approval string`:
   - Only show nodes with the specified approval status. Valid values are: `approved`, `pending`, `rejected`.
-- `--filter-status`:
-  - Only show nodes with the specified state. Valid values are: `healthy`, `unhealthy`, `unknown`.
+- `--filter-status string`:
+  - Only show nodes with the specified connection status. Valid values are: `connected`, `disconnected`.
 - `--labels string`:
   - Filter nodes based on labels. This follows the filtering format provided by Kubernetes, as shown in their documentation about labels.
 - `--limit uint32`:
@@ -36,7 +36,7 @@ bacalhau node list [flags]
 - `--no-style`:
   - Output the table without any style.
 - `--order-by string`:
-  - Sort the results based on a specific field. Valid sorting fields are: `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu`.
+  - Sort the results based on a specific field. Valid sorting fields are: `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu`, `status`.
 - `--order-reversed`:
   - Display the results in reverse order.
 - `--output format`:
@@ -52,19 +52,19 @@ bacalhau node list [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specify the host for client-server communication via REST. This gets ignored if the `BACALHAU_API_HOST` environment variable is defined.
-  - Default: `"bootstrap.production.bacalhau.org"`.
-- `--api-port int`:
-  - Specify the port for RESTful communication between client and server. Gets overlooked if the `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`.
-- `--log-mode logging-mode`:
-  - Choose the desired log format.
-  - Options: `'default', 'station', 'json', 'combined', 'event'`.
-  - Default: `'default'`.
-- `--repo string`:
-  - Point to the directory path of the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`.
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -80,11 +80,11 @@ bacalhau node list [flags]
 
     ```plaintext
      ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-     QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+     QmTSJgdN  Compute  os_arch=amd64 os_type=linux                         3.2 /   11.7 GB /   77.8 GB /    1 /
                         git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
-     QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+     QmVXwmdZ  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   77.8 GB /    0 /
                         git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
-     QmXRdLru  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   78.0 GB /    0 /
+     QmXRdLru  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   78.0 GB /    0 /
                         git-lfs=True owner=bacalhau                         3.2     12.5 GB     78.0 GB      0
      ... [Additional nodes information] ...
     ```
@@ -94,14 +94,14 @@ bacalhau node list [flags]
     Execute the command to get a list of nodes with specific labels:
 
     ```bash
-    bacalhau node list --labels "Operating-System=linux,owner=bacalhau"
+    bacalhau node list --labels "os_type=linux,owner=bacalhau"
     ```
 
     Expected output:
 
     ```plaintext
     ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-    QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+    QmTSJgdN  Compute  os_arch=amd64 os_type=linux                         3.2 /   11.7 GB /   77.8 GB /    1 /
                        git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
     ... [Additional nodes information] ...
     ```
@@ -118,7 +118,7 @@ bacalhau node list [flags]
 
     ```plaintext
     ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-    QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+    QmVXwmdZ  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   77.8 GB /    0 /
                        git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
     ... [Additional nodes information] ...
     ```
@@ -136,10 +136,13 @@ bacalhau node list [flags]
     ```json
     [
       {
-        "PeerInfo": {
-          "ID": "QmTSJgdN7zCPAqBCkmdsdpFbiJV8bJ6zhoxK9N5xfar1sz",
+        "Info": {
+          "NodeID": "node-1",
+          "NodeType": "Compute",
           ... [Additional node details] ...
         },
+        "Membership": "APPROVED",
+        "Connection": "CONNECTED",
         ... [Other nodes] ...
       }
     ]

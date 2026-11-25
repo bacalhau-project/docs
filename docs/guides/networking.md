@@ -6,9 +6,13 @@ By default, Bacalhau jobs have network access. This is configured at the node le
 
 To run Docker jobs on Bacalhau with different network access levels, you can specify one of the following:
 
-1. **host**: unfiltered network access for any protocol `--network=host` (default)
-2. **http**: HTTP(S)-only network access to a specified list of domains `--network=http`
-3. **none**: no network access `--network=none`
+1. **default**: the compute node's executor decides. Docker jobs get bridge networking and WebAssembly jobs get host networking. This is what you get when you omit `--network`.
+2. **bridge**: an isolated network namespace with outbound connectivity `--network=bridge`
+3. **host**: unfiltered network access for any protocol through the host's interfaces `--network=host` (`full` is a deprecated alias)
+4. **http**: HTTP(S)-only network access to a specified list of domains `--network=http`
+5. **none**: no network access `--network=none`
+
+If a compute node sets `JobAdmissionControl.RejectNetworkedJobs=true`, it rejects jobs that request network access.
 
 :::info
 Specifying `none` will still allow Bacalhau to download and upload data before and after the job using a Publisher.
