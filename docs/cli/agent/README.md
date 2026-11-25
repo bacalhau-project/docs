@@ -24,7 +24,16 @@ bacalhau agent [command]
      bacalhau agent alive
      ```
 
-2. [**node**](node.md):
+2. **config**:
+
+   - Description: Retrieves the configuration the agent is running with, in YAML (default) or JSON.
+   - Usage:
+
+     ```bash
+     bacalhau agent config
+     ```
+
+3. [**node**](node.md):
 
    - Description: Gathers the agent's node-related information. This might include details about the machine or environment where the agent is running, available resources, supported engines, etc.
    - Usage:
@@ -33,7 +42,7 @@ bacalhau agent [command]
      bacalhau agent node
      ```
 
-3. [**version**](version.md):
+4. [**version**](version.md):
 
    - Description: Retrieves the Bacalhau version of the agent. This can be beneficial for ensuring compatibility or checking for updates.
    - Usage:
@@ -52,18 +61,19 @@ bacalhau agent [command] --help
 
 - `-h`, `--help`:
   - Description: Displays help information for the `agent` command.
+- `--profile string`:
+  - Description: Use a specific profile for this command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`

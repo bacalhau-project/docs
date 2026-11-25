@@ -63,11 +63,11 @@ Tasks:
 You can also define timeouts for your jobs directly through the CLI using the `--queue-timeout` flag. This provides a convenient way to specify queueing behavior on a per-job basis without modifying configuration files:
 
 ```bash
-bacalhau docker run ubuntu sleep 90 --queue-timeout 1800
+bacalhau docker run --queue-timeout 1800 ubuntu -- sleep 90
 ```
 
 :::warning
-Timeouts in Bacalhau are generally governed by the `TotalTimeout` value for your YAML specifications and the `--timeout` flag for your CLI commands. The default total timeout value is 30 minutes. Setting a queue timeout larger than the total timeout without increasing the total timeout value will result in a validation error.
+When a total timeout is set, either as `TotalTimeout` in your job specification or through the node default `JobDefaults.<job type>.Task.Timeouts.TotalTimeout`, the execution timeout (`--timeout`) plus the queue timeout must not exceed it. Otherwise the job fails validation. No total timeout is set by default.
 :::
 
 ## Monitoring Queued Jobs
@@ -101,10 +101,10 @@ Namespace     = default
 Type          = batch
 State         = Queued
 Message       = Job queued. not enough nodes to run job. requested: 1, available: 4, suitable: 0.
-• 3 of 4 nodes: labels map[Architecture:amd64 Operating-System:linux owner:bacalhau]
+• 3 of 4 nodes: labels map[os_arch:amd64 os_type:linux owner:bacalhau]
   don't match required selectors [name = walid]
-• Node Qma5yQAk: labels map[Architecture:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
-  Operating-System:linux owner:bacalhau] don't match required selectors [name = walid]
+• Node Qma5yQAk: labels map[os_arch:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
+  os_type:linux owner:bacalhau] don't match required selectors [name = walid]
 ```
 
 Once appropriate node resources become available, these jobs will transition to either a `Running` or `Completed` status, allowing more jobs to be assigned to matching nodes.
@@ -132,12 +132,12 @@ Job History
  2024-06-24 13:36:40  1     Pending    Submission  Job submitted
  2024-06-24 13:36:40  2     Queued     Queueing    Job queued. not enough nodes to run job. requested: 1,
                                                    available: 4, suitable: 0.
-                                                   • 3 of 4 nodes: labels map[Architecture:amd64
-                                                   Operating-System:linux owner:bacalhau]
+                                                   • 3 of 4 nodes: labels map[os_arch:amd64
+                                                   os_type:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
-                                                   • Node Qma5yQAk: labels map[Architecture:amd64
+                                                   • Node Qma5yQAk: labels map[os_arch:amd64
                                                    GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
-                                                   Operating-System:linux owner:bacalhau]
+                                                   os_type:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
  2024-06-24 13:39:40  3     Running
  2024-06-24 13:41:40  4     Completed

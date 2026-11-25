@@ -52,6 +52,23 @@ Ensure there are active compute nodes with sufficient resources.
 3. **Check network connectivity**: Ensure nodes can communicate with each other
 4. **Modify job requirements**: Adjust constraints to match available resources
 
+### Nodes Do Not Support Docker
+
+A Docker job fails to schedule with an error such as:
+
+```
+Error: not enough nodes to run job. requested: 1, available: 3, suitable: 0.
+• 3 of 3 nodes: does not support docker, only wasm
+```
+
+The compute nodes could not reach a Docker daemon when they started, so they only registered the WebAssembly engine. Check with `bacalhau node list --show features`: the `ENGINES` column lists what each node can run.
+
+To fix it:
+
+1. Make sure Docker is running and `docker info` succeeds as the user that runs Bacalhau.
+2. If Docker listens on a non-default socket (Docker Desktop without the default socket, Colima, OrbStack, Podman, or rootless Docker), set `DOCKER_HOST`, for example `export DOCKER_HOST=$(docker context inspect --format '{{.Endpoints.docker.Host}}')`.
+3. Restart the compute nodes (or `bacalhau devstack`). Nodes detect Docker only at startup.
+
 ## Input Data Access Issues
 
 Problems accessing or mounting input data are another common source of failures.

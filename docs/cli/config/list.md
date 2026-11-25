@@ -27,8 +27,8 @@ bacalhau config list [flags]
   - Description: Removes all styling from the table output, displaying raw data.
   - Default: `false`
 - `--output format`:
-  - Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
-  - Options: `json`, `yaml`, `table`
+  - Description: Determines the format in which the output is displayed.
+  - Options: `table`, `csv`, `json`, `yaml`
   - Default: `table`
 - `--pretty`:
   - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
@@ -52,8 +52,8 @@ bacalhau config list [flags]
     **Output**:
 
     ```bash
-     KEY          VALUE
-     <key_name> <key_value>
+     KEY          VALUE        DESCRIPTION
+     <key_name>   <key_value>  <key_description>
     ...
     ```
 
@@ -71,7 +71,8 @@ bacalhau config list [flags]
     [
       {
         "Key": "<key_name>",
-        "Value": <key_value>
+        "Value": <key_value>,
+        "Description": "<key_description>"
       },
       ...
     ]

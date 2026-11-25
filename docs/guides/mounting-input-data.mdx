@@ -172,6 +172,10 @@ Tasks:
 
 IPFS provides content-addressable, peer-to-peer storage for decentralized data sharing.
 
+:::note
+Bacalhau does not include an IPFS node. Compute nodes only accept IPFS inputs when they are configured with the RPC API address of an IPFS node you run, through `InputSources.Types.IPFS.Endpoint`. See [IPFS Input Source requirements](/docs/sources/ipfs#requirements-run-your-own-ipfs-node).
+:::
+
 <Tabs groupId="ipfs-storage">
 <TabItem value="Imperative" label="Imperative">
 ```bash
@@ -243,7 +247,7 @@ Best practices:
 
 - **Credentials**: Some mount sources (S3) require proper credentials or connectivity
 - **Data Locality**: Use Bacalhau label selectors to run jobs on nodes that have or close to the data
-- **IPFS Network**: Compute nodes must be connected to an IPFS daemon to support this storage type
+- **IPFS Node**: Bacalhau does not include an IPFS node. Compute nodes need an IPFS node you run and `InputSources.Types.IPFS.Endpoint` set to its RPC API address to support this storage type
 - **Size Limits**: Very large inputs may require increased disk allocations using `--disk`
 
 ## Next Steps

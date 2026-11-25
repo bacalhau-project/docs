@@ -19,11 +19,18 @@ curl -sL https://get.bacalhau.org/install.sh | bash
 ```
 
 - This fetches the latest Bacalhau release and places it in `/usr/local/bin` or a similar path.
-- You many need sudo mode or root access to install the binary at the desired path
+- You may need sudo mode or root access to install the binary at the desired path
 
-  Windows users can download the [latest release tarball from
-  Github](https://github.com/bacalhau-project/bacalhau/releases) and extract `bacalhau.exe` to any location available in
-  the PATH environment variable.
+Windows users can download the latest release with PowerShell and extract `bacalhau.exe`:
+
+```powershell
+$release = Invoke-RestMethod "https://get.bacalhau.org/api/artifacts/resolve?os=windows&arch=amd64&release=stable"
+Invoke-WebRequest $release.downloadUrl -OutFile bacalhau.tar.gz
+tar -xzf bacalhau.tar.gz
+```
+
+- Move `bacalhau.exe` to any location available in the PATH environment variable.
+- Release notes for each version are on [GitHub](https://github.com/bacalhau-project/bacalhau/releases).
 
 ### Base Image
 
@@ -63,13 +70,16 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 ## Requirements & Tips
 
 - **Docker**:
-  - Must be installed and running on any **compute** node to handle Docker-based jobs.
+  - Must be installed and running on any **compute** node to handle Docker-based jobs, and reachable by the user that runs Bacalhau. Bacalhau uses `DOCKER_HOST` if it is set, or `/var/run/docker.sock` otherwise.
+  - Compute nodes detect Docker when they start. Start Docker first; a node that started without it only runs WebAssembly jobs until it is restarted.
+- **IPFS** (if you use IPFS inputs or publishing):
+  - Bacalhau does not include an IPFS node. Run your own and configure its RPC API address; see the [IPFS input source](/docs/sources/ipfs#requirements-run-your-own-ipfs-node) and [IPFS publisher](/docs/publishers/ipfs#requirements-run-your-own-ipfs-node) pages.
 - **AWS Credentials** (if you're using S3):
   - For S3 inputs or outputs, the node needs valid AWS credentials (e.g., environment variables).
 - **Running an Orchestrator & Compute**:
   - See [Quick Start](./quick-start.mdx) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
 - **`bacalhau devstack`**:
-  - Perfect for local development or running tests.
+  - Perfect for local development or running tests. See [Running Locally with Devstack](../references/developers/running-locally.md).
 
 ## Next Steps
 
@@ -146,6 +156,10 @@ The setup described above creates an open network suitable for testing in truste
 
 DevStack provides a pre-configured local environment perfect for development and testing.
 
+:::note
+To run Docker jobs, Docker must be installed and running before you start DevStack, and `docker info` must succeed in the same shell. Compute nodes detect Docker only when they start; without it they accept WebAssembly jobs only, and Docker jobs fail with `does not support docker, only wasm`. See [Running Locally with Devstack](../references/developers/running-locally.md#check-docker-before-you-start) for setup checks.
+:::
+
 ```bash
 # Launch a complete development environment
 bacalhau devstack
@@ -153,7 +167,11 @@ bacalhau devstack
 
 This pre-configures a transient orchestrator and compute nodes by default, giving you a complete environment for testing with minimal setup.
 
-You can submit jobs to your DevStack just like any other Bacalhau network:
+Confirm that the compute nodes registered the Docker engine (the `ENGINES` column should list `docker`), then submit jobs to your DevStack just like any other Bacalhau network:
+
+```bash
+bacalhau node list --show features
+```
 
 ```bash
 bacalhau docker run ubuntu:latest -- echo "Hello from DevStack!"
@@ -237,7 +255,7 @@ This Quick Start guide shows how to run your first Bacalhau job with minimal set
 
 ## Prerequisites
 
-- Docker installed on any machine that runs a compute node
+- Docker installed and running on any machine that runs a compute node (check with `docker info`). Start Docker before Bacalhau: a compute node that starts without Docker only runs WebAssembly jobs.
 - Bacalhau CLI installed (see below)
 
 ## 1. Installation
@@ -322,7 +340,7 @@ bacalhau job run word-count.yaml
 bacalhau job describe <jobID>
 ```
 
-- Replace `<jobID>` with the actual ID printed in step 2
+- Replace `<jobID>` with the actual ID printed in step 3
 - You can run `bacalhau job logs <job-id>` to just get the execution logs
 
 ## 5. Retrieve Results
@@ -408,8 +426,8 @@ These flags work with any command and provide consistent behavior across the CLI
 
 | Flag                | Description                   | Default     |
 | ------------------- | ----------------------------- | ----------- |
-| `--api-host string` | Hostname for the Bacalhau API | `localhost` |
-| `--api-port int`    | Port for the Bacalhau API     | `1234`      |
+| `--api-host string` | Hostname for the Bacalhau API | `0.0.0.0` |
+| `--api-port int`    | Port for the Bacalhau API     | `1234`    |
 
 Example:
 
@@ -423,6 +441,7 @@ bacalhau job list --api-host mycluster.example.com --api-port 8080
 | --------------------- | -------------------------------------------------------- | ------------- |
 | `-c, --config string` | Config file(s) or dot separated path(s) to config values | -             |
 | `--data-dir string`   | The filesystem path where Bacalhau stores its data       | `~/.bacalhau` |
+| `--profile string`    | Use a specific profile for this command                  | -             |
 
 Examples:
 
@@ -492,7 +511,16 @@ bacalhau agent [command]
      bacalhau agent alive
      ```
 
-2. [**node**](node.md):
+2. **config**:
+
+   - Description: Retrieves the configuration the agent is running with, in YAML (default) or JSON.
+   - Usage:
+
+     ```bash
+     bacalhau agent config
+     ```
+
+3. [**node**](node.md):
 
    - Description: Gathers the agent's node-related information. This might include details about the machine or environment where the agent is running, available resources, supported engines, etc.
    - Usage:
@@ -501,7 +529,7 @@ bacalhau agent [command]
      bacalhau agent node
      ```
 
-3. [**version**](version.md):
+4. [**version**](version.md):
 
    - Description: Retrieves the Bacalhau version of the agent. This can be beneficial for ensuring compatibility or checking for updates.
    - Usage:
@@ -520,21 +548,22 @@ bacalhau agent [command] --help
 
 - `-h`, `--help`:
   - Description: Displays help information for the `agent` command.
+- `--profile string`:
+  - Description: Use a specific profile for this command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
 
 ## docs/cli/agent/alive.md
 
@@ -563,18 +592,19 @@ bacalhau agent alive [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Specifies the port for REST communication. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Sets the desired log format. Options are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -637,18 +667,19 @@ bacalhau agent node [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - The host for REST communication. Overrides the `BACALHAU_API_HOST` environment variable.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - The port for REST communication. Overridden if `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Specifies the log format. Choices are: `default`, `station`, `json`, `combined`, `event`.
-  - Default: `default`
-- `--repo string`:
-  - Path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -695,21 +726,21 @@ bacalhau agent version [flags]
 - **`--pretty`**:
   - Used for pretty printing the output, enhancing readability. This flag is applicable only for the "json" and "yaml" output formats.
 
-## Global Flags:
+## Global Flags
 
-- **`--api-host string`**:
-  - Designates the host for client-server communication via REST. If the `BACALHAU_API_HOST` environment variable is present, this flag will be disregarded.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- **`--api-port int`**:
-  - Defines the port for client-server communication through REST. This flag becomes irrelevant if the `BACALHAU_API_PORT` environment variable is specified.
-  - Default: `1234`
-- **`--log-mode logging-mode`**:
-  - Specifies the desired logging format.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- **`--repo string`**:
-  - Indicates the path to the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -724,9 +755,9 @@ bacalhau agent version [flags]
     Expected output:
 
     ```bash
-    Bacalhau v0.0.0-xxxxxxx
-    BuildDate 2023-09-22 16:03:44 +0000 UTC
-    GitCommit 0fe81cb488f666845ac72c73a4b804aaa658e511
+    Bacalhau v1.9.6
+    BuildDate 2026-11-25 01:55:56 +0000 UTC
+    GitCommit a8cd25beef99a56d9b4c23af398b701241ce79e1
     ```
 
 2.  **Retrieve the agent version in JSON format**:
@@ -738,7 +769,7 @@ bacalhau agent version [flags]
     Expected output:
 
     ```bash
-    {"major":"0","minor":"0","gitversion":"v0.0.0-xxxxxxx","gitcommit":"0fe81cb488f666845ac72c73a4b804aaa658e511","builddate":"2023-09-22T16:03:44Z","goos":"linux","goarch":"amd64"}
+    {"Major":"1","Minor":"9","GitVersion":"v1.9.6","GitCommit":"a8cd25beef99a56d9b4c23af398b701241ce79e1","BuildDate":"2026-11-25T01:55:56Z","GOOS":"linux","GOARCH":"amd64"}
     ```
 
 3.  **Retrieve the agent version in Pretty-printed JSON format**:
@@ -751,13 +782,13 @@ bacalhau agent version [flags]
 
     ```bash
     {
-      "major": "0",
-      "minor": "0",
-      "gitversion": "v0.0.0-xxxxxxx",
-      "gitcommit": "0fe81cb488f666845ac72c73a4b804aaa658e511",
-      "builddate": "2023-09-22T16:03:44Z",
-      "goos": "linux",
-      "goarch": "amd64"
+      "Major": "1",
+      "Minor": "9",
+      "GitVersion": "v1.9.6",
+      "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+      "BuildDate": "2026-11-25T01:55:56Z",
+      "GOOS": "linux",
+      "GOARCH": "amd64"
     }
     ```
 
@@ -790,7 +821,7 @@ bacalhau config [command]
    - Usage:
 
      ```bash
-     bacalhau config set <key> <value>
+     bacalhau config set <key>=<value>
      ```
 
 ## docs/cli/config/list.md
@@ -820,8 +851,8 @@ bacalhau config list [flags]
   - Description: Removes all styling from the table output, displaying raw data.
   - Default: `false`
 - `--output format`:
-  - Description: Determines the format in which the output is displayed. Available formats include Table, JSON, and YAML.
-  - Options: `json`, `yaml`, `table`
+  - Description: Determines the format in which the output is displayed.
+  - Options: `table`, `csv`, `json`, `yaml`
   - Default: `table`
 - `--pretty`:
   - Description: Formats the output for enhanced readability. This flag is relevant only when using JSON or YAML output formats.
@@ -845,8 +876,8 @@ bacalhau config list [flags]
     **Output**:
 
     ```bash
-     KEY          VALUE
-     <key_name> <key_value>
+     KEY          VALUE        DESCRIPTION
+     <key_name>   <key_value>  <key_description>
     ...
     ```
 
@@ -864,7 +895,8 @@ bacalhau config list [flags]
     [
       {
         "Key": "<key_name>",
-        "Value": <key_value>
+        "Value": <key_value>,
+        "Description": "<key_description>"
       },
       ...
     ]
@@ -885,74 +917,86 @@ Changes made using this command will be applied to the configuration file, but t
 ## Usage
 
 ```bash
-bacalhau config set <key> <value>
+bacalhau config set <key>=<value> [flags]
 ```
+
+The older space-separated form, `bacalhau config set <key> <value>`, still works but is deprecated.
 
 ## Flags
 
+- `-c`, `--config string`:
+  - Description: Path to the config file to modify.
+  - Default: `$BACALHAU_DIR/config.yaml`
 - `-h`, `--help`:
   - Description: Displays help information for the `set` sub-command.
 
 ## Examples
 
-### Configuring the Server API Port Value
+### Configuring the API Port Value
 
 ```bash
-bacalhau config set node.serverapi.port 9999
+bacalhau config set API.Port=9999
 
-bacalhau config list | grep serverapi.port
- node.serverapi.port                                             9999
+bacalhau config list | grep API.Port
+ API.Port      9999      Port specifies the port number on which the API server listens ...
 
 cat ~/.bacalhau/config.yaml
-node:
-    serverapi:
-        port: 9999
+api:
+    port: 9999
 ```
 
 ### Configuring the Logging Mode Value
 
 ```bash
-bacalhau config set node.loggingmode json
-
-bacalhau config list | grep loggingmode
- node.loggingmode                                                json
+bacalhau config set Logging.Mode=json
 
 cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
+logging:
+    mode: json
 ```
 
 ### Multiple Set commands append to the file
 
 ```bash
-bacalhau config set node.serverapi.port 9999
-bacalhau config set node.serverapi.host 0.0.0.0
-bacalhau config set node.loggingmode json
+bacalhau config set API.Port=9999
+bacalhau config set API.Host=0.0.0.0
+bacalhau config set Logging.Mode=json
 
 cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
-    serverapi:
-        host: 0.0.0.0
-        port: 9999
+api:
+    host: 0.0.0.0
+    port: 9999
+logging:
+    mode: json
+```
+
+### Setting list and map values
+
+Separate multiple values with commas:
+
+```bash
+bacalhau config set Compute.Orchestrators=nats://10.0.0.1:4222,nats://10.0.0.2:4222
+bacalhau config set Labels=region=us-west,env=prod
 ```
 
 ### Set command value validation
 
-#### Example of invalid logging mode value
+#### Example of an unknown key
 
 ```bash
-bacalhau config set node.loggingmode some-invalid-value
+bacalhau config set Node.LoggingMode=json
 
-Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
+Error: "node.loggingmode" is not a valid config key
+Hint:  Run 'bacalhau config list' for the complete list of valid config keys
 ```
 
 #### Example of invalid time duration value
 
 ```bash
-bacalhau config set node.volumesizerequesttimeout 10days
+bacalhau config set Compute.Heartbeat.Interval=10days
 
-Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
+Error: config key: "compute.heartbeat.interval" expects a valid duration value, received: "10days"
+Hint:  Accepted formats: 'h' (hours), 'm' (minutes), 's' (seconds), 'ms' (milliseconds), etc. Example: '2h45m', '30s', '100ms
 ```
 
 ## docs/cli/job/README.md
@@ -1004,6 +1048,7 @@ bacalhau job [command]
      ```bash
      bacalhau job history
      ```
+
 5. [**list**](./list.md):
 
    - Description: Provides an overview of all submitted jobs.
@@ -1022,7 +1067,16 @@ bacalhau job [command]
      bacalhau job logs
      ```
 
-7. [**run**](./run.md):
+7. **rerun**:
+
+   - Description: Reruns an existing job, identified by its ID or name. Use `--version` to rerun a specific job version.
+   - Usage:
+
+     ```bash
+     bacalhau job rerun <job-id-or-name>
+     ```
+
+8. [**run**](./run.md):
 
    - Description: Submits a job for execution using either a JSON or YAML configuration file.
    - Usage:
@@ -1031,7 +1085,7 @@ bacalhau job [command]
      bacalhau job run
      ```
 
-8. [**stop**](./stop.md):
+9. [**stop**](./stop.md):
 
    - Description: Halts a previously submitted job.
    - Usage:
@@ -1039,6 +1093,24 @@ bacalhau job [command]
      ```bash
      bacalhau job stop
      ```
+
+10. **validate**:
+
+    - Description: Validates a JSON or YAML job specification without submitting it.
+    - Usage:
+
+      ```bash
+      bacalhau job validate ./job.yaml
+      ```
+
+11. **versions**:
+
+    - Description: Lists the versions of a job, identified by its ID or name.
+    - Usage:
+
+      ```bash
+      bacalhau job versions <job-id-or-name>
+      ```
 
 For comprehensive details on any of the sub-commands, run:
 
@@ -1050,20 +1122,21 @@ bacalhau job [command] --help
 
 - `-h`, `--help`:
   - Description: Shows the help information for the `job` command.
+- `--profile string`:
+  - Description: Use a specific profile for this command.
 
 ## Global Flags
 
 1. `--api-host string`:
-   - Description: Determines the host for RESTful communication between the client and server. This flag is overlooked if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
 2. `--api-port int`:
-   - Description: Designates the port for RESTful communication. This flag is bypassed if the `BACALHAU_API_PORT` environment variable is active.
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
    - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
    - Default: `$HOME/.bacalhau`
 
 ## docs/cli/job/describe.md
@@ -1084,26 +1157,31 @@ bacalhau job describe [id] [flags]
 
 - `-h`, `--help`:
   - Description: Display help for the `describe` command.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
 - `--output format`:
   - Description: Specifies the desired output format for the command. Supported values are `json` and `yaml`.
   - Default: `yaml`
 - `--pretty`:
   - Description: Pretty prints the output. This option is applicable only to `json` and `yaml` output formats.
+- `-v`, `--version uint`:
+  - Description: The job version to filter by. By default, the latest version is used.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host for the client and server to communicate through via REST. If the `BACALHAU_API_HOST` environment variable is set, this flag will be ignored.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for the client and server to communicate on using REST. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Specifies the desired log format. Supported values include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1141,6 +1219,8 @@ bacalhau job executions [id] [flags]
 
 ## Flags
 
+- `--all-versions`:
+  - Description: Return results for all job versions. By default, only the latest job version is included. `--version` takes precedence if both are set.
 - `-h`, `--help`:
   - Description: Display help for the `executions` command.
 - `--hide-header`:
@@ -1148,12 +1228,14 @@ bacalhau job executions [id] [flags]
 - `--limit uint32`:
   - Description: Restricts the number of results returned.
   - Default: `20`
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
 - `--next-token string`:
   - Description: Uses the specified token for pagination. Useful for fetching the next set of results.
 - `--no-style`:
   - Description: Removes all styling from the table output, displaying raw data.
 - `--order-by string`:
-  - Description: Orders results based on a specific field. Valid fields are: `modify_time`, `create_time`, `id`, and `state`.
+  - Description: Orders results based on a specific field. Valid fields are `modified_at` and `created_at`.
 - `--order-reversed`:
   - Description: Reverses the order of the results. Useful in conjunction with `--order-by`.
 - `--output format`:
@@ -1161,23 +1243,26 @@ bacalhau job executions [id] [flags]
   - Default: `table`
 - `--pretty`:
   - Description: Pretty prints the output. This option is applicable only to `json` and `yaml` output formats.
+- `-v`, `--version uint`:
+  - Description: The job version to filter by. By default, the latest version is used.
 - `--wide`:
   - Description: Prints full values in the table results without truncating any information.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host for the client and server to communicate through via REST. If the `BACALHAU_API_HOST` environment variable is set, this flag will be ignored.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for the client and server to communicate on using REST. If the `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Specifies the desired log format. Supported values include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1197,12 +1282,12 @@ bacalhau job executions [id] [flags]
     16:46:03  16:46:04  e-03870df5  QmVXwmdZ  6     Completed  Stopped
     ```
 
-2.  **Order executions by state for a specific job**:
+2.  **Order executions by creation time for a specific job**:
 
     Execute the command:
 
     ```bash
-    bacalhau job executions j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --order-by state
+    bacalhau job executions j-6f2bf0ea-ebcd-4490-899a-9de9d8d95881 --order-by created_at
     ```
 
     Expected output:
@@ -1244,28 +1329,32 @@ bacalhau job get [id] [flags]
 ## Flags
 
 - `--download-timeout-secs duration`:
-  - Description: Timeout duration for IPFS downloads. (default 5m0s)
+  - Description: Timeout duration for IPFS downloads.
+  - Default: `5m0s`
 - `-h`, `--help`:
-  - Description: Display help for the `list` command.
-- `output-dir string`:
+  - Description: Display help for the `get` command.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
+- `--output-dir string`:
   - Description: Directory to write the output to.
 - `--raw`:
   - Description: Download raw result CIDs instead of merging multiple CIDs into a single result.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1293,6 +1382,8 @@ bacalhau job history [id] [flags]
 
 ## Flags
 
+- `--all-versions`:
+  - Description: Return results for all job versions. By default, only the latest job version is included. `--version` takes precedence if both are set.
 - `--event-type string`:
   - Description: Specifies the type of history events to retrieve. Available options include `all`, `job`, and `execution`.
   - Default: `all`
@@ -1304,12 +1395,12 @@ bacalhau job history [id] [flags]
   - Description: Opts out of printing the column headers in the results.
 - `--limit uint32`:
   - Description: Limits the number of results returned.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
 - `--next-token string`:
   - Description: Uses the provided token for pagination.
 - `--no-style`:
   - Description: Strips all styling from the table output.
-- `--node-id string`:
-  - Description: Filters the results by a specific node ID.
 - `--order-by string`:
   - Description: Organizes results based on a chosen field.
 - `--order-reversed`:
@@ -1319,23 +1410,26 @@ bacalhau job history [id] [flags]
   - Default: `table`
 - `--pretty`:
   - Description: Offers a more visually pleasing output for `json` and `yaml` formats.
+- `-v`, `--version uint`:
+  - Description: The job version to filter by. By default, the latest version is used.
 - `--wide`:
   - Description: Presents full values in the table results, preventing truncation.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1445,18 +1539,19 @@ bacalhau job list [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Defines the host for client-server communication via REST. Overridden by the `BACALHAU_API_HOST` environment variable, if set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Sets the port for RESTful communication between the client and server. The `BACALHAU_API_PORT` environment variable takes precedence if set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Designates the desired log format. Options include `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Points to the bacalhau repository location.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1556,25 +1651,34 @@ bacalhau job logs [id] [flags]
 
 ## Flags
 
-1. `-f`, `--follow`:
-   - Description: This flag allows the user to follow the logs in real-time after fetching the current logs. It provides a continuous stream of log updates, similar to `tail -f` in Unix-like systems.
-2. `-h`, `--help`:
+1. `-e`, `--execution-id string`:
+   - Description: Retrieve logs from a specific execution of the job.
+2. `-f`, `--follow`:
+   - Description: Follow the logs in real time after fetching the current logs, similar to `tail -f` in Unix-like systems.
+3. `-h`, `--help`:
    - Description: Display help information for the `logs` command.
+4. `--namespace string`:
+   - Description: Job namespace. If not provided, the default namespace is used.
+5. `-t`, `--tail`:
+   - Description: Tail the logs from the end of the log stream.
+6. `-v`, `--version uint`:
+   - Description: The job version to filter by. By default, the latest version is used.
 
 ## Global Flags
 
 1. `--api-host string`:
-   - Description: Specifies the host for the client and server to communicate through REST. This flag is disregarded if the `BACALHAU_API_HOST` environment variable is set.
-   - Default: `bootstrap.production.bacalhau.org`
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
 2. `--api-port int`:
-   - Description: Sets the port for RESTful communication between the client and server. If the `BACALHAU_API_PORT` environment variable is available, this flag is ignored.
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
    - Default: `1234`
-3. `--log-mode logging-mode`:
-   - Description: Determines the desired log format. Available options include `default`, `station`, `json`, `combined`, and `event`.
-   - Default: `default`
-4. `--repo string`:
-   - Description: Specifies the path to the bacalhau repository.
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
    - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -1650,35 +1754,46 @@ bacalhau job run [flags]
   - Description: With this flag, the job will not be submitted. Instead, it will display what would have been submitted, providing a way to preview before actual submission.
 - `-f`, `--follow`:
   - Description: If provided, the command will continuously display the output from the job as it runs.
+- `--force`:
+  - Description: Submit the job even if the job spec has not changed since the last submission.
+- `--group-events`:
+  - Description: Group events by execution.
+- `-h`, `--help`:
+  - Description: Displays help information for the `run` command.
+- `--hide-warnings`:
+  - Description: Hide warnings when submitting a job.
 - `--id-only`:
   - Description: On successful job submission, only the Job ID will be printed.
+- `--no-template`:
+  - Description: Disable templating. The job spec is used as-is, without any placeholder replacements.
 - `--node-details`:
   - Description: Displays details of all nodes. Note that this flag is overridden if `--id-only` is provided.
-- `--show-warnings`:
-  - Description: Shows any warnings that occur during the job submission.
+- `-E`, `--template-envs string`:
+  - Description: A regular expression selecting the environment variables to make available as template variables in the job spec. For example, `--template-envs ".*"` includes all environment variables.
+- `-V`, `--template-vars stringToString`:
+  - Description: Replace a placeholder in the job spec with a value, for example `--template-vars foo=bar`.
 - `--wait`:
-  - Description: Waits for the job to finish execution. To set this to false, use --wait=false
+  - Description: Waits for the job to finish execution. To set this to false, use `--wait=false`.
   - Default: `true`
 - `--wait-timeout-secs int`:
   - Description: If `--wait` is provided, this flag sets the maximum time (in seconds) the command will wait for the job to finish before it terminates.
   - Default: `600` seconds
-- `-h`, `--help`:
-  - Description: Displays help information for the `run` command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2023,25 +2138,28 @@ bacalhau job stop [id] [flags]
 
 ## Flags
 
-- `--quiet`:
-  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
 - `-h`, `--help`:
   - Description: Displays help information for the `stop` command.
+- `--namespace string`:
+  - Description: Job namespace. If not provided, the default namespace is used.
+- `--quiet`:
+  - Description: If provided, the command will not display any output, neither to the standard output (stdout) nor to the standard error (stderr).
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host used for RESTful communication between the client and server. The flag is disregarded if `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Determines the port for REST communication. If `BACALHAU_API_PORT` environment variable is set, this flag will be ignored.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Selects the desired log format. Options include: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Defines the path to the bacalhau repository.
-  - Default: `$HOME/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2152,21 +2270,22 @@ bacalhau node [command] --help
 
 - `-h`, `--help`:
   - Description: Shows the help information for the `node` command.
+- `--profile string`:
+  - Description: Use a specific profile for this command.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Description: Specifies the host for RESTful communication between the client and server. The flag will be ignored if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - Description: Designates the port for RESTful communication. The flag will be bypassed if the `BACALHAU_API_PORT` environment variable is active.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Description: Chooses the preferred log format. Available choices are: `default`, `station`, `json`, `combined`, and `event`.
-  - Default: `default`
-- `--repo string`:
-  - Description: Specifies the path to the bacalhau repository.
-  - Default: `/Users/walid/.bacalhau`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
 
 ## docs/cli/node/approve.md
 
@@ -2186,28 +2305,26 @@ bacalhau node approve [id] [flags]
 
 ## Flags
 
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
 - `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the approval action.
+  - Description: Displays the help documentation for the `approve` command.
+- `-m`, `--message string`:
+  - Description: A message to attach to the approve action.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2241,28 +2358,26 @@ bacalhau node delete [id] [flags]
 
 ## Flags
 
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
 - `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the deletion action.
+  - Description: Displays the help documentation for the `delete` command.
+- `-m`, `--message string`:
+  - Description: A message to attach to the delete action.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2309,19 +2424,19 @@ bacalhau node describe [id] [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2365,10 +2480,10 @@ bacalhau node list [flags]
   - Show the help message for the `list` command.
 - `--hide-header`:
   - Do not display the column headers in the output.
-- `--filter-approval`:
+- `--filter-approval string`:
   - Only show nodes with the specified approval status. Valid values are: `approved`, `pending`, `rejected`.
-- `--filter-status`:
-  - Only show nodes with the specified state. Valid values are: `healthy`, `unhealthy`, `unknown`.
+- `--filter-status string`:
+  - Only show nodes with the specified connection status. Valid values are: `connected`, `disconnected`.
 - `--labels string`:
   - Filter nodes based on labels. This follows the filtering format provided by Kubernetes, as shown in their documentation about labels.
 - `--limit uint32`:
@@ -2378,7 +2493,7 @@ bacalhau node list [flags]
 - `--no-style`:
   - Output the table without any style.
 - `--order-by string`:
-  - Sort the results based on a specific field. Valid sorting fields are: `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu`.
+  - Sort the results based on a specific field. Valid sorting fields are: `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu`, `status`.
 - `--order-reversed`:
   - Display the results in reverse order.
 - `--output format`:
@@ -2394,19 +2509,19 @@ bacalhau node list [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specify the host for client-server communication via REST. This gets ignored if the `BACALHAU_API_HOST` environment variable is defined.
-  - Default: `"bootstrap.production.bacalhau.org"`.
-- `--api-port int`:
-  - Specify the port for RESTful communication between client and server. Gets overlooked if the `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`.
-- `--log-mode logging-mode`:
-  - Choose the desired log format.
-  - Options: `'default', 'station', 'json', 'combined', 'event'`.
-  - Default: `'default'`.
-- `--repo string`:
-  - Point to the directory path of the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`.
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2422,11 +2537,11 @@ bacalhau node list [flags]
 
     ```plaintext
      ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-     QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+     QmTSJgdN  Compute  os_arch=amd64 os_type=linux                         3.2 /   11.7 GB /   77.8 GB /    1 /
                         git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
-     QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+     QmVXwmdZ  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   77.8 GB /    0 /
                         git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
-     QmXRdLru  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   78.0 GB /    0 /
+     QmXRdLru  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   78.0 GB /    0 /
                         git-lfs=True owner=bacalhau                         3.2     12.5 GB     78.0 GB      0
      ... [Additional nodes information] ...
     ```
@@ -2436,14 +2551,14 @@ bacalhau node list [flags]
     Execute the command to get a list of nodes with specific labels:
 
     ```bash
-    bacalhau node list --labels "Operating-System=linux,owner=bacalhau"
+    bacalhau node list --labels "os_type=linux,owner=bacalhau"
     ```
 
     Expected output:
 
     ```plaintext
     ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-    QmTSJgdN  Compute  Architecture=amd64 Operating-System=linux           3.2 /   11.7 GB /   77.8 GB /    1 /
+    QmTSJgdN  Compute  os_arch=amd64 os_type=linux                         3.2 /   11.7 GB /   77.8 GB /    1 /
                        git-lfs=True owner=bacalhau                         3.2     11.7 GB     77.8 GB      1
     ... [Additional nodes information] ...
     ```
@@ -2460,7 +2575,7 @@ bacalhau node list [flags]
 
     ```plaintext
     ID        TYPE     LABELS                                              CPU     MEMORY      DISK         GPU
-    QmVXwmdZ  Compute  Architecture=amd64 Operating-System=linux           3.2 /   12.5 GB /   77.8 GB /    0 /
+    QmVXwmdZ  Compute  os_arch=amd64 os_type=linux                         3.2 /   12.5 GB /   77.8 GB /    0 /
                        git-lfs=True owner=bacalhau                         3.2     12.5 GB     77.8 GB      0
     ... [Additional nodes information] ...
     ```
@@ -2478,10 +2593,13 @@ bacalhau node list [flags]
     ```json
     [
       {
-        "PeerInfo": {
-          "ID": "QmTSJgdN7zCPAqBCkmdsdpFbiJV8bJ6zhoxK9N5xfar1sz",
+        "Info": {
+          "NodeID": "node-1",
+          "NodeType": "Compute",
           ... [Additional node details] ...
         },
+        "Membership": "APPROVED",
+        "Connection": "CONNECTED",
         ... [Other nodes] ...
       }
     ]
@@ -2500,33 +2618,31 @@ Using the `reject` sub-command, administrators can reject a node in the pending 
 ## Usage
 
 ```bash
-bacalhau node rejected [id] [flags]
+bacalhau node reject [id] [flags]
 ```
 
 ## Flags
 
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
 - `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the rejection action.
+  - Description: Displays the help documentation for the `reject` command.
+- `-m`, `--message string`:
+  - Description: A message to attach to the reject action.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -2604,7 +2720,7 @@ curl -X PUT \
                   "Type": "noop",
                   "Params": {}
                 },
-                "ResourcesConfig": {
+                "Resources": {
                   "CPU": "0.1",
                   "Memory": "10mb"
                 },
@@ -2618,9 +2734,9 @@ curl -X PUT \
             ]
           }
         }' \
-     http://0.0.0.0:20000/api/v1/orchestrator/jobs
+     http://127.0.0.1:1234/api/v1/orchestrator/jobs
 
-{"JobID":"28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a","EvaluationID":"996b12e4-bcc5-4d74-ac21-0c421dafb7de"}
+{"JobID":"j-28c08f7f-6fb0-48ed-912d-a2cb6c3a4f3a","EvaluationID":"996b12e4-bcc5-4d74-ac21-0c421dafb7de"}
 ```
 
 ### Agent
@@ -2635,7 +2751,7 @@ Here’s the command structure for querying your current node. You can check on 
 
 ```bash
 # Is alive
-curl 0.0.0.0:20000/api/v1/agent/alive
+curl 127.0.0.1:1234/api/v1/agent/alive
 ```
 
 ## Features
@@ -2705,10 +2821,10 @@ This API provides details about the Bacalhau version, including major and minor 
 ```json
 {
   "Major": "1",
-  "Minor": "1",
-  "GitVersion": "v1.1.0",
-  "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-  "BuildDate": "2023-09-25T07:59:00Z",
+  "Minor": "9",
+  "GitVersion": "v1.9.6",
+  "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+  "BuildDate": "2026-11-25T01:55:56Z",
   "GOOS": "linux",
   "GOARCH": "amd64"
 }
@@ -2718,70 +2834,71 @@ This API provides details about the Bacalhau version, including major and minor 
 
 **Endpoint:** `GET /api/v1/agent/node`
 
-This API provides detailed information about the node, including its peer ID and network addresses, node type (e.g., Compute), labels, compute node capabilities, and the deployed Bacalhau version.
+This API provides detailed information about the node, including its node ID, node type (e.g., Compute), labels, supported protocols, compute node capabilities, and the deployed Bacalhau version.
 
 **Response**:
 
 ```json
 {
-  "PeerInfo": {
-    "ID": "QmdZQ7ZbhnvWY1J12XYKGHApJ6aufKyLNSvf8jZBrBaAVL",
-    "Addrs": [
-      "/ip4/35.245.245.245/tcp/1235"
-    ]
-  },
+  "NodeID": "node-1",
   "NodeType": "Compute",
   "Labels": {
-    "Architecture": "amd64",
-    "Operating-System": "linux",
-    "git-lfs": "True",
-    "owner": "bacalhau"
+    "name": "node-1",
+    "os_arch": "amd64",
+    "os_type": "linux",
+    "region": "us-west"
   },
+  "SupportedProtocols": [
+    "bprotocol/v2",
+    "ncl/v1"
+  ],
   "ComputeNodeInfo": {
     "ExecutionEngines": [
-      "docker",
-      "wasm"
+      "wasm",
+      "docker"
     ],
     "Publishers": [
+      "local",
+      "s3",
+      "s3managed",
       "noop",
-      "ipfs",
-      "s3"
+      "ipfs"
     ],
     "StorageSources": [
-      "repoclonelfs",
-      "s3",
-      "ipfs",
-      "urldownload",
       "inline",
-      "repoclone"
+      "urldownload",
+      "s3",
+      "ipfs"
     ],
     "MaxCapacity": {
       "CPU": 12.8,
       "Memory": 53931121049,
       "Disk": 721417073459,
-      "GPU": 0
+      "GPU": 1
     },
+    "QueueCapacity": {},
     "AvailableCapacity": {
       "CPU": 12.8,
       "Memory": 53931121049,
       "Disk": 721417073459,
-      "GPU": 0
+      "GPU": 1
     },
     "MaxJobRequirements": {
       "CPU": 12.8,
       "Memory": 53931121049,
       "Disk": 721417073459,
-      "GPU": 0
+      "GPU": 1
     },
     "RunningExecutions": 0,
-    "EnqueuedExecutions": 0
+    "EnqueuedExecutions": 0,
+    "address": ""
   },
   "BacalhauVersion": {
     "Major": "1",
-    "Minor": "1",
-    "GitVersion": "v1.1.0",
-    "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-    "BuildDate": "2023-09-25T07:59:00Z",
+    "Minor": "9",
+    "GitVersion": "v1.9.6",
+    "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+    "BuildDate": "2026-11-25T01:55:56Z",
     "GOOS": "linux",
     "GOARCH": "amd64"
   }
@@ -2820,8 +2937,8 @@ curl 127.0.0.1:1234/api/v1/orchestrator/jobs/j-d586d2cc-6fc9-42c4-9dd9-a78df1d7c
     "Count": 1,
     "Constraints": [],
     "Meta": {
-      "bacalhau.org/requester.id": "QmdZQ7ZbhnvWY1J12XYKGHApJ6aufKyLNSvf8jZBrBaAVL",
-      "bacalhau.org/requester.publicKey": "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVRKPgCfY2fgfrkHkFjeWcqno+MDpmp8DgVaY672BqJl/dZFNU9lBg2P8Znh8OTtHPPBUBk566vU3KchjW7m3uK4OudXrYEfSfEPnCGmL6GuLiZjLf+eXGEez7qPaoYqo06gD8ROdD8VVse27E96LlrpD1xKshHhqQTxKoq1y6Rx4DpbkSt966BumovWJ70w+Nt9ZkPPydRCxVnyWS1khECFQxp5Ep3NbbKtxHNX5HeULzXN5q0EQO39UN6iBhiI34eZkH7PoAm3Vk5xns//FjTAvQw6wZUu8LwvZTaihs+upx2zZysq6CEBKoeNZqed9+Tf+qHow0P5pxmiu+or+DAgMBAAE="
+      "bacalhau.org/orchestrator.id": "node-0",
+      "bacalhau.org/requester.id": "node-0"
     },
     "Labels": {
       "env": "prod",
@@ -2889,7 +3006,7 @@ Retrieve a list of jobs.
 2. `labels`: Use label-based criteria to filter jobs. See [Label Filtering](/specifications/job/label.md) for usage details.
 3. `limit`: Set the maximum number of jobs to return. Default is set to 10.
 4. `next_token`: Utilize this parameter for pagination continuation.
-5. `order_by`: Determine the ordering of jobs. Choose between `id` or `create_time` (default is `create_time`).
+5. `order_by`: Determine the ordering of jobs. Choose between `id` or `created_at` (default is `created_at`).
 6. `reverse`: Opt to reverse the default order of displayed jobs.
 
 **Response**:
@@ -3032,7 +3149,7 @@ Retrieve historical events for a specific job.
 **Response**:
 
 - **History**: List of matching historical events.
-- **NextToken** `(string)\*\*: Pagination token.
+- **NextToken** `(string)`: Pagination token.
 
 **Example**:
 
@@ -3141,13 +3258,13 @@ Retrieve all executions for a particular job.
 
 1. `limit`: Maximum executions to return.
 2. `next_token`: For pagination.
-3. `order_by`: Order by `modify_time` (default), `create_time`, `id`, `state`.
+3. `order_by`: Order by `modified_at` (default) or `created_at`.
 4. `reverse`: Reverse the order.
 
 **Response**:
 
 - **Executions**: List of relevant executions.
-- **NextToken** `(string)\*\*: Pagination token.
+- **NextToken** `(string)`: Pagination token.
 
 **Example**
 
@@ -3282,7 +3399,7 @@ Fetch results published by all executions for the defined job. Applicable only f
 **Response**:
 
 - **Results**: List of all published results.
-- **NextToken** `(string)\*\*: Pagination token.
+- **NextToken** `(string)`: Pagination token.
 
 **Example**:
 
@@ -3319,78 +3436,89 @@ Retrieve information about a specific node.
 
 **Parameters**:
 
-1. `:nodeID`: Identifier of the node to describe. (e.g. `QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT`)
+1. `:nodeID`: Identifier of the node to describe. (e.g. `node-1`)
 
 **Response**:
 
-* **Node**: Detailed information about the requested node.
+* **Node**: Detailed information about the requested node: its `Info` (ID, type, labels, compute capabilities and version), `Membership` approval state, `Connection` status and `ConnectionState` heartbeat details.
 
 **Example**:
 
 ```bash
-curl 127.0.0.1:1234/api/v1/orchestrator/nodes/QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT
+curl 127.0.0.1:1234/api/v1/orchestrator/nodes/node-1
 {
   "Node": {
-    "PeerInfo": {
-      "ID": "QmUDAXvv31WPZ8U9CzuRTMn9iFGiopGE7rHiah1X8a6PkT",
-      "Addrs": [
-        "/ip4/34.34.247.247/tcp/1235"
-      ]
-    },
-    "NodeType": "Compute",
-    "Labels": {
-      "Architecture": "amd64",
-      "Operating-System": "linux",
-      "git-lfs": "True",
-      "owner": "bacalhau"
-    },
-    "ComputeNodeInfo": {
-      "ExecutionEngines": [
-        "docker",
-        "wasm"
-      ],
-      "Publishers": [
-        "s3",
-        "noop",
-        "ipfs"
-      ],
-      "StorageSources": [
-        "urldownload",
-        "inline",
-        "repoclone",
-        "repoclonelfs",
-        "s3",
-        "ipfs"
-      ],
-      "MaxCapacity": {
-        "CPU": 3.2,
-        "Memory": 12561049190,
-        "Disk": 582010404864,
-        "GPU": 1
+    "Info": {
+      "NodeID": "node-1",
+      "NodeType": "Compute",
+      "Labels": {
+        "name": "node-1",
+        "os_arch": "amd64",
+        "os_type": "linux",
+        "region": "us-west"
       },
-      "AvailableCapacity": {
-        "CPU": 3.2,
-        "Memory": 12561049190,
-        "Disk": 582010404864,
-        "GPU": 1
+      "SupportedProtocols": [
+        "bprotocol/v2",
+        "ncl/v1"
+      ],
+      "ComputeNodeInfo": {
+        "ExecutionEngines": [
+          "wasm",
+          "docker"
+        ],
+        "Publishers": [
+          "local",
+          "s3",
+          "s3managed",
+          "noop",
+          "ipfs"
+        ],
+        "StorageSources": [
+          "inline",
+          "urldownload",
+          "s3",
+          "ipfs"
+        ],
+        "MaxCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931121049,
+          "Disk": 721417073459,
+          "GPU": 1
+        },
+        "QueueCapacity": {},
+        "AvailableCapacity": {
+          "CPU": 12.8,
+          "Memory": 53931121049,
+          "Disk": 721417073459,
+          "GPU": 1
+        },
+        "MaxJobRequirements": {
+          "CPU": 12.8,
+          "Memory": 53931121049,
+          "Disk": 721417073459,
+          "GPU": 1
+        },
+        "RunningExecutions": 0,
+        "EnqueuedExecutions": 0,
+        "address": ""
       },
-      "MaxJobRequirements": {
-        "CPU": 3.2,
-        "Memory": 12561049190,
-        "Disk": 582010404864,
-        "GPU": 1
-      },
-      "RunningExecutions": 0,
-      "EnqueuedExecutions": 0
+      "BacalhauVersion": {
+        "Major": "1",
+        "Minor": "9",
+        "GitVersion": "v1.9.6",
+        "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+        "BuildDate": "2026-11-25T01:55:56Z",
+        "GOOS": "linux",
+        "GOARCH": "amd64"
+      }
     },
-    "BacalhauVersion": {
-      "Major": "1",
-      "Minor": "1",
-      "GitVersion": "v1.1.0",
-      "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-      "BuildDate": "2023-09-25T07:59:00Z",
-      "GOOS": "linux",
-      "GOARCH": "amd64"
+    "Membership": "APPROVED",
+    "Connection": "CONNECTED",
+    "ConnectionState": {
+      "Status": "CONNECTED",
+      "LastHeartbeat": "2026-11-25T01:35:26.860014Z",
+      "ConnectedSince": "2026-11-25T01:35:21.857935Z",
+      "DisconnectedSince": "0001-01-01T00:00:00Z"
     }
   }
 }
@@ -3405,10 +3533,12 @@ Retrieve a list of nodes.
 **Parameters**:
 
 1. `labels`: Use label-based criteria to filter nodes. See [Label Filtering](/guides/labels-and-constraints.md) for usage details.
-2. `limit`: Set the maximum number of jobs to return. Default is set to 10.
+2. `limit`: Set the maximum number of nodes to return.
 3. `next_token`: Utilize this parameter for pagination continuation.
-4. `order_by`: Determine the ordering of jobs. Choose between `id`, `type`, `available_cpu`, `available_memory`, `available_disk` or `available_gpu`. (default is `id`).
-5. `reverse`: Opt to reverse the default order of displayed jobs.
+4. `order_by`: Determine the ordering of nodes. Choose between `id`, `type`, `available_cpu`, `available_memory`, `available_disk`, `available_gpu` or `status`. (default is `id`).
+5. `reverse`: Opt to reverse the default order of displayed nodes.
+6. `filter-approval`: Only return nodes with this approval state: `approved`, `pending` or `rejected`.
+7. `filter-status`: Only return nodes with this connection status: `connected` or `disconnected`.
 
 **Response**:
 
@@ -3420,131 +3550,156 @@ Retrieve a list of nodes.
 Find two linux nodes with most available Memory
 
 ```bash
-curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available_memory" --data-urlencode 'labels=Operating-System=linux'
+curl --get  "127.0.0.1:1234/api/v1/orchestrator/nodes?limit=2&order_by=available_memory&reverse=true" --data-urlencode 'labels=os_type=linux'
 {
   "NextToken": "",
   "Nodes": [
     {
-      "PeerInfo": {
-        "ID": "QmcC3xifiiCuGGQ9rpvefUoary9tY65x2HaNxSdeMTvM9U",
-        "Addrs": [
-          "/ip4/212.248.248.248/tcp/1235"
-        ]
-      },
-      "NodeType": "Compute",
-      "Labels": {
-        "Architecture": "amd64",
-        "Operating-System": "linux",
-        "env": "prod",
-        "git-lfs": "False",
-        "name": "saturnia_len20"
-      },
-      "ComputeNodeInfo": {
-        "ExecutionEngines": [
-          "wasm",
-          "docker"
-        ],
-        "Publishers": [
-          "noop",
-          "ipfs"
-        ],
-        "StorageSources": [
-          "urldownload",
-          "inline",
-          "ipfs"
-        ],
-        "MaxCapacity": {
-          "CPU": 102,
-          "Memory": 858993459200,
-          "Disk": 562967789568,
-          "GPU": 2
+      "Info": {
+        "NodeID": "node-1",
+        "NodeType": "Compute",
+        "Labels": {
+          "name": "node-1",
+          "os_arch": "amd64",
+          "os_type": "linux",
+          "region": "us-west"
         },
-        "AvailableCapacity": {
-          "CPU": 102,
-          "Memory": 858993459200,
-          "Disk": 562967789568,
-          "GPU": 2
+        "SupportedProtocols": [
+          "bprotocol/v2",
+          "ncl/v1"
+        ],
+        "ComputeNodeInfo": {
+          "ExecutionEngines": [
+            "wasm",
+            "docker"
+          ],
+          "Publishers": [
+            "local",
+            "s3",
+            "s3managed",
+            "noop",
+            "ipfs"
+          ],
+          "StorageSources": [
+            "inline",
+            "urldownload",
+            "s3",
+            "ipfs"
+          ],
+          "MaxCapacity": {
+            "CPU": 12.8,
+            "Memory": 53931121049,
+            "Disk": 721417073459,
+            "GPU": 1
+          },
+          "QueueCapacity": {},
+          "AvailableCapacity": {
+            "CPU": 12.8,
+            "Memory": 53931121049,
+            "Disk": 721417073459,
+            "GPU": 1
+          },
+          "MaxJobRequirements": {
+            "CPU": 12.8,
+            "Memory": 53931121049,
+            "Disk": 721417073459,
+            "GPU": 1
+          },
+          "RunningExecutions": 0,
+          "EnqueuedExecutions": 0,
+          "address": ""
         },
-        "MaxJobRequirements": {
-          "CPU": 96,
-          "Memory": 858993459200,
-          "Disk": 562967789568,
-          "GPU": 2
-        },
-        "RunningExecutions": 0,
-        "EnqueuedExecutions": 0
+        "BacalhauVersion": {
+          "Major": "1",
+          "Minor": "9",
+          "GitVersion": "v1.9.6",
+          "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+          "BuildDate": "2026-11-25T01:55:56Z",
+          "GOOS": "linux",
+          "GOARCH": "amd64"
+        }
       },
-      "BacalhauVersion": {
-        "Major": "1",
-        "Minor": "1",
-        "GitVersion": "v1.1.0",
-        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-        "BuildDate": "2023-09-25T07:59:00Z",
-        "GOOS": "linux",
-        "GOARCH": "amd64"
+      "Membership": "APPROVED",
+      "Connection": "CONNECTED",
+      "ConnectionState": {
+        "Status": "CONNECTED",
+        "LastHeartbeat": "2026-11-25T01:35:26.860014Z",
+        "ConnectedSince": "2026-11-25T01:35:21.857935Z",
+        "DisconnectedSince": "0001-01-01T00:00:00Z"
       }
     },
     {
-      "PeerInfo": {
-        "ID": "QmXaXu9N5GNetatsvwnTfQqNtSeKAD6uCmarbh3LMRYAcF",
-        "Addrs": [
-          "/ip4/35.245.245.245/tcp/1235"
-        ]
-      },
-      "NodeType": "Compute",
-      "Labels": {
-        "Architecture": "amd64",
-        "Operating-System": "linux",
-        "git-lfs": "True",
-        "owner": "bacalhau"
-      },
-      "ComputeNodeInfo": {
-        "ExecutionEngines": [
-          "docker",
-          "wasm"
-        ],
-        "Publishers": [
-          "noop",
-          "ipfs",
-          "s3"
-        ],
-        "StorageSources": [
-          "s3",
-          "ipfs",
-          "urldownload",
-          "inline",
-          "repoclone",
-          "repoclonelfs"
-        ],
-        "MaxCapacity": {
-          "CPU": 12.8,
-          "Memory": 53931124326,
-          "Disk": 718749414195,
-          "GPU": 0
+      "Info": {
+        "NodeID": "node-2",
+        "NodeType": "Compute",
+        "Labels": {
+          "name": "node-2",
+          "os_arch": "amd64",
+          "os_type": "linux",
+          "region": "us-east"
         },
-        "AvailableCapacity": {
-          "CPU": 12.8,
-          "Memory": 53931124326,
-          "Disk": 718749414195,
-          "GPU": 0
+        "SupportedProtocols": [
+          "bprotocol/v2",
+          "ncl/v1"
+        ],
+        "ComputeNodeInfo": {
+          "ExecutionEngines": [
+            "wasm",
+            "docker"
+          ],
+          "Publishers": [
+            "local",
+            "s3",
+            "s3managed",
+            "noop",
+            "ipfs"
+          ],
+          "StorageSources": [
+            "inline",
+            "urldownload",
+            "s3",
+            "ipfs"
+          ],
+          "MaxCapacity": {
+            "CPU": 3.2,
+            "Memory": 12561049190,
+            "Disk": 582010404864,
+            "GPU": 0
+          },
+          "QueueCapacity": {},
+          "AvailableCapacity": {
+            "CPU": 3.2,
+            "Memory": 12561049190,
+            "Disk": 582010404864,
+            "GPU": 0
+          },
+          "MaxJobRequirements": {
+            "CPU": 3.2,
+            "Memory": 12561049190,
+            "Disk": 582010404864,
+            "GPU": 0
+          },
+          "RunningExecutions": 0,
+          "EnqueuedExecutions": 0,
+          "address": ""
         },
-        "MaxJobRequirements": {
-          "CPU": 12.8,
-          "Memory": 53931124326,
-          "Disk": 718749414195,
-          "GPU": 0
-        },
-        "RunningExecutions": 0,
-        "EnqueuedExecutions": 0
+        "BacalhauVersion": {
+          "Major": "1",
+          "Minor": "9",
+          "GitVersion": "v1.9.6",
+          "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+          "BuildDate": "2026-11-25T01:55:56Z",
+          "GOOS": "linux",
+          "GOARCH": "amd64"
+        }
       },
-      "BacalhauVersion": {
-        "Major": "1",
-        "Minor": "1",
-        "GitVersion": "v1.1.0",
-        "GitCommit": "970e1a0f23c7eb739a097aa8212f7964434bcd97",
-        "BuildDate": "2023-09-25T07:59:00Z",
-        "GOOS": "linux",
-        "GOARCH": "amd64"
+      "Membership": "APPROVED",
+      "Connection": "CONNECTED",
+      "ConnectionState": {
+        "Status": "CONNECTED",
+        "LastHeartbeat": "2026-11-25T01:35:26.860014Z",
+        "ConnectedSince": "2026-11-25T01:35:21.857935Z",
+        "DisconnectedSince": "0001-01-01T00:00:00Z"
       }
     }
   ]
@@ -3804,9 +3959,45 @@ fn _start() {
 
 The IPFS Publisher in Bacalhau amplifies the versatility of task result storage by integrating with the [InterPlanetary File System (IPFS)](https://ipfs.tech/). IPFS is a protocol and network designed to create a peer-to-peer method of storing and sharing hypermedia in a distributed file system. Bacalhau's seamless integration with IPFS ensures that users have a decentralized option for publishing their task results, enhancing accessibility and resilience while reducing dependence on a single point of failure.
 
+## Requirements: Run Your Own IPFS Node
+
+Bacalhau does not include an IPFS node. To publish results to IPFS, a compute node needs an IPFS node that you run and manage yourself, such as [Kubo](https://docs.ipfs.tech/install/command-line/), and must be configured with the multiaddress of that node's RPC API (Kubo's `Addresses.API`, port 5001 by default):
+
+```bash
+bacalhau config set Publishers.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001
+```
+
+Or in the node's configuration file:
+
+```yaml
+Publishers:
+  Types:
+    IPFS:
+      Endpoint: /ip4/127.0.0.1/tcp/5001
+```
+
+Restart the compute node after changing the setting, then check that `ipfs` appears in the `OUTPUTS` column of `bacalhau node list --show features`. Without an endpoint, the compute node does not offer the IPFS publisher. With an endpoint that cannot be reached, the node refuses to start.
+
+Published results are only retrievable while an IPFS node that holds them stays online. Pin them on infrastructure you control, or connect your IPFS node to the public IPFS network if results must be reachable from elsewhere.
+
+### Downloading IPFS results
+
+`bacalhau job get` downloads IPFS results through an IPFS node as well, so the machine running the CLI needs its own endpoint configured:
+
+```bash
+bacalhau config set ResultDownloaders.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001
+bacalhau job get <job-id>
+```
+
+That IPFS node must be able to reach the CIDs your compute nodes published, for example by being connected to the same IPFS network.
+
+:::warning
+The IPFS RPC API gives full control over the IPFS node. Keep it bound to localhost or a private network and never expose it to the public internet.
+:::
+
 ## `IPFS` Publisher Parameters
 
-For the IPFS publisher, no specific parameters need to be defined in the publisher specification. The user only needs to indicate the publisher type as IPFS, and Bacalhau handles the rest. Here is an example of how to set up an IPFS Publisher in a job specification.
+For the IPFS publisher, no specific parameters need to be defined in the publisher specification. Once the compute node is configured as described above, the job only needs to set the publisher type to IPFS. Here is an example of how to set up an IPFS Publisher in a job specification.
 
 ```yaml
 Publisher:
@@ -4161,6 +4352,48 @@ Currently, Bacalhau does not provide lifecycle management for the results stored
 # IPFS
 
 The IPFS Input Source enables users to easily integrate data hosted on the [InterPlanetary File System (IPFS)](https://ipfs.tech) into Bacalhau jobs. By specifying the Content Identifier (CID) of the desired IPFS file or directory, users can have the content fetched and made available in the task's execution environment, ensuring efficient and decentralized data access.
+
+## Requirements: Run Your Own IPFS Node
+
+Bacalhau does not include an IPFS node. To accept IPFS inputs, a compute node needs an IPFS node that you run and manage yourself, such as [Kubo](https://docs.ipfs.tech/install/command-line/), and must be configured with the address of that node's RPC API.
+
+1.  **Start an IPFS node** that the compute node can reach. With Kubo:
+
+    ```bash
+    ipfs init
+    ipfs daemon
+    ```
+
+    The IPFS node must be able to retrieve the CIDs your jobs use, either from the public IPFS network, from a private IPFS network that holds the content, or because the content is pinned locally.
+
+2.  **Point the compute node at the IPFS RPC API** using its multiaddress. This is Kubo's `Addresses.API` setting (port 5001 by default), not the HTTP gateway on port 8080:
+
+    ```bash
+    bacalhau config set InputSources.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001
+    ```
+
+    Or in the node's configuration file:
+
+    ```yaml
+    InputSources:
+      Types:
+        IPFS:
+          Endpoint: /ip4/127.0.0.1/tcp/5001
+    ```
+
+    You can also pass it at startup with `bacalhau serve --compute -c InputSources.Types.IPFS.Endpoint=/ip4/127.0.0.1/tcp/5001`. Restart the compute node after changing the setting.
+
+3.  **Verify** that the compute node offers the IPFS input source. `ipfs` should appear in the `INPUTS FROM` column:
+
+    ```bash
+    bacalhau node list --show features
+    ```
+
+If no endpoint is configured, the compute node does not offer the IPFS input source, and jobs with IPFS inputs fail to schedule with an error such as `does not support ipfs, only inline, urldownload`. If the endpoint is configured but unreachable, the node refuses to start with `failed to connect to '/ip4/127.0.0.1/tcp/5001'`.
+
+:::warning
+The IPFS RPC API gives full control over the IPFS node. Keep it bound to localhost or a private network and never expose it to the public internet.
+:::
 
 ## Source Specification Parameters
 
@@ -6490,6 +6723,10 @@ Tasks:
 
 IPFS provides content-addressable, peer-to-peer storage for decentralized data sharing.
 
+:::note
+Bacalhau does not include an IPFS node. Compute nodes only accept IPFS inputs when they are configured with the RPC API address of an IPFS node you run, through `InputSources.Types.IPFS.Endpoint`. See [IPFS Input Source requirements](/docs/sources/ipfs#requirements-run-your-own-ipfs-node).
+:::
+
 ```bash
 bacalhau docker run \
 --input ipfs://QmZ4tDuvesekSs4qM5ZBKpXiZGun7S2CYtEZRB3DYXkjGx:/data \
@@ -6555,7 +6792,7 @@ Best practices:
 
 - **Credentials**: Some mount sources (S3) require proper credentials or connectivity
 - **Data Locality**: Use Bacalhau label selectors to run jobs on nodes that have or close to the data
-- **IPFS Network**: Compute nodes must be connected to an IPFS daemon to support this storage type
+- **IPFS Node**: Bacalhau does not include an IPFS node. Compute nodes need an IPFS node you run and `InputSources.Types.IPFS.Endpoint` set to its RPC API address to support this storage type
 - **Size Limits**: Very large inputs may require increased disk allocations using `--disk`
 
 ## Next Steps
@@ -6574,9 +6811,13 @@ By default, Bacalhau jobs have network access. This is configured at the node le
 
 To run Docker jobs on Bacalhau with different network access levels, you can specify one of the following:
 
-1. **host**: unfiltered network access for any protocol `--network=host` (default)
-2. **http**: HTTP(S)-only network access to a specified list of domains `--network=http`
-3. **none**: no network access `--network=none`
+1. **default**: the compute node's executor decides. Docker jobs get bridge networking and WebAssembly jobs get host networking. This is what you get when you omit `--network`.
+2. **bridge**: an isolated network namespace with outbound connectivity `--network=bridge`
+3. **host**: unfiltered network access for any protocol through the host's interfaces `--network=host` (`full` is a deprecated alias)
+4. **http**: HTTP(S)-only network access to a specified list of domains `--network=http`
+5. **none**: no network access `--network=none`
+
+If a compute node sets `JobAdmissionControl.RejectNetworkedJobs=true`, it rejects jobs that request network access.
 
 :::info
 Specifying `none` will still allow Bacalhau to download and upload data before and after the job using a Publisher.
@@ -6919,7 +7160,7 @@ Tasks:
 
 ### IPFS Publisher
 
-The IPFS Publisher uploads outputs to the InterPlanetary File System. Both the client (downloading the result) and the compute node must be connected to an IPFS daemon.
+The IPFS Publisher uploads outputs to the InterPlanetary File System. Bacalhau does not include an IPFS node, so you must run your own and configure both sides to use it: compute nodes through `Publishers.Types.IPFS.Endpoint`, and the client that downloads results with `bacalhau job get` through `ResultDownloaders.Types.IPFS.Endpoint`. See [IPFS Result Publisher requirements](/docs/publishers/ipfs#requirements-run-your-own-ipfs-node).
 
 ```bash
 bacalhau docker run \
@@ -6986,11 +7227,11 @@ If you are using the local publish, make SURE you have set the path to be availa
 
 For example, in your config file for your node, you probably want to mount in the local file system:
 
-```
-
+```yaml
 Compute:
-AllowListedLocalPaths: - /outputs:rw - /etc/\*.conf:ro
-
+  AllowListedLocalPaths:
+    - /outputs:rw
+    - /etc/*.conf:ro
 ```
 
 You can read more about that here: [Understanding Publishers and Results](publishing-results.mdx#understanding-publishers-and-result-paths)
@@ -7016,10 +7257,10 @@ For S3 publisher problems:
 
 For IPFS publisher issues:
 
-1. Ensure IPFS daemon is running on both compute node and client
-2. Check for network connectivity between nodes
-3. Verify you have enough disk space for pinning
-```
+1. Ensure an IPFS node is running for both the compute node and the client, and that `Publishers.Types.IPFS.Endpoint` (compute node) and `ResultDownloaders.Types.IPFS.Endpoint` (client) point at its RPC API, for example `/ip4/127.0.0.1/tcp/5001`
+2. Check that `ipfs` appears in the `OUTPUTS` column of `bacalhau node list --show features`
+3. Check for network connectivity between the IPFS nodes
+4. Verify you have enough disk space for pinning
 
 ## docs/guides/queueing.md
 
@@ -7084,11 +7325,11 @@ Tasks:
 You can also define timeouts for your jobs directly through the CLI using the `--queue-timeout` flag. This provides a convenient way to specify queueing behavior on a per-job basis without modifying configuration files:
 
 ```bash
-bacalhau docker run ubuntu sleep 90 --queue-timeout 1800
+bacalhau docker run --queue-timeout 1800 ubuntu -- sleep 90
 ```
 
 :::warning
-Timeouts in Bacalhau are generally governed by the `TotalTimeout` value for your YAML specifications and the `--timeout` flag for your CLI commands. The default total timeout value is 30 minutes. Setting a queue timeout larger than the total timeout without increasing the total timeout value will result in a validation error.
+When a total timeout is set, either as `TotalTimeout` in your job specification or through the node default `JobDefaults.<job type>.Task.Timeouts.TotalTimeout`, the execution timeout (`--timeout`) plus the queue timeout must not exceed it. Otherwise the job fails validation. No total timeout is set by default.
 :::
 
 ## Monitoring Queued Jobs
@@ -7122,10 +7363,10 @@ Namespace     = default
 Type          = batch
 State         = Queued
 Message       = Job queued. not enough nodes to run job. requested: 1, available: 4, suitable: 0.
-• 3 of 4 nodes: labels map[Architecture:amd64 Operating-System:linux owner:bacalhau]
+• 3 of 4 nodes: labels map[os_arch:amd64 os_type:linux owner:bacalhau]
   don't match required selectors [name = walid]
-• Node Qma5yQAk: labels map[Architecture:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
-  Operating-System:linux owner:bacalhau] don't match required selectors [name = walid]
+• Node Qma5yQAk: labels map[os_arch:amd64 GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
+  os_type:linux owner:bacalhau] don't match required selectors [name = walid]
 ```
 
 Once appropriate node resources become available, these jobs will transition to either a `Running` or `Completed` status, allowing more jobs to be assigned to matching nodes.
@@ -7151,12 +7392,12 @@ Job History
  2024-06-24 13:36:40  1     Pending    Submission  Job submitted
  2024-06-24 13:36:40  2     Queued     Queueing    Job queued. not enough nodes to run job. requested: 1,
                                                    available: 4, suitable: 0.
-                                                   • 3 of 4 nodes: labels map[Architecture:amd64
-                                                   Operating-System:linux owner:bacalhau]
+                                                   • 3 of 4 nodes: labels map[os_arch:amd64
+                                                   os_type:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
-                                                   • Node Qma5yQAk: labels map[Architecture:amd64
+                                                   • Node Qma5yQAk: labels map[os_arch:amd64
                                                    GPU-0:Tesla-T4 GPU-0-Memory:15360-MiB
-                                                   Operating-System:linux owner:bacalhau]
+                                                   os_type:linux owner:bacalhau]
                                                    don't match required selectors [name = walid]
  2024-06-24 13:39:40  3     Running
  2024-06-24 13:41:40  4     Completed
@@ -8015,8 +8256,8 @@ Bacalhau's devstack provides a quick way to spin up a local testing environment 
 
 ## Prerequisites
 
-- **Docker Engine**: Must be installed and running
 - **Bacalhau**: Latest version installed
+- **Docker Engine**: Installed, running, and reachable by the user that starts devstack. Docker is only needed for Docker jobs; without it, devstack still starts but its compute nodes can only run WebAssembly (WASM) jobs.
 
 ## Installation
 
@@ -8024,6 +8265,29 @@ If you haven't installed Bacalhau yet:
 
 ```bash
 curl -sL https://get.bacalhau.org/install.sh | bash
+```
+
+## Check Docker Before You Start
+
+Each compute node checks for a Docker daemon once, when it starts. If it cannot reach one, the node only offers the WASM engine and keeps doing so until it is restarted, even if Docker comes up later. Docker jobs then fail with:
+
+```
+Error: not enough nodes to run job. requested: 1, available: 3, suitable: 0.
+• 3 of 3 nodes: does not support docker, only wasm
+```
+
+Before starting devstack, confirm that Docker answers from the same shell:
+
+```bash
+docker info
+```
+
+If `docker info` fails, start Docker (for example, open Docker Desktop, or run `sudo systemctl start docker` on Linux) and try again. On Linux, also make sure your user can access the Docker socket without `sudo`, for example by adding it to the `docker` group.
+
+Bacalhau connects to Docker through the standard `DOCKER_HOST` environment variable, or `unix:///var/run/docker.sock` when `DOCKER_HOST` is unset. It does not read Docker CLI contexts. If your Docker runtime listens on a different socket (Docker Desktop without the default socket enabled, Colima, OrbStack, Podman, or rootless Docker), point `DOCKER_HOST` at the socket of your current Docker context before starting devstack:
+
+```bash
+
 ```
 
 ## Starting the Devstack
@@ -8041,7 +8305,11 @@ Devstack is ready!
 No. of requester only nodes: 1
 No. of compute only nodes: 3
 No. of hybrid nodes: 0
+To use the devstack, run the following commands in your shell:
+
 ```
+
+Use `--orchestrators`, `--computes`, and `--hybrids` to change the number of each node type, for example `bacalhau devstack --orchestrators 0 --computes 0 --hybrids 1` for a single hybrid node.
 
 ## Using Your Devstack
 
@@ -8054,16 +8322,20 @@ bacalhau node list
 You should see the nodes in your devstack:
 
 ```
-ID      TYPE       APPROVAL  STATUS     LABELS
-node-0  Requester  APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-0 name=node-0
-node-1  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-1 name=node-1
-node-2  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-2 name=node-2
-node-3  Compute    APPROVED  CONNECTED  Architecture=amd64 Operating-System=linux
-                                        env=devstack id=node-3 name=node-3
+ ID      TYPE       APPROVAL  STATUS     LABELS                                    CPU   MEMORY  DISK  GPU
+ node-0  Requester  APPROVED  CONNECTED  env=devstack id=node-0 name=node-0 ...
+ node-1  Compute    APPROVED  CONNECTED  env=devstack id=node-1 name=node-1 ...    ...   ...     ...   ...
+ node-2  Compute    APPROVED  CONNECTED  env=devstack id=node-2 name=node-2 ...    ...   ...     ...   ...
+ node-3  Compute    APPROVED  CONNECTED  env=devstack id=node-3 name=node-3 ...    ...   ...     ...   ...
 ```
+
+Check which execution engines the compute nodes registered:
+
+```bash
+bacalhau node list --show features
+```
+
+The `ENGINES` column of each compute node must include `docker` before you submit Docker jobs. If it only shows `wasm`, stop devstack, fix Docker access as described in [Check Docker Before You Start](#check-docker-before-you-start), and start devstack again.
 
 ## Running a Simple Job
 
@@ -8095,6 +8367,10 @@ Set default resource requirements for all batch jobs:
 bacalhau devstack -c JobDefaults.Batch.Task.Resources.CPU="250m" -c JobDefaults.Batch.Task.Resources.Memory="512Mb"
 ```
 
+### Avoiding Port Conflicts
+
+Devstack uses the standard ports (1234 for the API and 4222 for the orchestrator) so that the CLI works without extra settings. If another Bacalhau node already uses them, start devstack with `--random-ports` and export the `BACALHAU_API_HOST` and `BACALHAU_API_PORT` values it prints.
+
 ## Accessing the Web UI
 
 The Web UI is enabled by default in devstack for easier monitoring and management. Access it by opening your browser and navigating to:
@@ -8112,6 +8388,8 @@ The Web UI allows you to:
 ## Stopping Devstack
 
 When you're done, simply press `Ctrl+C` in the terminal where devstack is running to shut everything down.
+
+If devstack exits abnormally, the next start can fail with `found file .../bacalhau-devstack.port - Devstack likely already running`. When no devstack is running, delete the `bacalhau-devstack.port` and `bacalhau-devstack.pid` files from your system temporary directory (`$TMPDIR` on macOS, `/tmp` on Linux) and start it again.
 
 ## docs/references/developers/workload-onboarding/docker.md
 
@@ -8357,7 +8635,7 @@ bacalhau config set Labels=foo=bar,baz=qaz
 
 ## How do I specify the orchestrator for my compute node?
 
-The `Compute.Orchestrator` field in the config tells the Bacalhau compute node where to connect:
+The `Compute.Orchestrators` field in the config tells the Bacalhau compute node where to connect:
 
 ```bash
 bacalhau config set Compute.Orchestrators=my-great-orchestrator.com
@@ -8386,7 +8664,7 @@ Yes! You can run programs using WebAssembly instead. Refer to the [WebAssembly o
 Use the job describe command with your job ID:
 
 ```bash
-bacalhau job describe b4491a4a-7b55-4fa7-a5af-80f3c99bc379
+bacalhau job describe j-b4491a4a-7b55-4fa7-a5af-80f3c99bc379
 ```
 
 If your job writes to stdout or stderr while running, you can also view the output with the `logs` command.
@@ -8514,6 +8792,23 @@ Ensure there are active compute nodes with sufficient resources.
 2. **Add more compute nodes**: Add capacity to your cluster
 3. **Check network connectivity**: Ensure nodes can communicate with each other
 4. **Modify job requirements**: Adjust constraints to match available resources
+
+### Nodes Do Not Support Docker
+
+A Docker job fails to schedule with an error such as:
+
+```
+Error: not enough nodes to run job. requested: 1, available: 3, suitable: 0.
+• 3 of 3 nodes: does not support docker, only wasm
+```
+
+The compute nodes could not reach a Docker daemon when they started, so they only registered the WebAssembly engine. Check with `bacalhau node list --show features`: the `ENGINES` column lists what each node can run.
+
+To fix it:
+
+1. Make sure Docker is running and `docker info` succeeds as the user that runs Bacalhau.
+2. If Docker listens on a non-default socket (Docker Desktop without the default socket, Colima, OrbStack, Podman, or rootless Docker), set `DOCKER_HOST`, for example `export DOCKER_HOST=$(docker context inspect --format '{{.Endpoints.docker.Host}}')`.
+3. Restart the compute nodes (or `bacalhau devstack`). Nodes detect Docker only at startup.
 
 ## Input Data Access Issues
 
@@ -8876,7 +9171,16 @@ The following table lists all configuration options in alphabetical order.
 | -------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | `API.Auth.AccessPolicyPath`                        | `""`                                 | Path to policy file for API access control                                                                  |
 | `API.Auth.Methods`                                 | `{"ClientKey":{"Type":"challenge"}}` | Authentication methods mapping                                                                              |
-| `API.Auth.Oauth2`                                  | `{}`                                 | OAuth 2.0 configuration                                                                                     |
+| `API.Auth.Oauth2.Audience`                         | `""`                                 | Expected `aud` claim in the JWT token                                                                       |
+| `API.Auth.Oauth2.DeviceAuthorizationEndpoint`      | `""`                                 | Device authorization (device code) endpoint of the provider                                                 |
+| `API.Auth.Oauth2.DeviceClientID`                   | `""`                                 | Client ID used for the device code flow                                                                     |
+| `API.Auth.Oauth2.Issuer`                           | `""`                                 | Expected issuer; must match the issuer in the JWT token                                                     |
+| `API.Auth.Oauth2.JWKSUri`                          | `""`                                 | JWKS URI used to verify token signatures                                                                    |
+| `API.Auth.Oauth2.PollingInterval`                  | `0`                                  | Seconds between CLI checks for device code approval                                                         |
+| `API.Auth.Oauth2.ProviderID`                       | `""`                                 | Identifier of the OAuth 2.0 identity provider, for your own reference                                       |
+| `API.Auth.Oauth2.ProviderName`                     | `""`                                 | Display name of the OAuth 2.0 identity provider                                                             |
+| `API.Auth.Oauth2.Scopes`                           | `[]`                                 | Scopes requested in the token exchange                                                                      |
+| `API.Auth.Oauth2.TokenEndpoint`                    | `""`                                 | Endpoint used to obtain the JWT token                                                                       |
 | `API.Auth.Users`                                   | `[]`                                 | List of users for basic authentication                                                                      |
 | `API.Host`                                         | `"0.0.0.0"`                          | Hostname or IP address on which the API server listens                                                      |
 | `API.Port`                                         | `1234`                               | Port number on which the API server listens                                                                 |
@@ -8895,8 +9199,10 @@ The following table lists all configuration options in alphabetical order.
 | `Compute.AllowListedLocalPaths`                    | `[]`                                 | Local paths allowed for mounting in format `path[:mode]`. Mode can be `ro` (read-only) or `rw` (read-write) |
 | `Compute.Auth.Token`                               | `""`                                 | Token for orchestrator access                                                                               |
 | `Compute.Enabled`                                  | `false`                              | Enable compute capabilities                                                                                 |
+| `Compute.Env.AllowList`                            | `[]`                                 | Host environment variables that may be forwarded to jobs. Supports glob patterns such as `AWS_*`            |
 | `Compute.Heartbeat.InfoUpdateInterval`             | `"1m"`                               | Interval for updating node information                                                                      |
 | `Compute.Heartbeat.Interval`                       | `"15s"`                              | Interval between heartbeats sent to orchestrator                                                            |
+| `Compute.Heartbeat.ResourceUpdateInterval`         | `0s`                                 | Deprecated: use `Compute.Heartbeat.Interval` instead                                                        |
 | `Compute.Network.AdvertisedAddress`                | `""`                                 | Address that this compute node advertises to other nodes                                                    |
 | `Compute.Network.PortRangeEnd`                     | `32000`                              | Last port in the range (inclusive) that can be allocated to jobs                                            |
 | `Compute.Network.PortRangeStart`                   | `20000`                              | First port in the range (inclusive) that can be allocated to jobs                                           |
@@ -8913,10 +9219,10 @@ The following table lists all configuration options in alphabetical order.
 | `InputSources.MaxRetryCount`                       | `3`                                  | Maximum retry attempts for source access                                                                    |
 | `InputSources.ReadTimeout`                         | `"5m"`                               | Timeout for reading from sources                                                                            |
 | `InputSources.Types.IPFS.Endpoint`                 | `""`                                 | IPFS API endpoint for input sources                                                                         |
-| `JobAdmissionControl.AcceptNetworkedJobs`          | `false`                              | Accept jobs that require network access                                                                     |
-| `JobAdmissionControl.Locality`                     | `"Anywhere"`                         | Data locality requirement: `"Anywhere"` or `"Local"`                                                        |
+| `JobAdmissionControl.Locality`                     | `"anywhere"`                         | Data locality requirement: `"anywhere"` or `"local"`                                                        |
 | `JobAdmissionControl.ProbeExec`                    | `""`                                 | External program path for job admission decisions                                                           |
 | `JobAdmissionControl.ProbeHTTP`                    | `""`                                 | HTTP endpoint for job admission decisions                                                                   |
+| `JobAdmissionControl.RejectNetworkedJobs`          | `false`                              | Reject jobs that require network access                                                                     |
 | `JobAdmissionControl.RejectStatelessJobs`          | `false`                              | Reject jobs without input data                                                                              |
 | `JobDefaults.Batch.Priority`                       | `0`                                  | Default priority for batch jobs                                                                             |
 | `JobDefaults.Batch.Task.Publisher.Params`          | `{}`                                 | Default publisher parameters for batch jobs                                                                 |
@@ -8962,7 +9268,6 @@ The following table lists all configuration options in alphabetical order.
 | `Orchestrator.EvaluationBroker.MaxRetryCount`      | `10`                                 | Maximum evaluation retry attempts                                                                           |
 | `Orchestrator.EvaluationBroker.VisibilityTimeout`  | `"1m"`                               | How long an evaluation can be claimed                                                                       |
 | `Orchestrator.Host`                                | `"0.0.0.0"`                          | Hostname/IP for orchestrator connections                                                                    |
-| `Orchestrator.License.LocalPath`                   | `""`                                 | Local license file path                                                                                     |
 | `Orchestrator.NodeManager.DisconnectTimeout`       | `"1m"`                               | Time before marking node as disconnected                                                                    |
 | `Orchestrator.NodeManager.ManualApproval`          | `false`                              | Require manual approval for compute nodes                                                                   |
 | `Orchestrator.Port`                                | `4222`                               | Port for orchestrator connections                                                                           |
@@ -8981,6 +9286,11 @@ The following table lists all configuration options in alphabetical order.
 | `Publishers.Types.Local.Port`                      | `6001`                               | Local publisher port                                                                                        |
 | `Publishers.Types.S3.PreSignedURLDisabled`         | `false`                              | Disable pre-signed URLs for S3 publisher                                                                    |
 | `Publishers.Types.S3.PreSignedURLExpiration`       | `""`                                 | Pre-signed URL expiration time                                                                              |
+| `Publishers.Types.S3Managed.Bucket`                | `""`                                 | S3 bucket name for the managed S3 publisher                                                                 |
+| `Publishers.Types.S3Managed.Endpoint`              | `""`                                 | Optional custom S3 endpoint for the managed S3 publisher                                                    |
+| `Publishers.Types.S3Managed.Key`                   | `""`                                 | Optional prefix for objects stored in the bucket                                                            |
+| `Publishers.Types.S3Managed.PreSignedURLExpiration` | `"1h"`                               | Pre-signed URL expiration time for the managed S3 publisher                                                 |
+| `Publishers.Types.S3Managed.Region`                | `""`                                 | Region of the managed S3 publisher bucket                                                                   |
 | `ResultDownloaders.Disabled`                       | `[]`                                 | List of disabled result downloader types                                                                    |
 | `ResultDownloaders.Timeout`                        | `""`                                 | Timeout for download operations                                                                             |
 | `ResultDownloaders.Types.IPFS.Endpoint`            | `""`                                 | IPFS API endpoint for downloading results                                                                   |
@@ -9058,13 +9368,13 @@ Tasks:
       Type: docker
       Params:
         Image: 'nvidia/cuda:11.6.2-base-ubuntu20.04'
-      Entrypoint:
-        - /bin/bash
-      Parameters:
-        - -c
-        - nvidia-smi && echo 'GPU is working!'
+        Entrypoint:
+          - /bin/bash
+        Parameters:
+          - -c
+          - nvidia-smi && echo 'GPU is working!'
     Name: TestGPU
-    ResourcesConfig:
+    Resources:
       CPU: '1'
       Memory: '1GB'
       Disk: '10GB'
@@ -9683,7 +9993,7 @@ Consider a scenario where a job should only run on nodes with a GPU and an opera
 constraints:
   - key: "hardware.gpu"
     operator: "exists"
-  - key: "Operating-System"
+  - key: "os_type"
     operator: "="
     values: ["linux"]
   - key: "region"
@@ -9828,17 +10138,21 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 ### Bacalhau Auto-Generated Keys:
 
-1. **bacalhau.org/requester.id**: A unique identifier for the orchestrator that handled the job.
-2. **bacalhau.org/requester.publicKey**: The public key of the requester, aiding in security and validation.
-3. **bacalhau.org/client.id**: The ID for the client submitting the job, enhancing traceability.
+1. **bacalhau.org/orchestrator.id**: The ID of the orchestrator node that accepted the job.
+2. **bacalhau.org/requester.id**: The same orchestrator ID under its legacy key, kept for backward compatibility.
+3. **bacalhau.org/client.installation.id** and **bacalhau.org/client.instance.id**: Identify the client installation and client instance that submitted the job, when the client provides them.
+4. **bacalhau.org/server.installation.id** and **bacalhau.org/server.instance.id**: Identify the orchestrator installation and instance that handled the job.
+
+Keys under the `bacalhau.org/` prefix are reserved for Bacalhau.
 
 #### Example:
 
 ```json
 "Meta": {
-    "bacalhau.org/requester.id": "QmfZwnVWYjHSchAVxJqXn18Bvd1cpG2ATRYceBBvUGZf2f",
-    "bacalhau.org/requester.publicKey": "CAASpgIwggEiMA0GCSqG...BcyEhfEZKnAgMBAAE=",
-    "bacalhau.org/client.id": "dfadea67ab6d8c65761c3d879119e11f157923036f945d969d19a51066dc663a"
+    "bacalhau.org/orchestrator.id": "node-0",
+    "bacalhau.org/requester.id": "node-0",
+    "bacalhau.org/client.installation.id": "c5a5f4a4-2b6e-4c58-9a57-4c1f0c3b8d21",
+    "bacalhau.org/client.instance.id": "0d2c1b5e-6f3a-4e7b-8c9d-1a2b3c4d5e6f"
 }
 ```
 
@@ -9846,7 +10160,7 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 1. **Identification**: The metadata aids in uniquely identifying jobs and tasks, connecting them to their originators and executors.
 2. **Context Enhancement**: Metadata can supplement jobs and tasks with additional data, offering insights and context that aren't captured by standard parameters.
-3. **Security Enhancement**: Auto-generated keys like the requester's public key contribute to the secure handling and execution of jobs and tasks.
+3. **Traceability**: Auto-generated keys record which orchestrator and client handled a job, which helps when debugging across a cluster.
 
 While the `Meta` block is distinct from the [`Labels`](label.md) block used for filtering, its contribution to providing context, security, and traceability is integral in managing and understanding the diverse jobs and tasks within the Bacalhau ecosystem effectively.
 
@@ -9858,16 +10172,18 @@ The `Network` object offers a method to specify the networking requirements of a
 
 ## `Network` Parameters:
 
-1. **Type** `(string: "None")`: Indicates the network configuration's nature. There are several network modes available:
+1. **Type** `(string: "Default")`: Indicates the network configuration's nature. There are several network modes available:
+   * `Default`: The compute node's executor applies its own default. Docker uses bridge networking and WebAssembly uses host networking. If the compute node rejects networked jobs, networking is disabled.
    * `None`: This mode implies that the task does not necessitate any networking capabilities.
-   * `Full`: Specifies that the task mandates unrestricted, raw IP networking without any imposed filters.
+   * `Bridge`: The task runs in an isolated network namespace connected to a bridge network, with outbound connectivity.
+   * `Host`: Specifies that the task mandates unrestricted, raw IP networking through the host's network interfaces. `Full` is a deprecated alias for `Host`.
    * `HTTP`: This mode constrains the task to only require HTTP networking with specific domains. In this model:
      * The job specifier puts forward a job, stipulating the domain(s) it intends to communicate with.
      * The compute provider assesses the inherent risk of the job based on these domains and bids accordingly.
      * At runtime, the network traffic remains strictly confined to the designated domain(s).
 
 :::info
-A typical command for this might resemble: `bacalhau docker run —network=http —domain=crates.io —domain=github.com -i ipfs://Qmy1234myd4t4,dst=/code rust/compile`&#x20;
+A typical command for this might resemble: `bacalhau docker run --network=http --domain=crates.io --domain=github.com -i ipfs://Qmy1234myd4t4:/code rust/compile`
 :::
 
 The primary risks for the compute provider center around possible violations of its terms, its hosting provider's terms, or even prevailing laws in its jurisdiction. This encompasses issues such as unauthorized access or distribution of illicit content and potential cyber-attacks.
@@ -9877,6 +10193,8 @@ Conversely, the job specifier's primary risk involves operating in a paid enviro
 While a compute provider might impose its limits through other means, having domains declared upfront allows it to selectively bid on jobs that it can execute without issues, improving the user experience for job specifiers.
 
 2. **Domains** `(string[]: <optional>)`: A list of domain strings, relevant primarily when the `Type` is set to **HTTP**. It dictates the specific domains the task can communicate with over HTTP.
+
+3. **Ports** `(object[]: <optional>)`: Port mappings to expose from the task. Only supported with `Host` and `Bridge` networking.
 
 Understanding and utilizing these configurations aptly can ensure that tasks are executed in an environment that aligns with their networking requirements, bolstering efficiency and security.
 
@@ -10010,7 +10328,7 @@ Labels:
 # Should be specified in a following format: key - operator - value
 # Optional.
 Constraints:
-- Key: "Operating-System"
+- Key: "os_type"
   Operator: "="
   Values: ["linux"]
 

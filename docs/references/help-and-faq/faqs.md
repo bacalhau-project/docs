@@ -46,7 +46,7 @@ bacalhau config set Labels=foo=bar,baz=qaz
 
 ## How do I specify the orchestrator for my compute node?
 
-The `Compute.Orchestrator` field in the config tells the Bacalhau compute node where to connect:
+The `Compute.Orchestrators` field in the config tells the Bacalhau compute node where to connect:
 
 ```bash
 bacalhau config set Compute.Orchestrators=my-great-orchestrator.com
@@ -75,7 +75,7 @@ Yes! You can run programs using WebAssembly instead. Refer to the [WebAssembly o
 Use the job describe command with your job ID:
 
 ```bash
-bacalhau job describe b4491a4a-7b55-4fa7-a5af-80f3c99bc379
+bacalhau job describe j-b4491a4a-7b55-4fa7-a5af-80f3c99bc379
 ```
 
 If your job writes to stdout or stderr while running, you can also view the output with the `logs` command.

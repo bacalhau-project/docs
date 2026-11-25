@@ -79,6 +79,7 @@ const historicalAliases = [
   ['/docs/v.1.3.2-1/setting-up/workload-onboarding/container/docker-workload-onboarding', '/docs/references/developers/workload-onboarding/docker/'],
   ['/docs/getting-started/wasm-workload-onboarding', '/docs/references/developers/workload-onboarding/wasm/'],
   ['/docs/documentation/v.1.5.0/integrations/lilypad', '/integrations/lilypad/'],
+  ['/docs/setting-up/running-node/test-network', '/docs/references/developers/running-locally/'],
 ]
 
 for (const [alias, target] of historicalAliases) {

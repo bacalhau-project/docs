@@ -26,7 +26,7 @@ Consider a scenario where a job should only run on nodes with a GPU and an opera
 constraints:
   - key: "hardware.gpu"
     operator: "exists"
-  - key: "Operating-System"
+  - key: "os_type"
     operator: "="
     values: ["linux"]
   - key: "region"

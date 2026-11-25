@@ -9,33 +9,31 @@ Using the `reject` sub-command, administrators can reject a node in the pending 
 ## Usage
 
 ```bash
-bacalhau node rejected [id] [flags]
+bacalhau node reject [id] [flags]
 ```
 
 ## Flags
 
-- `[id]`:
-  - The unique identifier of the node you wish to describe.
 - `-h`, `--help`:
-  - Displays the help documentation for the `describe` command.
-- `-m message`:
-  - A message to be attached to the rejection action.
+  - Description: Displays the help documentation for the `reject` command.
+- `-m`, `--message string`:
+  - Description: A message to attach to the reject action.
 
 ## Global Flags
 
-- `--api-host string`:
-  - Specifies the host for client-server communication through REST. This flag is overridden if the `BACALHAU_API_HOST` environment variable is set.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- `--api-port int`:
-  - Designates the port for REST-based communication between client and server. This flag is overlooked if the `BACALHAU_API_PORT` environment variable is defined.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Determines the log format preference.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- `--repo string`:
-  - Points to the bacalhau repository's path.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 

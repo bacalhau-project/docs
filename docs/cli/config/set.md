@@ -15,72 +15,84 @@ Changes made using this command will be applied to the configuration file, but t
 ## Usage
 
 ```bash
-bacalhau config set <key> <value>
+bacalhau config set <key>=<value> [flags]
 ```
+
+The older space-separated form, `bacalhau config set <key> <value>`, still works but is deprecated.
 
 ## Flags
 
+- `-c`, `--config string`:
+  - Description: Path to the config file to modify.
+  - Default: `$BACALHAU_DIR/config.yaml`
 - `-h`, `--help`:
   - Description: Displays help information for the `set` sub-command.
 
 ## Examples
 
-### Configuring the Server API Port Value
+### Configuring the API Port Value
 
 ```bash
-bacalhau config set node.serverapi.port 9999
+bacalhau config set API.Port=9999
 
-bacalhau config list | grep serverapi.port
- node.serverapi.port                                             9999
+bacalhau config list | grep API.Port
+ API.Port      9999      Port specifies the port number on which the API server listens ...
 
 cat ~/.bacalhau/config.yaml
-node:
-    serverapi:
-        port: 9999
+api:
+    port: 9999
 ```
 
 ### Configuring the Logging Mode Value
 
 ```bash
-bacalhau config set node.loggingmode json
-
-bacalhau config list | grep loggingmode
- node.loggingmode                                                json
+bacalhau config set Logging.Mode=json
 
 cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
+logging:
+    mode: json
 ```
 
 ### Multiple Set commands append to the file
 
 ```bash
-bacalhau config set node.serverapi.port 9999
-bacalhau config set node.serverapi.host 0.0.0.0
-bacalhau config set node.loggingmode json
+bacalhau config set API.Port=9999
+bacalhau config set API.Host=0.0.0.0
+bacalhau config set Logging.Mode=json
 
 cat ~/.bacalhau/config.yaml
-node:
-    loggingmode: json
-    serverapi:
-        host: 0.0.0.0
-        port: 9999
+api:
+    host: 0.0.0.0
+    port: 9999
+logging:
+    mode: json
+```
+
+### Setting list and map values
+
+Separate multiple values with commas:
+
+```bash
+bacalhau config set Compute.Orchestrators=nats://10.0.0.1:4222,nats://10.0.0.2:4222
+bacalhau config set Labels=region=us-west,env=prod
 ```
 
 ### Set command value validation
 
-#### Example of invalid logging mode value
+#### Example of an unknown key
 
 ```bash
-bacalhau config set node.loggingmode some-invalid-value
+bacalhau config set Node.LoggingMode=json
 
-Error: setting "node.loggingmode": "some-invalid-value" is an invalid log-mode (valid modes: ["default" "station" "json" "combined" "event"])
+Error: "node.loggingmode" is not a valid config key
+Hint:  Run 'bacalhau config list' for the complete list of valid config keys
 ```
 
 #### Example of invalid time duration value
 
 ```bash
-bacalhau config set node.volumesizerequesttimeout 10days
+bacalhau config set Compute.Heartbeat.Interval=10days
 
-Error: setting "node.volumesizerequesttimeout": time: unknown unit "days" in duration "10days"
+Error: config key: "compute.heartbeat.interval" expects a valid duration value, received: "10days"
+Hint:  Accepted formats: 'h' (hours), 'm' (minutes), 's' (seconds), 'ms' (milliseconds), etc. Example: '2h45m', '30s', '100ms
 ```

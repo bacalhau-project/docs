@@ -19,13 +19,20 @@ curl -sL https://get.bacalhau.org/install.sh | bash
 ```
 
 - This fetches the latest Bacalhau release and places it in `/usr/local/bin` or a similar path.
-- You many need sudo mode or root access to install the binary at the desired path
+- You may need sudo mode or root access to install the binary at the desired path
 </TabItem>
 
 <TabItem value="Windows (CLI)" label="Windows (CLI)">
-  Windows users can download the [latest release tarball from
-  Github](https://github.com/bacalhau-project/bacalhau/releases) and extract `bacalhau.exe` to any location available in
-  the PATH environment variable.
+Windows users can download the latest release with PowerShell and extract `bacalhau.exe`:
+
+```powershell
+$release = Invoke-RestMethod "https://get.bacalhau.org/api/artifacts/resolve?os=windows&arch=amd64&release=stable"
+Invoke-WebRequest $release.downloadUrl -OutFile bacalhau.tar.gz
+tar -xzf bacalhau.tar.gz
+```
+
+- Move `bacalhau.exe` to any location available in the PATH environment variable.
+- Release notes for each version are on [GitHub](https://github.com/bacalhau-project/bacalhau/releases).
 </TabItem>
 
 <TabItem value="Docker" label="Docker">
@@ -70,13 +77,16 @@ To upgrade Bacalhau to the latest version, run the installation script. If Bacal
 ## Requirements & Tips
 
 - **Docker**:
-  - Must be installed and running on any **compute** node to handle Docker-based jobs.
+  - Must be installed and running on any **compute** node to handle Docker-based jobs, and reachable by the user that runs Bacalhau. Bacalhau uses `DOCKER_HOST` if it is set, or `/var/run/docker.sock` otherwise.
+  - Compute nodes detect Docker when they start. Start Docker first; a node that started without it only runs WebAssembly jobs until it is restarted.
+- **IPFS** (if you use IPFS inputs or publishing):
+  - Bacalhau does not include an IPFS node. Run your own and configure its RPC API address; see the [IPFS input source](/docs/sources/ipfs#requirements-run-your-own-ipfs-node) and [IPFS publisher](/docs/publishers/ipfs#requirements-run-your-own-ipfs-node) pages.
 - **AWS Credentials** (if you're using S3):
   - For S3 inputs or outputs, the node needs valid AWS credentials (e.g., environment variables).
 - **Running an Orchestrator & Compute**:
   - See [Quick Start](./quick-start.mdx) for how to run a local or hybrid node with `bacalhau serve --orchestrator --compute`.
 - **`bacalhau devstack`**:
-  - Perfect for local development or running tests.
+  - Perfect for local development or running tests. See [Running Locally with Devstack](../references/developers/running-locally.md).
 
 ## Next Steps
 

@@ -113,7 +113,7 @@ Tasks:
 
 ### IPFS Publisher
 
-The IPFS Publisher uploads outputs to the InterPlanetary File System. Both the client (downloading the result) and the compute node must be connected to an IPFS daemon.
+The IPFS Publisher uploads outputs to the InterPlanetary File System. Bacalhau does not include an IPFS node, so you must run your own and configure both sides to use it: compute nodes through `Publishers.Types.IPFS.Endpoint`, and the client that downloads results with `bacalhau job get` through `ResultDownloaders.Types.IPFS.Endpoint`. See [IPFS Result Publisher requirements](/docs/publishers/ipfs#requirements-run-your-own-ipfs-node).
 
 <Tabs groupId="ipfs-publisher">
 <TabItem value="Imperative" label="Imperative">
@@ -192,11 +192,11 @@ If you are using the local publish, make SURE you have set the path to be availa
 
 For example, in your config file for your node, you probably want to mount in the local file system:
 
-```
-
+```yaml
 Compute:
-AllowListedLocalPaths: - /outputs:rw - /etc/\*.conf:ro
-
+  AllowListedLocalPaths:
+    - /outputs:rw
+    - /etc/*.conf:ro
 ```
 
 You can read more about that here: [Understanding Publishers and Results](publishing-results.mdx#understanding-publishers-and-result-paths)
@@ -222,7 +222,7 @@ For S3 publisher problems:
 
 For IPFS publisher issues:
 
-1. Ensure IPFS daemon is running on both compute node and client
-2. Check for network connectivity between nodes
-3. Verify you have enough disk space for pinning
-```
+1. Ensure an IPFS node is running for both the compute node and the client, and that `Publishers.Types.IPFS.Endpoint` (compute node) and `ResultDownloaders.Types.IPFS.Endpoint` (client) point at its RPC API, for example `/ip4/127.0.0.1/tcp/5001`
+2. Check that `ipfs` appears in the `OUTPUTS` column of `bacalhau node list --show features`
+3. Check for network connectivity between the IPFS nodes
+4. Verify you have enough disk space for pinning

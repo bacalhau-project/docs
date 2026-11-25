@@ -32,17 +32,21 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 ### Bacalhau Auto-Generated Keys:
 
-1. **bacalhau.org/requester.id**: A unique identifier for the orchestrator that handled the job.
-2. **bacalhau.org/requester.publicKey**: The public key of the requester, aiding in security and validation.
-3. **bacalhau.org/client.id**: The ID for the client submitting the job, enhancing traceability.
+1. **bacalhau.org/orchestrator.id**: The ID of the orchestrator node that accepted the job.
+2. **bacalhau.org/requester.id**: The same orchestrator ID under its legacy key, kept for backward compatibility.
+3. **bacalhau.org/client.installation.id** and **bacalhau.org/client.instance.id**: Identify the client installation and client instance that submitted the job, when the client provides them.
+4. **bacalhau.org/server.installation.id** and **bacalhau.org/server.instance.id**: Identify the orchestrator installation and instance that handled the job.
+
+Keys under the `bacalhau.org/` prefix are reserved for Bacalhau.
 
 #### Example:
 
 ```json
 "Meta": {
-    "bacalhau.org/requester.id": "QmfZwnVWYjHSchAVxJqXn18Bvd1cpG2ATRYceBBvUGZf2f",
-    "bacalhau.org/requester.publicKey": "CAASpgIwggEiMA0GCSqG...BcyEhfEZKnAgMBAAE=",
-    "bacalhau.org/client.id": "dfadea67ab6d8c65761c3d879119e11f157923036f945d969d19a51066dc663a"
+    "bacalhau.org/orchestrator.id": "node-0",
+    "bacalhau.org/requester.id": "node-0",
+    "bacalhau.org/client.installation.id": "c5a5f4a4-2b6e-4c58-9a57-4c1f0c3b8d21",
+    "bacalhau.org/client.instance.id": "0d2c1b5e-6f3a-4e7b-8c9d-1a2b3c4d5e6f"
 }
 ```
 
@@ -50,6 +54,6 @@ Beyond user-defined metadata, Bacalhau automatically injects specific metadata k
 
 1. **Identification**: The metadata aids in uniquely identifying jobs and tasks, connecting them to their originators and executors.
 2. **Context Enhancement**: Metadata can supplement jobs and tasks with additional data, offering insights and context that aren't captured by standard parameters.
-3. **Security Enhancement**: Auto-generated keys like the requester's public key contribute to the secure handling and execution of jobs and tasks.
+3. **Traceability**: Auto-generated keys record which orchestrator and client handled a job, which helps when debugging across a cluster.
 
 While the `Meta` block is distinct from the [`Labels`](label.md) block used for filtering, its contribution to providing context, security, and traceability is integral in managing and understanding the diverse jobs and tasks within the Bacalhau ecosystem effectively.

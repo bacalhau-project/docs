@@ -71,6 +71,7 @@ const redirects: RedirectItem[] = [
   { from: '/docs/setting-up/running-node/private-ipfs-network-setup', to: '/docs/sources/ipfs' },
   { from: '/docs/next-steps/private-cluster', to: '/docs/getting-started/network-setup' },
   { from: '/docs/setting-up/running-node/quick-start-docker', to: '/docs/getting-started/network-setup' },
+  { from: '/docs/setting-up/running-node/test-network', to: '/docs/references/developers/running-locally/' },
   { from: '/docs/setting-up/inter-nodes-tls', to: '/docs/references/operators/security/node-tls' },
   { from: '/docs/setting-up/running-node/gpu', to: '/docs/references/operators/gpu' },
   { from: '/docs/references/node_management', to: '/docs/references/operators/node-management' },

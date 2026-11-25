@@ -28,18 +28,19 @@ bacalhau agent node [flags]
 
 ## Global Flags
 
-- `--api-host string`:
-  - The host for REST communication. Overrides the `BACALHAU_API_HOST` environment variable.
-  - Default: `bootstrap.production.bacalhau.org`
-- `--api-port int`:
-  - The port for REST communication. Overridden if `BACALHAU_API_PORT` environment variable is set.
-  - Default: `1234`
-- `--log-mode logging-mode`:
-  - Specifies the log format. Choices are: `default`, `station`, `json`, `combined`, `event`.
-  - Default: `default`
-- `--repo string`:
-  - Path to the bacalhau repository.
-  - Default: \`\`$HOME/.bacalhau\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 

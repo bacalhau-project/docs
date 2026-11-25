@@ -21,21 +21,21 @@ bacalhau agent version [flags]
 - **`--pretty`**:
   - Used for pretty printing the output, enhancing readability. This flag is applicable only for the "json" and "yaml" output formats.
 
-## Global Flags:
+## Global Flags
 
-- **`--api-host string`**:
-  - Designates the host for client-server communication via REST. If the `BACALHAU_API_HOST` environment variable is present, this flag will be disregarded.
-  - Default: `"bootstrap.production.bacalhau.org"`
-- **`--api-port int`**:
-  - Defines the port for client-server communication through REST. This flag becomes irrelevant if the `BACALHAU_API_PORT` environment variable is specified.
-  - Default: `1234`
-- **`--log-mode logging-mode`**:
-  - Specifies the desired logging format.
-  - Options: `'default','station','json','combined','event'`
-  - Default: `'default'`
-- **`--repo string`**:
-  - Indicates the path to the bacalhau repository.
-  - Default: `"`$HOME/.bacalhau"\`
+1. `--api-host string`:
+   - Description: The host for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_HOST` environment variable is set.
+   - Default: `0.0.0.0`
+2. `--api-port int`:
+   - Description: The port for the client and server to communicate on (via REST). Ignored if the `BACALHAU_API_PORT` environment variable is set.
+   - Default: `1234`
+3. `-c`, `--config string`:
+   - Description: Config file(s) or dot-separated path(s) to config values, for example `-c API.Host=10.0.0.1`.
+4. `--data-dir string`:
+   - Description: The filesystem path where Bacalhau initializes or opens its repo.
+   - Default: `$HOME/.bacalhau`
+5. `--profile string`:
+   - Description: Use a specific profile for this command.
 
 ## Examples
 
@@ -50,9 +50,9 @@ bacalhau agent version [flags]
     Expected output:
 
     ```bash
-    Bacalhau v0.0.0-xxxxxxx
-    BuildDate 2023-09-22 16:03:44 +0000 UTC
-    GitCommit 0fe81cb488f666845ac72c73a4b804aaa658e511
+    Bacalhau v1.9.6
+    BuildDate 2026-11-25 01:55:56 +0000 UTC
+    GitCommit a8cd25beef99a56d9b4c23af398b701241ce79e1
     ```
 
 2.  **Retrieve the agent version in JSON format**:
@@ -64,7 +64,7 @@ bacalhau agent version [flags]
     Expected output:
 
     ```bash
-    {"major":"0","minor":"0","gitversion":"v0.0.0-xxxxxxx","gitcommit":"0fe81cb488f666845ac72c73a4b804aaa658e511","builddate":"2023-09-22T16:03:44Z","goos":"linux","goarch":"amd64"}
+    {"Major":"1","Minor":"9","GitVersion":"v1.9.6","GitCommit":"a8cd25beef99a56d9b4c23af398b701241ce79e1","BuildDate":"2026-11-25T01:55:56Z","GOOS":"linux","GOARCH":"amd64"}
     ```
 
 3.  **Retrieve the agent version in Pretty-printed JSON format**:
@@ -77,12 +77,12 @@ bacalhau agent version [flags]
 
     ```bash
     {
-      "major": "0",
-      "minor": "0",
-      "gitversion": "v0.0.0-xxxxxxx",
-      "gitcommit": "0fe81cb488f666845ac72c73a4b804aaa658e511",
-      "builddate": "2023-09-22T16:03:44Z",
-      "goos": "linux",
-      "goarch": "amd64"
+      "Major": "1",
+      "Minor": "9",
+      "GitVersion": "v1.9.6",
+      "GitCommit": "a8cd25beef99a56d9b4c23af398b701241ce79e1",
+      "BuildDate": "2026-11-25T01:55:56Z",
+      "GOOS": "linux",
+      "GOARCH": "amd64"
     }
     ```
